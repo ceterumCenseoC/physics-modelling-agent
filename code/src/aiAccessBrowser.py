@@ -10,12 +10,15 @@ class AiAccessBrowser(AiAccessInterface):
         # This method can be used to greet the user.
         print("Hello! This is the AiAccessBrowser class.")
 
-    def ask(self, prompt : str, model: str = "mixtral-8x7b-instruct") -> str:
+    def ask(self, prompt : str, model: str) -> str:
         # This method should be implemented to send a prompt to the AI and receive a response.
         # You can use the self.page object to interact with the web page and extract the response.
         return "method not implemented yet!"
 
-    def connect(self) -> bool:
+    def connect(self, model : str) -> bool:
+        #use of model not yet implemented
+
+
         # This method establishes a connection to the AI through the web browser. It uses Playwright to automate the login process and navigate to the AI chat page.
         import os
         from dotenv import load_dotenv

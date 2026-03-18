@@ -1,3 +1,5 @@
+from typing import Any
+
 from aiAccessInterface import AiAccessInterface
 class AiAccessTerminal(AiAccessInterface):
     # This class provides an interface to access an AI service through a terminal-based approach. It uses the OpenAI API to send prompts and receive responses from the AI models.
@@ -18,25 +20,83 @@ class AiAccessTerminal(AiAccessInterface):
         # This method can be used to greet the user
         print("Hello! This is the AiAccessTerminal class.")
 
-    def listModels(self):
+    def listModels(self) -> list:
         # This method can be used to list available models from the AI service.
         models = self.client.models.list()
+        modelList : str = []
         for m in models.data:
-            print(m.id)
-    
-    def connect(self) -> bool:
-        # This method can be used to perform any initialization tasks or checks before sending requests.
-        return self.ask("this is a connection check. Please respond with 'Connection successful!' if the connection is working properly.", model="llama-3.3-70b-instruct")
+            modelList.append(m.id)
+        return modelList
 
-    def ask(self, prompt : str, model : str ="llama-3.3-70b-instruct") -> str:
+    def connect(self, model : str) -> bool:
+        # This method can be used to perform any initialization tasks or checks before sending requests.
+        response = self.client.chat.completions.create(
+            model=model,
+            messages=[
+                {
+                    "role": "user",
+                    "content": "this is a connection check. Please respond with 'Connection successful!' if the connection is working properly."
+                }
+            ]
+        )
+
+        return response.choices[0].message.content.strip() == "Connection successful!"
+
+    
+    def ask(self, model : str, modelsGeneralPurpose : str, questionTheModelShouldWorkOn : str, previousModelsWork, reasoningEffort :str = "medium")-> tuple[dict[str, Any], str]:
         # This method sends a prompt to the AI and receives a response. It uses the OpenAI client to create a chat completion.
         response = self.client.chat.completions.create(
             model=model,
-            messages=[{"role": "user", "content": prompt}]
+            reasoning_effort = reasoningEffort,
+            messages=[
+                {
+                    "role": "system",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": modelsGeneralPurpose
+                        }
+                    ]
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": questionTheModelShouldWorkOn
+                        }
+                    ]
+                },
+                {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": previousModelsWork
+                        }
+                    ]
+                }
+            ],
+            response_format = {
+                "type": "json_schema",
+                "json_schema": {
+                    "name": "model_output",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "answer": {"type": "string"},
+                            "confidence": {"type": "number"}
+                        },
+                        "required": ["answer", "confidence"],
+                        "additionalProperties": False
+                    }
+                }
+            }
         )
-        answer = response.choices[0].message.content
-        print(f"AI response: {answer}")
-        return answer
+
+        answer = response.output #sould return json format
+        responseId = response.id
+        return answer, responseId
     
     def disconnect(self)-> bool:
         # This method can be used to perform any cleanup tasks or close connections if necessary.
