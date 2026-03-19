@@ -22,20 +22,44 @@ class ControllAI:
             from src.aiAccessTerminal import AiAccessTerminal
             self.connection = AiAccessTerminal()
         return True
-    
-    def checkConnection(self, model : str = None) -> bool:
-        '''checks wheter a test prompt works and sets a default model'''
-        if model is None:
-            if self.model is None:
-                self.model = self.connection.listModel[0]
-            return self.connection.connect(self.model)
-        return self.connection.connect(model)
 
     def listModels(self) -> list:
-        '''only works for terminal'''
+        '''only works for terminal'''        
         if self.connection is None:
             self.connectToAi()
         return self.connection.listModels()
+    
+    def setModel(self, model : str) -> None:
+        '''sets the model that will be used for requests; checks if the specified model is actually in the connected AI, otherwise raises an error'''
+        if self.connection is None:
+            self.connectToAi(browser=False) # makes sure, a Model exists
+
+        if model not in self.connection.listModels():
+            raise ValueError(f"The specified model '{model}' is not available in the connected AI.")
+        
+        self.model = model
+
+    def setModelToDefault(self) -> None:
+        '''sets the model to a default value, which is the first model in the list of available models from the connected AI'''
+        if self.connection is None:
+            self.connectToAi(browser=False) # makes sure, a Model exists
+
+        self.model = self.connection.listModels()[0]
+
+    def checkConnection(self, model : str = None) -> bool:
+        '''checks wheter a test prompt works and sets a default model'''
+        if self.connection is None:
+            self.connectToAi(browser=False) # makes sure, a Model exists
+        if model is None:
+            if self.model is None:
+                self.setModelToDefault() # sets the model attribute to a default value, which is the first model in the list of available models from the connected AI
+            return self.connection.connect(self.model)
+        
+        # check wheter the specified model is actually in the connected AI, otherwise raise an error
+        if model not in self.connection.listModels():
+            raise ValueError(f"The specified model '{model}' is not available in the connected AI.")
+
+        return self.connection.connect(model)
     
     def ask(self, promt : str, questionTheModelShouldWorkOn : str, previousModelsWork : str, modelsGeneralPurpose : str = None, model : str = None, reasoningEffort : str = None) -> tuple[dict[str, Any], str]:
         if self.connection is None:
@@ -46,9 +70,13 @@ class ControllAI:
 
         if model is None: # when no model is specified
             if self.model is None: #rely on the model attribut, but if this is also None
-                self.checkConnection() # perform checkConnection(), which sets the model attribute to a default value
+                self.setModelToDefault() # perform checkConnection(), which sets the model attribute to a default value
             model = self.model
         
+        # check wheter the specified model is actually in the connected AI, otherwise raise an error
+        if model not in self.connection.listModels():
+            raise ValueError(f"The specified model '{model}' is not available in the connected AI.")
+
         answer = None
 
         if reasoningEffort is None:
@@ -79,10 +107,3 @@ class ControllAI:
         print(self.connection.ask(promt = "What is the capital of France; just one word answer?", model = self.model))
         self.connection.disconnect()
         print("TerminalAI test completed.")
-    
-""" if __name__ == "__main__":
-    inst1 = ControllAI("Alice")
-    inst1.testBrowser()
-    inst2 = ControllAI("Bob")
-    inst2.testTerminal()
-     """

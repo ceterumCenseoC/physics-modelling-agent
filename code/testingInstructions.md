@@ -5,4 +5,7 @@
 # deactivate to deactivate
 
 # this executes the tests specified inside this file
-python -m pytest .\tests\controllAi_test.py
+python -m pytest .\tests\testControllAi.py
+
+# this is for executing an example file
+python -m tests.testControllAiOutput

@@ -23,7 +23,7 @@ class AiAccessTerminal(AiAccessInterface):
     def listModels(self) -> list:
         # This method can be used to list available models from the AI service.
         models = self.client.models.list()
-        modelList : str = []
+        modelList : list[str] = []
         for m in models.data:
             modelList.append(m.id)
         return modelList
