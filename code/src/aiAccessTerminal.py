@@ -1,6 +1,6 @@
 from typing import Any
 
-from aiAccessInterface import AiAccessInterface
+from src.aiAccessInterface import AiAccessInterface
 class AiAccessTerminal(AiAccessInterface):
     # This class provides an interface to access an AI service through a terminal-based approach. It uses the OpenAI API to send prompts and receive responses from the AI models.
     def __init__(self) -> None:

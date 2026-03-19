@@ -1,4 +1,4 @@
-import responseObj
+from src.responseObj import ResponseObj
 
 class ResponseList:
     def __init__(self, head : responseObj.ResponseObj = None):

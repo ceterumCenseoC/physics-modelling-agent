@@ -1,10 +1,10 @@
-import pipelineStepEnum
+from src.pipelineStepEnum import PipelineStepEnum
 from typing import Any
 
 class ResponseObj:
     '''Class to represent a response object, which can be used to store a response and its associated query and the following ResponseObj'''
     def __init__(self, query: str) -> None:
-        self.functionOfStep : pipelineStepEnum.PipelineStepEnum = None
+        self.functionOfStep : PipelineStepEnum = None
         self.query : str = dict[str: Any]
         self.aiModel : str = None
         self.response : str = None
@@ -12,7 +12,7 @@ class ResponseObj:
         self.nextPipelineStep : ResponseObj = None
         """self.tryOfStep : int = None # to keep track of how many times a step has been tried, in case of failure, to avoid infinite loops"""
     
-    def setfunctionOfStep(self, pipelineStep : pipelineStepEnum.PipelineStepEnum) -> bool:
+    def setfunctionOfStep(self, pipelineStep : PipelineStepEnum) -> bool:
         self.pipelineStep = pipelineStep
         return True
 
@@ -40,7 +40,7 @@ class ResponseObj:
         self.tryOfStep = tryOfStep
         return True """
     
-    def getFunctionObStep(self) -> pipelineStepEnum.PipelineStepEnum:
+    def getFunctionObStep(self) -> 'PipelineStepEnum':
         return self.pipelineStep
 
     def getAiModel(self) -> str:

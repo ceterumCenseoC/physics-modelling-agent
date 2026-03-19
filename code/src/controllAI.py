@@ -1,13 +1,14 @@
-import pipelineStepEnum
-import aiAccessInterface
+from typing import Any
+from src.pipelineStepEnum import PipelineStepEnum
+from src.aiAccessInterface import AiAccessInterface
 
 class ControllAI:
     def __init__(self, name : str, modelsGeneralPurpose : str, model : str = None) -> None:
         self.name : str = name
-        self.connection : aiAccessInterface.AiAccessInterface = None
+        self.connection : AiAccessInterface = None
         self.model : str = model #the model that will be used for requests
         self.generalPurpose : str = modelsGeneralPurpose # gets fed into model with the role "SYSTEM"
-        self.functionInPipeline : pipelineStepEnum.PipelineStepEnum = None #gets labeled according to the definded steps of the pipeline
+        self.functionInPipeline : PipelineStepEnum.PipelineStepEnum = None #gets labeled according to the definded steps of the pipeline
 
     def sayHello(self) -> None:
         print(f"Hello, I am {self.name}!")
@@ -15,11 +16,12 @@ class ControllAI:
     def connectToAi(self, browser: bool = False) -> bool:
         '''establishes the connection. If browser is true, it will connect to the browserAI, otherwise to the terminalAI; does NOT set a first model, because an overview of models can be retrieved without a model needed'''        
         if browser:
-            import aiAccessBrowser
-            self.connection = aiAccessBrowser.AiAccessBrowser()
+            from src.aiAccessBrowser import AiAccessBrowser
+            self.connection = AiAccessBrowser()
         else:
-            import aiAccessTerminal
-            self.connection = aiAccessTerminal.AiAccessTerminal()
+            from src.aiAccessTerminal import AiAccessTerminal
+            self.connection = AiAccessTerminal()
+        return True
     
     def checkConnection(self, model : str = None) -> bool:
         '''checks wheter a test prompt works and sets a default model'''
@@ -30,6 +32,7 @@ class ControllAI:
         return self.connection.connect(model)
 
     def listModels(self) -> list:
+        '''only works for terminal'''
         if self.connection is None:
             self.connectToAi()
         return self.connection.listModels()
@@ -77,9 +80,9 @@ class ControllAI:
         self.connection.disconnect()
         print("TerminalAI test completed.")
     
-if __name__ == "__main__":
+""" if __name__ == "__main__":
     inst1 = ControllAI("Alice")
     inst1.testBrowser()
     inst2 = ControllAI("Bob")
     inst2.testTerminal()
-    
+     """

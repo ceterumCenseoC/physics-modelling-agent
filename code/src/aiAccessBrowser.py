@@ -1,4 +1,4 @@
-from aiAccessInterface import AiAccessInterface
+from src.aiAccessInterface import AiAccessInterface
 class AiAccessBrowser(AiAccessInterface):
     # This class is responsible for managing the connection to the AI through a web browser using Playwright.
     def __init__(self) -> None:

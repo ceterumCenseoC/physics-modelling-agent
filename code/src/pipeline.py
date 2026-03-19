@@ -1,18 +1,18 @@
-import connectAI
-import pipelineStepEnum
-import responseList
-import responseObj
+from src.controllAI import ControllAI
+from src.pipelineStepEnum import PipelineStepEnum
+from src.responseList import ResponseList
+from src.responseObj import ResponseObj
 
 class Pipeline:
     def __init__(self, name: str):
         self.name = name
-        self.referenceCollector : connectAI = None
+        self.referenceCollector : controllAI = None
         #self.referenceExtractor : connectAI = None # done by referenceCollector for now
-        self.simpleModelConstructor : connectAI = None
-        self.simpleModelChecker : connectAI = None
-        self.advancedModelConstructor : connectAI = None
-        self.advancedModelChecker : connectAI = None
-        self.reportGenerator : connectAI = None
+        self.simpleModelConstructor : controllAI = None
+        self.simpleModelChecker : controllAI = None
+        self.advancedModelConstructor : controllAI = None
+        self.advancedModelChecker : controllAI = None
+        self.reportGenerator : controllAI = None
 
         self.references : str = None
         self.simpleModel : str = None
