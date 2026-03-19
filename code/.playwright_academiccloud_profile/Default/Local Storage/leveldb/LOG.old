@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2026/03/12-22:32:33.846 4354 Reusing MANIFEST C:\Users\janis\university\6\bachelorThesis\physics-modelling-assistant\code\.playwright_academiccloud_profile\Default\Local Storage\leveldb/MANIFEST-000001
 2026/03/12-22:32:33.866 4354 Recovering log #3
 2026/03/12-22:32:33.876 4354 Reusing old log C:\Users\janis\university\6\bachelorThesis\physics-modelling-assistant\code\.playwright_academiccloud_profile\Default\Local Storage\leveldb/000003.log 
+=======
+2026/03/12-22:23:22.699 99b Reusing MANIFEST /home/user/physics-modelling-agent/code/.playwright_academiccloud_profile/Default/Local Storage/leveldb/MANIFEST-000001
+2026/03/12-22:23:22.705 99b Recovering log #3
+2026/03/12-22:23:22.706 99b Reusing old log /home/user/physics-modelling-agent/code/.playwright_academiccloud_profile/Default/Local Storage/leveldb/000003.log 
+>>>>>>> c5b23791f63386d51e63d3675e81c7dc10c8889e

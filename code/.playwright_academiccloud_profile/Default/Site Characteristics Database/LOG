@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2026/03/12-23:25:58.005 3f9c Reusing MANIFEST C:\Users\janis\university\6\bachelorThesis\physics-modelling-assistant\code\.playwright_academiccloud_profile\Default\Site Characteristics Database/MANIFEST-000001
 2026/03/12-23:25:58.009 3f9c Recovering log #3
 2026/03/12-23:25:58.011 3f9c Reusing old log C:\Users\janis\university\6\bachelorThesis\physics-modelling-assistant\code\.playwright_academiccloud_profile\Default\Site Characteristics Database/000003.log 
+=======
+2026/03/12-22:27:55.318 aad Reusing MANIFEST /home/user/physics-modelling-agent/code/.playwright_academiccloud_profile/Default/Site Characteristics Database/MANIFEST-000001
+2026/03/12-22:27:55.391 aad Recovering log #3
+2026/03/12-22:27:55.391 aad Reusing old log /home/user/physics-modelling-agent/code/.playwright_academiccloud_profile/Default/Site Characteristics Database/000003.log 
+>>>>>>> c5b23791f63386d51e63d3675e81c7dc10c8889e
