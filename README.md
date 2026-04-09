@@ -1,6 +1,7 @@
 physics-modelling-agent
 wants to help with physics
 
+# testing the code directory
 inside this directory:
 source code/venv/bin/activate #activates the virtual environment
 xvfb-run -a python code/src/connectAI.py # to run connectAI.py
