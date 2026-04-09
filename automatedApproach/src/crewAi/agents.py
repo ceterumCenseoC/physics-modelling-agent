@@ -6,6 +6,7 @@ from src.crewAi.aiAccess.embedderCustom import NoOpEmbedder
 import sys
 
 class Agents:
+    '''wrapper class around the Agent class from crewai; used for easier storage and management of the LLM used'''
     def __init__(self, model : str, role : str) -> None:
         self.role : str = role # agents identity, e.g. "Researcher", "Writer", "Analyst", etc.
         self.goal : str = "efficient answers" # long term goal of the agent
@@ -37,7 +38,7 @@ class Agents:
         self.response_template : str = None # custom response template
         self.callbacks : list = [] # callbacks for different stages of the agents reasoning process, e.g. before/after tool use, before/after response generation, etc. (not implemented yet)   
         
-        self.agent = Agent(
+        self.agent = Agent( #setupt the agent with the specified parameters
             role=self.role,
             llm = self.llm, #to access the lLM interface that can handle all interactions with the connected AI; allows access to any model at access
             goal=self.goal,

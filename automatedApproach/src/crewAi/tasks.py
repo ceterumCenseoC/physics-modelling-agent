@@ -2,6 +2,7 @@ from crewai import Task
 from src.crewAi.agents import Agents
 
 class Tasks:
+    '''wrapper class for the Task class from crewai; wraps the specification in parameters; can be expanded to hold specifications that override the used agent's defualt behaviour'''
     def __init__(self, description : str, agent : Agents, expected_output : str) -> None:
         self.description : str = description # description of the task to be performed by the assigned agent
         self.agent : Agents = agent # agent that is assigned to perform the task

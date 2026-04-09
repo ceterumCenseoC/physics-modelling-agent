@@ -3,6 +3,8 @@ from src.crewAi.tasks import Tasks
 from src.crewAi.crews import Crews
 
 class CrewOrchestration:
+    '''this class is used to create crews, agents and tasks; it is seperated from the Crews class to keep the structrure of crewAi'''
+    '''in the future, multiple crews could be created and orchestrated thogether with this class'''
     def __init__(self) -> None:
         self.agents : list = [] # list of Agents instances that are part of the crew
         self.tasks : list = [] # list of Tasks instances that the crew needs to perform
@@ -18,22 +20,26 @@ class CrewOrchestration:
         self.crew = crew
 
     def createAgent(self, model : str, role : str) -> Agents:
+        # creates the agent and includes it in the list of agents for the crew
         agent = Agents(model=model, role=role)
         self.addAgent(agent)
         return agent
     
     def createTask(self, description : str, agent : Agents, expected_output : str) -> Tasks:
+        # creates the task and includes it in the list of tasks for the crew
         task = Tasks(description=description, agent=agent, expected_output=expected_output)
         self.addTask(task)
         return task
     
     def createCrew(self, verbose : bool = True) -> Crews:
+        # creates the crew based on the agents and tasks that have been specified and included
         crew = Crews(agents=self.agents, tasks=self.tasks, verbose=verbose)
         self.addCrew(crew)
         return crew
     
     def runCrew(self) -> dict:
+        # executes the crews run method which starts the crewAi process
         if self.crew is None:
             raise ValueError("Crew has not been created yet. Please create a crew before running it.")
-        result = self.crew.run()
+        result = self.crew.run() # starts the process
         return result

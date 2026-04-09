@@ -3,6 +3,11 @@ from src.crewAi.agents import Agents
 from src.crewAi.tasks import Tasks
 from src.crewAi.crews import Crews
 
+'''
+    this is the current working file; since there is no user interface yet; this is the entry point to set up agents, tasks, crews and let them run on a problem
+'''
+
+
 defaultModel = "qwen3-coder-30b-a3b-instruct" # default model to be used for agents if not specified otherwise; can be changed to any other model supported by crewai
 
 if __name__ == "__main__":
