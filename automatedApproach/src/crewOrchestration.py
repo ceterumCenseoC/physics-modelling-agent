@@ -12,8 +12,7 @@ class CrewOrchestration:
     
     def addAgent(self, agent : Agents) -> None:
         self.agents.append(agent)
-        print (f"Agent has: {agent.planning} planning and {agent.reasoning} reasoning capabilities. {agent.planning_config}; thats iot.")
-    
+
     def addTask(self, task : Tasks) -> None:
         self.tasks.append(task)
 
