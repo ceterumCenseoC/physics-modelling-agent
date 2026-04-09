@@ -1,4 +1,4 @@
-from src.crewAi.aiAccess.openAiClient import OpenAiClient
+from src.wrappersCrewAi.aiAccess.openAiClient import OpenAiClient
 from crewai.llms.base_llm import BaseLLM
 
 class LLM(BaseLLM):
@@ -8,6 +8,7 @@ class LLM(BaseLLM):
         self.client : OpenAiClient = client #an instance of the OpenAI client, handles the acctual API call
         self.model : str = model # the model to use for the LLM
         self._token_usage : dict = None #to store token usage information after a call to the run method; includes input_tokens, output_tokens, total_tokens; REQUIRED BY CREWAI INTERFACE
+        self.supports_function_calling : bool = False # whether LLM support function calling
 
     def call(self, messages, **kwargs) -> str:
         '''required method by crewai; gets called like that and takes messages and multiple other parameters'''

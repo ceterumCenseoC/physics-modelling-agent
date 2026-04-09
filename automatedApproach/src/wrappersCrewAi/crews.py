@@ -1,6 +1,6 @@
 from crewai import Crew
-from src.crewAi.agents import Agents
-from src.crewAi.tasks import Tasks
+from src.wrappersCrewAi.agents import Agents
+from src.wrappersCrewAi.tasks import Tasks
 
 class Crews:
     '''wrapper class for the Crew class from crewai; wraps the specification in parameters'''

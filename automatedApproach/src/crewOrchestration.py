@@ -1,6 +1,6 @@
-from src.crewAi.agents import Agents
-from src.crewAi.tasks import Tasks
-from src.crewAi.crews import Crews
+from src.wrappersCrewAi.agents import Agents
+from src.wrappersCrewAi.tasks import Tasks
+from src.wrappersCrewAi.crews import Crews
 
 class CrewOrchestration:
     '''this class is used to create crews, agents and tasks; it is seperated from the Crews class to keep the structrure of crewAi'''
@@ -12,6 +12,7 @@ class CrewOrchestration:
     
     def addAgent(self, agent : Agents) -> None:
         self.agents.append(agent)
+        print (f"Agent has: {agent.planning} planning and {agent.reasoning} reasoning capabilities. {agent.planning_config}; thats iot.")
     
     def addTask(self, task : Tasks) -> None:
         self.tasks.append(task)
@@ -22,6 +23,7 @@ class CrewOrchestration:
     def createAgent(self, model : str, role : str) -> Agents:
         # creates the agent and includes it in the list of agents for the crew
         agent = Agents(model=model, role=role)
+        agent.initializeNative() # initialize the native-backed attributes of the agent (LLM, Memory, crewai Agent)
         self.addAgent(agent)
         return agent
     

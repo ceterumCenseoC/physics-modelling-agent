@@ -1,5 +1,8 @@
 # run the following commands to setup the virtual envirolment (venv) corretly; for WINDOWS
 
+# create .venv directory
+python -m venv venv
+
 # first activate the venv
 .\venv\Scripts\Activate.ps1
 
