@@ -142,9 +142,9 @@ class Agents:
                     callbacks=self.callbacks,
 
                     # Modern planning system
-                    #planning=False,                 # disable old planning engine
-                    #reasoning=False,                # disable old reasoning engine
-                    #planning_config=self.planning_config
+                    planning=False,                 # disable old planning engine
+                    reasoning=False,                # disable old reasoning engine
+                    #planning_config=self.planning_config # this causes reasoning to fail; dont know why yet
                 )
 
                 #planning_config=self.planning_config # this causes reasoning to fail

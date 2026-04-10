@@ -1,3 +1,5 @@
+from crewai import CrewOutput
+
 from src.crewOrchestration import CrewOrchestration
 
 #monkey-patch
@@ -30,10 +32,14 @@ class TestCrewOrchestration:
         crew = orchestration.createCrew(verbose=True)
         assert orchestration.crew == crew
 
-    """ def test_run_crew(self):
+    def test_run_crew(self):
         orchestration = CrewOrchestration()
         agent1 = orchestration.createAgent(model="qwen3-coder-30b-a3b-instruct", role="researcher")
         task1 = orchestration.createTask(description="What is the capital of France? One Word Answer:", agent=agent1, expected_output="The capital of France is _____.")
         crew = orchestration.createCrew(verbose=True)
         result = orchestration.runCrew()
-        assert result == "The capital of France is Paris." """
+
+        from crewai.crews.crew_output import CrewOutput
+        assert isinstance(result, CrewOutput)
+        
+        assert result.raw == "The capital of France is Paris."

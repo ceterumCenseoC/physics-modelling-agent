@@ -13,9 +13,8 @@ defaultModel = "qwen3-coder-30b-a3b-instruct" # default model to be used for age
 if __name__ == "__main__":
 
     orchestration = CrewOrchestration()
-    agent1 = orchestration.createAgent(model=defaultModel, role="researcher")
-    task1 = orchestration.createTask(description="What is the capital of France?", agent=agent1, expected_output="The capital of France is ___.")
-    crew = orchestration.createCrew(verbose=True)
-    result = None
+    agent1 : Agents = orchestration.createAgent(model=defaultModel, role="researcher")
+    task1 : Tasks = orchestration.createTask(description="What is the capital of France?", agent=agent1, expected_output="The capital of France is ___.")
+    crew : Crews = orchestration.createCrew(verbose=True)
     result = orchestration.runCrew()
-    print(result)
+    print(result.raw)
