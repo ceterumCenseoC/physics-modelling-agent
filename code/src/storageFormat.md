@@ -1,0 +1,8 @@
+"timestemp" : "01-01-2000-12:00"
+"model" : "used ai model"
+"temperatur" : "temp"
+"reasoningEffort" : "low/none/high"
+"role" : "set role to which question is asked"
+"question" : "json format following open ai's rules"
+"responseId" : "mId"
+"response"  : "json format of ai's output"
