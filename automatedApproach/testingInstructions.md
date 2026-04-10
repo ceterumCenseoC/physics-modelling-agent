@@ -8,4 +8,4 @@
 python -m pytest .\tests\testCrewOrchestration.py
 
 # this is for executing an example file
-python -m src.main
+python -m main

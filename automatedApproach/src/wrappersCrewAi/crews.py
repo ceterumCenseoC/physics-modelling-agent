@@ -1,4 +1,3 @@
-
 from src.wrappersCrewAi.agents import Agents
 from src.wrappersCrewAi.tasks import Tasks
 
@@ -17,5 +16,5 @@ class Crews:
 
     def run(self) -> dict:
         # starts the working process of the crew and returns the final result
-        result = self.crew.kickoff() # the method used by crewai to start the crew
+        result = self.crew.kickoff()
         return result
