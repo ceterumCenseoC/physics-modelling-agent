@@ -18,13 +18,17 @@ if TYPE_CHECKING:
 
 class Agents:
     '''wrapper class around the Agent class from crewai; used for easier storage and management of the LLM used'''
-    def __init__(self, model : str, role : str) -> None:
+    def __init__(self, model : str, name : str, role : str) -> None:
+        self.name : str = name # agent's name
         self.role : str = role # agents identity, e.g. "Researcher", "Writer", "Analyst", etc.
         self.goal : str = "efficient answers" # long term goal of the agent
         self.backstory : str = "well educated person with a strong background in the field" # context and backround info
         self.model : str = model # model to use for the agent, e.g. "gpt-4o", "gpt-3.5-turbo", etc.
         #self.llm : LLM = LLM(client = OpenAiClient(), model = self.model) # instance of the LLM class, which serves as the interface to the connected AI
         self.verbose : bool = True # whether to print logs during execution or not
+
+        # for the LLM
+        self.max_token : int = 130000 # max tokens for the model; set to the maximum context length of the model to allow the agent to use the full context length if needed; this is important for the information gatherer agent, because it needs to provide a detailed description of the relevant information that can be quite long, especially if the problem is complex; without setting this, the agent might not be able to provide a complete description of the relevant information, which would make it harder for the other agents to work with it and also limit the performance of the whole crew in solving the problem.
 
         # behavioral/execution parameters
         self.max_rpm : int = 20000 # max requests per minute that the agent can make to the connected AI
@@ -35,8 +39,6 @@ class Agents:
         self.tools : list = [] # tools that the agent can use, e.g. a python interpreter, a search engine, a calculator, etc. (not implemented yet)
         
         # other
-        self.max_input_tokens : int = 260000 # token input limit
-        self.max_response_tokens : int = 260000 # token output limit
         self.system_template : str = None # custom system prompt template
         self.prompt_template : str = None # custom prompt template
         self.response_template : str = None # custom response template
@@ -108,12 +110,13 @@ class Agents:
             self.delegateLlm = delegate      # optional: for internal calls/tests
             self.llm = crew_llm                # this is the object you pass to Agent and Memory
 
-            self.memory = crewai.Memory(
+            self.memory = crewai.Memory( #currently broken
                 llm=self.llm,
                 depth="shallow",
-                embedder=NoOpEmbedder(),
-                memory_config={"async_mode": False, "analysis": NoOpAnalysis()},
+                #embedder=NoOpEmbedder(), # disabled so internal crewai is used
+                #memory_config={"async_mode": False, "analysis": NoOpAnalysis()}, # disabled so internal crewai is used
             )
+            self.memory = None
 
 
             self.planning_config = PlanningConfig(
@@ -126,6 +129,7 @@ class Agents:
 
             try:
                 self.agent = Agent(
+                    name=self.name,
                     role=self.role,
                     llm=self.llm,
                     goal=self.goal,
@@ -137,8 +141,6 @@ class Agents:
                     cache=self.cache,
                     temperature=self.temperature,
                     tools=self.tools,
-                    max_input_tokens=self.max_input_tokens,
-                    max_response_tokens=self.max_response_tokens,
                     callbacks=self.callbacks,
 
                     # Modern planning system

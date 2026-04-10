@@ -15,6 +15,14 @@ class OpenAiClient:
             base_url="https://chat-ai.academiccloud.de/v1"
         )
 
+    def listModels(self) -> list:
+        # This method can be used to list available models from the AI service.
+        models = self.client.models.list()
+        modelList : list[str] = []
+        for m in models.data:
+            modelList.append(m.id)
+        return modelList
+
     def run(self, model: str, messages: dict, **kwargs) -> str:
 
         #messages = kwargs.get("messages", [])
@@ -24,7 +32,7 @@ class OpenAiClient:
         available_functions = str(kwargs.get("available_functions", [])) # NOT OPENAI SUPPORTED
 
         temperature = float(kwargs.get("temperature", 0.1)) # form 0.0 to 1.0 higher values := more creativity and more randomness 
-        max_tokens = int(kwargs.get("max_tokens", 260000)) # max number of tokens to use in entire conversation
+        max_tokens = int(kwargs.get("max_tokens", 13000)) # max number of tokens to use in entire conversation
         stop = str(kwargs.get("stop", None)) # stop immediately when the model outputs this string
         response_format = str(kwargs.get("response_format", "text")) # can be "text", "json", "xml", etc. depending on the use case and the capabilities of the connected AI; can also be a custom function that processes the raw response from the AI and formats it accordingly; not implemented yet
 

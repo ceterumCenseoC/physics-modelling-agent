@@ -19,16 +19,16 @@ class CrewOrchestration:
     def addCrew(self, crew : Crews) -> None:
         self.crew = crew
 
-    def createAgent(self, model : str, role : str) -> Agents:
+    def createAgent(self, model : str, name : str, role : str) -> Agents:
         # creates the agent and includes it in the list of agents for the crew
-        agent = Agents(model=model, role=role)
+        agent = Agents(model=model, name=name, role=role)
         agent.initializeNative() # initialize the native-backed attributes of the agent (LLM, Memory, crewai Agent)
         self.addAgent(agent)
         return agent
     
-    def createTask(self, description : str, agent : Agents, expected_output : str) -> Tasks:
+    def createTask(self, name : str, description : str, agent : Agents, expected_output : str) -> Tasks:
         # creates the task and includes it in the list of tasks for the crew
-        task = Tasks(description=description, agent=agent, expected_output=expected_output)
+        task = Tasks(name = name, description=description, agent=agent, expected_output=expected_output)
         self.addTask(task)
         return task
     
@@ -38,9 +38,16 @@ class CrewOrchestration:
         self.addCrew(crew)
         return crew
     
-    def runCrew(self) -> dict:
+    """ def runCrew(self) -> dict:
         # executes the crews run method which starts the crewAi process
         if self.crew is None:
             raise ValueError("Crew has not been created yet. Please create a crew before running it.")
         result = self.crew.run() # starts the process
+        return result """
+    
+    def runCrew(self, problem: str = "", goal: str = "", data: dict = {}) -> dict:
+        # executes the crews run method which starts the crewAi process
+        if self.crew is None:
+            raise ValueError("Crew has not been created yet. Please create a crew before running it.")
+        result = self.crew.run(problem=problem, goal=goal, data=data) # starts the process
         return result
