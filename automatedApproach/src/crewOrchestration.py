@@ -45,9 +45,9 @@ class CrewOrchestration:
         result = self.crew.run() # starts the process
         return result """
     
-    def runCrew(self, problem: str = "", goal: str = "", data: dict = {}) -> dict:
+    def runCrew(self, argumentDict : dict) -> dict:
         # executes the crews run method which starts the crewAi process
         if self.crew is None:
             raise ValueError("Crew has not been created yet. Please create a crew before running it.")
-        result = self.crew.run(problem=problem, goal=goal, data=data) # starts the process
+        result = self.crew.run(argumentDict) # starts the process
         return result

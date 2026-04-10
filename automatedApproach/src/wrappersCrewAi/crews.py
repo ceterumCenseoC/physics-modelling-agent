@@ -19,7 +19,7 @@ class Crews:
         result = self.crew.kickoff()
         return result
     
-    def run(self, problem: str, goal : str, data: dict) -> dict:
+    def run(self, argumentsDict : dict) -> dict:
         # starts the working process of the crew and returns the final result
-        result = self.crew.kickoff({"problem": problem, "goal": goal, "data": data})
+        result = self.crew.kickoff(argumentsDict)
         return result

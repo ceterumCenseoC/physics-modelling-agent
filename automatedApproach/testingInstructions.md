@@ -6,6 +6,3 @@
 
 # this executes the tests specified inside this file
 python -m pytest .\tests\testCrewOrchestration.py
-
-# this is for executing an example file
-python -m main

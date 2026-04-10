@@ -1,14 +1,16 @@
+#pre prepared crew that can be called on a task passing a dict to it
+
 from src.crewOrchestration import CrewOrchestration
 from src.wrappersCrewAi.agents import Agents
 from src.wrappersCrewAi.tasks import Tasks
 from src.wrappersCrewAi.crews import Crews
-from src.wrappersCrewAi.aiAccess.openAiClient import OpenAiClient
 
-if __name__ == "__main__":
+#this is a crew setup finding sources, creating a simple model, simulating and then analyzing the result
 
-    """ saia = OpenAiClient()
-    print(saia.listModels()) # prints the list of available models from the AI service """ 
-    
+def crew1Execute(argumentsDict : dict) -> str:
+    # argumentsDict specifies the concrete problem/goal/... the crew is running on
+    #returns the entire crews result as a string
+
     orchestration = CrewOrchestration()
 
     agent1 : Agents = orchestration.createAgent(model="qwen3.5-122b-a10b", name = "information gatherer", role="gather information about the {problem}")
@@ -35,7 +37,7 @@ if __name__ == "__main__":
     agent3 : Agents = orchestration.createAgent(model="devstral-2-123b-instruct-2512", name = "simulator", role="simulate the simple model")
     agent3.goal = "simulate the simple model proposed by the model maker for the {problem}. The simulation should be as accurate as possible given the limitations of the model. But also efficient enough to run in a reasonable time frame. The results of the simulation should be analyzed and visualized to provide insights into the behavior of the model."
     agent3.backstory = "well trained in scienctific computing and simulations. Known for his reliable simulations and accurate coding. Likes to write pyhton code so others can easily understand and work with it."
-    agent3.max_tokens = 131072 - 3000 # set max response tokens to the maximum context length of the model minus some buffer for the input and the system prompt, to make sure the agent can use the full context length for the response if needed; this is important for the simulator agent, because it needs to provide a detailed simulation code that can be quite long, especially if the simple model is complex; without setting this, the agent might not be able to provide a complete simulation code, which would make it harder for the analyzer agent to work with it and also limit the performance of the whole crew in solving the problem.
+    agent3.max_tokens = 131072 - 7000 # set max response tokens to the maximum context length of the model minus some buffer for the input and the system prompt, to make sure the agent can use the full context length for the response if needed; this is important for the simulator agent, because it needs to provide a detailed simulation code that can be quite long, especially if the simple model is complex; without setting this, the agent might not be able to provide a complete simulation code, which would make it harder for the analyzer agent to work with it and also limit the performance of the whole crew in solving the problem.
 
     task3 : Tasks = orchestration.createTask(name = "Simulation of the simple model",
                                              description="Simulate the simple model proposed by the model maker for the {problem}. The simulation should be as accurate as possible given the limitations of the model. But also efficient enough to run in a reasonable time frame. The results of the simulation should be analyzed and visualized to provide insights into the behavior of the model.",
@@ -53,9 +55,8 @@ if __name__ == "__main__":
                                              agent=agent4,
                                              expected_output="A summary of the results of the model maker and the simulation for the {problem}, that a human researcher can understand and work with. The summary should include the insights gained from the model and the simulation, as well as any limitations or assumptions that were made. Summary should include the simualtion code and the result of it.")
 
-
     crew : Crews = orchestration.createCrew(verbose=True)
-    result = orchestration.runCrew(problem="Why is the speed of light a constant in a vacuum?", 
-                                   goal="provide a comprehensive answer to the question.", 
-                                   data={})
-    print(result.raw)
+
+    result = orchestration.runCrew(argumentsDict) # put the argumentsDict here to make sure the crew has access to the problem, goal, ...
+
+    return(result.raw)
