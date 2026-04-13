@@ -1,6 +1,9 @@
 # to see the idea of the project, run from the automatedApproach dir:
 python -m exampleWorkflows.exampleWorkflow
 
+# write output into a file:
+python -X utf8 -m  exampleWorkflows.exampleWorkflows > logs/edelstein2.txt
+
 # general structure
 - src includes the files to access SAIA (and therefor the used LLM);
     the handling of the crewai objects Agent, Task, Crew

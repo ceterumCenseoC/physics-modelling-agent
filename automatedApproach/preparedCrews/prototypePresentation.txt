@@ -1,0 +1,33 @@
+PROTOTYPE:
+
+aim: orchestrate a multi-agent system that takes a research problem
+
+constraints/simplifications: only handles free text input; no RAG;
+
+architecture: based on CREW-AI: defines, Agents (have role, goal, background, ..-). Agents are assigned Tasks
+- Agents and Tasks are assembled into Crew's; Crew-Ai's Crew decides internally how to orchestrate the Agents
+
+-structure: Crew-Ai Objects get wrappers to handle parameters
+	below: Agent, gets LLM Object which handles Access to the LLM that is desired, here SAIA
+	above: Orchestrator for setting up Agents, Tasks and assembling the crew 
+		- define tasks and specific crews seperately
+		- add tasks and crews together in desired combination
+		
+example: edelstein effect with discussed request
+- CREW-setup: information gathering; simple model generation; numerical implementation
+	- analyser: find inconsistencies in the model and implementation, compare to literature
+	- write report
+	
+current prototype: agent setup and execution works, the Agents do what they are supposed to do
+	- the simplification of the model is not as desired, instead of focussing on a simpler hamiltonian, it focuses on  explicit parameter variation
+	- the output of the numerical model is not as desired; code feels fragmented and not tested
+
+conclusion: the working with the crew and the orchestration working
+- finetuning is needed for getting the crew to take the desired stept for reaching the result (GENERATE A SIMPLE MODEL FIRST)
+- include an interface for code execution for the LLM => improve quality of numerical implementation and simulation
+-? implement RAG: can be done via SAIA
+-? implement a concrete memory object to allow the AI to access previous conversations
+- go next step in generalising simple model to more complex/new topic
+
+
+obstacles: unclear/bad interface-specifications by crewAI
