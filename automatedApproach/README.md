@@ -1,5 +1,5 @@
 # to see the idea of the project, run from the automatedApproach dir:
-python -m exampleWorkflows.exampleWorkflow1
+python -m exampleWorkflows.exampleWorkflow
 
 # general structure
 - src includes the files to access SAIA (and therefor the used LLM);
