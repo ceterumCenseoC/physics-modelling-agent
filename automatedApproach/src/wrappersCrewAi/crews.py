@@ -7,11 +7,13 @@ class Crews:
         self.agents : list = agents # list of Agents instances that are part of the crew
         self.tasks : list = tasks # list of Tasks instances that the crew needs to perform
         self.verbose : bool = verbose # whether to print logs during execution or not
+        self.tracing : bool = True # enables to see, what each agent did, also which tools he used
         from crewai import Crew
         self.crew = Crew( # set up the Crew Object from crewai based on the parameters
             agents=[agent.agent for agent in self.agents],
             tasks=[task.task for task in self.tasks],
-            verbose=self.verbose
+            verbose=self.verbose,
+            tracing=True
         )
 
     def run(self) -> dict:

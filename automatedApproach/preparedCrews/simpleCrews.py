@@ -227,4 +227,73 @@ def crew3Execute(argumentsDict : dict) -> str:
 
 def crew4Execute(argumentsDict : dict) -> str:
     #focuses on getting real sources and minimizing hallucinations; optimised for edelstein-Effect
-    return("not implemented yet")
+    orchestration = CrewOrchestration()
+
+    #iINFORMATION GATHERER AGENT
+    infoGatherer1 : Agents = orchestration.createAgent(model="qwen3.5-122b-a10b", name = "source gather", role="find real scientific sources for: {problem}")
+    infoGatherer1.goal = "gather 2 scientific sources for the following problem: {problem}. Provide the full title and author information. Show where the source was found."
+    infoGatherer1.backstory = "Always checks that title and author information is consistent."
+    #infoGatherer1.max_tokens = 131072 - 3000 # set max response tokens to the maximum context length of the model minus some buffer for the input and the system prompt, to make sure the agent can use the full context length for the response if needed; this is important for the information gatherer agent, because it needs to provide a detailed description of the relevant information that can be quite long, especially if the problem is complex; without setting this, the agent might not be able to provide a complete description of the relevant information, which would make it harder for the other agents to work with it and also limit the performance of the whole crew in solving the problem.
+    infoGatherer1.temperature = 0.0 # set temperature to 0 to minimize hallucinations
+
+    infoGathering1 : Tasks = orchestration.createTask(name = "Source Gathering", 
+                                             description="Gather 3 scientific sources for the problem: {problem}.", agent=infoGatherer1, 
+                                             expected_output="A list of 3 relevant scientific sources with CORRECT author and title information.")
+    
+    crew : Crews = orchestration.createCrew(verbose=True)
+    result = orchestration.runCrew(argumentsDict) # put the argumentsDict here to make sure the crew has access to the problem, goal, ...
+    return(result.raw)
+
+def crew5Execute(argumentsDict : dict) -> str:
+    #check internet connection and access to real sources
+    orchestration = CrewOrchestration()
+
+    #iINFORMATION GATHERER AGENT
+    infoGatherer1 : Agents = orchestration.createAgent(model="qwen3.5-122b-a10b", name = "stock market checker", role="checks stock prices")
+    infoGatherer1.goal = "retrieve the current stock price for gold using this website: {website}."
+    infoGatherer1.backstory = "Would tell if he cannot access the website or has no internet connection."
+    #infoGatherer1.max_tokens = 131072 - 3000 # set max response tokens to the maximum context length of the model minus some buffer for the input and the system prompt, to make sure the agent can use the full context length for the response if needed; this is important for the information gatherer agent, because it needs to provide a detailed description of the relevant information that can be quite long, especially if the problem is complex; without setting this, the agent might not be able to provide a complete description of the relevant information, which would make it harder for the other agents to work with it and also limit the performance of the whole crew in solving the problem.
+    infoGatherer1.temperature = 0.0 # set temperature to 0 to minimize hallucinations
+
+    infoGathering1 : Tasks = orchestration.createTask(name = "gold price checker", 
+                                             description="check the gold price at {website}.", agent=infoGatherer1, 
+                                             expected_output="the current gold price at the specified website.")
+    
+    crew : Crews = orchestration.createCrew(verbose=True)
+    result = orchestration.runCrew(argumentsDict) # put the argumentsDict here to make sure the crew has access to the problem, goal, ...
+    return(result.raw)
+
+def crew6Execute(argumentsDict : dict) -> str:
+
+    orchestration = CrewOrchestration()
+
+    #iINFORMATION GATHERER AGENT
+    infoGatherer1 : Agents = orchestration.createAgent(model="qwen3.5-122b-a10b", name = "current data checker", role="what is the current date")
+    infoGatherer1.goal = "write the date and time (down to the hour) of Berlin)."
+    infoGatherer1.backstory = "Would tell if he cannot access the website or has no internet connection."
+    #infoGatherer1.max_tokens = 131072 - 3000 # set max response tokens to the maximum context length of the model minus some buffer for the input and the system prompt, to make sure the agent can use the full context length for the response if needed; this is important for the information gatherer agent, because it needs to provide a detailed description of the relevant information that can be quite long, especially if the problem is complex; without setting this, the agent might not be able to provide a complete description of the relevant information, which would make it harder for the other agents to work with it and also limit the performance of the whole crew in solving the problem.
+    infoGatherer1.temperature = 0.0 # set temperature to 0 to minimize hallucinations
+
+    infoGathering1 : Tasks = orchestration.createTask(name = "Date checker", 
+                                             description="Solve the problem using your expertise.", agent=infoGatherer1, 
+                                             expected_output="The current date and time in Berlin is DD.MM.YYYY, HH:MM.")
+    
+    crew : Crews = orchestration.createCrew(verbose=True)
+    result = orchestration.runCrew(argumentsDict) # put the argumentsDict here to make sure the crew has access to the problem, goal, ...
+    return(result.raw)
+
+def crew7(argumentsDict : dict) -> str:
+    #check if the crew can access the local file system
+    orchestration = CrewOrchestration()
+
+    #iINFORMATION GATHERER AGENT
+    infoGatherer1 : Agents = orchestration.createAgent(model="qwen3.5-397b-a17b", name = "agent", role="do what the crew asks you to do")
+    infoGatherer1.temperature = 0.0 # set temperature to 0 to minimize hallucinations
+
+    infoGathering1 : Tasks = orchestration.createTask(name = "task", 
+                                             description="works on: {problem}", agent=infoGatherer1, 
+                                             expected_output="as specified in: {problem}.")
+    
+    crew : Crews = orchestration.createCrew(verbose=True)
+    result = orchestration.runCrew(argumentsDict) # put the argumentsDict here to make sure the crew has access to the problem, goal, ...
+    return(result.raw)

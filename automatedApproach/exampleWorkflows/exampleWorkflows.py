@@ -31,9 +31,44 @@ def crew2EdelsteinEffectWithSimulation() -> None:
     print ("\nNEWRUN OF WORKLOW: SIMPLE EDELSTEIN EFFECT (WITH SIMULATION)")
     print (result)
 
+def crew4Test() -> None:
+    # a more complex workflow with more agents, which is supposed to lead to an even better result; works on the same problem as crew2EdelsteinEffectWithSimulation, but with more agents and a more complex workflow; this is supposed to lead to a better understanding of the problem, but it is also more computationally expensive and time consuming
+    import problems.problemExamples as problemExamples
+    import preparedCrews.simpleCrews as simpleCrews
+
+    result = simpleCrews.crew4Execute(problemExamples.edelsteinEffectResourceGathering())
+    print (result)
+
+def goldPriceTest() -> None:
+    # a workflow to test the ability of the crew to access real sources and provide real information; this is supposed to be a simple test to check if the crew can access the internet and provide real information, which is important for the performance of the crew in solving real problems
+    import problems.problemExamples as problemExamples
+    import preparedCrews.simpleCrews as simpleCrews
+
+    result = simpleCrews.crew5Execute(problemExamples.goldPrice())
+    print (result)
+
+def dateTest() -> None:
+    # a workflow to test the ability of the crew to access real sources and provide real information; this is supposed to be a simple test to check if the crew can access the internet and provide real information, which is important for the performance of the crew in solving real problems
+    import problems.problemExamples as problemExamples
+    import preparedCrews.simpleCrews as simpleCrews
+
+    result = simpleCrews.crew6Execute(problemExamples.date())
+    print (result)
+
+def toolCheck() -> None:
+    # a workflow to test if the crew can access the webSearch tool and provide an example of how to use it to solve a problem; this is important to check if the crew can use the tools that are provided to it, which is important for the performance of the crew in solving real problems
+    import problems.problemExamples as problemExamples
+    import preparedCrews.simpleCrews as simpleCrews
+
+    result = simpleCrews.crew7(problemExamples.toolCheck())
+    print (result)
 
 if __name__ == "__main__":
     #listModels()
     #crew1BlackHole()
-    crew2EdelsteinEffectNoSimulation()
+    #crew2EdelsteinEffectNoSimulation()
     #crew3EdelsteinEffectWithSimulation()
+    #crew4Test()
+    goldPriceTest()
+    #dateTest()
+    #toolCheck()
