@@ -81,7 +81,7 @@ def crew2Execute(argumentsDict : dict) -> str:
 
     infoGathering1 : Tasks = orchestration.createTask(name = "Information Gathering", 
                                              description="Find information about the scientific {problem} at hand. Filter for relevance and quality.", agent=infoGatherer1, 
-                                             expected_output="A description of the relevant approaches (and information) to the {problem}, preferably with links to scientific papers or books. The description should be concise but informative enough for other agents to work with it.")
+                                             expected_output="A description of the relevant approaches (and information) to the {problem}, preferably with the URL to scientific papers or books. The description should be concise but informative enough for other agents to work with it.")
     
 
     #SIMPL MODEL MAKER AGENT
@@ -224,3 +224,7 @@ def crew3Execute(argumentsDict : dict) -> str:
     crew : Crews = orchestration.createCrew(verbose=True)
     result = orchestration.runCrew(argumentsDict) # put the argumentsDict here to make sure the crew has access to the problem, goal, ...
     return(result.raw)
+
+def crew4Execute(argumentsDict : dict) -> str:
+    #focuses on getting real sources and minimizing hallucinations; optimised for edelstein-Effect
+    return("not implemented yet")

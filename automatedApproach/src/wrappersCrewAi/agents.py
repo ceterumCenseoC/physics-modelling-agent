@@ -68,14 +68,13 @@ class Agents:
             
             # runtime imports only
             import crewai
-            from crewai.agent.core import Agent
-            from crewai.llms.base_llm import BaseLLM
-            from crewai import PlanningConfig
+            
+            # FOR ACCESSING OWN LLM VIA lLL file
             from src.wrappersCrewAi.aiAccess.lLM import LLM as DelegateLLM
-
             # create your delegate instance; the acctuall interface that handles accessing the conntected AI
             delegate = DelegateLLM(client=OpenAiClient(), model=self.model)
 
+            from crewai.llms.base_llm import BaseLLM # so LLM object can inherit from BaseLLM as required by crewAi
             # runtime adapter subclass that inherits BaseLLM
             class CrewLLM(BaseLLM):
                 def __init__(self, delegate_instance: DelegateLLM):
@@ -110,6 +109,7 @@ class Agents:
             self.delegateLlm = delegate      # optional: for internal calls/tests
             self.llm = crew_llm                # this is the object you pass to Agent and Memory
 
+            # TO ENABLE MEMORY
             self.memory = crewai.Memory( #currently broken
                 llm=self.llm,
                 depth="shallow",
@@ -118,15 +118,47 @@ class Agents:
             )
             self.memory = None
 
+            # TOOL USAGE
+            import os
+            from dotenv import load_dotenv
+            from pathlib import Path
+            env_path = Path(__file__).resolve().parent.parent.parent / ".env" # set the path to the .env file
+            load_dotenv(dotenv_path=env_path)
+            apiKey = os.getenv("API_KEY")
+            
+            # config that tells RagTool to use ChromaDB + OpenAI embeddings
+            cfg = {
+                "vectordb": {
+                    "provider": "chromadb",
+                    "config": {
+                        "persist_directory": "./chroma_db"
+                    }
+                },
+                "embedding_model": {
+                    "provider": "openai",
+                    "model": self.model,
+                    "credentials": {"api_key": apiKey}
+                }
+            }
 
+            from crewai_tools.tools.website_search.website_search_tool import WebsiteSearchTool # enables tool for the agent
+            #tools
+            #python_tool = PythonREPLTool()
+            search_tool = WebsiteSearchTool(config = cfg)
+            #read_tool = FileReadTool()
+            self.tools = [search_tool]
+
+            # ENABLE PLANNING
+            from crewai import PlanningConfig # for crewAis planning system
             self.planning_config = PlanningConfig(
                 max_depth=7,
                 max_branches=7,
                 strategy="reactive"
             )
 
+            # INITIALIZE AGENT
             import traceback
-
+            from crewai.agent.core import Agent # so crewAi agent can be initialized
             try:
                 self.agent = Agent(
                     name=self.name,
