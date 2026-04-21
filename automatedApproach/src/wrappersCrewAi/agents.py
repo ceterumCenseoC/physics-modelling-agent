@@ -5,7 +5,6 @@ from typing import TYPE_CHECKING, Any, Optional
 from attrs import inspect
 
 from src.wrappersCrewAi.aiAccess.openAiClient import OpenAiClient
-from src.wrappersCrewAi.aiAccess.embedderCustom import NoOpEmbedder
 from src.wrappersCrewAi.aiAccess.noOpAnalysis import NoOpAnalysis
 
 if TYPE_CHECKING:
@@ -37,12 +36,13 @@ class Agents:
 
         # tool usage
         self.tools : list = [] # tools that the agent can use, e.g. a python interpreter, a search engine, a calculator, etc. (not implemented yet)
+        self.embeddingModel : str = "e5-mistral-7b-instruct"
         
         # other
         self.system_template : str = None # custom system prompt template
         self.prompt_template : str = None # custom prompt template
         self.response_template : str = None # custom response template
-        self.callbacks : list = [] # callbacks for different stages of the agents reasoning process, e.g. before/after tool use, before/after response generation, etc. (not implemented yet)   
+        self.callbacks : list = [] # callbacks for different stages of the agents reasoning process, e.g. before/after tool use, before/after response generation, etc. (not implemented yet)
        
         # internal state
         self._native_initialized : bool = False
@@ -66,6 +66,19 @@ class Agents:
             if self._native_initialized:
                 return
             
+            # set api key as enviromlment variable
+            import os
+            from dotenv import load_dotenv
+            from pathlib import Path
+            env_path = Path(__file__).resolve().parent.parent.parent.parent / ".env" # set the path to the .env file
+            load_dotenv(dotenv_path=env_path)
+            # normalize your key
+            apiKey = os.getenv("API_KEY", "").strip()
+
+            # ensure OPENAI_API_KEY exists for the library's global check
+            os.environ["OPENAI_API_KEY"] = apiKey or os.environ.get("API_KEY", "placeholder_key")
+
+
             # runtime imports only
             import crewai
             
@@ -119,32 +132,34 @@ class Agents:
             self.memory = None
 
             # TOOL USAGE
-            import os
-            from dotenv import load_dotenv
-            from pathlib import Path
-            env_path = Path(__file__).resolve().parent.parent.parent / ".env" # set the path to the .env file
-            load_dotenv(dotenv_path=env_path)
-            apiKey = os.getenv("API_KEY")
-            
-            # config that tells RagTool to use ChromaDB + OpenAI embeddings
+            from src.wrappersCrewAi.aiAccess.embedderAccess import module_embed
+            from src.wrappersCrewAi.aiAccess.embedderCustom import EmbedderCustom
+            embedder : EmbedderCustom = EmbedderCustom(model= self.embeddingModel)
+
+            # build cfg as you already do
             cfg = {
                 "vectordb": {
                     "provider": "chromadb",
                     "config": {
-                        "persist_directory": "./chroma_db"
+                        "persist_directory": "./chroma_db",
+                        "embedding_callable": module_embed   # put it here too
                     }
                 },
                 "embedding_model": {
-                    "provider": "openai",
-                    "model": self.model,
-                    "credentials": {"api_key": apiKey}
+                    "provider": "custom",
+                    "model": self.embeddingModel,
+                    "credentials": {"api_key": apiKey},
+                    "embedding_callable": module_embed
                 }
             }
 
+            # wrap it so WebsiteSearchTool sees cfg under the 'config' key
+            wrapped_cfg = {"config": cfg}
+
+            # pass wrapped_cfg to the tool
             from crewai_tools.tools.website_search.website_search_tool import WebsiteSearchTool # enables tool for the agent
-            #tools
-            #python_tool = PythonREPLTool()
-            search_tool = WebsiteSearchTool(config = cfg)
+            search_tool = WebsiteSearchTool(config=wrapped_cfg)
+
             #read_tool = FileReadTool()
             self.tools = [search_tool]
 

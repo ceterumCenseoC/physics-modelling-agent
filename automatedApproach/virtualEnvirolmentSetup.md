@@ -3,8 +3,10 @@
 # create .venv directory
 python -m venv venv
 
-# first activate the venv
+# first activate the venv; (Windows)
 .\venv\Scripts\Activate.ps1
+# or (Linux)
+source venv/bin/activate
 
 # then setup
 pip install pip-tools #only first time

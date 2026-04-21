@@ -287,7 +287,7 @@ def crew7(argumentsDict : dict) -> str:
     orchestration = CrewOrchestration()
 
     #iINFORMATION GATHERER AGENT
-    infoGatherer1 : Agents = orchestration.createAgent(model="qwen3.5-397b-a17b", name = "agent", role="do what the crew asks you to do")
+    infoGatherer1 : Agents = orchestration.createAgent(model="e5-mistral-7b-instruct", name = "agent", role="do what the crew asks you to do")
     infoGatherer1.temperature = 0.0 # set temperature to 0 to minimize hallucinations
 
     infoGathering1 : Tasks = orchestration.createTask(name = "task", 
