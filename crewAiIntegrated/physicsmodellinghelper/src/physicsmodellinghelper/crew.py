@@ -1,6 +1,11 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
+from crewai_tools import ScrapeWebsiteTool
+
+#from crewai_tools import WebsiteSearchTool
+#from physicsmodellinghelper.embedderCustom import EmbedderCustom
+
 # If you want to run a snippet of code before or after the crew starts,
 # you can use the @before_kickoff and @after_kickoff decorators
 # https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
@@ -19,34 +24,23 @@ class Physicsmodellinghelper():
     # If you would like to add tools to your agents, you can learn more about it here:
     # https://docs.crewai.com/concepts/agents#agent-tools
     @agent
-    def researcher(self) -> Agent:
+    def information_gatherer(self) -> Agent:
         return Agent(
-            config=self.agents_config['researcher'], # type: ignore[index]
-            verbose=True
-        )
-
-    @agent
-    def reporting_analyst(self) -> Agent:
-        return Agent(
-            config=self.agents_config['reporting_analyst'], # type: ignore[index]
-            verbose=True
+            config=self.agents_config['information_gatherer'], # type: ignore[index]
+            verbose=True,
+            tools=[ScrapeWebsiteTool(website_url='https://arxiv.org/abs/2604.13948')]
         )
 
     # To learn more about structured task outputs,
     # task dependencies, and task callbacks, check out the documentation:
     # https://docs.crewai.com/concepts/tasks#overview-of-a-task
-    @task
-    def research_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['research_task'], # type: ignore[index]
-        )
 
     @task
-    def reporting_task(self) -> Task:
+    def gathering_task(self) -> Task:
         return Task(
-            config=self.tasks_config['reporting_task'], # type: ignore[index]
+            config=self.tasks_config['gathering_task'], # type: ignore[index]
             output_file='report.md'
-        )
+        ) 
 
     @crew
     def crew(self) -> Crew:
@@ -60,4 +54,24 @@ class Physicsmodellinghelper():
             process=Process.sequential,
             verbose=True,
             # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
+            
+            # To enable the tool to search any website the agent comes across or learns about during its operation
         )
+    
+"""     def tool_functions(self):
+        print("DEBUG: tool_functions called on", type(self).__name__)
+        return {
+            "websearch": lambda: WebsiteSearchTool(
+                "websearch",
+                config={
+                    "vectordb": {
+                        "provider": "chromadb",
+                        "config": {"persist_directory": "./chroma_db"}
+                    },
+                    "embedding_model": {
+                        "provider": "custom",
+                        "embedding_callable": EmbedderCustom()
+                    }
+                }
+            )
+        } """

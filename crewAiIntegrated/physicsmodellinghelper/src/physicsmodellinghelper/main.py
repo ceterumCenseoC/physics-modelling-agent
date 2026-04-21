@@ -18,15 +18,18 @@ def run():
     Run the crew.
     """
     inputs = {
-        'topic': 'AI LLMs',
-        'current_year': str(datetime.now().year)
+        'topic': 'Edelstein-Effect',
+        'current_year': str(datetime.now().year),
+        'aim': 'Calculate the Edelstein effect for a Kramers-Weyl fermion at the Gamma point of the Brillouin zone. '
+            'Compute the magnitization magnitude and direction of different directions and magnitudes of the applied electric field.'
+            'Consider how the result depends on relevant parameters of the model (e.g. chirality, fermi velocity)',
+        #'url': 'https://arxiv.org/abs/2604.13948'
     }
 
     try:
         Physicsmodellinghelper().crew().kickoff(inputs=inputs)
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")
-
 
 def train():
     """
