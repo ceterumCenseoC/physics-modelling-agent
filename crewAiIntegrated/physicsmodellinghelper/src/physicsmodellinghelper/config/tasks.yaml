@@ -5,4 +5,25 @@ gathering_task:
     the current year is {current_year}.
   expected_output: >
     a list with the important sources: title, author, where it was found, short summary
-  agent: information_gatherer
+  agent: source_gatherer
+
+extraction_task:
+  description: >
+    use the sources provided by gathering_task to extract the relevant information for {aim}.
+  expected_output: >
+    a text and mathematical formulas with detailed description for creating a simple model for {aim} and making a simulation for it
+  agent: information_extractor
+
+simple_modelling_task:
+  description: >
+    use the information provided by the extraction_task to create a model that is simpler then {aim}.
+  expected_output: >
+    a matematical description of the modell with textual explaination that describes the simple model and can be used to create a numerical implementation of it.
+  agent: simple_modeller
+
+simulation_task:
+  description: >
+    use the simple_modelling_task s result to code a numerical implementation of the same modell.
+  expected_output: >
+    continious python code that only needs to be copy pasted into a pyhton file and can be executed. The code sould be well documented.
+  agent: model_simulator 

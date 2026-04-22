@@ -23,7 +23,6 @@ def run():
         'aim': 'Calculate the Edelstein effect for a Kramers-Weyl fermion at the Gamma point of the Brillouin zone. '
             'Compute the magnitization magnitude and direction of different directions and magnitudes of the applied electric field.'
             'Consider how the result depends on relevant parameters of the model (e.g. chirality, fermi velocity)',
-        #'url': 'https://arxiv.org/abs/2604.13948'
     }
 
     try:

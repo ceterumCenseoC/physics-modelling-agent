@@ -1,4 +1,7 @@
-from crewai import Agent, Crew, Process, Task
+from dotenv import load_dotenv
+import os
+
+from crewai import LLM, Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from crewai_tools import ScrapeWebsiteTool
@@ -24,11 +27,71 @@ class Physicsmodellinghelper():
     # If you would like to add tools to your agents, you can learn more about it here:
     # https://docs.crewai.com/concepts/agents#agent-tools
     @agent
-    def information_gatherer(self) -> Agent:
+    def source_gatherer(self) -> Agent:
         return Agent(
-            config=self.agents_config['information_gatherer'], # type: ignore[index]
+            config=self.agents_config['source_gatherer'], # type: ignore[index]
             verbose=True,
-            tools=[ScrapeWebsiteTool(website_url='https://arxiv.org/abs/2604.13948')]
+            temperature=0.0,
+            llm=LLM(
+                model = "qwen3.5-122b-a10b",
+                base_url="https://chat-ai.academiccloud.de/v1",
+                api_key=os.getenv("OPENAI_API_KEY"),
+                #type="chat-completions"
+            ),
+            tools=[ScrapeWebsiteTool(website_url='https://www.nature.com/articles/s41567-023-02121-4'),
+                   ScrapeWebsiteTool(website_url='https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.3.013275'),
+                   ScrapeWebsiteTool(website_url='https://www.nature.com/articles/s43246-025-00952-7'),
+                   #ScrapeWebsiteTool(website_url='https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.134.166401'),
+                   ScrapeWebsiteTool(website_url='https://arxiv.org/html/2604.13948v1'),
+                   ]
+        )
+    
+    @agent
+    def information_extractor(self) -> Agent:
+        return Agent(
+            config=self.agents_config['information_extractor'], # type: ignore[index]
+            verbose=True,
+            temperature=0.0,
+            llm=LLM(
+                model = "qwen3.5-122b-a10b",
+                base_url="https://chat-ai.academiccloud.de/v1",
+                api_key=os.getenv("OPENAI_API_KEY"),
+                #type="chat-completions"
+            ),
+            tools=[ScrapeWebsiteTool(website_url='https://www.nature.com/articles/s41567-023-02121-4'),
+                   ScrapeWebsiteTool(website_url='https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.3.013275'),
+                   ScrapeWebsiteTool(website_url='https://www.nature.com/articles/s43246-025-00952-7'),
+                   #ScrapeWebsiteTool(website_url='https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.134.166401'),
+                   ScrapeWebsiteTool(website_url='https://arxiv.org/html/2604.13948v1'),
+                   ]
+        )
+    
+    @agent
+    def simple_modeller(self) -> Agent:
+        return Agent(
+            config=self.agents_config['simple_modeller'], # type: ignore[index]
+            verbose=True,
+            temperature=0.2,
+            llm=LLM(
+                model = "deepseek-r1-distill-llama-70b",
+                base_url="https://chat-ai.academiccloud.de/v1",
+                api_key=os.getenv("OPENAI_API_KEY"),
+                #type="chat-completions"
+            )
+        )
+    
+    @agent
+    def model_simulator(self) -> Agent:
+        return Agent(
+            config=self.agents_config['model_simulator'], # type: ignore[index]
+            verbose=True,
+            temperature=0.1,
+            llm=LLM(
+                model = "devstral-2-123b-instruct-2512",
+                base_url="https://chat-ai.academiccloud.de/v1",
+                api_key=os.getenv("OPENAI_API_KEY"),
+                #type="chat-completions"
+            )
         )
 
     # To learn more about structured task outputs,
@@ -39,8 +102,30 @@ class Physicsmodellinghelper():
     def gathering_task(self) -> Task:
         return Task(
             config=self.tasks_config['gathering_task'], # type: ignore[index]
-            output_file='report.md'
-        ) 
+            output_file='runOutputs/sources.md'
+        )
+    
+    @task
+    def extraction_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['extraction_task'], # type: ignore[index]
+            output_file='runOutputs/information.md'
+        )
+    
+    @task
+    def simple_modelling_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['simple_modelling_task'], # type: ignore[index]
+            output_file='runOutputs/simple_model.md'
+        )
+    
+    @task
+    def simulation_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['simulation_task'], # type: ignore[index]
+            output_file='runOutputs/simulation_results.md'
+        )
+    
 
     @crew
     def crew(self) -> Crew:
@@ -57,21 +142,3 @@ class Physicsmodellinghelper():
             
             # To enable the tool to search any website the agent comes across or learns about during its operation
         )
-    
-"""     def tool_functions(self):
-        print("DEBUG: tool_functions called on", type(self).__name__)
-        return {
-            "websearch": lambda: WebsiteSearchTool(
-                "websearch",
-                config={
-                    "vectordb": {
-                        "provider": "chromadb",
-                        "config": {"persist_directory": "./chroma_db"}
-                    },
-                    "embedding_model": {
-                        "provider": "custom",
-                        "embedding_callable": EmbedderCustom()
-                    }
-                }
-            )
-        } """
