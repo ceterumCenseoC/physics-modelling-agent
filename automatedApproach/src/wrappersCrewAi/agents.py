@@ -1,4 +1,6 @@
 from __future__ import annotations # so typechecking can recognize the class types that are defined in this file without needing to import them; allows for cleaner code and avoids circular imports
+import json
+import os
 import threading
 from typing import TYPE_CHECKING, Any, Optional
 
@@ -48,6 +50,16 @@ class Agents:
         self._native_initialized : bool = False
         self._init_lock : threading.Lock = threading.Lock() # lock to ensure thread-safe initialization of native-backed attributes
 
+        # set api key as enviromlment variable
+        import os
+        from dotenv import load_dotenv
+        from pathlib import Path
+        env_path = Path(__file__).resolve().parent.parent.parent / ".env" # set the path to the .env file
+        load_dotenv(dotenv_path=env_path)
+        self.apiKey = os.getenv("API_KEY") # read the API_KEY from the .env file
+        # ensure OPENAI_API_KEY exists for the library's global check
+        os.environ["OPENAI_API_KEY"] = self.apiKey or os.environ.get("OPENAI_API_KEY", "placeholder_key")
+
         # native-backed attributes start as None
         self.llm : LLM = None
         self.memory : Memory = None
@@ -66,19 +78,6 @@ class Agents:
             if self._native_initialized:
                 return
             
-            # set api key as enviromlment variable
-            import os
-            from dotenv import load_dotenv
-            from pathlib import Path
-            env_path = Path(__file__).resolve().parent.parent.parent.parent / ".env" # set the path to the .env file
-            load_dotenv(dotenv_path=env_path)
-            # normalize your key
-            apiKey = os.getenv("API_KEY", "").strip()
-
-            # ensure OPENAI_API_KEY exists for the library's global check
-            os.environ["OPENAI_API_KEY"] = apiKey or os.environ.get("API_KEY", "placeholder_key")
-
-
             # runtime imports only
             import crewai
             
@@ -148,7 +147,7 @@ class Agents:
                 "embedding_model": {
                     "provider": "custom",
                     "model": self.embeddingModel,
-                    "credentials": {"api_key": apiKey},
+                    "credentials": {"api_key": self.apiKey},
                     "embedding_callable": module_embed
                 }
             }
@@ -159,6 +158,12 @@ class Agents:
             # pass wrapped_cfg to the tool
             from crewai_tools.tools.website_search.website_search_tool import WebsiteSearchTool # enables tool for the agent
             search_tool = WebsiteSearchTool(config=wrapped_cfg)
+
+            import os, json
+            print("DEBUG OPENAI_API_KEY:", repr(os.environ.get("OPENAI_API_KEY")))
+            print("DEBUG API_KEY:", repr(os.getenv("API_KEY")))
+            print("DEBUG wrapped_cfg keys:", json.dumps(list(wrapped_cfg["config"].keys())))
+            print("DEBUG search_tool repr:", repr(search_tool)[:1000])
 
             #read_tool = FileReadTool()
             self.tools = [search_tool]

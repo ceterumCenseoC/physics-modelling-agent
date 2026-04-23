@@ -50,3 +50,15 @@ Line |
 ]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cJanis\x5cwork\x5cuniversity\x5cbachelorThesis\x5cphysics-modelling-agent\x5ccrewAiIntegrated\x5cphysicsmodellinghelperPS C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\crewAiIntegrated\physicsmodellinghelper> ]633;B
 PS>cd ..
 ]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cJanis\x5cwork\x5cuniversity\x5cbachelorThesis\x5cphysics-modelling-agent\x5ccrewAiIntegratedPS C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\crewAiIntegrated> ]633;B
+PS>git add *
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cJanis\x5cwork\x5cuniversity\x5cbachelorThesis\x5cphysics-modelling-agent\x5ccrewAiIntegratedPS C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\crewAiIntegrated> ]633;B
+PS>git commit -m "working now, web search from pre-defined sources"
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cJanis\x5cwork\x5cuniversity\x5cbachelorThesis\x5cphysics-modelling-agent\x5ccrewAiIntegratedPS C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\crewAiIntegrated> ]633;B
+PS>git push
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cJanis\x5cwork\x5cuniversity\x5cbachelorThesis\x5cphysics-modelling-agent\x5ccrewAiIntegratedPS C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\crewAiIntegrated> ]633;B
+PS>git push second main
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cJanis\x5cwork\x5cuniversity\x5cbachelorThesis\x5cphysics-modelling-agent\x5ccrewAiIntegratedPS C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\crewAiIntegrated> ]633;B

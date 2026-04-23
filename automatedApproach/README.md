@@ -19,3 +19,11 @@ python -m pytest .\tests\testCrewOrchestration.py
 - exampleWorkflows dir contains an executable file
     defines methods that feed a specific problem to a specific crew
     here preparedCrews and problems come together
+
+# AS OF RIGHT NOW: SAIA doesn't allow for real time web search, only training data is searched
+options
+1. use a free LLM to perform web search: eg LLM‑Web‑Search‑CLI; extract sources, feed them into SAIA, either by downloading and implementing file access or via embedding
+2. enable saia to use a free web search LLM as a tool => nearer FUTURE
+3. filter for important info by hand, let Saia access the information locally -> NEXT
+4. build a RAG database => distant FUTURE
+5. don't use up to date web search => NOW

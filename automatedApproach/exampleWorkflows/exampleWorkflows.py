@@ -64,15 +64,15 @@ def toolCheck() -> None:
     print (result)
 
 if __name__ == "__main__":
-    #listModels()
+    listModels()
     #crew1BlackHole()
     #crew2EdelsteinEffectNoSimulation()
     #crew3EdelsteinEffectWithSimulation()
     #crew4Test()
-    """ from src.wrappersCrewAi.aiAccess.embedderCustom import EmbedderCustom
-    embedder = EmbedderCustom(model="e5-mistral-7b-instruct")
-    print(embedder.embed(["hello world", "test"])) # this works now and return a valid vector
- """
-    goldPriceTest()
+    #from src.wrappersCrewAi.aiAccess.embedderCustom import EmbedderCustom
+    #embedder = EmbedderCustom(model="e5-mistral-7b-instruct")
+    #print(embedder.embed(["hello world", "test"])) # this works now and return a valid vector
+
+    #goldPriceTest()
     #dateTest()
     #toolCheck()
