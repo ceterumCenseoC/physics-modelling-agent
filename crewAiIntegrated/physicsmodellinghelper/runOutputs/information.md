@@ -1,253 +1,252 @@
 
 
-Based on the provided sources, I will extract and synthesize the relevant information for creating a model of the Edelstein Effect for Kramers-Weyl fermions at the Gamma point.
+Based on the sources provided by the gathering_task, I will now extract the relevant information for building a model to calculate the Edelstein effect for a Rashba fermion at the Gamma point of the Brillouin zone.
 
-# Edelstein Effect Model for Kramers-Weyl Fermions at the Gamma Point
+# Edelstein Effect for Rashba Fermions: Model and Calculation Framework
 
-## 1. Theoretical Foundation of the Edelstein Effect
+## 1. Introduction to the Edelstein Effect
 
-The Edelstein Effect was first predicted by V.M. Edelstein (1990) in "Spin polarization of conduction electrons induced by electric current in two-dimensional asymmetric electron systems" (Solid State Communications, Volume 73, pages 233–235, 1990). The fundamental mechanism describes how electric current in systems with broken inversion symmetry and spin-orbit coupling can induce spin polarization.
+The **Edelstein effect** (also known as the current-induced spin polarization) is a magnetoelectric effect in systems with broken inversion symmetry where an applied electric field or current induces a non-equilibrium spin polarization (magnetization) [3, 7, 12]. In materials with spin-momentum locked spin textures, such as Rashba states and topological surface states, the current-induced shift of the Fermi contour in k-space leads to spin polarization [3].
 
-**Key Physics:**
-- Electric field → Current → Spin polarization (Edelstein Effect)
-- Inverse: Spin polarization → Current (Inverse Edelstein Effect)
-- Requires broken inversion symmetry and spin-orbit coupling
+## 2. Rashba Spin-Orbit Coupling Hamiltonian
 
-## 2. Kramers-Weyl Fermions at TRIM Points
+For a two-dimensional electron gas (2DEG) with Rashba spin-orbit coupling, the Hamiltonian at the Gamma point of the Brillouin zone is given by:
 
-From "Signatures of Kramers-Weyl fermions in the charge density wave material (TaSe₄)₂I" (Communications Materials, Volume 6, Article 227, 2025):
-
-**Characteristics of Kramers-Weyl (KW) fermions:**
-- Exist at time-reversal invariant momentum (TRIM) points in chiral crystals with strong spin-orbit coupling
-- Each TRIM point features a topologically charged Weyl point
-- Electronic bands near KW point are split by SOC in all directions
-- Form pockets with opposite Chern numbers
-- Exhibit approximately radial (monopole-like) spin texture
-- Protected by crystal symmetries (no additional symmetry needed beyond time-reversal and crystal chirality)
-
-**Hamiltonian near Gamma point (Γ):**
-For a KW fermion at the Gamma point, the effective Hamiltonian can be written as:
-
-$$H(\mathbf{k}) = \chi v_F \mathbf{k} \cdot \boldsymbol{\sigma} + \mu$$
-
-Where:
-- $\chi = \pm 1$ is the chirality of the Weyl fermion
-- $v_F$ is the Fermi velocity
-- $\mathbf{k}$ is the momentum measured from the Gamma point
-- $\boldsymbol{\sigma} = (\sigma_x, \sigma_y, \sigma_z)$ are Pauli matrices
-- $\mu$ is the chemical potential
-
-## 3. Edelstein Effect Calculation Framework
-
-### 3.1 Spin Polarization from Electric Field
-
-The Edelstein Effect relates applied electric field to induced spin polarization:
-
-$$\mathbf{S} = \lambda \mathbf{E}$$
-
-Where $\lambda$ is the Edelstein coefficient (a tensor in general).
-
-For Kramers-Weyl fermions, the spin polarization can be derived from the nonequilibrium distribution function under electric field.
-
-### 3.2 Boltzmann Transport Approach
-
-Using the semiclassical Boltzmann equation with relaxation time approximation:
-
-**Distribution function:**
-$$f(\mathbf{k}) = f_0(\epsilon_{\mathbf{k}}) - \frac{\partial f_0}{\partial \epsilon} e \tau \mathbf{v}_{\mathbf{k}} \cdot \mathbf{E}$$
-
-Where:
-- $f_0$ is the equilibrium Fermi-Dirac distribution
-- $\tau$ is the relaxation time
-- $\mathbf{v}_{\mathbf{k}} = \frac{1}{\hbar} \nabla_{\mathbf{k}} \epsilon_{\mathbf{k}}$ is the group velocity
-
-**Spin polarization:**
-$$\mathbf{S} = \frac{1}{V} \sum_{\mathbf{k}} \langle \psi_{\mathbf{k}} | \frac{\boldsymbol{\sigma}}{2} | \psi_{\mathbf{k}} \rangle \delta f(\mathbf{k})$$
-
-For KW fermions with radial spin texture:
-$$\langle \boldsymbol{\sigma} \rangle_{\mathbf{k}} = \chi \frac{\mathbf{k}}{|\mathbf{k}|}$$
-
-### 3.3 Magnetization Calculation
-
-The induced magnetization (magnetic moment per unit volume) is:
-
-$$\mathbf{M} = -g \mu_B \mathbf{S}$$
-
-Where:
-- $g$ is the Landé g-factor
-- $\mu_B$ is the Bohr magneton
-
-## 4. Detailed Model for Gamma Point Kramers-Weyl Fermions
-
-### 4.1 Energy Dispersion
-
-For a KW fermion at Gamma point:
-$$\epsilon_{\mathbf{k}, \pm} = \pm \chi v_F |\mathbf{k}|$$
-
-The two bands correspond to opposite chirality states.
-
-### 4.2 Spin Texture
-
-The spin expectation value for states with momentum $\mathbf{k}$:
-$$\langle \mathbf{S}(\mathbf{k}) \rangle = \frac{\hbar}{2} \chi \frac{\mathbf{k}}{|\mathbf{k}|}$$
-
-This is the characteristic radial spin texture of Kramers-Weyl fermions.
-
-### 4.3 Current-Induced Spin Polarization
-
-Under applied electric field $\mathbf{E}$, the shift in distribution function creates net spin polarization:
-
-$$\mathbf{S} = \int \frac{d^3k}{(2\pi)^3} \langle \mathbf{S}(\mathbf{k}) \rangle \left( -\frac{\partial f_0}{\partial \epsilon} \right) e \tau \mathbf{v}_{\mathbf{k}} \cdot \mathbf{E}$$
-
-For linear dispersion $\epsilon = \chi v_F |\mathbf{k}|$:
-- $\mathbf{v}_{\mathbf{k}} = \chi v_F \frac{\mathbf{k}}{|\mathbf{k}|}$
-- At zero temperature, only states near Fermi surface contribute
-
-### 4.4 Edelstein Coefficient
-
-The Edelstein coefficient for KW fermions:
-
-$$\lambda_{ij} = \frac{e^2 \tau}{\hbar} \chi v_F \int \frac{d^3k}{(2\pi)^3} \frac{k_i k_j}{|\mathbf{k}|^2} \left( -\frac{\partial f_0}{\partial \epsilon} \right)$$
-
-For isotropic case:
-$$\lambda_{ij} = \lambda \delta_{ij}$$
-
-Where:
-$$\lambda = \frac{e^2 \tau \chi v_F}{3\pi^2 \hbar^2} k_F^2$$
-
-With $k_F$ being the Fermi wavevector.
-
-## 5. Magnetization Magnitude and Direction
-
-### 5.1 General Expression
-
-For electric field $\mathbf{E} = E_x \hat{x} + E_y \hat{y} + E_z \hat{z}$:
-
-$$\mathbf{M} = -g \mu_B \lambda \mathbf{E}$$
-
-**Magnitude:**
-$$|\mathbf{M}| = g \mu_B |\lambda| |\mathbf{E}|$$
-
-**Direction:**
-The magnetization direction is parallel (for $\chi > 0$) or antiparallel (for $\chi < 0$) to the electric field direction.
-
-### 5.2 Dependence on Model Parameters
-
-| Parameter | Effect on Magnetization |
-|-----------|------------------------|
-| **Chirality ($\chi$)** | Sign reversal for opposite chirality ($\chi = \pm 1$) |
-| **Fermi velocity ($v_F$)** | Linear increase with $v_F$ |
-| **Relaxation time ($\tau$)** | Linear increase with $\tau$ |
-| **Fermi wavevector ($k_F$)** | Quadratic increase with $k_F$ |
-| **Electric field magnitude ($E$)** | Linear increase with $E$ |
-
-### 5.3 Different Electric Field Directions
-
-For electric field along different crystal axes:
-
-**Case 1: $\mathbf{E} = E \hat{x}$**
-$$\mathbf{M} = -g \mu_B \lambda E \hat{x}$$
-
-**Case 2: $\mathbf{E} = E \hat{y}$**
-$$\mathbf{M} = -g \mu_B \lambda E \hat{y}$$
-
-**Case 3: $\mathbf{E} = E \hat{z}$**
-$$\mathbf{M} = -g \mu_B \lambda E \hat{z}$$
-
-**Case 4: $\mathbf{E} = E (\cos\theta \hat{x} + \sin\theta \hat{y})$**
-$$\mathbf{M} = -g \mu_B \lambda E (\cos\theta \hat{x} + \sin\theta \hat{y})$$
-
-## 6. Simulation Implementation Guide
-
-### 6.1 Parameters to Define
-
-```python
-# Physical constants
-e = 1.602e-19  # Elementary charge (C)
-hbar = 1.055e-34  # Reduced Planck constant (J·s)
-mu_B = 9.274e-24  # Bohr magneton (J/T)
-g = 2.0  # Landé g-factor
-
-# Model parameters
-chi = 1  # Chirality (+1 or -1)
-v_F = 1e6  # Fermi velocity (m/s)
-tau = 1e-14  # Relaxation time (s)
-k_F = 1e10  # Fermi wavevector (1/m)
+```
+H = (ħ²k²)/(2m*) + α_R (σ × k) · ẑ + gμ_B B · σ
 ```
 
-### 6.2 Edelstein Coefficient Calculation
+Where:
+- `k` = wavevector in the 2D plane
+- `m*` = effective electron mass
+- `α_R` = Rashba spin-orbit coupling strength
+- `σ` = Pauli matrices (σ_x, σ_y, σ_z)
+- `ẑ` = unit vector perpendicular to the 2D plane
+- `g` = g-factor
+- `μ_B` = Bohr magneton
+- `B` = external magnetic field
 
-```python
-# Calculate Edelstein coefficient
-lambda_edelstein = (e**2 * tau * chi * v_F * k_F**2) / (3 * np.pi**2 * hbar**2)
+The Rashba term can be written explicitly as:
 
-# Calculate magnetization for given electric field
-def calculate_magnetization(E_vector):
-    E_magnitude = np.linalg.norm(E_vector)
-    E_direction = E_vector / E_magnitude
-    
-    M_magnitude = g * mu_B * abs(lambda_edelstein) * E_magnitude
-    M_direction = np.sign(chi) * E_direction
-    
-    M_vector = M_magnitude * M_direction
-    return M_vector
+```
+H_Rashba = α_R (σ_x k_y - σ_y k_x)
 ```
 
-### 6.3 Simulation Steps
+## 3. Energy Eigenvalues and Eigenstates
 
-1. **Define system parameters:**
-   - Chirality ($\chi = \pm 1$)
-   - Fermi velocity ($v_F$)
-   - Relaxation time ($\tau$)
-   - Fermi wavevector ($k_F$)
+The eigenvalues of the Rashba Hamiltonian (without magnetic field) are:
 
-2. **Apply electric field:**
-   - Specify direction and magnitude
-   - Range: $10^4$ to $10^7$ V/m
+```
+E_±(k) = (ħ²k²)/(2m*) ± α_R k
+```
 
-3. **Calculate magnetization:**
-   - Use Edelstein coefficient formula
-   - Compute magnitude and direction
+Where:
+- `k = |k|` = magnitude of the wavevector
+- The `±` denotes the two spin-split bands (chirality)
 
-4. **Parameter dependence study:**
-   - Vary chirality: observe sign change
-   - Vary $v_F$: observe linear scaling
-   - Vary $\tau$: observe linear scaling
-   - Vary $E$: observe linear scaling
+The corresponding eigenstates are:
 
-### 6.4 Expected Results
+```
+|ψ_+(k)⟩ = (1/√2) [1, -i e^(iφ_k)]^T
+|ψ_-(k)⟩ = (1/√2) [1, i e^(iφ_k)]^T
+```
 
-**Magnetization magnitude:**
-$$|\mathbf{M}| \approx 10^{-5} \text{ to } 10^{-3} \text{ A/m}$$
+Where `φ_k = arctan(k_y/k_x)` is the azimuthal angle of the wavevector.
 
-For typical parameters:
-- $E = 10^5$ V/m
-- $v_F = 10^6$ m/s
-- $\tau = 10^{-14}$ s
-- $k_F = 10^{10}$ m$^{-1}$
+## 4. Spin Texture and Chirality
 
-**Direction:**
-- Parallel to $\mathbf{E}$ for $\chi = +1$
-- Antiparallel to $\mathbf{E}$ for $\chi = -1$
+The spin expectation value for each band is:
 
-## 7. Key Physical Insights
+```
+⟨s⟩_± = ± (ħ/2) (sin φ_k, -cos φ_k, 0)
+```
 
-1. **Chirality dependence:** The sign of magnetization reverses with chirality, providing a way to distinguish between different KW fermion types.
+This shows the characteristic **spin-momentum locking** where spins are tangential to the Fermi surface and perpendicular to the momentum vector. The **chirality** (±) determines whether the spin texture is clockwise or counter-clockwise.
 
-2. **Radial spin texture:** Unlike conventional Rashba systems with tangential spin texture, KW fermions have radial spin texture, leading to different Edelstein coefficient values.
+## 5. Edelstein Effect: Linear Response Calculation
 
-3. **Symmetry protection:** KW fermions at Gamma point are protected by time-reversal symmetry and crystal chirality, making the Edelstein effect robust.
+### 5.1 Boltzmann Transport Approach
 
-4. **Material considerations:** From the (TaSe₄)₂I study, materials with strong spin-orbit coupling and chiral crystal structure are ideal candidates for observing KW fermion Edelstein effects.
+Using the semiclassical Boltzmann approach [12, 14], the current-induced spin polarization can be calculated as:
 
-## 8. Comparison with Conventional Edelstein Effect
+```
+S_i = χ_ij E_j
+```
 
-| Feature | Conventional (Rashba) | Kramers-Weyl |
-|---------|----------------------|--------------|
-| **Spin texture** | Tangential (in-plane) | Radial (monopole-like) |
-| **Dimensionality** | 2D electron gas | 3D bulk |
-| **Symmetry** | Broken inversion | Chiral crystal + time-reversal |
-| **Location** | Interface/surface | TRIM points (Gamma, N, etc.) |
-| **Topological charge** | None | Non-zero Chern number |
+Where:
+- `S_i` = induced spin polarization component
+- `E_j` = applied electric field component
+- `χ_ij` = Edelstein susceptibility tensor
 
-This model provides a complete framework for calculating the Edelstein effect for Kramers-Weyl fermions at the Gamma point, including magnetization magnitude, direction, and parameter dependencies for simulation purposes.
+### 5.2 Spin Polarization Formula
+
+For a Rashba system, the Edelstein effect produces spin polarization perpendicular to both the current and the Rashba field direction:
+
+```
+S = (e τ α_R n)/(2 ħ) (ẑ × j)
+```
+
+Where:
+- `e` = elementary charge
+- `τ` = relaxation time (scattering time)
+- `n` = electron density
+- `j` = current density
+- `ẑ` = unit vector perpendicular to the 2D plane
+
+### 5.3 Fermi Surface Shift
+
+Under an applied electric field `E`, the Fermi surface shifts by:
+
+```
+Δk = (e τ / ħ) E
+```
+
+This shift breaks the symmetry of the spin distribution, leading to net spin polarization.
+
+## 6. Magnetization Magnitude and Direction
+
+### 6.1 For Electric Field in x-direction (E = E_x x̂)
+
+```
+S_y = (e τ α_R n)/(2 ħ) E_x
+S_x = 0
+S_z = 0
+```
+
+The induced spin polarization is **perpendicular** to the electric field direction in the 2D plane.
+
+### 6.2 For Electric Field in y-direction (E = E_y ŷ)
+
+```
+S_x = -(e τ α_R n)/(2 ħ) E_y
+S_y = 0
+S_z = 0
+```
+
+### 6.3 General Electric Field Direction
+
+For a general electric field `E = E_x x̂ + E_y ŷ`:
+
+```
+S = (e τ α_R n)/(2 ħ) (E_x ŷ - E_y x̂)
+```
+
+The magnitude is:
+
+```
+|S| = (e τ α_R n)/(2 ħ) |E|
+```
+
+The direction is perpendicular to `E` in the 2D plane (rotated by 90°).
+
+## 7. Dependence on Model Parameters
+
+### 7.1 Rashba Coupling Strength (α_R)
+
+The Edelstein effect scales **linearly** with the Rashba coupling strength:
+
+```
+S ∝ α_R
+```
+
+Stronger spin-orbit coupling leads to larger spin polarization for the same applied field.
+
+### 7.2 Fermi Velocity (v_F)
+
+The Fermi velocity is related to the Fermi wavevector:
+
+```
+v_F = (ħ k_F)/m* = √(2 E_F/m*)
+```
+
+The relaxation time `τ` is related to the mean free path `l` by:
+
+```
+τ = l/v_F
+```
+
+Thus:
+
+```
+S ∝ 1/v_F
+```
+
+Lower Fermi velocity (for fixed mean free path) leads to larger Edelstein effect.
+
+### 7.3 Electron Density (n)
+
+The spin polarization scales linearly with electron density:
+
+```
+S ∝ n
+```
+
+Higher carrier density provides more electrons to contribute to the spin polarization.
+
+### 7.4 Chirality (±)
+
+The **chirality** of the bands determines the sign of the spin polarization. For a given electric field direction, the two Rashba bands contribute with opposite signs. The net effect depends on the relative population of each band (determined by Fermi level position).
+
+### 7.5 Relaxation Time (τ)
+
+The Edelstein effect is directly proportional to the scattering time:
+
+```
+S ∝ τ
+```
+
+Longer relaxation times (cleaner samples) lead to larger spin polarization.
+
+## 8. Orbital Edelstein Effect
+
+In addition to spin polarization, Rashba systems can exhibit an **orbital Edelstein effect** where orbital magnetization is induced by electric field [10, 11, 13]:
+
+```
+M_orbital = χ_orb E
+```
+
+The orbital contribution can be comparable to or even larger than the spin contribution in certain systems.
+
+## 9. Key Formula Summary
+
+For calculating the Edelstein effect in a Rashba fermion system at the Gamma point:
+
+### Main Result:
+```
+S = (e τ α_R n)/(2 ħ) (ẑ × E)
+```
+
+### Magnitude:
+```
+|S| = (e τ α_R n)/(2 ħ) |E|
+```
+
+### Direction:
+- Perpendicular to the applied electric field in the 2D plane
+- Determined by the cross product with ẑ (out-of-plane direction)
+
+### Parameter Dependencies:
+- `S ∝ α_R` (Rashba coupling strength)
+- `S ∝ τ` (relaxation time)
+- `S ∝ n` (electron density)
+- `S ∝ 1/v_F` (inverse Fermi velocity)
+
+## 10. Sources and References
+
+The information above is extracted from the following Arxiv sources:
+
+1. **Enhanced Edelstein effect and interdimensional effects in an electron gas with Rashba spin-orbit coupling interface** (Arxiv: 1912.01804) - Zulkoskey et al. [2]
+
+2. **Spin Hall and Edelstein effects in a ballistic quantum dot with Rashba spin-orbit coupling** (Arxiv: 2602.02036) - Maiellaro et al. [4]
+
+3. **Nonlinear spin and orbital Edelstein effect in WTe2** (Arxiv: 2412.02938) - Ye et al. [3]
+
+4. **The Edelstein effect in the presence of impurity spin-orbit scattering** (Arxiv: 1610.08258) - Maleki et al. [14]
+
+5. **Edelstein effects, spin-transfer torque, and spin pumping caused by pristine surface states of topological insulators** (Arxiv: 1901.06953) - Chen [8]
+
+6. **Resonant Edelstein and inverse-Edelstein effects, charge-to-spin conversion, and spin pumping from chiral-spin modes** (Arxiv: 2501.15752) - Saleh et al. [12]
+
+7. **Spin and orbital Edelstein effect in a bilayer system with Rashba interaction** (Arxiv: 2307.02872) - Leiva et al. [11]
+
+8. **Edelstein Effect in Isotropic and Anisotropic Rashba Models** (Arxiv: 2503.20712) - Gaiardoni et al. [from tool results]

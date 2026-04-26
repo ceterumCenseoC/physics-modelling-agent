@@ -19,11 +19,15 @@ def run():
     """
     inputs = {
         'topic': 'Edelstein-Effect',
-        'current_year': str(datetime.now().year),
-        'aim': 'Calculate the Edelstein effect for a Kramers-Weyl fermion at the Gamma point of the Brillouin zone. '
-            'Compute the magnitization magnitude and direction of different directions and magnitudes of the applied electric field.'
-            'Consider how the result depends on relevant parameters of the model (e.g. chirality, fermi velocity)',
+        'current_time': str(datetime.now()),
+        'aim': 'Calculate the Edelstein effect for a Rashba fermion (at the Gamma point of the Brillouin zone).' #THIS IS THE CURRENT AIM FOR GETTING A FIRST MODEL
+                'Compute the magnitization magnitude and direction of different directions and magnitudes of the applied electric field.'
+                'Consider how the result depends on relevant parameters of the model (e.g. chirality, fermi velocity)'
     }
+
+    #'aim': 'Calculate the Edelstein effect for a Kramers-Weyl fermion at the Gamma point of the Brillouin zone. ' #THIS IT THE FUTURE AIM FOR GETTING A MORE COMPLEX MODEL
+         #   'Compute the magnitization magnitude and direction of different directions and magnitudes of the applied electric field.'
+          #  'Consider how the result depends on relevant parameters of the model (e.g. chirality, fermi velocity)',
 
     try:
         Physicsmodellinghelper().crew().kickoff(inputs=inputs)
