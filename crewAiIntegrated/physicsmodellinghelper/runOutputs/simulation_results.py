@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-```python
->>>>>>> 4b2d1e46e765e3e2cb55422491ca5aa1562ad434
 """
 Numerical Implementation of the Edelstein Effect for Rashba Fermions at the Gamma Point
 
