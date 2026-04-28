@@ -4,9 +4,9 @@ import os
 from crewai import LLM, Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
-from crewai_tools import ScrapeWebsiteTool, ArxivPaperTool
+from crewai_tools import ArxivPaperTool, PDFSearchTool, FileReadTool
+from physicsmodellinghelper.tools.arxivSearch import ArxivDownloader # custom tool to download arxiv papers based on search results
 
-#from crewai_tools import WebsiteSearchTool
 #from physicsmodellinghelper.embedderCustom import EmbedderCustom
 
 # If you want to run a snippet of code before or after the crew starts,
@@ -19,7 +19,7 @@ class Physicsmodellinghelper():
 
     agents: list[BaseAgent]
     tasks: list[Task]
-    runNr : int = 5 # this number is added to the output files to distinguish between runs
+    runNr : int = 6 # this number is added to the output files to distinguish between runs
 
     # Learn more about YAML configuration files here:
     # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
@@ -39,15 +39,24 @@ class Physicsmodellinghelper():
                 api_key=os.getenv("OPENAI_API_KEY"),
                 #type="chat-completions"
             ),
-            tools=[ArxivPaperTool(download_pdf=True, output_dir='./arxiv_papers', use_title_as_filename=True)] # allows the agent to download PDFs
-        )   # download doesn't work, i suppose an internet provider issue
-        """ ScrapeWebsiteTool(website_url='https://www.nature.com/articles/s41567-023-02121-4'),
-                   ScrapeWebsiteTool(website_url='https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.3.013275'),
-                   ScrapeWebsiteTool(website_url='https://www.nature.com/articles/s43246-025-00952-7'),
-                   #ScrapeWebsiteTool(website_url='https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.134.166401'),
-                   ScrapeWebsiteTool(website_url='https://arxiv.org/html/2604.13948v1'), """ #previous websites
-
+            tools=[ArxivPaperTool()] # allows the agent to acces arxiv papers
+        )
     
+    @agent
+    def paper_downloader(self) -> Agent:
+        return Agent(
+            config=self.agents_config['paper_downloader'], # type: ignore[index]
+            verbose=True,
+            temperature=0.0,
+            llm=LLM(
+                model = "qwen3.5-122b-a10b",
+                base_url="https://chat-ai.academiccloud.de/v1",
+                api_key=os.getenv("OPENAI_API_KEY"),
+                #type="chat-completions"
+            ),
+            tools=[ArxivDownloader()]# allows the agent to download PDFs
+        )
+
     @agent
     def information_extractor(self) -> Agent:
         return Agent(
@@ -60,7 +69,7 @@ class Physicsmodellinghelper():
                 api_key=os.getenv("OPENAI_API_KEY"),
                 #type="chat-completions"
             ),
-            tools=[ArxivPaperTool(download_pdf=True, output_dir='./arxiv_papers', use_title_as_filename=True)] # allows the agent to download PDFs
+            tools=[PDFSearchTool()] # allows the agent to read pdfs
         )
     
     @agent
@@ -75,7 +84,7 @@ class Physicsmodellinghelper():
                 api_key=os.getenv("OPENAI_API_KEY"),
                 #type="chat-completions"
             ),
-            tools=[ArxivPaperTool(download_pdf=True, output_dir='./arxiv_papers', use_title_as_filename=True)]
+            #tools=[FileReadTool(file_path='../..runOutputs/information.md')] # for the simple modeller we currently dont see a need for tools, but we can easily add some if needed
         )
     
     @agent
@@ -117,6 +126,14 @@ class Physicsmodellinghelper():
             config=self.tasks_config['gathering_task'], # type: ignore[index]
             markdown=True,
             output_file='runOutputs/sources'+str(self.runNr)+'.md'
+        )
+    
+    @task
+    def downloading_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['downloading_task'], # type: ignore[index]
+            markdown=True,
+            output_file='runOutputs/downloading_report'+str(self.runNr)+'.md'
         )
     
     @task
@@ -162,8 +179,5 @@ class Physicsmodellinghelper():
             tasks=self.tasks, # Automatically created by the @task decorator
             process=Process.sequential, # for simplicity
             verbose=True,
-            runtime_options={
-                "enable_auto_tool_choice": True,
-                "tool_call_parser": True
-            }
-    )
+            # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
+        )

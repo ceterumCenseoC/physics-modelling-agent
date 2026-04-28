@@ -5,3 +5,13 @@ reading is allowed
 How to fix:
 - find sth with allowed use
 - give the papers directly to the model maker
+
+
+problem with giving the papers directly to the model maker:
+deepseek is internally treated differently by crewai
+
+How to fix:
+- change crewai internally to enable: "auto" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set
+- use a different model
+- try a hierarchical approach
+- don't create output => avoids fair use issue (maybe?) => deepseek agent doesn't need to access tool

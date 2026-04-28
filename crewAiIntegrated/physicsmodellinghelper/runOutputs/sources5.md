@@ -4,97 +4,104 @@
 
 ## Most Relevant Sources
 
-### 1. **Edelstein Effect in Isotropic and Anisotropic Rashba Models**
+### 1. Edelstein Effect in Isotropic and Anisotropic Rashba Models
 - **Authors:** Irene Gaiardoni, Mattia Trama, Alfonso Maiellaro, Claudio Guarcello, Francesco Romeo, Roberta Citro
 - **Published:** 2025-03-26
+- **ArXiv ID:** 2503.20712
 - **PDF Link:** https://arxiv.org/pdf/2503.20712v1
-- **ArXiv ID:** 2503.20712v1
-- **Summary:** Investigates spin-to-charge conversion via the Edelstein effect in a 2D Rashba electron gas using the semiclassical Boltzmann approach. Analyzes the magnetization arising from the direct Edelstein effect, taking into account an anisotropic Rashba model. Studies how this effect depends on the Fermi velocity, chirality, and applied electric field parameters. **Highly relevant for building a model at the Gamma point.**
+- **Source:** ArXiv
+- **Summary:** This paper investigates spin-to-charge conversion via the Edelstein effect in a 2D Rashba electron gas using the semiclassical Boltzmann approach. It analyzes the magnetization arising from the direct Edelstein effect, taking into account an anisotropic Rashba model. The study explicitly examines how this effect depends on relevant parameters including Fermi velocity, chirality, and applied electric field direction and magnitude. This is the most directly relevant source for building the requested model.
 
-### 2. **Theory of the nonlinear Rashba-Edelstein effect**
+### 2. Theory of the nonlinear Rashba-Edelstein effect
 - **Authors:** Giovanni Vignale, I. V. Tokatly
 - **Published:** 2015-06-27
+- **ArXiv ID:** 1506.08330
 - **PDF Link:** https://arxiv.org/pdf/1506.08330v1
-- **ArXiv ID:** 1506.08330v1
-- **Summary:** Discusses current-driven spin polarization in a 2D electron gas with Rashba spin-orbit coupling (Edelstein effect). Extensively covers the linear response regime and how the average drift velocity relates to induced spin polarization. **Essential for understanding the fundamental theory of the Edelstein effect.**
+- **Source:** ArXiv
+- **Summary:** This paper provides the theoretical framework for the Edelstein effect in 2D electron gases with Rashba spin-orbit coupling. It discusses how current-driven systems induce spin polarization in the perpendicular direction, covering both linear and nonlinear response regimes. Essential for understanding the fundamental theoretical underpinnings of magnetization magnitude and direction calculations.
 
-### 3. **Boltzmann theory of the inverse Edelstein effect in a two-dimensional Rashba gas**
+### 3. Boltzmann theory of the inverse Edelstein effect in a two-dimensional Rashba gas
 - **Authors:** Irene Gaiardoni, Mattia Trama, Alfonso Maiellaro, Claudio Guarcello, Francesco Romeo, Roberta Citro
 - **Published:** 2026-01-05
+- **ArXiv ID:** 2601.02473
 - **PDF Link:** https://arxiv.org/pdf/2601.02473v1
-- **ArXiv ID:** 2601.02473v1
-- **Summary:** Investigates the inverse Edelstein effect in a non-homogeneous system with a ferromagnetic layer coupled to a Rashba 2DEG. Derives analytical expressions for charge and spin currents and analyzes their dependence on system parameters. **Useful for understanding parameter dependencies.**
+- **Source:** ArXiv
+- **Summary:** Within a semiclassical Boltzmann framework, this paper derives analytical expressions for charge and spin currents in Rashba 2D electron gases. It analyzes their dependence on model parameters and provides the mathematical formalism needed to calculate magnetization from applied electric fields.
 
-### 4. **Spin and orbital Edelstein effect in a bilayer system with Rashba interaction**
+### 4. Spin and orbital Edelstein effect in a bilayer system with Rashba interaction
 - **Authors:** Sergio Leiva M., Jürgen Henk, Ingrid Mertig, Annika Johansson
 - **Published:** 2023-07-06
+- **ArXiv ID:** 2307.02872
 - **PDF Link:** https://arxiv.org/pdf/2307.02872v2
-- **ArXiv ID:** 2307.02872v2
-- **Summary:** Covers the spin Edelstein effect for generating spin polarization from charge current in systems without inversion symmetry. Predicts current-induced orbital magnetization (orbital Edelstein effect) for various systems with broken inversion symmetry. **Relevant for understanding both spin and orbital contributions.**
+- **Source:** ArXiv
+- **Summary:** This paper discusses both spin and orbital Edelstein effects in systems with Rashba interaction. It provides insights into how chirality and Fermi velocity affect the resulting magnetization, with detailed analysis of current-induced orbital magnetization.
 
-### 5. **Spin accumulation at nonmagnetic interface induced by direct Rashba Edelstein effect**
+### 5. Spin accumulation at nonmagnetic interface induced by direct Rashba Edelstein effect
 - **Authors:** Florent Auvray, Jorge Puebla, Mingran Xu, Bivas Rana, Daisuke Hashizume, Yoshichika Otani
 - **Published:** 2018-05-15
+- **ArXiv ID:** 1805.05523
 - **PDF Link:** https://arxiv.org/pdf/1805.05523v1
-- **ArXiv ID:** 1805.05523v1
-- **Summary:** Explains how the Rashba effect describes electrons moving in an electric field experiencing a momentum-dependent magnetic field that couples to electron angular momentum (spin). Permits generation of spin polarization from charge current (Edelstein effect). **Good for understanding the physical mechanism.**
+- **Source:** ArXiv
+- **Summary:** This paper explains the Rashba effect as electrons moving in an electric field experiencing a momentum-dependent magnetic field that couples to electron angular momentum (spin). It describes how this physical phenomenon permits generation of spin polarization from charge current (Edelstein effect), leading to spin accumulation.
 
-### 6. **Spin and orbital-to-charge conversion in noncentrosymmetric materials: Hall versus Rashba-Edelstein effects**
-- **Authors:** Diego Garcia Ovalle, Aurelien Manchon
-- **Published:** 2025-11-12
-- **PDF Link:** https://arxiv.org/pdf/2511.09511v3
-- **ArXiv ID:** 2511.09511v3
-- **Summary:** Develops a general formalism for spin- and orbital-to-charge conversion based solely on macroscopic parameters. Treats contributions from Hall effect and Rashba-Edelstein effect on equal footing. **Useful for formal framework.**
-
-### 7. **Slow-phonon control of spin Edelstein effect in Rashba d-wave altermagnets**
-- **Authors:** Mohsen Yarmohammadi, Jacob Linder, James K. Freericks
-- **Published:** 2025-10-02
-- **PDF Link:** https://arxiv.org/pdf/2510.02451v2
-- **ArXiv ID:** 2510.02451v2
-- **Summary:** Investigates induced spin polarization in 2D d-wave altermagnets using a Rashba continuum model. **Relevant for understanding Rashba model parameter dependencies.**
-
-### 8. **Enhanced Edelstein effect and interdimensional effects in an electron gas with Rashba spin-orbit coupling interface**
+### 6. Enhanced Edelstein effect and interdimensional effects in an electron gas with Rashba spin-orbit coupling interface
 - **Authors:** A. C. Zulkoskey, R. Dick, K. Tanaka
 - **Published:** 2019-12-04
+- **ArXiv ID:** 1912.01804
 - **PDF Link:** https://arxiv.org/pdf/1912.01804v1
-- **ArXiv ID:** 1912.01804v1
-- **Summary:** Examines bound-state and free-state contributions to density of states in 3D electron gas with 2D interface with Rashba spin-orbit coupling. **Useful for understanding interface effects.**
+- **Source:** ArXiv
+- **Summary:** This paper examines bound-state and free-state contributions to the density of states in a 3D electron gas with a 2D interface with Rashba spin-orbit coupling. It provides parameter-dependent analysis relevant for understanding how confinement affects the Edelstein effect.
 
-### 9. **Orbitally Dominated Rashba-Edelstein Effect in Noncentrosymmetric Antiferromagnets**
-- **Authors:** Leandro Salemi, Marco Berritta, Ashis K. Nandy, Peter M. Oppeneer
-- **Published:** 2019-05-20
-- **PDF Link:** https://arxiv.org/pdf/1905.08279v1
-- **ArXiv ID:** 1905.08279v1
-- **Summary:** Discusses efficient manipulation of magnetic order with electric current pulses via Rashba-Edelstein effect in noncentrosymmetric systems. **Relevant for understanding orbital contributions.**
-
-### 10. **Spin Hall and Edelstein effects in a ballistic quantum dot with Rashba spin-orbit coupling**
+### 7. Spin Hall and Edelstein effects in a ballistic quantum dot with Rashba spin-orbit coupling
 - **Authors:** Alfonso Maiellaro, Francesco Romeo, Mattia Trama, Jacopo Settino, Claudio Guarcello, Carmine Antonio Perroni, Pawel Wójcik, Bartłomiej Szafran, Daniela Stornaiuolo, Marco Salluzzo, Thomas Sand Jespersen, Nicolas Bergeal, Manuel Bibes, Roberta Citro
 - **Published:** 2026-02-02
+- **ArXiv ID:** 2602.02036
 - **PDF Link:** https://arxiv.org/pdf/2602.02036v1
-- **ArXiv ID:** 2602.02036v1
-- **Summary:** Studies spin-resolved transport in a ballistic quantum dot with Rashba spin-orbit coupling, focusing on charge-to-spin conversion and spin Hall effect. **Recent work on related phenomena.**
+- **Source:** ArXiv
+- **Summary:** This recent paper studies spin-resolved transport in systems with Rashba spin-orbit coupling, focusing on charge-to-spin conversion and spin Hall effect. It identifies crossovers between weak localization and weak antilocalization regimes, providing insights into parameter dependencies.
+
+### 8. Spin and orbital-to-charge conversion in noncentrosymmetric materials: Hall versus Rashba-Edelstein effects
+- **Authors:** Diego Garcia Ovalle, Aurelien Manchon
+- **Published:** 2025-11-12
+- **ArXiv ID:** 2511.09511
+- **PDF Link:** https://arxiv.org/pdf/2511.09511v3
+- **Source:** ArXiv
+- **Summary:** This paper develops a general formalism for spin- and orbital-to-charge conversion in nonmagnetic materials with broken inversion symmetry, treating Hall effect and Rashba-Edelstein effect contributions on equal footing. Useful for understanding the broader theoretical context.
+
+### 9. Slow-phonon control of spin Edelstein effect in Rashba $d$-wave altermagnets
+- **Authors:** Mohsen Yarmohammadi, Jacob Linder, James K. Freericks
+- **Published:** 2025-10-02
+- **ArXiv ID:** 2510.02451
+- **PDF Link:** https://arxiv.org/pdf/2510.02451v2
+- **Source:** ArXiv
+- **Summary:** This paper investigates how slow lattice vibrations influence both intrinsic and externally induced spin polarizations in 2D $d$-wave altermagnets using a Rashba coupling model. Provides additional insights into parameter dependencies for spin polarization calculations.
+
+### 10. Theory of spin pumping and inverse Rashba-Edelstein effect in a two-dimensional electron gas
+- **Authors:** Masaki Yama, Mamoru Matsuo, Takeo Kato
+- **Published:** 2024-09-21
+- **ArXiv ID:** 2409.14267
+- **PDF Link:** https://arxiv.org/pdf/2409.14267v2
+- **Source:** ArXiv
+- **Summary:** This paper theoretically investigates spin transport in junction systems with both Rashba and Dresselhaus spin-orbit interactions. It presents findings on spin pumping and inverse Edelstein effect, providing complementary theoretical framework for understanding the direct Edelstein effect.
 
 ---
 
-## Key Parameters to Consider for Model Building
+## Key Parameters for Model Building
 
-Based on these sources, the following parameters are critical for calculating the Edelstein effect for a Rashba fermion at the Gamma point:
+Based on the above sources, the following parameters should be considered when building the Edelstein effect model for Rashba fermions at the Gamma point:
 
-$$ \mathcal{H} = \frac{\hbar^2 k^2}{2m^*} + \alpha_R (\sigma \times \mathbf{k}) \cdot \hat{z} $$
+| Parameter | Description | Expected Effect |
+|-----------|-------------|-----------------|
+| **Fermi velocity ($v_F$)** | Electron velocity at Fermi surface | Scales magnetization magnitude |
+| **Chirality ($\chi$)** | Spin-momentum locking direction | Determines magnetization direction |
+| **Electric field ($\vec{E}$)** | Applied field magnitude and direction | Controls spin polarization magnitude and orientation |
+| **Rashba coupling ($\alpha_R$)** | Spin-orbit coupling strength | Affects spin splitting and magnetization |
+| **Fermi energy ($E_F$)** | Chemical potential position | Determines which bands contribute |
 
-Where:
-- $\alpha_R$: Rashba spin-orbit coupling constant
-- $\mathbf{k}$: Wave vector (at Gamma point: $\mathbf{k} = 0$)
-- $\sigma$: Pauli matrices
-- $m^*$: Effective mass
-- $E_F$: Fermi energy
-- $\tau$: Relaxation time
-- $\mathbf{E}$: Applied electric field
+## Recommended Starting Point
 
-The magnetization magnitude and direction depend on:
-- Chirality of the Rashba bands
-- Fermi velocity $v_F = \frac{\alpha_R}{\hbar}$
-- Electric field direction and magnitude
-- Fermi surface geometry
-
-**Primary sources for implementation:** Papers #1, #2, and #3 from the list above provide the most comprehensive theoretical framework for building this model.
+**Paper #1 (2503.20712)** is the most comprehensive source for building the requested model, as it explicitly addresses:
+- Direct Edelstein effect magnetization calculation
+- Anisotropic and isotropic Rashba models
+- Parameter dependencies (Fermi velocity, chirality)
+- Electric field direction and magnitude effects
