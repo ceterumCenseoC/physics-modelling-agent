@@ -1,24 +1,27 @@
 gathering_task:
   description: >
-    find information about {topic}
+    find information about {topic}.
     Look for relevant information that have scientific validity.
+    The information should help building a model for: {aim},
     the current year is {current_time}.
   expected_output: >
-    a list with the important sources: title, author, where it was found, short summary. MARKDOWN format.
+    a list with the important sources: title, author, link to PDF, where it was found, short summary.
+    Sort the sources by relevance. MARKDOWN format with $...$ and $$...$$.
   agent: source_gatherer
 
 extraction_task:
   description: >
-    use the sources provided by gathering_task to extract the relevant information for building a model for {aim}.
+    use the sources provided by gathering_task to extract the relevant information with clearly stated sources.
+    Include relevant physics with concrete formulas to allow building a model for {aim}.
   expected_output: >
-    a text and mathematical formulas with detailed descriptions. MARKDOWN format.
+    A mathematical formulation of the relevant physics with descriptions. A source for every information or formula, including the page it can be found on. MARKDOWN format with $...$ and $$...$$.
   agent: information_extractor
 
 simple_modelling_task:
   description: >
-    use the information provided by the extraction_task to create a model that accomplishes {aim} .
+    use the information provided by the extraction_task to create a model that accomplishes {aim}.
   expected_output: >
-    a matematical description of the modell with textual explaination that describes the model and allows for a numerical implementations. MARKDOWN format.
+    a matematical description of the modell with textual explaination that describes the model and allows for a numerical implementations. MARKDOWN format with $...$ and $$...$$.
   agent: simple_modeller
 
 simulation_task:
@@ -32,5 +35,5 @@ checking_task:
   description: >
     compare the current model to existing results for {aim}. Determine how good the simulation currently is.
   expected_output: >
-    a table comparing the most important aspects and a short text summarizing the most important results. MARKDOWN format.
+    a table comparing the most important aspects and a short text summarizing the most important results. MARKDOWN format with $...$ and $$...$$.
   agent: checker

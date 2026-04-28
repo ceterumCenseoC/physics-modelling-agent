@@ -1,0 +1,11 @@
+document information02 review:
+paper 08 is withdrawn
+
+3. parameters
+findings for chirality are limited in the papers stated as sources for the parameters found in 12 (also found in found in 5, 10)
+4. M \propto \alpha_R \tau E 	not found (only found with S instead of M; perhaps it can be transformed to this)
+	Linear response found only in 5 (with j instead of S)
+5. 2. chirality not found properly
+7. formula not found in 2 or 4
+8. not found in given sources
+9. not found in given source

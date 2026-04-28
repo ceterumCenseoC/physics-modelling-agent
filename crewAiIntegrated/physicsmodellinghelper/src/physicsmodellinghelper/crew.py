@@ -19,6 +19,7 @@ class Physicsmodellinghelper():
 
     agents: list[BaseAgent]
     tasks: list[Task]
+    runNr : int = 4 # this number is added to the output files to distinguish between runs
 
     # Learn more about YAML configuration files here:
     # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
@@ -38,8 +39,8 @@ class Physicsmodellinghelper():
                 api_key=os.getenv("OPENAI_API_KEY"),
                 #type="chat-completions"
             ),
-            tools=[ArxivPaperTool(downlaod_pdf=True, output_dir='./arxiv_papers', use_title_as_filename=True)] # allows the agent to download PDFs
-        )
+            tools=[ArxivPaperTool(download_pdf=True, output_dir='./arxiv_papers', use_title_as_filename=True)] # allows the agent to download PDFs
+        )   # download doesn't work, i suppose an internet provider issue
         """ ScrapeWebsiteTool(website_url='https://www.nature.com/articles/s41567-023-02121-4'),
                    ScrapeWebsiteTool(website_url='https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.3.013275'),
                    ScrapeWebsiteTool(website_url='https://www.nature.com/articles/s43246-025-00952-7'),
@@ -59,7 +60,7 @@ class Physicsmodellinghelper():
                 api_key=os.getenv("OPENAI_API_KEY"),
                 #type="chat-completions"
             ),
-            tools=[ArxivPaperTool(downlaod_pdf=True, output_dir='./arxiv_papers', use_title_as_filename=True)] # allows the agent to download PDFs
+            tools=[ArxivPaperTool(download_pdf=True, output_dir='./arxiv_papers', use_title_as_filename=True)] # allows the agent to download PDFs
         )
     
     @agent
@@ -114,7 +115,7 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['gathering_task'], # type: ignore[index]
             markdown=True,
-            output_file='runOutputs/sources.md'
+            output_file='runOutputs/sources'+str(self.runNr)+'.md'
         )
     
     @task
@@ -122,7 +123,7 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['extraction_task'], # type: ignore[index]
             markdown=True,
-            output_file='runOutputs/information.md'
+            output_file='runOutputs/information'+str(self.runNr)+'.md'
         )
     
     @task
@@ -130,7 +131,7 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['simple_modelling_task'], # type: ignore[index]
             markdown=True,
-            output_file='runOutputs/simple_model.md'
+            output_file='runOutputs/simple_model'+str(self.runNr)+'.md'
         )
     
     @task
@@ -138,7 +139,7 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['simulation_task'], # type: ignore[index]
             markdown=False,
-            output_file='runOutputs/simulation_results.py'
+            output_file='runOutputs/simulation_results'+str(self.runNr)+'.py'
         )
     
     @task
@@ -146,7 +147,7 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['checking_task'], # type: ignore[index]
             markdown=True,
-            output_file='runOutputs/checking_results.md'
+            output_file='runOutputs/checking_results'+str(self.runNr)+'.md'
         )
 
     @crew
