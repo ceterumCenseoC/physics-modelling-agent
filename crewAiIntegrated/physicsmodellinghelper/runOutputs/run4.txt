@@ -1,0 +1,7 @@
+review run4 information:
+probably because of fair use, the LLM is not allowed because of internal policy on licencing
+reading is allowed
+
+How to fix:
+- find sth with allowed use
+- give the papers directly to the model maker

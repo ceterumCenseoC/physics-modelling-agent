@@ -19,7 +19,7 @@ class Physicsmodellinghelper():
 
     agents: list[BaseAgent]
     tasks: list[Task]
-    runNr : int = 5 # this number is added to the output files to distinguish between runs
+    runNr : int = 4 # this number is added to the output files to distinguish between runs
 
     # Learn more about YAML configuration files here:
     # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
@@ -74,8 +74,7 @@ class Physicsmodellinghelper():
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 #type="chat-completions"
-            ),
-            tools=[ArxivPaperTool(download_pdf=True, output_dir='./arxiv_papers', use_title_as_filename=True)]
+            )
         )
     
     @agent
