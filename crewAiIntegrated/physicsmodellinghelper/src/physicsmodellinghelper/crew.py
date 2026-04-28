@@ -162,5 +162,8 @@ class Physicsmodellinghelper():
             tasks=self.tasks, # Automatically created by the @task decorator
             process=Process.sequential, # for simplicity
             verbose=True,
-            # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
-        )
+            runtime_options={
+                "enable_auto_tool_choice": True,
+                "tool_call_parser": True
+            }
+    )

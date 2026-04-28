@@ -30,6 +30,11 @@ def run():
           #  'Consider how the result depends on relevant parameters of the model (e.g. chirality, fermi velocity)',
 
     try:
+        import os
+        # set environment variables the runtime may read
+        os.environ["CREWAI_ENABLE_AUTO_TOOL_CHOICE"] = "true"
+        os.environ["CREWAI_TOOL_CALL_PARSER"] = "true"
+        
         Physicsmodellinghelper().crew().kickoff(inputs=inputs)
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")

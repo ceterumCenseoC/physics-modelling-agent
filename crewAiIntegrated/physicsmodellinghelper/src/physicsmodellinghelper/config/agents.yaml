@@ -27,6 +27,10 @@ simple_modeller:
   backstory: >
     you are known for your critical thinking and modelling skills. You are very accurate with your models and include explaination that other can work with.
     You use mathematical formuals as well as textual explainations to make your work understandable for others. You state your reasoning and the sources of your information.
+  tool_dispatch: explicit
+  tools:
+    - name: ArxivPaperTool
+      description: look at arxiv papers
 
 model_simulator:
   role: >
