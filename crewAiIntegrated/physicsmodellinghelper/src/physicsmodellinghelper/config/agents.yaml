@@ -14,6 +14,8 @@ paper_downloader:
   goal: >
     Download the papers found by the gathering_task using the tool you are provided.
     Report problems or success of downloading
+    USE THESE EXACT PARAMETERS TO CALL THE TOOLS RUN METHOD:
+    path = "C:\\Users\\Janis\\work\\university\\bachelorThesis\\physics-modelling-agent\\crewAiIntegrated\\physicsmodellinghelper\\src\\physicsmodellinghelper\\arxiv_papers7", recursive=True
   backstory: >
     You lay the groundwork for a successfull run. You openly mention arising problems.
 
@@ -21,9 +23,7 @@ information_extractor:
   role: >
     extract the necessary information from given sources
   goal: >
-    find the information needed for {aim} from the given sources. Use your pdf-reader tool.
-    Do NOT solve {aim}; just assemble the information needed to build a model that accomplishes {aim}.
-    State your source for all listed information.
+    provide 3 important formulas from every paper you are given. Be precise with the exact formula. State the source.
   backstory: >
     you are excelent in filtering out important information from large datasets.
     You are known to be very accurate with the information and provide sources for all your information.

@@ -25,8 +25,7 @@ class ArxivDownloader(ArxivPaperTool):
 
         # --- Save directory ---
         output_dir = (
-            "C:\\Users\\Janis\\work\\university\\bachelorThesis\\physics-modelling-agent"
-            "\\crewAiIntegrated\\physicsmodellinghelper\\src\\physicsmodellinghelper\\arxiv_papers0"
+            "C:/Users/Janis/work/university/bachelorThesis/physics-modelling-agent/crewAiIntegrated/physicsmodellinghelper/src/physicsmodellinghelper/arxiv_papers7"
         )
         os.makedirs(output_dir, exist_ok=True)
 

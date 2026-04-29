@@ -1,6 +1,6 @@
 gathering_task:
   description: >
-    find relevant papers for {topic}. Include papers that explore ideas for {aim}.
+    find 3 relevant papers for {topic}. Include papers that explore ideas for {aim}.
   expected_output: >
     a list with the important sources: arxivID, Author, date, url, short summary.
     Sort the sources by relevance. MARKDOWN format with $...$ and $$...$$.
@@ -11,16 +11,14 @@ downloading_task:
     download the papers found by the previous task. Make sure you download the correct papers and nothing more or less.
   expected_output: >
     the according papers should be downloaded. Provide a very short report about issues or problem encountered.
-    The path where the downloaded papers are so the next task can read them.
+    The path where the downloaded papers are stored (the absolute path should be: C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\crewAiIntegrated\physicsmodellinghelper\src\physicsmodellinghelper\arxiv_papers7)
   agent: paper_downloader
 
 extraction_task:
   description: >
-    Read the papers via your tool and extract all the necessary information about {topic} and {aim}.
-    The extracted information should allow to build a model for {aim}.
-    For all information, it's source must be included.
+    List 3 formulas from every paper you find inside the given directory: C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\crewAiIntegrated\physicsmodellinghelper\src\physicsmodellinghelper\arxiv_papers7
   expected_output: >
-    A mathematical formulation of the relevant physics with descriptions. A source for every information or formula, including the page it can be found on. MARKDOWN format with $...$ and $$...$$.
+    3 exact formulas with the paper they are derived from. MARKDOWN format with $...$ and $$...$$.
   agent: information_extractor
 
 simple_modelling_task:
