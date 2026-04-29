@@ -26,6 +26,7 @@ extraction_task:
 simple_modelling_task:
   description: >
     use the information provided by the extraction_task to create a model that accomplishes {aim}.
+    explain why you took which step and which information you used.
   expected_output: >
     a matematical description of the modell with textual explaination that describes the model and allows for a numerical implementations. MARKDOWN format with $...$ and $$...$$.
   agent: simple_modeller
@@ -34,7 +35,7 @@ simulation_task:
   description: >
     use the simple_modelling_task's result to code a numerical implementation of the same model for {aim}.
   expected_output: >
-    continious python code that only needs to be copy pasted into a pyhton file and can be executed. The code should be well documented.
+    a python file that can be run right away and does not need to be debugged first.
   agent: model_simulator
 
 checking_task:

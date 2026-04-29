@@ -115,7 +115,7 @@ class Physicsmodellinghelper():
                 api_key=os.getenv("OPENAI_API_KEY"),
                 #type="chat-completions"
             ),
-            tools=[ArxivDownloader(), ArxivPaperTool()]
+            tools=[ArxivDownloader(), ArxivPaperTool(), PDFReader()]
         )
 
     # To learn more about structured task outputs,

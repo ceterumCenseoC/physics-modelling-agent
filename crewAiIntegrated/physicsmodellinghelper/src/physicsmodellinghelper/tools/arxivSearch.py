@@ -28,7 +28,7 @@ class ArxivDownloader(ArxivPaperTool):
         base_dir = Path(__file__).resolve().parent.parent.parent.parent
 
         output_dir = (
-            base_dir / "arxiv_papers7"
+            base_dir / "arxiv_papers"
         )
         os.makedirs(output_dir, exist_ok=True)
 
