@@ -1,5 +1,6 @@
 import os
 import re
+from pathlib import Path
 import requests
 from crewai_tools import ArxivPaperTool
 
@@ -24,8 +25,10 @@ class ArxivDownloader(ArxivPaperTool):
             return {"error": "Could not extract PDF URL", "raw_output": raw}
 
         # --- Save directory ---
+        base_dir = Path(__file__).resolve().parent.parent.parent.parent
+
         output_dir = (
-            "C:/Users/Janis/work/university/bachelorThesis/physics-modelling-agent/crewAiIntegrated/physicsmodellinghelper/src/physicsmodellinghelper/arxiv_papers7"
+            base_dir / "arxiv_papers7"
         )
         os.makedirs(output_dir, exist_ok=True)
 

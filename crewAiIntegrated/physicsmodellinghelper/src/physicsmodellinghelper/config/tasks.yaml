@@ -9,14 +9,15 @@ gathering_task:
 downloading_task:
   description: >
     download the papers found by the previous task. Make sure you download the correct papers and nothing more or less.
+    Use the path the tool uses by default.
   expected_output: >
     the according papers should be downloaded. Provide a very short report about issues or problem encountered.
-    The path where the downloaded papers are stored (the absolute path should be: C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\crewAiIntegrated\physicsmodellinghelper\src\physicsmodellinghelper\arxiv_papers7)
+    The directory to which was saved
   agent: paper_downloader
 
 extraction_task:
   description: >
-    List 3 formulas from every paper you find inside the given directory: C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\crewAiIntegrated\physicsmodellinghelper\src\physicsmodellinghelper\arxiv_papers7
+    List 3 formulas from every paper you find inside the directory the tool holds by default
   expected_output: >
     3 exact formulas with the paper they are derived from. MARKDOWN format with $...$ and $$...$$.
   agent: information_extractor

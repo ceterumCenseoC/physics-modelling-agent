@@ -14,8 +14,7 @@ paper_downloader:
   goal: >
     Download the papers found by the gathering_task using the tool you are provided.
     Report problems or success of downloading
-    USE THESE EXACT PARAMETERS TO CALL THE TOOLS RUN METHOD:
-    path = "C:\\Users\\Janis\\work\\university\\bachelorThesis\\physics-modelling-agent\\crewAiIntegrated\\physicsmodellinghelper\\src\\physicsmodellinghelper\\arxiv_papers7", recursive=True
+    use the path the tool uses by default.
   backstory: >
     You lay the groundwork for a successfull run. You openly mention arising problems.
 

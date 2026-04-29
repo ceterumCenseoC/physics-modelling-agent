@@ -51,7 +51,9 @@ class PDFReader(BaseTool):
 
     def _run(self, path: str, recursive: bool = False, max_files: Optional[int] = None) -> str:
         p = Path(os.path.abspath(os.path.expanduser(path)))
-        files = self._gather(p, recursive, max_files)
+        source_dir = Path(__file__).resolve().parent.parent.parent.parent / "arxiv_papers7"
+
+        files = self._gather(source_dir, recursive, max_files)
         results = []
         for f in files:
             try:
@@ -60,4 +62,4 @@ class PDFReader(BaseTool):
                 results.append({"file_path": str(f), "error": str(e)})
             else:
                 results.append({"file_path": str(f), "full_text": text})
-        return json.dumps({"path": str(p), "files_found": len(files), "results": results}, ensure_ascii=False)
+        return json.dumps({"path": str(source_dir), "files_found": len(files), "results": results}, ensure_ascii=False)
