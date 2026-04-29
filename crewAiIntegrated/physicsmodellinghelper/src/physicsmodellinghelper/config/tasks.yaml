@@ -17,9 +17,10 @@ downloading_task:
 
 extraction_task:
   description: >
-    List 3 formulas from every paper you find inside the directory the tool holds by default
+    Find relevant information from the given sources that allow to build a model that accomplishes {aim}.
+    Do not build the model.
   expected_output: >
-    3 exact formulas with the paper they are derived from. MARKDOWN format with $...$ and $$...$$.
+    All necessary information for building the model. MARKDOWN format with $...$ and $$...$$.
   agent: information_extractor
 
 simple_modelling_task:
