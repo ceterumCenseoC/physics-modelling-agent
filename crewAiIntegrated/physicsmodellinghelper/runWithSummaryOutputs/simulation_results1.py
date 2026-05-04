@@ -1,257 +1,322 @@
 ```python
+#!/usr/bin/env python3
+"""
+Numerical Implementation of the Edelstein Effect for Rashba Fermions
+
+This script calculates the magnetization magnitude and direction induced by the
+Edelstein effect in a 2D Rashba fermion system at the Gamma point of the
+Brillouin zone. The model incorporates the dependence on key parameters such as
+chirality, Fermi velocity, and Rashba coupling strength.
+
+Author: Physics Modelling Agent
+Date: 2025-03-26
+"""
+
 import numpy as np
 from scipy.constants import hbar, m_e, e, mu_B
 
-class EdelsteinEffectRashba:
+class RashbaEdelsteinModel:
     """
-    A class to calculate the Edelstein effect for a Rashba fermion at the Gamma point
-    of the Brillouin zone. This class computes the magnetization magnitude and direction
-    for different electric field directions and magnitudes, considering parameters like
-    chirality and Fermi velocity.
+    A class to model the Edelstein effect in a 2D Rashba fermion system.
 
     Attributes:
-        alpha (float): Rashba spin-orbit coupling strength (eV·Å)
-        m (float): Effective mass (kg)
+        alpha_R (float): Rashba coupling strength (eV·Å)
+        v_F (float): Fermi velocity (m/s)
+        tau (float): Scattering time (s)
         E_F (float): Fermi energy (eV)
-        tau (float): Transport lifetime (s)
-        k0 (float): Characteristic wavevector (1/Å)
-        regime (str): 'HDR' for High-Density Regime, 'LDR' for Low-Density Regime
+        m_star (float): Effective mass (kg)
+        k_grid_size (int): Size of the k-space grid
+        k_max (float): Maximum k-value for integration (1/Å)
     """
 
-    def __init__(self, alpha, m, E_F, tau):
+    def __init__(self, alpha_R=0.1, v_F=1e6, tau=1e-12, E_F=0.1, m_star=m_e, k_grid_size=100, k_max=1.0):
         """
-        Initialize the EdelsteinEffectRashba class with given parameters.
+        Initialize the Rashba Edelstein model with given parameters.
 
         Args:
-            alpha (float): Rashba spin-orbit coupling strength (eV·Å)
-            m (float): Effective mass (kg)
+            alpha_R (float): Rashba coupling strength (eV·Å)
+            v_F (float): Fermi velocity (m/s)
+            tau (float): Scattering time (s)
             E_F (float): Fermi energy (eV)
-            tau (float): Transport lifetime (s)
+            m_star (float): Effective mass (kg)
+            k_grid_size (int): Size of the k-space grid
+            k_max (float): Maximum k-value for integration (1/Å)
         """
-        self.alpha = alpha
-        self.m = m
-        self.E_F = E_F
-        self.tau = tau
-        self.k0 = self._calculate_k0()
-        self.regime = self._determine_regime()
+        self.alpha_R = alpha_R  # eV·Å
+        self.v_F = v_F  # m/s
+        self.tau = tau  # s
+        self.E_F = E_F  # eV
+        self.m_star = m_star  # kg
+        self.k_grid_size = k_grid_size
+        self.k_max = k_max  # 1/Å
 
-    def _calculate_k0(self):
-        """Calculate the characteristic wavevector k0 = alpha * m."""
-        return self.alpha * self.m
+        # Convert units for consistency
+        self.alpha_R_SI = self.alpha_R * 1.60218e-19 * 1e10  # J·m
+        self.E_F_SI = self.E_F * 1.60218e-19  # J
 
-    def _determine_regime(self):
+        # Create k-space grid
+        self.kx, self.ky = self._create_k_grid()
+
+    def _create_k_grid(self):
+        """Create a 2D grid of k-values in reciprocal space."""
+        k_values = np.linspace(-self.k_max, self.k_max, self.k_grid_size)
+        kx, ky = np.meshgrid(k_values, k_values)
+        return kx, ky
+
+    def energy_dispersion(self, kx, ky):
         """
-        Determine the regime (HDR or LDR) based on the Fermi energy.
-
-        Returns:
-            str: 'HDR' for High-Density Regime, 'LDR' for Low-Density Regime
-        """
-        if self.E_F > self.alpha**2 * self.m / (2 * hbar**2):
-            return 'HDR'
-        else:
-            return 'LDR'
-
-    def calculate_fermi_wavevectors(self):
-        """
-        Calculate the Fermi wavevectors for the two chiral bands.
-
-        Returns:
-            tuple: (k_F_plus, k_F_minus) in 1/Å
-        """
-        if self.regime == 'HDR':
-            k_F_plus = -self.k0 + np.sqrt(self.k0**2 + 2 * self.m * self.E_F)
-            k_F_minus = self.k0 + np.sqrt(self.k0**2 + 2 * self.m * self.E_F)
-        else:  # LDR
-            k_F_plus = self.k0 + np.sqrt(self.k0**2 + 2 * self.m * self.E_F)
-            k_F_minus = self.k0 - np.sqrt(self.k0**2 + 2 * self.m * self.E_F)
-        return k_F_plus, k_F_minus
-
-    def spin_expectation_value(self, k, theta):
-        """
-        Calculate the spin expectation value for a given wavevector and angle.
+        Calculate the energy dispersion for both chiral bands.
 
         Args:
-            k (float): Magnitude of the wavevector (1/Å)
-            theta (float): Angle between the wavevector and the x-axis (radians)
+            kx (float or array): x-component of wavevector (1/Å)
+            ky (float or array): y-component of wavevector (1/Å)
 
         Returns:
-            np.ndarray: Spin expectation value vector [sigma_x, sigma_y, sigma_z]
+            tuple: (epsilon_plus, epsilon_minus) in eV
         """
-        sigma_x = np.sin(theta) / k
-        sigma_y = -np.cos(theta) / k
-        sigma_z = 0.0
-        return np.array([sigma_x, sigma_y, sigma_z])
+        k = np.sqrt(kx**2 + ky**2)  # 1/Å
+        k_SI = k * 1e10  # 1/m
 
-    def group_velocity(self, k, nu):
+        # Energy in SI units
+        epsilon_plus_SI = (hbar**2 * k_SI**2) / (2 * self.m_star) + self.alpha_R_SI * k_SI
+        epsilon_minus_SI = (hbar**2 * k_SI**2) / (2 * self.m_star) - self.alpha_R_SI * k_SI
+
+        # Convert to eV
+        epsilon_plus = epsilon_plus_SI / 1.60218e-19
+        epsilon_minus = epsilon_minus_SI / 1.60218e-19
+
+        return epsilon_plus, epsilon_minus
+
+    def spin_expectation(self, kx, ky):
         """
-        Calculate the group velocity for a given wavevector and chirality.
+        Calculate the spin expectation values for both chiral bands.
 
         Args:
-            k (float): Magnitude of the wavevector (1/Å)
-            nu (int): Chirality index (+1 or -1)
+            kx (float or array): x-component of wavevector (1/Å)
+            ky (float or array): y-component of wavevector (1/Å)
 
         Returns:
-            np.ndarray: Group velocity vector [v_x, v_y]
+            tuple: ((sigma_x_plus, sigma_y_plus, sigma_z_plus),
+                    (sigma_x_minus, sigma_y_minus, sigma_z_minus))
         """
-        v_x = (hbar**2 * k_x) / (self.m * hbar) + nu * self.alpha * k_y / (k * hbar)
-        v_y = (hbar**2 * k_y) / (self.m * hbar) - nu * self.alpha * k_x / (k * hbar)
-        return np.array([v_x, v_y])
+        k = np.sqrt(kx**2 + ky**2)
 
-    def magnetization(self, E_field):
+        # Avoid division by zero at k=0
+        with np.errstate(divide='ignore', invalid='ignore'):
+            sigma_x_plus = ky / k
+            sigma_y_plus = -kx / k
+            sigma_z_plus = np.zeros_like(kx)
+
+            sigma_x_minus = -ky / k
+            sigma_y_minus = kx / k
+            sigma_z_minus = np.zeros_like(kx)
+
+        # Handle k=0 case
+        sigma_x_plus[k == 0] = 0
+        sigma_y_plus[k == 0] = 0
+        sigma_x_minus[k == 0] = 0
+        sigma_y_minus[k == 0] = 0
+
+        return (sigma_x_plus, sigma_y_plus, sigma_z_plus), (sigma_x_minus, sigma_y_minus, sigma_z_minus)
+
+    def group_velocity(self, kx, ky):
         """
-        Calculate the magnetization for a given electric field.
+        Calculate the group velocity for both chiral bands.
 
         Args:
-            E_field (np.ndarray): Electric field vector [E_x, E_y] (V/Å)
+            kx (float or array): x-component of wavevector (1/Å)
+            ky (float or array): y-component of wavevector (1/Å)
 
         Returns:
-            np.ndarray: Magnetization vector [M_x, M_y, M_z] (A/m)
+            tuple: ((vx_plus, vy_plus), (vx_minus, vy_minus)) in m/s
         """
-        k_F_plus, k_F_minus = self.calculate_fermi_wavevectors()
+        k = np.sqrt(kx**2 + ky**2)  # 1/Å
+        k_SI = k * 1e10  # 1/m
 
-        # Discretize the Brillouin zone
-        k_values = np.linspace(0, max(k_F_plus, k_F_minus), 100)
-        theta_values = np.linspace(0, 2 * np.pi, 100)
-        dk = k_values[1] - k_values[0]
-        dtheta = theta_values[1] - theta_values[0]
+        # Group velocity components in SI units
+        vx_plus_SI = (hbar * kx * 1e10) / self.m_star + self.alpha_R_SI * (kx / k_SI)
+        vy_plus_SI = (hbar * ky * 1e10) / self.m_star + self.alpha_R_SI * (ky / k_SI)
 
-        M = np.zeros(3)
+        vx_minus_SI = (hbar * kx * 1e10) / self.m_star - self.alpha_R_SI * (kx / k_SI)
+        vy_minus_SI = (hbar * ky * 1e10) / self.m_star - self.alpha_R_SI * (ky / k_SI)
 
-        for k in k_values:
-            for theta in theta_values:
-                # Convert to Cartesian coordinates
-                k_x = k * np.cos(theta)
-                k_y = k * np.sin(theta)
+        return (vx_plus_SI, vy_plus_SI), (vx_minus_SI, vy_minus_SI)
 
-                # Calculate for both chiralities
-                for nu in [1, -1]:
-                    # Energy dispersion
-                    E = (hbar**2 * k**2) / (2 * self.m) + nu * self.alpha * k
-
-                    # Check if energy is at Fermi level
-                    if not np.isclose(E, self.E_F, atol=1e-6):
-                        continue
-
-                    # Spin expectation value
-                    sigma = self.spin_expectation_value(k, theta)
-
-                    # Group velocity
-                    v = self.group_velocity(k, nu)
-
-                    # Contribution to magnetization
-                    delta_M = -mu_B * abs(e) * (np.dot(v, E_field)) * sigma
-                    M += delta_M * k * dk * dtheta / (2 * np.pi)**2
-
-        return M
-
-    def edelstein_susceptibility(self):
+    def calculate_magnetization(self, E_x=1e3, E_y=0.0):
         """
-        Calculate the Edelstein susceptibility tensor.
-
-        Returns:
-            np.ndarray: Edelstein susceptibility tensor (2x2)
-        """
-        chi = np.zeros((2, 2))
-
-        if self.regime == 'HDR':
-            chi_xy = (self.m * self.alpha * mu_B * abs(e) * self.tau) / (2 * np.pi)
-            chi[0, 1] = chi_xy
-            chi[1, 0] = -chi_xy
-        else:  # LDR
-            chi_xy = (mu_B * abs(e) * self.tau) / (2 * np.pi) * np.sqrt(self.m**2 * self.alpha**2 + 2 * self.m * self.E_F)
-            chi[0, 1] = chi_xy
-            chi[1, 0] = -chi_xy
-
-        return chi
-
-    def analyze_dependencies(self, alpha_range, E_F_range, E_field_magnitudes):
-        """
-        Analyze how the magnetization depends on key parameters.
+        Calculate the magnetization induced by the Edelstein effect.
 
         Args:
-            alpha_range (np.ndarray): Range of Rashba coupling strengths (eV·Å)
-            E_F_range (np.ndarray): Range of Fermi energies (eV)
-            E_field_magnitudes (np.ndarray): Range of electric field magnitudes (V/Å)
+            E_x (float): x-component of electric field (V/m)
+            E_y (float): y-component of electric field (V/m)
 
         Returns:
-            dict: Dictionary containing the analysis results
+            tuple: (M_x, M_y, M_z) in A/m
+        """
+        # Create k-space grid
+        kx, ky = self.kx, self.ky
+        dk = (2 * self.k_max) / self.k_grid_size  # k-space step size (1/Å)
+
+        # Calculate energy dispersions
+        epsilon_plus, epsilon_minus = self.energy_dispersion(kx, ky)
+
+        # Calculate spin expectation values
+        (sx_p, sy_p, sz_p), (sx_m, sy_m, sz_m) = self.spin_expectation(kx, ky)
+
+        # Calculate group velocities
+        (vx_p, vy_p), (vx_m, vy_m) = self.group_velocity(kx, ky)
+
+        # Calculate mean free paths (assuming constant scattering time)
+        nu_x_p = self.tau * vx_p
+        nu_y_p = self.tau * vy_p
+        nu_x_m = self.tau * vx_m
+        nu_y_m = self.tau * vy_m
+
+        # Calculate delta functions for Fermi surface (approximate with narrow Gaussian)
+        sigma = 0.01  # Small width for delta function approximation
+        delta_plus = np.exp(-(epsilon_plus - self.E_F)**2 / (2 * sigma**2)) / (sigma * np.sqrt(2 * np.pi))
+        delta_minus = np.exp(-(epsilon_minus - self.E_F)**2 / (2 * sigma**2)) / (sigma * np.sqrt(2 * np.pi))
+
+        # Calculate magnetization components (integrate over k-space)
+        # Note: We need to convert k-space to proper units for integration
+        # The factor of (dk*1e10)^2 converts from (1/Å)^2 to (1/m)^2
+        dk_SI = dk * 1e10  # Convert to 1/m
+
+        # Plus band contributions
+        M_x_p = -mu_B * e * np.sum(nu_x_p * (nu_x_p * E_x + nu_y_p * E_y) * delta_plus * sx_p) * dk_SI**2
+        M_y_p = -mu_B * e * np.sum(nu_y_p * (nu_x_p * E_x + nu_y_p * E_y) * delta_plus * sy_p) * dk_SI**2
+        M_z_p = -mu_B * e * np.sum(nu_x_p * (nu_x_p * E_x + nu_y_p * E_y) * delta_plus * sz_p) * dk_SI**2
+
+        # Minus band contributions
+        M_x_m = -mu_B * e * np.sum(nu_x_m * (nu_x_m * E_x + nu_y_m * E_y) * delta_minus * sx_m) * dk_SI**2
+        M_y_m = -mu_B * e * np.sum(nu_y_m * (nu_x_m * E_x + nu_y_m * E_y) * delta_minus * sy_m) * dk_SI**2
+        M_z_m = -mu_B * e * np.sum(nu_x_m * (nu_x_m * E_x + nu_y_m * E_y) * delta_minus * sz_m) * dk_SI**2
+
+        # Total magnetization
+        M_x = M_x_p + M_x_m
+        M_y = M_y_p + M_y_m
+        M_z = M_z_p + M_z_m
+
+        return M_x, M_y, M_z
+
+    def analyze_parameter_dependence(self, param_name, param_values, E_x=1e3, E_y=0.0):
+        """
+        Analyze how magnetization depends on a specific parameter.
+
+        Args:
+            param_name (str): Name of parameter to vary ('alpha_R', 'v_F', 'tau', 'E_F')
+            param_values (array): Array of parameter values to test
+            E_x (float): x-component of electric field (V/m)
+            E_y (float): y-component of electric field (V/m)
+
+        Returns:
+            dict: Dictionary containing magnetization components for each parameter value
         """
         results = {
-            'alpha_dependence': [],
-            'E_F_dependence': [],
-            'E_field_dependence': []
+            'M_x': [],
+            'M_y': [],
+            'M_z': [],
+            'M_magnitude': [],
+            'M_direction': []
         }
 
-        # Default electric field direction (along x-axis)
-        E_field_direction = np.array([1.0, 0.0])
+        original_value = getattr(self, param_name)
 
-        # Analyze alpha dependence
-        for alpha in alpha_range:
-            self.alpha = alpha
-            self.k0 = self._calculate_k0()
-            self.regime = self._determine_regime()
-            M = self.magnetization(E_field_direction * E_field_magnitudes[0])
-            results['alpha_dependence'].append((alpha, M))
+        for value in param_values:
+            setattr(self, param_name, value)
 
-        # Analyze E_F dependence
-        self.alpha = alpha_range[len(alpha_range) // 2]  # Reset to middle value
-        self.k0 = self._calculate_k0()
-        for E_F in E_F_range:
-            self.E_F = E_F
-            self.regime = self._determine_regime()
-            M = self.magnetization(E_field_direction * E_field_magnitudes[0])
-            results['E_F_dependence'].append((E_F, M))
+            # Recalculate any dependent parameters
+            if param_name == 'alpha_R':
+                self.alpha_R_SI = value * 1.60218e-19 * 1e10
+            elif param_name == 'E_F':
+                self.E_F_SI = value * 1.60218e-19
 
-        # Analyze E_field dependence
-        self.E_F = E_F_range[len(E_F_range) // 2]  # Reset to middle value
-        self.regime = self._determine_regime()
-        for E_mag in E_field_magnitudes:
-            M = self.magnetization(E_field_direction * E_mag)
-            results['E_field_dependence'].append((E_mag, M))
+            # Calculate magnetization
+            M_x, M_y, M_z = self.calculate_magnetization(E_x, E_y)
+
+            # Calculate magnitude and direction
+            M_magnitude = np.sqrt(M_x**2 + M_y**2 + M_z**2)
+            M_direction = np.arctan2(M_y, M_x) if M_magnitude > 0 else 0
+
+            results['M_x'].append(M_x)
+            results['M_y'].append(M_y)
+            results['M_z'].append(M_z)
+            results['M_magnitude'].append(M_magnitude)
+            results['M_direction'].append(M_direction)
+
+        # Restore original value
+        setattr(self, param_name, original_value)
+        if param_name == 'alpha_R':
+            self.alpha_R_SI = original_value * 1.60218e-19 * 1e10
+        elif param_name == 'E_F':
+            self.E_F_SI = original_value * 1.60218e-19
 
         return results
 
-# Example usage
+def main():
+    """Main function to demonstrate the Edelstein effect calculation."""
+    print("Numerical Implementation of the Edelstein Effect for Rashba Fermions")
+    print("=" * 60)
+
+    # Create model instance with typical parameters
+    model = RashbaEdelsteinModel(
+        alpha_R=0.1,    # eV·Å
+        v_F=1e6,        # m/s
+        tau=1e-12,      # s
+        E_F=0.1,        # eV
+        m_star=m_e,     # kg
+        k_grid_size=100,
+        k_max=1.0       # 1/Å
+    )
+
+    # Test different electric field directions
+    test_cases = [
+        {"E_x": 1e3, "E_y": 0.0, "description": "E along x-axis"},
+        {"E_x": 0.0, "E_y": 1e3, "description": "E along y-axis"},
+        {"E_x": 1e3, "E_y": 1e3, "description": "E at 45 degrees"}
+    ]
+
+    print("\nTesting different electric field directions:")
+    print("-" * 60)
+
+    for case in test_cases:
+        E_x, E_y = case["E_x"], case["E_y"]
+        M_x, M_y, M_z = model.calculate_magnetization(E_x, E_y)
+
+        M_magnitude = np.sqrt(M_x**2 + M_y**2 + M_z**2)
+        M_direction = np.degrees(np.arctan2(M_y, M_x))
+
+        print(f"\n{case['description']}:")
+        print(f"  E = ({E_x:.1e}, {E_y:.1e}) V/m")
+        print(f"  M = ({M_x:.3e}, {M_y:.3e}, {M_z:.3e}) A/m")
+        print(f"  |M| = {M_magnitude:.3e} A/m")
+        print(f"  Direction: {M_direction:.1f}° from x-axis")
+
+    # Analyze parameter dependence
+    print("\n" + "=" * 60)
+    print("Parameter Dependence Analysis")
+    print("=" * 60)
+
+    # Test Rashba coupling dependence
+    alpha_values = np.linspace(0.05, 0.2, 5)
+    alpha_results = model.analyze_parameter_dependence('alpha_R', alpha_values)
+
+    print("\nRashba Coupling Dependence:")
+    print("α_R (eV·Å) | M_magnitude (A/m)")
+    print("-" * 40)
+    for alpha, mag in zip(alpha_values, alpha_results['M_magnitude']):
+        print(f"{alpha:.2f}       | {mag:.3e}")
+
+    # Test Fermi velocity dependence
+    vF_values = np.linspace(5e5, 2e6, 5)
+    vF_results = model.analyze_parameter_dependence('v_F', vF_values)
+
+    print("\nFermi Velocity Dependence:")
+    print("v_F (m/s)   | M_magnitude (A/m)")
+    print("-" * 40)
+    for vF, mag in zip(vF_values, vF_results['M_magnitude']):
+        print(f"{vF:.1e}   | {mag:.3e}")
+
 if __name__ == "__main__":
-    # Parameters (example values)
-    alpha = 0.1  # eV·Å
-    m = m_e  # kg (using electron mass)
-    E_F = 0.5  # eV
-    tau = 1e-12  # s
-
-    # Create an instance of the EdelsteinEffectRashba class
-    edelstein_model = EdelsteinEffectRashba(alpha, m, E_F, tau)
-
-    # Calculate Fermi wavevectors
-    k_F_plus, k_F_minus = edelstein_model.calculate_fermi_wavevectors()
-    print(f"Fermi wavevectors: k_F+ = {k_F_plus:.4f} 1/Å, k_F- = {k_F_minus:.4f} 1/Å")
-
-    # Calculate magnetization for a given electric field
-    E_field = np.array([1.0, 0.0])  # V/Å (along x-axis)
-    M = edelstein_model.magnetization(E_field)
-    print(f"Magnetization for E_field = {E_field}: M = {M} A/m")
-
-    # Calculate Edelstein susceptibility
-    chi = edelstein_model.edelstein_susceptibility()
-    print(f"Edelstein susceptibility tensor:\n{chi}")
-
-    # Analyze dependencies
-    alpha_range = np.linspace(0.05, 0.2, 5)  # eV·Å
-    E_F_range = np.linspace(0.1, 1.0, 5)  # eV
-    E_field_magnitudes = np.linspace(0.5, 2.0, 5)  # V/Å
-
-    dependencies = edelstein_model.analyze_dependencies(alpha_range, E_F_range, E_field_magnitudes)
-
-    print("\nDependency Analysis:")
-    print("Alpha dependence (M vs alpha):")
-    for alpha, M in dependencies['alpha_dependence']:
-        print(f"  alpha = {alpha:.4f} eV·Å: M = {M}")
-
-    print("\nE_F dependence (M vs E_F):")
-    for E_F, M in dependencies['E_F_dependence']:
-        print(f"  E_F = {E_F:.4f} eV: M = {M}")
-
-    print("\nE_field dependence (M vs |E|):")
-    for E_mag, M in dependencies['E_field_dependence']:
-        print(f"  |E| = {E_mag:.4f} V/Å: M = {M}")
+    main()
 ```

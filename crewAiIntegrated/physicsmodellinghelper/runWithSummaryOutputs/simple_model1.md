@@ -1,258 +1,177 @@
 <think>
-Alright, I need to build a model to calculate the Edelstein effect for a Rashba fermion at the Gamma point of the Brillouin zone. The goal is to compute the magnetization magnitude and direction for different electric field directions and magnitudes, considering parameters like chirality and Fermi velocity. Let me break down how I should approach this.
+Alright, I need to build a model to calculate the Edelstein effect for a Rashba fermion at the Gamma point of the Brillouin zone. The goal is to compute the magnetization magnitude and direction under different applied electric fields and understand how these depend on parameters like chirality and Fermi velocity.
 
-First, I'll start by understanding the Edelstein effect. From the papers, I gather that it's about generating spin polarization via an electric field in systems with Rashba spin-orbit coupling. The key is the spin-momentum locking, where the electron's spin is perpendicular to its momentum.
+First, I'll start by recalling the Rashba Hamiltonian, which describes the system. It includes a kinetic term and a spin-orbit coupling term. The Hamiltonian in momentum space is crucial because it defines the energy dispersion and the spin texture of the system.
 
-Looking at the system Hamiltonian provided, it's a 2D Rashba model with spin-orbit coupling. The Hamiltonian in momentum space helps me understand the energy dispersion. The eigenvalues show two chiral bands, which means electrons with opposite spins have different energies.
+Next, I need to find the energy eigenvalues and eigenstates. The Rashba interaction causes the energy bands to split, leading to spin-momentum locking. The eigenstates have specific spin orientations determined by their momentum, which is essential for calculating the spin polarization.
 
-Next, I need to consider the Fermi wavevectors. Depending on the Fermi energy, the system can be in the high-density regime (HDR) or low-density regime (LDR). In HDR, both chiral bands are occupied, while in LDR, only the lowest band is. This distinction is crucial because the expressions for magnetization differ between the two regimes.
+The Edelstein effect relates the induced spin density to the applied electric field. I remember that in the linear response regime, the spin density is proportional to the electric field. The proportionality factor involves parameters like the Rashba coupling, Fermi velocity, and scattering time.
 
-The spin expectation values indicate that the spin direction is locked perpendicular to the momentum. This spin-momentum locking is fundamental for the Edelstein effect because an electric field shifts the Fermi surfaces, creating a net spin polarization.
+I should derive the expression for magnetization. Starting from the Boltzmann transport equation, I'll consider the distribution function perturbed by the electric field. This leads to an integral involving the spin expectation values and the group velocities of the states.
 
-Now, the magnetization formula involves summing over all states at the Fermi level, weighted by the group velocity and spin expectation values. This formula is key to calculating the total spin density. The Edelstein susceptibility, which relates the magnetization to the electric field, is derived from this.
+It's important to note how the magnetization depends on key parameters. The Rashba coupling strength directly affects the spin-orbit interaction, while the Fermi velocity influences the group velocity. Chirality determines the handedness of the spin texture, which affects the direction of magnetization.
 
-For the HDR, the magnetization is constant and doesn't depend on the Fermi energy, while in the LDR, it does. I'll need to include both cases in my model. Additionally, the direction of the electric field affects the magnetization direction due to the cross product in the formula.
+The direction of magnetization is perpendicular to both the electric field and the spin direction, following the cross-product relation. This means if the electric field is along the x-axis, the magnetization will be along the y-axis, and vice versa.
 
-Chirality plays a role because each chiral band contributes differently to the magnetization. The Fermi velocity, which is the gradient of energy with respect to momentum, influences the group velocity and thus the magnetization magnitude.
+I'll also consider the regimes of the model, such as the high-density regime where both chiral bands are occupied versus the low-density regime where only one band is occupied. Each regime has a different dependence on the Fermi energy and other parameters.
 
-I also need to consider the transport lifetime, as it affects how long the spins stay aligned before scattering, impacting the overall magnetization. The Rashba coupling strength directly scales the effect, so it's a critical parameter.
-
-Putting this all together, I'll structure the model to first define the Hamiltonian and energy dispersion. Then, determine the Fermi wavevectors based on the regime. Calculate the spin expectation values and group velocities. Use these to compute the magnetization using the derived formulas, considering the electric field direction and magnitude. Finally, discuss how each parameter influences the results.
-
-I should ensure the model is clear enough for numerical implementation, so I'll outline the steps and provide the mathematical expressions needed. This way, others can follow the logic and translate it into code effectively.
+Finally, I'll ensure the model is simplified enough for numerical implementation while capturing the essential physics. This includes expressing the magnetization in terms of measurable parameters and providing a clear mathematical framework that others can use for simulations.
 </think>
 
-# Model for Calculating the Edelstein Effect for a Rashba Fermion
+# Model for Calculating the Edelstein Effect for Rashba Fermions
 
 ## Overview
+This model calculates the magnetization magnitude and direction induced by the Edelstein effect in a 2D Rashba fermion system at the Gamma point of the Brillouin zone. The model incorporates the dependence on key parameters such as chirality, Fermi velocity, and Rashba coupling strength.
 
-The Edelstein effect describes the generation of spin polarization in a system with Rashba spin-orbit coupling when an electric field is applied. This model calculates the magnetization magnitude and direction for different electric field directions and magnitudes, considering key parameters such as chirality and Fermi velocity.
+## Key Parameters
 
-### Key Parameters:
-- **Rashba spin-orbit coupling strength ($\alpha$)**: Controls the strength of the spin-momentum locking.
-- **Fermi velocity ($v_F$)**: Influences the group velocity of the carriers.
-- **Chirality ($\nu = \pm$)**: Represents the two helicity states of the Rashba bands.
-- **Electric field ($\vec{E}$)**: The external field that induces the spin polarization.
-- **Transport lifetime ($\tau$)**: Affects the relaxation of the spin polarization.
-
----
-
-## 1. System Hamiltonian
-
-The Rashba spin-orbit coupling Hamiltonian for a 2D electron gas is given by:
-
-$$\hat{H} = \frac{p^2}{2m} + \alpha \hat{z} \cdot (\vec{p} \times \vec{\sigma})$$
-
-Where:
-- $p$ is the momentum
-- $m$ is the effective carrier mass
-- $\alpha$ is the Rashba spin-orbit coupling strength
-- $\vec{\sigma} = (\sigma_x, \sigma_y, \sigma_z)$ are the Pauli matrices
-
-In momentum space, the Hamiltonian becomes:
-
-$$H = \frac{\hbar^2 k^2}{2m} + \alpha \left[\vec{\sigma} \times \vec{k}_{\parallel}\right] \cdot \hat{z}$$
+| Parameter          | Symbol        | Description                                                                 |
+|--------------------|---------------|-----------------------------------------------------------------------------|
+| Rashba Coupling    | $\alpha_R$    | Strength of spin-orbit interaction                                          |
+| Fermi Velocity     | $v_F$         | Velocity of carriers at the Fermi surface                                   |
+| Chirality          | $\nu = \pm$   | Determines the handedness of the spin texture                               |
+| Electric Field     | $\vec{E}$     | Applied electric field vector                                              |
+| Scattering Time    | $\tau$        | Transport lifetime                                                          |
+| Effective Mass     | $m^*$         | Effective mass of the carriers                                             |
+| Bohr Magnetization | $\mu_b$       | Bohr magneton                                                               |
 
 ---
 
-## 2. Energy Dispersion Relation
+## Hamiltonian
 
-The energy eigenvalues for the Rashba model are:
+The Rashba Hamiltonian in momentum space is given by:
 
-$$E_{\pm}(k_{\parallel}) = \frac{\hbar^2 k_{\parallel}^2}{2m} \pm \alpha |k_{\parallel}|$$
+$$
+\hat{H} = \frac{\hbar^2 k^2}{2m^*} + \alpha_R (\hat{z} \times \vec{k}) \cdot \vec{\sigma}
+$$
 
-Where the $\pm$ sign corresponds to the two chiral bands (helicity states $s = \pm 1$).
-
----
-
-## 3. Fermi Wavevectors
-
-The Fermi wavevectors depend on the regime:
-
-### High-Density Regime (HDR):
-$$k_{F}^{\pm} = \mp k_0 + \sqrt{k_0^2 + 2mE_F}$$
-
-### Low-Density Regime (LDR):
-$$k_{F}^{\pm} = +k_0 \pm \sqrt{k_0^2 + 2mE_F}$$
-
-Where $k_0 = \alpha m$.
+where:
+- $\vec{k}$ is the momentum vector
+- $\vec{\sigma}$ are the Pauli matrices
+- $\hat{z}$ is the unit vector perpendicular to the 2D plane
 
 ---
 
-## 4. Spin Expectation Values
+## Energy Eigenvalues and Eigenstates
 
-The spin expectation value evaluated on the eigenstates is:
+The energy bands are split due to spin-momentum locking:
 
-$$\langle \vec{\sigma} \rangle_{\pm}^{\vec{k}} = \frac{1}{k} \begin{pmatrix} \pm k_y \\ \mp k_x \\ 0 \end{pmatrix} = \begin{pmatrix} \pm \sin(\theta) \\ \mp \cos(\theta) \\ 0 \end{pmatrix}$$
+$$
+\epsilon_\pm = \frac{\hbar^2 k^2}{2m^*} \pm \alpha_R k
+$$
 
-Where $\theta$ is the angle between the vector $\vec{k}$ and the $\hat{x}$ axis.
+where $k = \sqrt{k_x^2 + k_y^2}$ and $\pm$ denote the two chiral bands.
 
----
+The spin expectation value on eigenstates is:
 
-## 5. Magnetization Formula
-
-The magnetization (total spin density) at first order in the electric field is given by:
-
-$$\vec{M} = -\mu_b \sum_{\vec{k},\nu} |e| (\vec{v}_{\nu}(\vec{k}) \cdot \vec{E}) \delta[E_{\nu}(\vec{k}) - E_F] \langle \vec{\sigma} \rangle_{\vec{k}}^{\nu}$$
-
-Where:
-- $\mu_b$ is the Bohr magneton
-- $\nu = \pm$ is the index indicating the two chiral Fermi surfaces
-- $\vec{v}_{\nu}(\vec{k}) = \nabla_{\vec{k}} \epsilon_{\nu}^{\vec{k}}$ is the group velocity
-- $\bar{\tau}_{\vec{k}}^{\nu}$ is the transport lifetime
+$$
+\langle\vec{\sigma}\rangle^\pm_k = \frac{1}{k} \begin{pmatrix} \pm k_y \\ \mp k_x \\ 0 \end{pmatrix}
+$$
 
 ---
 
-## 6. Edelstein Susceptibility
+## Magnetization Formula (Edelstein Effect)
 
-The linear Edelstein effect can be defined as $m_j = \chi_{ij} E_i$, where $\chi_{ij}$ is the Edelstein susceptibility:
+The induced spin density in linear response to an electric field $\vec{E}$ is given by:
 
-$$\chi_{xy} = -\chi_0 \sum_{\nu=\pm} \int \frac{d^2k}{(2\pi)^2} \langle \sigma_y \rangle_{\vec{k}}^{\nu} \delta(\epsilon_{\vec{k}}^{\nu} - \mu) v_x^{\nu}(\vec{k})$$
+$$
+\vec{M} = \chi_{EE} \vec{E}
+$$
 
-Where $\chi_0 = \frac{\tau |e| \mu_b S_{cell}}{4\pi^2 a}$ with $a$ being the lattice parameter, $S_{cell}$ the area of the unit cell, and $\tau$ the transport time.
+where $\chi_{EE}$ is the Edelstein susceptibility tensor.
 
----
+For the Rashba model, the magnetization is:
 
-## 7. Analytical Expressions for Magnetization
+$$
+\vec{M} = -\mu_b \sum_{k,\nu} |e|(\vec{\nu}_\nu(k) \cdot \vec{E}) \delta[\epsilon_\nu(k) - E_F] \langle\vec{\sigma}\rangle^\nu_k
+$$
 
-### High-Density Regime (HDR):
-For an electric field $\vec{E} = E_x \hat{x}$, the spin density along $\hat{y}$ direction is:
-
-$$M_y = \frac{\mu_b |e| \tau}{2\pi} m \alpha [\hat{z} \times \vec{E}]_y$$
-
-This shows the spin density is constant and independent of $E_F$ in the HDR.
-
-### Low-Density Regime (LDR):
-$$M_y = \frac{\mu_b |e| \tau}{2\pi} \sqrt{m^2 \alpha^2 + 2m E_F} [\hat{z} \times \vec{E}]_y$$
-
-For values of Fermi energy around the band crossing (small $E_F$):
-
-$$M_y = \frac{\mu_b |e| \tau}{2\pi} \left( \alpha m + \frac{1}{2} \frac{E_F}{\alpha} \right) [\hat{z} \times \vec{E}]_y$$
+where:
+- $\nu = \pm$ is the chirality index
+- $\vec{\nu}_\nu(k) = \bar{\tau}^\nu_k v_\nu(k)$ is the mean free path
+- $\bar{\tau}^\nu_k$ is the transport lifetime
+- $v_\nu(k) = \nabla_k \epsilon_\nu(k)$ is the group velocity
+- $E_F$ is the Fermi energy
 
 ---
 
-## 8. Anisotropic Rashba Model (C2v Symmetry)
+## Parameter Dependencies
 
-For systems with anisotropy in effective mass and Rashba parameter:
+### 1. **Fermi Velocity ($v_F$)**
+The Fermi velocity appears in the group velocity:
+$$
+v_\nu(k) = \frac{\hbar k}{m^*} \pm \alpha_R
+$$
 
-$$\hat{H} = \frac{\hbar^2 k_x^2}{2m_x} + \frac{\hbar^2 k_y^2}{2m_y} + \alpha_y k_y \hat{\sigma}_x - \alpha_x k_x \hat{\sigma}_y$$
+Higher $v_F$ increases the Edelstein effect magnitude.
 
-Where:
-- $r_m = \frac{m_x}{m_y} \neq 1$ is the mass anisotropy ratio
-- $r_{\alpha} = \frac{\alpha_x}{\alpha_y} \neq 1$ is the Rashba parameter anisotropy ratio
+### 2. **Rashba Coupling ($\alpha_R$)**
+The susceptibility linearly increases with $\alpha_R$:
+$$
+\chi_{EE} \propto \alpha_R
+$$
 
-The Edelstein susceptibility in HDR for anisotropic case:
+### 3. **Chirality ($\nu = \pm$)**
+Chirality determines the handedness of the spin texture through the $\pm$ sign in:
+$$
+\langle\vec{\sigma}\rangle^\pm_k = \frac{1}{k} \begin{pmatrix} \pm k_y \\ \mp k_x \\ 0 \end{pmatrix}
+$$
 
-$$\frac{\chi_{xy}}{\chi_0}(r_m) = \frac{4\pi m_x \alpha r_m}{1 + \sqrt{r_m}}$$
-
-$$\frac{\chi_{xy}}{\chi_0}(r_{\alpha}) = \frac{4\pi m \alpha_x r_{\alpha}}{1 + r_{\alpha}}$$
-
----
-
-## 9. Current-Spin Conversion Efficiency
-
-The current-spin conversion efficiency is given by:
-
-$$\lambda_A = -\frac{\tilde{\alpha}_R}{k_F} \frac{e\mu}{\left[ \frac{a_3}{\tilde{a}_2} - 2\tilde{\alpha}_R^2 \left(1 - \frac{\tilde{a}_2}{2a_1}\right) \right]}$$
-
-Where $\tilde{\alpha}_R = \frac{m\alpha_R}{k_F}$ is the dimensionless Rashba parameter.
-
-The spin density can be expressed as:
-
-$$\langle \hat{\sigma} \rangle = \lambda_A [\hat{z} \times \langle \hat{j}_e \rangle]$$
+### 4. **Electric Field Magnitude ($|\vec{E}|$)**
+In the linear response regime:
+$$
+\vec{M} \propto \vec{E}
+$$
 
 ---
 
-## 10. Magnetoelectric Susceptibility (Alternative Formulation)
+## Magnetization Direction
 
-The magnetization can also be expressed in terms of magnetoelectric susceptibility:
+The magnetization direction follows:
+$$
+\vec{M} \propto \hat{z} \times \vec{E}
+$$
 
-$$M_i = e \tau \alpha_{ij}^{ME} E_j$$
-
-Where the susceptibility is:
-
-$$\alpha_{ix}^{ME} = \frac{g\mu_B}{(2\pi)^2 W} \sum_{\pm} \int d\phi \frac{k v_x S_i(\vec{k})}{\left| \frac{\partial \epsilon}{\partial k} \right|} \bigg|_{k=k_{\pm}(\phi)}$$
-
----
-
-## 11. Key Model Parameters
-
-The following parameters control the Edelstein effect:
-
-1. **Rashba coupling strength ($\alpha$)**: The spin density scales linearly with $\alpha$ in the HDR.
-2. **Chirality ($\nu = \pm$)**: The two chiral bands contribute differently to the spin density.
-3. **Fermi velocity ($v_F$)**: Related to the group velocity $v_{\nu}(\vec{k}) = \nabla_{\vec{k}} \epsilon_{\nu}^{\vec{k}}$.
-4. **Effective mass ($m$)**: Affects the density of states and Fermi wavevector.
-5. **Electric field direction ($\vec{E}$)**: The magnetization is perpendicular to the electric field (spin-momentum locking).
-6. **Transport time ($\tau$)**: The spin density is proportional to the transport time.
+For example:
+- If $\vec{E} \parallel \hat{x}$, then $\vec{M} \parallel \hat{y}$
+- If $\vec{E} \parallel \hat{y}$, then $\vec{M} \parallel -\hat{x}$
 
 ---
 
-## 12. Spin-Momentum Locking
+## Numerical Implementation Framework
 
-The Rashba SOI causes momentum and spin to be "locked" such that:
-- The $E_+$ and $E_-$ branches have clockwise and counterclockwise winding of spin.
-- The spin direction remains tangential to the Fermi surfaces.
-- An electric field shifts the Fermi surfaces, creating a net spin polarization perpendicular to the field.
+1. **Input Parameters:**
+   - $\alpha_R$ (Rashba coupling)
+   - $v_F$ (Fermi velocity)
+   - $\tau$ (scattering time)
+   - $E_F$ (Fermi energy)
+   - $\vec{E}$ (electric field vector)
+   - $m^*$ (effective mass)
 
----
+2. **Calculate Energy Eigenvalues:**
+   $$\epsilon_\pm = \frac{\hbar^2 k^2}{2m^*} \pm \alpha_R k$$
 
-## 13. Density of States
+3. **Compute Spin Expectation Values:**
+   $$\langle\vec{\sigma}\rangle^\pm_k = \frac{1}{k} \begin{pmatrix} \pm k_y \\ \mp k_x \\ 0 \end{pmatrix}$$
 
-For the 2D Rashba system, the density of states per unit area per spin is:
+4. **Evaluate Magnetization:**
+   $$\vec{M} = -\mu_b |e| \sum_{k,\nu} \vec{\nu}_\nu(k) (\vec{\nu}_\nu(k) \cdot \vec{E}) \delta[\epsilon_\nu(k) - E_F] \langle\vec{\sigma}\rangle^\nu_k$$
 
-$$\varrho(E) = \frac{1}{2\pi} \frac{k_{\parallel}(E)}{|dE/dk_{\parallel}|}$$
-
-For the spin-split bands:
-
-$$\varrho(E_{\pm}) = \frac{m}{2\pi \hbar^2} \left(1 \mp \frac{b}{\sqrt{b^2 + 2Em/\hbar^2}}\right), \quad E \geq 0$$
-
-$$\varrho(E_{-}) = \frac{mb}{\pi \hbar^2 \sqrt{b^2 + 2mE/\hbar^2}}, \quad E < 0$$
-
-Where $b = m\alpha/\hbar^2$.
-
----
-
-## Implementation Steps
-
-1. **Define Parameters**:
-   - Rashba coupling strength ($\alpha$)
-   - Effective mass ($m$)
-   - Fermi energy ($E_F$)
-   - Electric field ($\vec{E}$)
-   - Transport lifetime ($\tau$)
-
-2. **Calculate Fermi Wavevectors**:
-   - Determine the regime (HDR or LDR)
-   - Compute $k_{F}^{\pm}$ using the appropriate formula
-
-3. **Compute Spin Expectation Values**:
-   - Evaluate $\langle \vec{\sigma} \rangle_{\pm}^{\vec{k}}$ for each $\vec{k}$
-
-4. **Calculate Group Velocities**:
-   - Compute $v_{\nu}(\vec{k}) = \nabla_{\vec{k}} \epsilon_{\nu}^{\vec{k}}$
-
-5. **Evaluate Magnetization**:
-   - Use the magnetization formula to compute $\vec{M}$ for each electric field direction and magnitude
-
-6. **Analyze Dependencies**:
-   - Study how $\vec{M}$ depends on $\alpha$, $E_F$, and $\vec{E}$
+5. **Output:**
+   - Magnitude of magnetization: $|\vec{M}|$
+   - Direction of magnetization: $\hat{M} = \vec{M} / |\vec{M}|$
 
 ---
 
-## Numerical Implementation
+## Example Use Case
 
-The model can be implemented numerically by:
+For an electric field applied along $\hat{x}$:
+- $\vec{E} = E_0 \hat{x}$
+- $\vec{M} = M_0 \hat{y}$
 
-1. Discretizing the Brillouin zone
-2. Evaluating the integrals numerically for the magnetization
-3. Considering the contributions from both chiral bands
-4. Summing over all states at the Fermi level
-
-The numerical implementation will allow for the calculation of the magnetization magnitude and direction as a function of the applied electric field and model parameters.
+where:
+$$M_0 = \frac{\mu_b |e| \tau}{2\pi} m^* \alpha_R E_0$$
 
 ---
 
-## Conclusion
-
-This model provides a comprehensive framework for calculating the Edelstein effect in a Rashba fermion system. By following the outlined steps and considering the key parameters, one can compute the magnetization magnitude and direction for different electric field configurations and analyze their dependence on chirality, Fermi velocity, and other relevant parameters.
+This model provides a mathematical framework for calculating the Edelstein effect in Rashba fermion systems, allowing for numerical implementation and analysis of parameter dependencies.
