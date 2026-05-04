@@ -19,7 +19,7 @@ class Physicsmodellinghelper():
 
     agents: list[BaseAgent]
     tasks: list[Task]
-    runNr : int = 6 # this number is added to the output files to distinguish between runs
+    runNr : int = 9 # this number is added to the output files to distinguish between runs
 
     # Learn more about YAML configuration files here:
     # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
@@ -37,7 +37,7 @@ class Physicsmodellinghelper():
                 model = "qwen3.5-122b-a10b",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
-                #type="chat-completions"
+                #reasoning="fast", # not supported for qwen
             ),
             tools=[ArxivPaperTool()] # allows the agent to acces arxiv papers
         )
@@ -82,6 +82,7 @@ class Physicsmodellinghelper():
                 model = "deepseek-r1-distill-llama-70b",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
+                #reasoning="deep", # for better reasoning capabilities; should be supported for deepseek
                 #type="chat-completions"
             ),
             #tools=[FileReadTool(file_path='../..runOutputs/information.md')] # for the simple modeller we currently dont see a need for tools, but we can easily add some if needed

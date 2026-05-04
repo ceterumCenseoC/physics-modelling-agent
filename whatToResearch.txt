@@ -1,0 +1,8 @@
+what to research:
+
+- Tokeniation
+- temperature
+- rag
+- parallel agents
+- tool use
+- chosen model
