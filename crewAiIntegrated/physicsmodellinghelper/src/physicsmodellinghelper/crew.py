@@ -9,7 +9,7 @@ from physicsmodellinghelper.tools.arxivSearch import ArxivDownloader # custom to
 from physicsmodellinghelper.tools.pDFReader import PDFReader # custom tool to read pdfs and extract text from them
 from physicsmodellinghelper.tools.dirList import DirectoryListerTool # custom tool to list directories and files; useful for debugging and runtime visibility checks
 
-#from physicsmodellinghelper.embedderCustom import EmbedderCustom
+#from src.physicsmodellinghelper.embedderCustom import EmbedderCustom
 
 # If you want to run a snippet of code before or after the crew starts,
 # you can use the @before_kickoff and @after_kickoff decorators

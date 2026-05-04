@@ -1,6 +1,6 @@
 gathering_task:
   description: >
-    find 3 relevant papers for {topic}. Include papers that explore ideas for {aim}.
+    find at least 3 relevant papers for {topic}. Include papers that explore ideas for {aim}.
   expected_output: >
     a list with the important sources: arxivID, Author, date, url, short summary.
     Sort the sources by relevance. MARKDOWN format with $...$ and $$...$$.

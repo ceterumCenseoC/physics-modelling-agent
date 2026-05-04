@@ -240,7 +240,8 @@ if __name__ == "__main__":
     plt.axis('equal')
     plt.colorbar(label="Magnetization Magnitude (A·m²)")
     plt.tight_layout()
-    plt.show()
+    plt.savefig("magnetization_vs_field_direction.png", dpi=600)
+    #plt.show()
 
     # Visualization 2: Magnetization vs Electric Field Magnitude
     E_max = 1e4  # V/m
@@ -252,7 +253,8 @@ if __name__ == "__main__":
     plt.xlabel("Electric Field Magnitude (V/m)")
     plt.ylabel("Magnetization Magnitude (A·m²)")
     plt.grid(True)
-    plt.show()
+    plt.savefig("magnetization_vs_electric_field.png", dpi=600)
+    #plt.show()
 
     # Visualization 3: Magnetization vs Fermi Velocity
     v_F_max = 1e6  # m/s
@@ -264,7 +266,8 @@ if __name__ == "__main__":
     plt.xlabel("Fermi Velocity (m/s)")
     plt.ylabel("Magnetization Magnitude (A·m²)")
     plt.grid(True)
-    plt.show()
+    plt.savefig("magnetization_vs_fermi_velocity.png", dpi=600)
+    #plt.show()
 
     # Visualization 4: Magnetization vs Rashba Coupling Strength
     alpha_R_max = 1e-10  # J·m
@@ -276,7 +279,8 @@ if __name__ == "__main__":
     plt.xlabel("Rashba Coupling Strength (J·m)")
     plt.ylabel("Magnetization Magnitude (A·m²)")
     plt.grid(True)
-    plt.show()
+    plt.savefig("magnetization_vs_rashba_coupling.png", dpi=600)
+    #plt.show()
 
     # 3D Visualization: Magnetization Surface
     fig = plt.figure(figsize=(10, 8))
@@ -304,4 +308,4 @@ if __name__ == "__main__":
     ax.set_title('Magnetization Magnitude as a Function of Electric Field')
     fig.colorbar(surf, shrink=0.5, aspect=5)
     plt.savefig("magnetization_surface.png", dpi=600)
-    plt.show()
+    #plt.show()
