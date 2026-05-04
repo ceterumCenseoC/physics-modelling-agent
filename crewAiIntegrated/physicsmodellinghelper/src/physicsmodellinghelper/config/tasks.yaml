@@ -1,6 +1,6 @@
 gathering_task:
   description: >
-    find relevant papers for {topic}. Include papers that explore ideas for {aim}.
+    find 3 relevant papers for {topic}. Include papers that explore ideas for {aim}.
   expected_output: >
     a list with the important sources: arxivID, Author, date, url, short summary.
     Sort the sources by relevance. MARKDOWN format with $...$ and $$...$$.
@@ -9,23 +9,24 @@ gathering_task:
 downloading_task:
   description: >
     download the papers found by the previous task. Make sure you download the correct papers and nothing more or less.
+    Use the path the tool uses by default.
   expected_output: >
     the according papers should be downloaded. Provide a very short report about issues or problem encountered.
-    The path where the downloaded papers are so the next task can read them.
+    The directory to which was saved
   agent: paper_downloader
 
 extraction_task:
   description: >
-    Read the papers via your tool and extract all the necessary information about {topic} and {aim}.
-    The extracted information should allow to build a model for {aim}.
-    For all information, it's source must be included.
+    Find relevant information from the given sources that allow to build a model that accomplishes {aim}.
+    Do not build the model.
   expected_output: >
-    A mathematical formulation of the relevant physics with descriptions. A source for every information or formula, including the page it can be found on. MARKDOWN format with $...$ and $$...$$.
+    All necessary information for building the model. MARKDOWN format with $...$ and $$...$$.
   agent: information_extractor
 
 simple_modelling_task:
   description: >
     use the information provided by the extraction_task to create a model that accomplishes {aim}.
+    explain why you took which step and which information you used.
   expected_output: >
     a matematical description of the modell with textual explaination that describes the model and allows for a numerical implementations. MARKDOWN format with $...$ and $$...$$.
   agent: simple_modeller
@@ -34,7 +35,7 @@ simulation_task:
   description: >
     use the simple_modelling_task's result to code a numerical implementation of the same model for {aim}.
   expected_output: >
-    continious python code that only needs to be copy pasted into a pyhton file and can be executed. The code should be well documented.
+    a python file that can be run right away and does not need to be debugged first.
   agent: model_simulator
 
 checking_task:

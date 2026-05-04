@@ -14,6 +14,7 @@ paper_downloader:
   goal: >
     Download the papers found by the gathering_task using the tool you are provided.
     Report problems or success of downloading
+    use the path the tool uses by default.
   backstory: >
     You lay the groundwork for a successfull run. You openly mention arising problems.
 
@@ -21,12 +22,14 @@ information_extractor:
   role: >
     extract the necessary information from given sources
   goal: >
-    find the information needed for {aim} from the given sources. Use your pdf-reader tool.
-    Do NOT solve {aim}; just assemble the information needed to build a model that accomplishes {aim}.
-    State your source for all listed information.
+    read the papers you can access via the tool. Extract relevant information needed for building a model that does {aim}.
+    You should provide the information for building the model, but do not build it.
+    State your sources for the information you output, inculde the equation number (if provided).
+    If the info is not directly from am eqation, state the documents page, where the info is found.
   backstory: >
     you are excelent in filtering out important information from large datasets.
     You are known to be very accurate with the information and provide sources for all your information.
+    You stay very true to your source material
 
 simple_modeller:
   role: >

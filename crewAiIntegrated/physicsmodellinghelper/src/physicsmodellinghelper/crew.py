@@ -6,6 +6,8 @@ from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from crewai_tools import ArxivPaperTool, PDFSearchTool, FileReadTool
 from physicsmodellinghelper.tools.arxivSearch import ArxivDownloader # custom tool to download arxiv papers based on search results
+from physicsmodellinghelper.tools.pDFReader import PDFReader # custom tool to read pdfs and extract text from them
+from physicsmodellinghelper.tools.dirList import DirectoryListerTool # custom tool to list directories and files; useful for debugging and runtime visibility checks
 
 #from physicsmodellinghelper.embedderCustom import EmbedderCustom
 
@@ -19,7 +21,7 @@ class Physicsmodellinghelper():
 
     agents: list[BaseAgent]
     tasks: list[Task]
-    runNr : int = 9 # this number is added to the output files to distinguish between runs
+    runNr : int = 6 # this number is added to the output files to distinguish between runs
 
     # Learn more about YAML configuration files here:
     # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
@@ -69,7 +71,7 @@ class Physicsmodellinghelper():
                 api_key=os.getenv("OPENAI_API_KEY"),
                 #type="chat-completions"
             ),
-            tools=[PDFSearchTool()] # allows the agent to read pdfs
+            tools=[PDFReader()] # allows the agent to read pdfs
         )
     
     @agent
@@ -114,7 +116,7 @@ class Physicsmodellinghelper():
                 api_key=os.getenv("OPENAI_API_KEY"),
                 #type="chat-completions"
             ),
-            tools=[ArxivPaperTool(downlaod_pdf=True, output_dir='./arxiv_papers', use_title_as_filename=True)]
+            tools=[ArxivDownloader(), ArxivPaperTool(), PDFReader()]
         )
 
     # To learn more about structured task outputs,
