@@ -23,6 +23,14 @@ from pathlib import Path
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Callable
 
+from pathlib import Path
+import os
+import sys
+import argparse
+import asyncio
+
+
+
 try:
     from tqdm.auto import tqdm
 except Exception:
@@ -43,7 +51,6 @@ def find_all_submission_files(base_dir: Path) -> list[Path]:
         List of paths to submission JSON files
     """
     submission_files = []
-
     for json_file in base_dir.rglob("*.json"):
         # Skip metadata and evaluation files
         if json_file.name in ["batch_metadata.json", "evaluation_summary.json", "aggregate_report.json"]:
@@ -55,8 +62,8 @@ def find_all_submission_files(base_dir: Path) -> list[Path]:
 
         # Check if this looks like a submission file
         if "_main.json" in json_file.name or "_sub_" in json_file.name:
+            print(json_file.name)
             submission_files.append(json_file)
-
     return sorted(submission_files)
 
 
@@ -65,11 +72,9 @@ async def main_async(args):
     # Convert to Path objects
     results_base = Path(args.results_dir)
     output_base = Path(args.output_dir)
-
     if not results_base.exists():
         print(f"Error: Results directory does not exist: {results_base}")
         sys.exit(1)
-
     print("=" * 70)
     print("EVALUATION RESULTS")
     print("=" * 70)
@@ -188,6 +193,7 @@ async def main_async(args):
                 "timestamp": datetime.now().isoformat()
             }
 
+            #THIS CAUSES THE ERROR
             batch_payload = await client.evaluate_batch(
                 submissions=submissions,
                 batch_metadata=batch_metadata,
@@ -328,7 +334,6 @@ Use server startup parameters to control batch size and concurrency.
     )
 
     args = parser.parse_args()
-
     try:
         # Run async main
         asyncio.run(main_async(args))

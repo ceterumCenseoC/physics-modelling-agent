@@ -186,17 +186,40 @@ class AsyncEvaluationClient:
     ) -> Dict[str, Any]:
         payload = _build_batch_payload(submissions, batch_metadata)
         url = f"{self.server_url}"
-
+        
         if not stream_progress:
             response = await self.client.post(url, json=payload)
             response.raise_for_status()
             return response.json()
-
+        
         params = {"stream_progress": "true"}
         final_payload: Optional[Dict[str, Any]] = None
-
         async with self.client.stream("POST", url, params=params, json=payload) as response:
-            response.raise_for_status()
+            
+            print(url, params)
+            print("BEFORE THE ERROR")
+            #response.raise_for_status()
+            #catch th error
+            try:
+                response = await self._http.post(url, headers=headers, json=payload, timeout=timeout)
+                response.raise_for_status()
+            except httpx.HTTPStatusError as exc:
+                resp = exc.response
+                req = resp.request
+                print("=== HTTP ERROR ===")
+                print("URL:", req.url)
+                print("Status code:", resp.status_code)
+                print("Response headers:", dict(resp.headers))
+                # response.text is safe for debugging; may be large
+                print("Response body:", resp.text)
+                print("Request headers:", dict(req.headers))
+                # request.content may be bytes; decode for readability
+                try:
+                    print("Request body:", req.content.decode() if isinstance(req.content, (bytes, bytearray)) else req.content)
+                except Exception:
+                    print("Request body: <could not decode>")
+                raise
+            print("AFTER THE ERROR")
             async for line in response.aiter_lines():
                 if not line:
                     continue

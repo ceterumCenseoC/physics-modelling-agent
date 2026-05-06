@@ -69,6 +69,8 @@ class Submission:
         """Load submission from JSON file."""
         with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
+            print(f"Loaded data from {file_path}: {data}")  # Debug print
+        print("CREATING SUMBISSION OBJ")
         return cls.from_dict(data)
 
 
