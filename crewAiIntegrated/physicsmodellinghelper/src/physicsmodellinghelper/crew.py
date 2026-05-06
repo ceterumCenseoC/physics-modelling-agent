@@ -21,7 +21,9 @@ class Physicsmodellinghelper():
 
     agents: list[BaseAgent]
     tasks: list[Task]
-    runNr : int = 6 # this number is added to the output files to distinguish between runs
+    def __init__(self, outputNr: int, outputDir: str):
+        self.outputNr = outputNr
+        self.outputDir = outputDir
 
     # Learn more about YAML configuration files here:
     # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
@@ -128,7 +130,7 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['gathering_task'], # type: ignore[index]
             markdown=True,
-            output_file='runOutputs/sources'+str(self.runNr)+'.md'
+            output_file=self.outputDir + 'sources' + str(self.outputNr) + '.md'
         )
     
     @task
@@ -136,7 +138,7 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['downloading_task'], # type: ignore[index]
             markdown=True,
-            output_file='runOutputs/downloading_report'+str(self.runNr)+'.md'
+            output_file=self.outputDir + 'downloading_report' + str(self.outputNr) + '.md'
         )
     
     @task
@@ -144,7 +146,7 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['extraction_task'], # type: ignore[index]
             markdown=True,
-            output_file='runOutputs/information'+str(self.runNr)+'.md'
+            output_file=self.outputDir + 'information' + str(self.outputNr) + '.md'
         )
     
     @task
@@ -152,7 +154,7 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['simple_modelling_task'], # type: ignore[index]
             markdown=True,
-            output_file='runOutputs/simple_model'+str(self.runNr)+'.md'
+            output_file=self.outputDir + 'simple_model' + str(self.outputNr) + '.md'
         )
     
     @task
@@ -160,7 +162,7 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['simulation_task'], # type: ignore[index]
             markdown=False,
-            output_file='runOutputs/simulation_results'+str(self.runNr)+'.py'
+            output_file=self.outputDir + 'simulation_results' + str(self.outputNr) + '.py'
         )
     
     @task
@@ -168,7 +170,7 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['checking_task'], # type: ignore[index]
             markdown=True,
-            output_file='runOutputs/checking_results'+str(self.runNr)+'.md'
+            output_file=self.outputDir + 'checking_results' + str(self.outputNr) + '.md'
         )
 
     @crew

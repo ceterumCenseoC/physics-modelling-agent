@@ -25,7 +25,7 @@ class ArxivSearch(ArxivPaperTool):
             return {"error": "Could not extract PDF URL", "raw_output": raw}
 
         # --- Save directory ---
-        base_dir = Path(__file__).resolve().parent.parent.parent.parent
+        base_dir = Path(__file__).resolve().parent.parent.parent.parent # should be set by user from outside
 
         output_dir = (
             base_dir / "arxiv_papers"

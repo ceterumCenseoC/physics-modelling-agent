@@ -42,5 +42,5 @@ answering_task:
   description: >
     give a proper answer for: {aim}. Rely on the results of the simple_modelling_task and the simulation_task.
   expected_output: >
-    a String (plain text) answering the given question. MARKDOWN format with $...$ and $$...$$.
+    a String (plain text) answering the given question. Write it inside a txt file. MARKDOWN format with $...$ and $$...$$.
   agent: answerer

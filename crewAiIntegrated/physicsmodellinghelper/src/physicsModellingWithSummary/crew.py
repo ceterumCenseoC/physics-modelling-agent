@@ -18,8 +18,10 @@ class crewAssemble():
 
     agents: list[BaseAgent]
     tasks: list[Task]
-    outputNr : int = 1 # this number is added to the output files to distinguish between runs
-    outputDir : str = 'runWithSummaryOutputs/' # directory where the output files are stored
+
+    def __init__(self, outputNr: int, outputDir: str):
+        self.outputNr = outputNr
+        self.outputDir = outputDir
 
     # Learn more about YAML configuration files here:
     # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
