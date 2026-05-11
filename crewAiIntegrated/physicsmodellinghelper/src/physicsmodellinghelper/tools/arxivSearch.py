@@ -5,7 +5,11 @@ import requests
 from crewai_tools import ArxivPaperTool
 
 class ArxivDownloader(ArxivPaperTool):
-    def _run(self, search_query, max_results=1):
+    def __init__(self, run_identifier="0"):
+        super().__init__()
+        self.run_identifier = run_identifier
+
+    def _run(self, search_query, max_results=3):
         raw = super()._run(search_query, max_results)
 
         # --- Extract title robustly ---
@@ -28,7 +32,7 @@ class ArxivDownloader(ArxivPaperTool):
         base_dir = Path(__file__).resolve().parent.parent.parent.parent
 
         output_dir = (
-            base_dir / "arxiv_papers"
+            base_dir / "arxiv_papers" / f"runNr_{self.run_identifier}"
         )
         os.makedirs(output_dir, exist_ok=True)
 

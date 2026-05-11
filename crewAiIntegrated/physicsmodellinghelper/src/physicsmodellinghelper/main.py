@@ -2,7 +2,6 @@
 import sys
 import warnings
 
-from physicsModellingWithSummary.crew import crewAssemble
 from physicsmodellinghelper.crew import Physicsmodellinghelper
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
@@ -28,7 +27,7 @@ def run(inputs : dict, outputNr : int, outputDir : str):
         os.environ["CREWAI_ENABLE_AUTO_TOOL_CHOICE"] = "true"
         os.environ["CREWAI_TOOL_CALL_PARSER"] = "true"
         
-        crewAssemble(outputNr = outputNr, outputDir = outputDir).crew().kickoff(inputs=inputs)
+        Physicsmodellinghelper(outputNr = outputNr, outputDir = outputDir).crew().kickoff(inputs=inputs)
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")
 
@@ -38,7 +37,7 @@ def train(inputs : dict, outputNr : int, outputDir : str):
     """
     inputs = inputs
     try:
-        crewAssemble(outputNr = outputNr, outputDir = outputDir).crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
+        Physicsmodellinghelper(outputNr = outputNr, outputDir = outputDir).crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while training the crew: {e}")
@@ -48,7 +47,7 @@ def replay(outputNr : int, outputDir : str):
     Replay the crew execution from a specific task.
     """
     try:
-        crewAssemble(outputNr = outputNr, outputDir = outputDir).crew().replay(task_id=sys.argv[1])
+        Physicsmodellinghelper(outputNr = outputNr, outputDir = outputDir).crew().replay(task_id=sys.argv[1])
 
     except Exception as e:
         raise Exception(f"An error occurred while replaying the crew: {e}")
@@ -60,7 +59,7 @@ def test(inputs : dict, outputNr : int, outputDir : str):
     inputs = inputs
 
     try:
-        crewAssemble(outputNr = outputNr, outputDir = outputDir).crew().test(n_iterations=int(sys.argv[1]), eval_llm=sys.argv[2], inputs=inputs)
+        Physicsmodellinghelper(outputNr = outputNr, outputDir = outputDir).crew().test(n_iterations=int(sys.argv[1]), eval_llm=sys.argv[2], inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while testing the crew: {e}")
@@ -82,7 +81,7 @@ def run_with_trigger(inputs : dict, outputNr : int, outputDir : str):
     inputs = inputs
 
     try:
-        result = crewAssemble(outputNr = outputNr, outputDir = outputDir).crew().kickoff(inputs=inputs)
+        result = Physicsmodellinghelper(outputNr = outputNr, outputDir = outputDir).crew().kickoff(inputs=inputs)
         return result
     except Exception as e:
         raise Exception(f"An error occurred while running the crew with trigger: {e}")

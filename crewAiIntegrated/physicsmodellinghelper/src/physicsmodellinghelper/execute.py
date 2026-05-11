@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from physicsModellingWithSummary.main import run
+from physicsmodellinghelper.main import run
 if __name__ == "__main__":
     inputs = {
         'topic': 'Edelstein-Effect',
@@ -9,4 +9,4 @@ if __name__ == "__main__":
                 'Compute the magnitization magnitude and direction of different directions and magnitudes of the applied electric field. '
                 'Consider how the result depends on relevant parameters of the model (e.g. chirality, fermi velocity)'
     }
-    run(inputs = inputs, outputNr = 1, outputDir = "critPt/")
+    run(inputs = inputs, outputNr = 12, outputDir = "runOutputs/")

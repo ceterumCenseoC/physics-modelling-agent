@@ -1,4 +1,3 @@
-```python
 import numpy as np
 
 def calculate_edelstein_effect(alpha_R, v_F, tau, E_magnitude, E_direction, E_F, m_star):
@@ -85,4 +84,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-```

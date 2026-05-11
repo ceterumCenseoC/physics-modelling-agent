@@ -16,11 +16,12 @@ class PDFReaderInput(BaseModel):
     recursive: bool = Field(False, description="Search subdirectories if True.")
     max_files: Optional[int] = Field(None, description="Optional cap on number of files.")
 
-
 class PDFReader(BaseTool):
     name: str = "pdf_reader"
     description: str = "Read all PDF files in a directory and return extracted text."
     args_schema: Type[BaseModel] = PDFReaderInput
+
+    run_identifier: str = "0"  # default value, can be overridden
 
     def _gather(self, p: Path, recursive: bool, max_files: Optional[int]) -> List[Path]:
         if p.is_file():
@@ -51,7 +52,7 @@ class PDFReader(BaseTool):
 
     def _run(self, path: str, recursive: bool = False, max_files: Optional[int] = None) -> str:
         p = Path(os.path.abspath(os.path.expanduser(path)))
-        source_dir = Path(__file__).resolve().parent.parent.parent.parent / "arxiv_papers"
+        source_dir = Path(__file__).resolve().parent.parent.parent.parent / "arxiv_papers" / f"runNr_{self.run_identifier}"
 
         files = self._gather(source_dir, recursive, max_files)
         results = []

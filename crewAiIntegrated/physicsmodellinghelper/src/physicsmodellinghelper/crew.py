@@ -4,10 +4,9 @@ import os
 from crewai import LLM, Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
-from crewai_tools import ArxivPaperTool, PDFSearchTool, FileReadTool
+from crewai_tools import ArxivPaperTool
 from physicsmodellinghelper.tools.arxivSearch import ArxivDownloader # custom tool to download arxiv papers based on search results
 from physicsmodellinghelper.tools.pDFReader import PDFReader # custom tool to read pdfs and extract text from them
-from physicsmodellinghelper.tools.dirList import DirectoryListerTool # custom tool to list directories and files; useful for debugging and runtime visibility checks
 
 #from src.physicsmodellinghelper.embedderCustom import EmbedderCustom
 
@@ -22,8 +21,8 @@ class Physicsmodellinghelper():
     agents: list[BaseAgent]
     tasks: list[Task]
     def __init__(self, outputNr: int, outputDir: str):
-        self.outputNr = outputNr
-        self.outputDir = outputDir
+        self.outputNr : int = outputNr
+        self.outputDir = outputDir + f"runNr_{self.outputNr}/"
 
     # Learn more about YAML configuration files here:
     # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
@@ -58,7 +57,7 @@ class Physicsmodellinghelper():
                 api_key=os.getenv("OPENAI_API_KEY"),
                 #type="chat-completions"
             ),
-            tools=[ArxivDownloader()]# allows the agent to download PDFs
+            tools=[ArxivDownloader(run_identifier=str(self.outputNr))]# allows the agent to download PDFs
         )
 
     @agent
@@ -71,9 +70,10 @@ class Physicsmodellinghelper():
                 model = "qwen3.5-122b-a10b",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
+                max_tokens=8000,
                 #type="chat-completions"
             ),
-            tools=[PDFReader()] # allows the agent to read pdfs
+            tools=[PDFReader(run_identifier=str(self.outputNr))] # allows the agent to read pdfs
         )
     
     @agent
@@ -81,7 +81,7 @@ class Physicsmodellinghelper():
         return Agent(
             config=self.agents_config['simple_modeller'], # type: ignore[index]
             verbose=True,
-            temperature=0.2,
+            temperature=0.1,
             llm=LLM(
                 model = "deepseek-r1-distill-llama-70b",
                 base_url="https://chat-ai.academiccloud.de/v1",
@@ -91,19 +91,37 @@ class Physicsmodellinghelper():
             ),
             #tools=[FileReadTool(file_path='../..runOutputs/information.md')] # for the simple modeller we currently dont see a need for tools, but we can easily add some if needed
         )
+
+    @agent
+    def implementation_planner(self) -> Agent:
+        return Agent(
+            config=self.agents_config['implementation_planner'], # type: ignore[index]
+            verbose=True,
+            temperature=0.0,
+            llm=LLM(
+                model = "qwen3.5-122b-a10b", # needed because we want to read pdf's
+                base_url="https://chat-ai.academiccloud.de/v1",
+                api_key=os.getenv("OPENAI_API_KEY"),
+                #reasoning="deep", # for better reasoning capabilities; should be supported for deepseek
+                #type="chat-completions"
+            ),
+            tools=[PDFReader(run_identifier=str(self.outputNr))] #looking for good parameters
+        )
     
     @agent
     def model_simulator(self) -> Agent:
         return Agent(
             config=self.agents_config['model_simulator'], # type: ignore[index]
             verbose=True,
-            temperature=0.1,
+            temperature=0.0,
             llm=LLM(
                 model = "devstral-2-123b-instruct-2512",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 #type="chat-completions"
-            )
+            ),
+            allow_code_execution=True
+            #tools = [CodeInterpreterTool()]
         )
     
     @agent
@@ -118,7 +136,7 @@ class Physicsmodellinghelper():
                 api_key=os.getenv("OPENAI_API_KEY"),
                 #type="chat-completions"
             ),
-            tools=[ArxivDownloader(), ArxivPaperTool(), PDFReader()]
+            tools=[ArxivDownloader(run_identifier=str(self.outputNr)), ArxivPaperTool(), PDFReader(run_identifier=str(self.outputNr))]
         )
 
     # To learn more about structured task outputs,
@@ -157,6 +175,14 @@ class Physicsmodellinghelper():
             output_file=self.outputDir + 'simple_model' + str(self.outputNr) + '.md'
         )
     
+    @task
+    def implementation_planning_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['implementation_planning_task'], # type: ignore[index]
+            markdown=False,
+            output_file=self.outputDir + 'implementation_plan' + str(self.outputNr) + '.md'
+        )
+
     @task
     def simulation_task(self) -> Task:
         return Task(

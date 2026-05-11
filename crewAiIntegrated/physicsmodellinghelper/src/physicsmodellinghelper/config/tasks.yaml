@@ -28,14 +28,23 @@ simple_modelling_task:
     use the information provided by the extraction_task to create a model that accomplishes {aim}.
     explain why you took which step and which information you used.
   expected_output: >
-    a matematical description of the modell with textual explaination that describes the model and allows for a numerical implementations. MARKDOWN format with $...$ and $$...$$.
+    a matematical description of the modell with textual explaination that describes the model and allows numerical implementations in future tasks.
+    MARKDOWN format with $...$ and $$...$$.
   agent: simple_modeller
+
+implementation_planning_task:
+  description: >
+    use the suggested model and make a numerical implementation out of it that does {aim}.
+    Pay special attention to the unit conversions. Make sure you stay inside one system of units.
+  expected_output: >
+    an implementation plan and detailed descriptions of when to do which unit conversions and the precise formulas to be used. Do NOT write pseudo-code. MARKDOWN format with $...$ and $$...$$.
+  agent: implementation_planner
 
 simulation_task:
   description: >
-    use the simple_modelling_task's result to code a numerical implementation of the same model for {aim}.
+    implement the implementation plan. Be very precise, especially with the unit conversions.
   expected_output: >
-    a python file that can be run right away and does not need to be debugged first.
+    directly executabe pyhton code. maximum 150 lines
   agent: model_simulator
 
 checking_task:

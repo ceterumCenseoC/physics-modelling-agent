@@ -52,7 +52,7 @@ model_simulator:
 
 answerer:
   role: >
-    assemble the answert for: {aim}.
+    assemble the answer for: {aim}.
   goal: >
     Use the results of the simple_modelling_task and the simulation_task to provide an answer for: {aim}
   backstory: >
