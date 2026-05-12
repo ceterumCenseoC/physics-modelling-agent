@@ -1,247 +1,258 @@
 
 
-# Numerical Implementation Plan for the Edelstein Effect in Rashba Fermion Systems
+# Numerical Implementation Plan for the Edelstein Effect in Rashba Fermions
 
-## 1. Overview
+## 1. Theoretical Framework
 
-This plan describes the numerical implementation of the Direct Edelstein Effect (DEE) for a 2D Rashba fermion system at the Gamma point of the Brillouin zone. The goal is to compute the magnetization magnitude and direction as a function of applied electric field and model parameters.
+The Edelstein effect describes the generation of a non-equilibrium magnetization (spin polarization) in a 2D electron gas with Rashba spin-orbit coupling when an electric field is applied. At the Gamma point of the Brillouin zone, the magnetization is given by:
 
-## 2. System of Units
+$$
+\mathbf{M} = \frac{e \alpha_R}{2\pi \hbar^2 v_F^2} (\hat{z} \times \mathbf{E})
+$$
 
-**Primary Unit System: SI (International System of Units)**
+Where $\mathbf{M}$ is the magnetization, $e$ is the elementary charge, $\alpha_R$ is the Rashba coupling strength, $\hbar$ is the reduced Planck's constant, $v_F$ is the Fermi velocity, and $\mathbf{E}$ is the applied electric field.
 
-All quantities will be converted to SI units before calculation to ensure consistency. This avoids unit conversion errors during numerical computation.
+## 2. Parameter Definitions and Units
 
-| Quantity | Symbol | SI Unit | Conversion Notes |
-|----------|--------|---------|------------------|
-| Energy | $\varepsilon, \mu, E_F$ | Joule (J) | 1 eV = $1.602 \times 10^{-19}$ J |
-| Momentum | $k$ | m$^{-1}$ | 1 Å$^{-1}$ = $10^{10}$ m$^{-1}$ |
-| Mass | $m$ | kg | $m_e = 9.109 \times 10^{-31}$ kg |
-| Time | $\tau$ | second (s) | |
-| Electric Field | $\mathbf{E}$ | V/m | 1 V/µm = $10^6$ V/m |
-| Magnetization | $\mathbf{M}$ | A/m (or J/T·m$^3$) | $\mu_b$ in J/T |
-| Rashba coupling | $\alpha$ | J·m | 1 eV·Å = $1.602 \times 10^{-29}$ J·m |
-| Bohr magneton | $\mu_b$ | J/T | $9.274 \times 10^{-24}$ J/T |
-| Elementary charge | $|e|$ | C | $1.602 \times 10^{-19}$ C |
-| Reduced Planck constant | $\hbar$ | J·s | $1.055 \times 10^{-34}$ J·s |
+### 2.1 Fundamental Constants (SI Units)
 
-## 3. Model Parameters and Sensible Starting Values
+| Parameter | Symbol | Value | Unit |
+|-----------|--------|-------|------|
+| Elementary charge | $e$ | $1.602 \times 10^{-19}$ | C (Coulomb) |
+| Reduced Planck's constant | $\hbar$ | $1.055 \times 10^{-34}$ | J·s (Joule-second) |
+| Bohr magneton | $\mu_B$ | $9.274 \times 10^{-24}$ | J/T (Joule/Tesla) |
 
-Based on experimental oxide interfaces (LaAlO$_3$/SrTiO$_3$):
+### 2.2 Model Parameters (Typical Values for Semiconductor 2DEG)
 
-| Parameter | Symbol | Typical Value | SI Conversion |
-|-----------|--------|---------------|---------------|
-| Effective mass | $m$ | $0.7 m_e$ | $6.376 \times 10^{-31}$ kg |
-| Rashba coupling | $\alpha$ | 0.006 - 0.01 eV·Å | $9.61 \times 10^{-32}$ - $1.60 \times 10^{-31}$ J·m |
-| Scattering time | $\tau$ | $10^{-11}$ - $10^{-12}$ s | $10^{-11}$ - $10^{-12}$ s |
-| Chemical potential | $\mu$ | -0.01 - 0.1 eV | $-1.60 \times 10^{-21}$ - $1.60 \times 10^{-20}$ J |
-| Electric field magnitude | $E$ | 1 - 100 V/µm | $10^6$ - $10^8$ V/m |
+| Parameter | Symbol | Typical Range | Unit | Conversion to SI |
+|-----------|--------|---------------|------|------------------|
+| Rashba coupling | $\alpha_R$ | $0.1 - 10$ | eV·Å | $1 \text{ eV·Å} = 1.602 \times 10^{-28} \text{ J·m}$ |
+| Fermi velocity | $v_F$ | $10^5 - 10^6$ | m/s | Already SI |
+| Electric field | $\mathbf{E}$ | $10^3 - 10^7$ | V/m | Already SI |
+| Electron effective mass | $m^*$ | $0.01 - 0.5$ | $m_e$ | $m_e = 9.109 \times 10^{-31} \text{ kg}$ |
+| Relaxation time | $\tau$ | $0.1 - 100$ | ps | $1 \text{ ps} = 10^{-12} \text{ s}$ |
+| Chemical potential | $\mu$ | $-10 - 100$ | meV | $1 \text{ meV} = 1.602 \times 10^{-22} \text{ J}$ |
 
-## 4. Implementation Steps
+### 2.3 Output Units
 
-### Step 1: Input Parameter Setup
+| Quantity | Symbol | SI Unit | Alternative Units |
+|----------|--------|---------|-------------------|
+| Magnetization | $\mathbf{M}$ | A/m (Amperes/meter) | $\mu_B/\text{unit cell}$ |
+| Spin density | $\mathbf{S}$ | $\hbar/\text{m}^3$ | $\mu_B/\text{unit cell}$ |
 
-Define all input parameters in their native units, then convert to SI:
+## 3. Implementation Steps
 
-```
-1. Read: m (in m_e), α (in eV·Å), τ (in s), μ (in eV), E (in V/µm)
-2. Convert to SI:
-   m_SI = m × 9.109×10^-31 kg
-   α_SI = α × 1.602×10^-29 J·m
-   μ_SI = μ × 1.602×10^-19 J
-   E_SI = E × 10^6 V/m
-```
+### Step 1: Unit Conversion Functions
 
-### Step 2: Determine Density Regime
+Before any calculation, implement conversion functions to ensure all inputs are in SI units:
 
-Calculate the band crossing point:
-$$ E_{\text{cross}} = -\frac{m\alpha^2}{2\hbar^2} $$
+$$
+\alpha_R^{\text{(SI)}} = \alpha_R^{\text{(eV·Å)}} \times (1.602 \times 10^{-19} \text{ J/eV}) \times (10^{-10} \text{ m/Å})
+$$
 
-In SI units:
-$$ E_{\text{cross, SI}} = -\frac{m_{\text{SI}} \alpha_{\text{SI}}^2}{2\hbar^2} $$
+$$
+\mu^{\text{(SI)}} = \mu^{\text{(meV)}} \times (1.602 \times 10^{-22} \text{ J/meV})
+$$
 
-**Regime Classification:**
-- **HDR (High-Density Regime):** $\mu_{\text{SI}} \geq 0$ (both bands occupied)
-- **LDR (Low-Density Regime):** $\mu_{\text{SI}} < 0$ (only lower band occupied)
+$$
+\tau^{\text{(SI)}} = \tau^{\text{(ps)}} \times (10^{-12} \text{ s/ps})
+$$
 
-### Step 3: Calculate Fermi Momenta
+### Step 2: Determine Physical Regime
 
-**HDR ($\mu \geq 0$):**
-$$ k_0 = \frac{m_{\text{SI}} \alpha_{\text{SI}}}{\hbar^2} $$
-$$ k_{F, \nu} = -\nu k_0 + \sqrt{k_0^2 + \frac{2m_{\text{SI}} \mu_{\text{SI}}}{\hbar^2}} $$
-where $\nu = \pm$
+Calculate the characteristic wavevector $k_0$:
 
-**LDR ($\mu < 0$):**
-$$ k_{F, \pm} = k_0 \pm \sqrt{k_0^2 + \frac{2m_{\text{SI}} \mu_{\text{SI}}}{\hbar^2}} $$
+$$
+k_0 = \frac{m^* \alpha_R}{\hbar^2}
+$$
 
-### Step 4: Calculate Fermi Velocity
+Determine if the system is in High-Density Regime (HDR, $\mu \geq 0$) or Low-Density Regime (LDR, $\mu < 0$):
 
-$$ v_{F, \nu} = \frac{\hbar k_{F, \nu}}{m_{\text{SI}}} + \nu \alpha_{\text{SI}} $$
+- **HDR:** Both chiral bands contribute to magnetization
+- **LDR:** Only one band contributes
 
-**Unit Check:**
-- $\hbar k_F / m$: (J·s)(m$^{-1}$)/(kg) = (kg·m²/s²·s)(m$^{-1}$)/kg = m/s ✓
-- $\alpha$: J·m = (kg·m²/s²)·m = kg·m³/s²... Wait, need to verify.
+### Step 3: Calculate Fermi Velocity
 
-**Correction on $\alpha$ Units:**
-From the Hamiltonian $\alpha \hat{z} \cdot (\mathbf{k} \times \boldsymbol{\sigma})$, the term $\alpha k$ must have energy units (J).
-- $k$: m$^{-1}$
-- $\alpha$: J·m
-- $\alpha k$: (J·m)(m$^{-1}$) = J ✓
+The Fermi velocity depends on the Fermi wavevector $k_F$:
 
-**Fermi velocity formula check:**
-$$ v_F = \frac{1}{\hbar} \frac{\partial \varepsilon}{\partial k} = \frac{\hbar k_F}{m} + \nu \alpha $$
+$$
+v_F = \frac{\hbar k_F}{m^*} + \alpha_R
+$$
 
-**Unit Check:**
-- $\hbar k_F / m$: (J·s)(m$^{-1}$)/(kg) = (kg·m²/s²·s)(m$^{-1}$)/kg = m/s ✓
-- $\alpha$: This should be $\alpha/\hbar$ for velocity units!
+Where $k_F$ depends on the chemical potential:
 
-**Correction:** The correct formula from the papers is:
-$$ v_{F, \nu} = \frac{\hbar k_{F, \nu}}{m} + \nu \alpha $$
+$$
+k_F = \sqrt{\frac{2m^* \mu}{\hbar^2}} \quad \text{(for } \mu > 0\text{)}
+$$
 
-But $\alpha$ in the velocity formula should have units of velocity (m/s), not J·m. Let me re-examine:
+### Step 4: Calculate Magnetization Vector
 
-From the energy spectrum $\varepsilon_{\nu,k} = \frac{\hbar^2 k^2}{2m} + \nu \hbar \alpha k$:
-- $\hbar \alpha k$ must have energy units (J)
-- $\hbar$: J·s
-- $k$: m$^{-1}$
-- $\alpha$: m/s (velocity units)
+The magnetization direction follows the cross product rule:
 
-**Revised Parameter Units:**
+$$
+\mathbf{M} = M_0 (\hat{z} \times \mathbf{E})
+$$
 
-| Quantity | Symbol | SI Unit | Typical Value |
-|----------|--------|---------|---------------|
-| Rashba coupling | $\alpha$ | m/s | 10^5 - 10^6 m/s |
-| $\hbar \alpha$ | | J·m | 1.055×10^-34 × α |
+Where the magnitude is:
 
-**Conversion:**
-If $\alpha$ is given in eV·Å:
-$$ \alpha_{\text{SI}} = \frac{\alpha_{\text{eV·Å}} \times 1.602 \times 10^{-19} \text{ J}}{1.055 \times 10^{-34} \text{ J·s} \times 10^{-10} \text{ m}} = \alpha_{\text{eV·Å}} \times 1.52 \times 10^5 \text{ m/s} $$
+$$
+M_0 = \frac{e \alpha_R}{2\pi \hbar^2 v_F^2}
+$$
 
-### Step 5: Calculate Magnetization
+For an electric field $\mathbf{E} = (E_x, E_y, 0)$:
 
-**HDR Formula:**
-$$ M_y = \frac{\mu_b |e| \tau}{2\pi} m_{\text{SI}} \alpha_{\text{SI}} E_x $$
+$$
+\mathbf{M} = M_0 (-E_y \hat{x} + E_x \hat{y})
+$$
 
-**LDR Formula:**
-$$ M_y = \frac{\mu_b |e| \tau}{2\pi} \sqrt{m_{\text{SI}}^2 \alpha_{\text{SI}}^2 + 2m_{\text{SI}} E_F} E_x $$
+### Step 5: Include Chirality Dependence
 
-**Unit Check:**
-- $\mu_b$: J/T
-- $|e|$: C = A·s
-- $\tau$: s
-- $m$: kg
-- $\alpha$: m/s
-- $E$: V/m = J/(C·m) = J/(A·s·m)
+The chirality $\chi = \pm 1$ affects the sign of the magnetization:
 
-$$ [M_y] = \frac{(J/T)(A·s)(s)(kg)(m/s)(J/(A·s·m))}{1} $$
-$$ = \frac{J^2·kg}{T·s·m} \cdot \frac{m}{A·s} \cdot \frac{1}{J} = \frac{J·kg}{T·s^2·A} $$
+$$
+\mathbf{M} = \chi \frac{e \alpha_R}{2\pi \hbar^2 v_F^2} (\hat{z} \times \mathbf{E})
+$$
 
-This doesn't simplify cleanly. Let me use the standard magnetization unit A/m:
+### Step 6: Check Linear Response Validity
 
-From $M = -\mu_b \sum \langle \sigma \rangle$, magnetization has units of magnetic moment per volume (J/T·m³ = A/m).
+Calculate the dimensionless parameter $\gamma$ to verify linear response:
 
-The formula gives magnetization density. For a 2D system, this is magnetization per unit area, so units are J/T·m².
+$$
+\gamma = \frac{e E \hbar}{2m^* \alpha_R \mu}
+$$
 
-**For 3D magnetization (per volume):**
-$$ M_{\text{3D}} = \frac{M_{\text{2D}}}{d} $$
-where $d$ is the effective thickness of the 2DEG (typically ~1 nm = 10$^{-9}$ m).
+- If $\gamma \ll 1$: Linear response is valid
+- If $\gamma \gtrsim 1$: Non-linear effects become important
 
-### Step 6: Calculate Magnetization Direction
+## 4. Parameter Sweep Strategy
 
-The magnetization is always perpendicular to the electric field in the plane:
-$$ \mathbf{M} = M \cdot (\hat{z} \times \hat{E}) $$
+### 4.1 Electric Field Magnitude Sweep
 
-For $\mathbf{E} = (E_x, E_y, 0)$:
-$$ \mathbf{M} = M \cdot \frac{(-E_y, E_x, 0)}{\sqrt{E_x^2 + E_y^2}} $$
+| $\mathbf{E}$ Magnitude | Range | Expected Magnetization |
+|------------------------|-------|------------------------|
+| Weak | $10^3 - 10^4$ V/m | Linear scaling |
+| Moderate | $10^4 - 10^6$ V/m | Linear scaling |
+| Strong | $10^6 - 10^7$ V/m | Possible non-linear saturation |
 
-## 5. Parameter Dependence Analysis
+### 4.2 Electric Field Direction Sweep
 
-### 5.1 Electric Field Magnitude
-- **Scaling:** $M \propto E$
-- **Implementation:** Test $E \in [1, 10, 50, 100]$ V/µm
+| $\mathbf{E}$ Direction | $\mathbf{M}$ Direction |
+|------------------------|------------------------|
+| $\hat{x}$ | $\hat{y}$ |
+| $\hat{y}$ | $-\hat{x}$ |
+| $-\hat{x}$ | $-\hat{y}$ |
+| $-\hat{y}$ | $\hat{x}$ |
+| $\hat{x} + \hat{y}$ | $\hat{y} - \hat{x}$ |
 
-### 5.2 Electric Field Direction
-- **Scaling:** $M \propto \hat{z} \times \hat{E}$
-- **Implementation:** Test $\theta_E \in [0°, 45°, 90°, 135°, 180°]$ where $\mathbf{E} = E(\cos\theta_E, \sin\theta_E, 0)$
+### 4.3 Chirality Sweep
 
-### 5.3 Rashba Coupling $\alpha$
-- **Scaling:** $M \propto \alpha$ (HDR), $M \propto \sqrt{\alpha^2 + \text{const}}$ (LDR)
-- **Implementation:** Test $\alpha \in [0.005, 0.01, 0.02]$ eV·Å
+| $\chi$ | Magnetization Sign |
+|--------|-------------------|
+| $+1$ | Positive (right-handed) |
+| $-1$ | Negative (left-handed) |
 
-### 5.4 Effective Mass $m$
-- **Scaling:** $M \propto m$ (HDR), $M \propto \sqrt{m^2}$ (LDR)
-- **Implementation:** Test $m \in [0.5, 0.7, 1.0] m_e$
+### 4.4 Fermi Velocity Sweep
 
-### 5.5 Chemical Potential $\mu$
-- **HDR:** $M$ is constant (independent of $\mu$)
-- **LDR:** $M \propto \sqrt{\mu}$
-- **Implementation:** Test $\mu \in [-0.01, -0.005, 0, 0.01, 0.05, 0.1]$ eV
+| $v_F$ | Magnetization Scaling |
+|-------|----------------------|
+| $10^5$ m/s | High magnetization ($\propto v_F^{-2}$) |
+| $5 \times 10^5$ m/s | Medium magnetization |
+| $10^6$ m/s | Low magnetization |
 
-### 5.6 Scattering Time $\tau$
-- **Scaling:** $M \propto \tau$
-- **Implementation:** Test $\tau \in [0.5, 1, 5, 10]$ ps
+### 4.5 Rashba Coupling Sweep
 
-## 6. Unit Conversion Summary Table
+| $\alpha_R$ | Magnetization Scaling |
+|------------|----------------------|
+| $0.1$ eV·Å | Weak magnetization ($\propto \alpha_R$) |
+| $1.0$ eV·Å | Medium magnetization |
+| $10.0$ eV·Å | Strong magnetization |
 
-| From | To | Conversion Factor |
-|------|-----|-------------------|
-| eV | J | 1.602×10^-19 |
-| eV·Å | m/s (for α) | 1.52×10^5 |
-| eV·Å | J·m (for ħα) | 1.602×10^-29 |
-| Å^-1 | m^-1 | 10^10 |
-| V/µm | V/m | 10^6 |
-| m_e | kg | 9.109×10^-31 |
-| ps | s | 10^-12 |
-| nm | m | 10^-9 |
+## 5. Unit Consistency Check
 
-## 7. Verification Checklist
+### 5.1 Dimensional Analysis
 
-1. ✓ All inputs converted to SI before calculation
-2. ✓ Energy units consistent (J throughout)
-3. ✓ Velocity units check: m/s
-4. ✓ Magnetization units: A/m (or J/T·m³)
-5. ✓ Direction formula: $\mathbf{M} \parallel \hat{z} \times \mathbf{E}$
-6. ✓ Regime classification correct (HDR vs LDR)
-7. ✓ Parameter dependencies verified against analytical formulas
+Verify the units of the magnetization formula:
 
-## 8. Expected Results
+$$
+\left[\frac{e \alpha_R}{\hbar^2 v_F^2}\right] = \frac{\text{C} \cdot \text{J·m}}{\text{J}^2 \cdot \text{s}^2 \cdot \text{m}^2/\text{s}^2} = \frac{\text{C}}{\text{J·m}} = \frac{\text{C}}{\text{N·m}^2} = \frac{\text{C}}{\text{V·m}} = \frac{\text{A·s}}{\text{V·m}} = \frac{\text{A}}{\text{m}} \cdot \frac{\text{s}}{\text{V}}
+$$
 
-### 8.1 Magnetization Magnitude
-For typical parameters ($\alpha = 0.01$ eV·Å, $m = 0.7m_e$, $\tau = 10$ ps, $E = 10$ V/µm, $\mu = 0.05$ eV):
+Since $E$ has units V/m, the final magnetization has units A/m, which is correct.
 
-$$ M_y \approx \frac{(9.27 \times 10^{-24})(1.6 \times 10^{-19})(10^{-11})}{2\pi} (6.4 \times 10^{-31})(1.5 \times 10^6)(10^7) $$
+### 5.2 Numerical Example
 
-$$ M_y \approx 10^{-19} \text{ A/m (per unit area)} $$
+For typical parameters:
+- $e = 1.602 \times 10^{-19}$ C
+- $\alpha_R = 1.0$ eV·Å $= 1.602 \times 10^{-28}$ J·m
+- $\hbar = 1.055 \times 10^{-34}$ J·s
+- $v_F = 10^6$ m/s
+- $E = 10^5$ V/m
 
-For 3D (with $d = 1$ nm):
-$$ M_{\text{3D}} \approx 10^{-10} \text{ A/m} $$
+Calculate $M_0$:
 
-### 8.2 Magnetization Direction
-- If $\mathbf{E} = E_x \hat{x}$, then $\mathbf{M} = M_y \hat{y}$
-- If $\mathbf{E} = E_y \hat{y}$, then $\mathbf{M} = -M_x \hat{x}$
-- General: $\mathbf{M}$ is rotated 90° counterclockwise from $\mathbf{E}$ in the plane
+$$
+M_0 = \frac{(1.602 \times 10^{-19})(1.602 \times 10^{-28})}{2\pi (1.055 \times 10^{-34})^2 (10^6)^2} \approx 1.16 \times 10^4 \text{ A/m}
+$$
 
-## 9. Implementation Code Structure
+For $\mathbf{E} = 10^5 \hat{x}$ V/m:
 
-```
-1. Define constants (ħ, μ_b, e, m_e)
-2. Define input parameters (with units)
-3. Convert all to SI
-4. Calculate E_cross to determine regime
-5. Calculate k_F based on regime
-6. Calculate v_F
-7. Calculate M using appropriate formula
-8. Calculate M direction from E direction
-9. Output results with units
-10. Perform parameter sweeps for sensitivity analysis
-```
+$$
+\mathbf{M} = 1.16 \times 10^4 \hat{y} \text{ A/m}
+$$
 
-## 10. Common Pitfalls to Avoid
+## 6. Validation and Verification
 
-1. **Unit Mismatch:** Always convert to SI before calculation
-2. **α Units:** Distinguish between α (velocity) and ħα (energy·length)
-3. **2D vs 3D:** Magnetization is per unit area for 2D systems
-4. **Regime Boundary:** Check $\mu = 0$ carefully (transition point)
-5. **Sign Conventions:** Verify chirality index $\nu = \pm$ matches band ordering
+### 6.1 Sanity Checks
 
-This implementation plan provides a complete framework for calculating the Edelstein effect in Rashba fermion systems with proper unit consistency and parameter dependence analysis.
+1. **Unit Check:** Verify all outputs have correct units (A/m for magnetization)
+2. **Direction Check:** Confirm $\mathbf{M} \perp \mathbf{E}$ and $\mathbf{M} \perp \hat{z}$
+3. **Scaling Check:** Verify $M \propto E$, $M \propto \alpha_R$, $M \propto v_F^{-2}$
+4. **Chirality Check:** Confirm $\mathbf{M}(\chi) = -\mathbf{M}(-\chi)$
+
+### 6.2 Boundary Conditions
+
+1. **Zero Field:** $\mathbf{E} = 0 \implies \mathbf{M} = 0$
+2. **Zero Coupling:** $\alpha_R = 0 \implies \mathbf{M} = 0$
+3. **Infinite Velocity:** $v_F \to \infty \implies \mathbf{M} \to 0$
+
+## 7. Expected Results and Interpretation
+
+### 7.1 Magnetization Magnitude
+
+The magnetization magnitude should scale as:
+
+$$
+|\mathbf{M}| \propto \chi \alpha_R v_F^{-2} |\mathbf{E}|
+$$
+
+This means:
+- Doubling $\alpha_R$ doubles $|\mathbf{M}|$
+- Doubling $v_F$ reduces $|\mathbf{M}|$ by factor of 4
+- Doubling $|\mathbf{E}|$ doubles $|\mathbf{M}|$
+- Changing $\chi$ flips the sign of $\mathbf{M}$
+
+### 7.2 Magnetization Direction
+
+The magnetization direction is always perpendicular to both $\mathbf{E}$ and $\hat{z}$:
+
+$$
+\mathbf{M} \parallel \hat{z} \times \mathbf{E}
+$$
+
+This creates a characteristic "rotation" of the magnetization direction as the electric field direction changes.
+
+### 7.3 Parameter Sensitivity
+
+The most sensitive parameter is $v_F$ (quadratic dependence), followed by $\alpha_R$ (linear dependence), and $E$ (linear dependence). Chirality only affects the sign, not the magnitude.
+
+## 8. Implementation Checklist
+
+- [ ] All input parameters converted to SI units
+- [ ] Cross product calculated correctly for direction
+- [ ] Chirality factor applied to sign
+- [ ] Linear response validity checked ($\gamma \ll 1$)
+- [ ] Output magnetization in A/m
+- [ ] Unit consistency verified through dimensional analysis
+- [ ] Boundary conditions tested
+- [ ] Parameter sweeps documented
+- [ ] Results validated against expected scaling laws

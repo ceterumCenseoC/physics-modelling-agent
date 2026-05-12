@@ -1,116 +1,139 @@
 
 
-# Model Information for Calculating the Edelstein Effect in Rashba Fermion Systems
+# Model Information for Calculating the Edelstein Effect in Rashba Fermions
+
+The following information is extracted from the provided sources to build a model for calculating the Edelstein effect (magnetization induced by an electric field) for a Rashba fermion at the Gamma point.
 
 ## 1. System Hamiltonian and Band Structure
-The system is modeled as a two-dimensional electron gas (2DEG) with Rashba spin-orbit coupling (RSOC).
+The system is described by a two-dimensional electron gas (2DEG) with Rashba spin-orbit coupling (RSOC).
 
-*   **Hamiltonian:** The Rashba Hamiltonian describes the kinetic energy and the spin-orbit interaction.
-    $$ \hat{H} = \frac{\hbar^2 k^2}{2m} + \alpha \hat{z} \cdot (\mathbf{k} \times \boldsymbol{\sigma}) $$
-    *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 1, Equation (1).
-    *   **Source:** "Boltzmann theory of the inverse Edelstein effect..." (arXiv:2601.02473), Page 2, Equation (1).
-    *   **Parameters:** $m$ is the effective carrier mass, $\alpha$ is the Rashba coupling strength, $\mathbf{k}$ is the momentum, and $\boldsymbol{\sigma}$ is the vector of Pauli matrices.
+**Hamiltonian:**
+The Rashba Hamiltonian acting on the spinor wave function is given by:
+$$
+\hat{H} = \frac{\hbar^2 k^2}{2m} + \alpha_R (\hat{z} \times \mathbf{k}) \cdot \boldsymbol{\sigma}
+$$
+*Source: `Edelstein_Effect_in_Isotropic_and_Anisot.pdf`, Page 2, Eq (1); `Boltzmann_theory_of_the_inverse_Edelstei.pdf`, Page 2, Eq (1).*
 
-*   **Energy Spectrum:** The Hamiltonian leads to two chiral bands with split energy dispersion.
-    $$ \varepsilon_{\nu, k} = \frac{\hbar^2 k^2}{2m} + \nu \hbar \alpha k $$
-    *   **Source:** "Boltzmann theory of the inverse Edelstein effect..." (arXiv:2601.02473), Page 2, Equation (2).
-    *   **Parameters:** $\nu = \pm$ is the chiral index distinguishing the two bands.
+**Dispersion Relation:**
+The energy spectrum consists of two chiral bands ($\nu = \pm 1$):
+$$
+E_\nu(\mathbf{k}) = \frac{\hbar^2 k^2}{2m} + \nu \alpha_R k
+$$
+*Source: `Boltzmann_theory_of_the_inverse_Edelstei.pdf`, Page 2, Eq (2); `Enhanced_Edelstein_effect_and_interdimen.pdf`, Page 2, Eq (6).*
+*   $\nu = +1$: Inner band (lower energy for small $k$ in some conventions, depends on $\alpha$ sign).
+*   $\nu = -1$: Outer band.
+*   $k = |\mathbf{k}|$.
+*   $\alpha_R$: Rashba coupling strength.
+*   $m$: Effective carrier mass.
 
-*   **Fermi Momenta:** The Fermi momenta depend on the chemical potential $\mu$ (or Fermi energy $E_F$).
-    *   **High-Density Regime (HDR, $\mu \geq 0$):** Both bands are occupied.
-        $$ k_{F, \nu} = -\nu k_0 + \sqrt{k_0^2 + 2m\mu/\hbar^2} $$
-        where $k_0 = m\alpha/\hbar^2$.
-        *   **Source:** "Boltzmann theory of the inverse Edelstein effect..." (arXiv:2601.02473), Page 2, Equation (3).
-    *   **Low-Density Regime (LDR, $\mu < 0$):** Only the lower band is occupied.
-        *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 2, Equation (6).
+**Spin Texture:**
+The expectation value of the spin operator for eigenstates is locked perpendicular to momentum:
+$$
+\langle \vec{\sigma} \rangle^\nu_{\mathbf{k}} = \frac{1}{k} \begin{pmatrix} \nu k_y \\ -\nu k_x \\ 0 \end{pmatrix} = \begin{pmatrix} \nu \sin\theta \\ -\nu \cos\theta \\ 0 \end{pmatrix}
+$$
+where $\theta$ is the angle between $\mathbf{k}$ and the $\hat{x}$ axis.
+*Source: `Edelstein_Effect_in_Isotropic_and_Anisot.pdf`, Page 2, Eq (3); `Spin_accumulation_at_nonmagnetic_interfa.pdf`, Page 9.*
 
-*   **Fermi Velocity:** The group velocity at the Fermi surface is required for transport calculations.
-    $$ v_{F, \nu} = \frac{1}{\hbar} \frac{\partial \varepsilon_{\nu, k}}{\partial k} \bigg|_{k=k_{F, \nu}} = \frac{\hbar k_{F, \nu}}{m} + \nu \alpha $$
-    *   **Source:** "Boltzmann theory of the inverse Edelstein effect..." (arXiv:2601.02473), Page 3, Equation (8).
+## 2. Fermi Surfaces and Regimes
+The Fermi momenta depend on the chemical potential $\mu$ (or Fermi energy $E_F$). Two regimes are defined:
 
-## 2. Magnetization (Spin Polarization) Formula
-The Direct Edelstein Effect (DEE) generates a non-equilibrium spin polarization (magnetization) in response to an applied electric field $\mathbf{E}$.
+**High-Density Regime (HDR):**
+Defined by $\mu \ge 0$ (chemical potential above band crossing). Both chiral bands contribute.
+$$
+k^\nu_F = -\nu k_0 + \sqrt{k_0^2 + \frac{2m\mu}{\hbar^2}}
+$$
+where $k_0 = \frac{m \alpha_R}{\hbar^2}$.
+*Source: `Boltzmann_theory_of_the_inverse_Edelstei.pdf`, Page 2, Eq (3); `Edelstein_Effect_in_Isotropic_and_Anisot.pdf`, Page 2, Eq (5).*
 
-*   **General Expression:** The magnetization is calculated from the non-equilibrium distribution function.
-    $$ \mathbf{M} = -\mu_b \sum_{k, \nu} |e| (\mathbf{v}_\nu(k) \cdot \mathbf{E}) \delta[E_\nu(k) - E_F] \langle \boldsymbol{\sigma} \rangle^\nu_k $$
-    *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 2, Equation (2).
-    *   **Parameters:** $\mu_b$ is the Bohr magneton, $\mathbf{v}_\nu(k)$ is the group velocity, $\langle \boldsymbol{\sigma} \rangle^\nu_k$ is the spin expectation value.
+**Low-Density Regime (LDR):**
+Defined by $\mu < 0$ (chemical potential below band crossing). Only the lower band is occupied.
+$$
+k^\eta_F = k_0 - \eta \sqrt{k_0^2 + \frac{2m\mu}{\hbar^2}}
+$$
+where $\eta = \pm$ distinguishes left/right carriers for the lower band.
+*Source: `Boltzmann_theory_of_the_inverse_Edelstei.pdf`, Page 2, Eq (4); `Edelstein_Effect_in_Isotropic_and_Anisot.pdf`, Page 2, Eq (6).*
 
-*   **Spin Expectation Value:** The spin is locked perpendicular to the momentum.
-    $$ \langle \boldsymbol{\sigma} \rangle^\pm_k = \frac{1}{k} \begin{pmatrix} \pm k_y \\ \mp k_x \\ 0 \end{pmatrix} = \begin{pmatrix} \pm \sin(\theta) \\ \mp \cos(\theta) \\ 0 \end{pmatrix} $$
-    *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 2, Equation (3).
-    *   **Note:** $\theta$ is the angle between $\mathbf{k}$ and the $\hat{x}$ axis.
+## 3. Magnetization (Edelstein Effect)
+The Edelstein effect generates a non-equilibrium magnetization (spin density) $\mathbf{M}$ in response to an applied electric field $\mathbf{E}$.
 
-*   **Analytical Expression for Magnetization (HDR):** For an electric field along $\hat{x}$ ($E = E_x \hat{x}$), the magnetization is along $\hat{y}$.
-    $$ M_y = \frac{\mu_b |e| \tau}{2\pi} m \alpha E_x $$
-    *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 3, Equation (8).
-    *   **Note:** This assumes $\bar{\tau}_+ = \bar{\tau}_- = \tau$ (constant scattering time).
-    *   **Vector Form:** $\mathbf{M} \propto \hat{z} \times \mathbf{E}$.
-        *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 3, Equation (8).
+**General Formula (Linear Response):**
+The magnetization is calculated via the non-equilibrium distribution function $f(\mathbf{k})$:
+$$
+\mathbf{M} = -\mu_b \sum_{\mathbf{k},\nu} |e| (\vec{\nu}_\nu(\mathbf{k}) \cdot \mathbf{E}) \delta[E_\nu(\mathbf{k}) - E_F] \langle \vec{\sigma} \rangle^\nu_{\mathbf{k}}
+$$
+where $\mu_b$ is the Bohr magneton, $\vec{\nu}_\nu(\mathbf{k})$ is the group velocity, and $\tau$ is the transport time.
+*Source: `Edelstein_Effect_in_Isotropic_and_Anisot.pdf`, Page 2, Eq (2).*
 
-*   **Analytical Expression for Magnetization (LDR):**
-    $$ M_y = \frac{\mu_b |e| \tau}{2\pi} \sqrt{m^2 \alpha^2 + 2m E_F} E_x $$
-    *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 3, Equation (9).
+**Analytical Expressions:**
 
-*   **Magnetoelectric Susceptibility:** The susceptibility $\alpha^{ME}$ relates Magnetization to Electric Field ($M_i = \alpha^{ME}_{ij} E_j$).
-    $$ \alpha^{ME}_{yx} = -\frac{g \mu_B m}{2\pi \hbar^3 W} \lambda $$
-    *   **Source:** "Out-of-plane Edelstein effects: Electric-field induced magnetization in p-wave magnets" (arXiv:2501.01888), Page 3, Equation (13).
-    *   **Note:** $\lambda$ corresponds to the Rashba parameter $\alpha$. $W$ is the sample width. $g$ is the g-factor.
+*   **HDR ($\mu \ge 0$):**
+    $$
+    M_y = \frac{\mu_b |e| \tau}{2\pi} m \alpha_R [\hat{z} \times \mathbf{E}]_y
+    $$
+    Assuming $\mathbf{E} = E_x \hat{x}$, the magnetization is along $\hat{y}$.
+    *Source: `Edelstein_Effect_in_Isotropic_and_Anisot.pdf`, Page 3, Eq (8).*
 
-## 3. Dependence on Model Parameters
-The magnitude and direction of the magnetization depend on the following parameters:
+*   **LDR ($\mu < 0$):**
+    $$
+    M_y = \frac{\mu_b |e| \tau}{2\pi} \sqrt{m^2 \alpha_R^2 + 2m E_F} [\hat{z} \times \mathbf{E}]_y
+    $$
+    *Source: `Edelstein_Effect_in_Isotropic_and_Anisot.pdf`, Page 3, Eq (9).*
 
-*   **Electric Field ($\mathbf{E}$):**
-    *   **Magnitude:** Magnetization is linearly proportional to the magnitude of the applied electric field ($M \propto E$).
-        *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 3, Equation (8).
-    *   **Direction:** The magnetization direction is perpendicular to the electric field in the plane ($\mathbf{M} \parallel \hat{z} \times \mathbf{E}$). If $\mathbf{E} = E_x \hat{x}$, then $\mathbf{M} = M_y \hat{y}$.
-        *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 2, Figure 1 caption.
-        *   **Source:** "Out-of-plane spin polarization from in-plane electric and magnetic fields" (cond-mat/0609078), Page 3, Equation (15) (for $B=0$).
+**Alternative Formulation (Spin Density):**
+In terms of spin density $S$ and density of states $N_0 = \frac{m}{2\pi \hbar^2}$:
+$$
+S_y \simeq \frac{N_0}{2} \alpha_R e E \tau
+$$
+*Source: `Theory_of_the_nonlinear_Rashba-Edelstein.pdf`, Page 13, Eq (37).*
 
-*   **Rashba Coupling Strength ($\alpha$):**
-    *   **Magnitude:** Magnetization is linearly proportional to the Rashba coupling parameter ($M \propto \alpha$).
-        *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 3, Equation (8).
-        *   **Source:** "Out-of-plane Edelstein effects: Electric-field induced magnetization in p-wave magnets" (arXiv:2501.01888), Page 3, Equation (13).
+## 4. Parameter Dependencies
 
-*   **Effective Mass ($m$):**
-    *   **Magnitude:** Magnetization depends on the effective mass ($M \propto m$).
-        *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 3, Equation (8).
+**Electric Field Magnitude ($|\mathbf{E}|$):**
+*   **Linear Regime:** Magnetization magnitude is proportional to $|\mathbf{E}|$.
+    *   $M \propto |\mathbf{E}|$.
+*   **Nonlinear Regime:** For very large fields or weak scattering, the response becomes nonlinear. A dimensionless parameter $\gamma$ characterizes this:
+    $$
+    \gamma = \frac{e E L_s}{E_F} = \frac{e E \hbar}{2m \alpha_R E_F}
+    $$
+    where $L_s = \hbar / (2m \alpha_R)$ is the spin-precession length.
+    *   If $\gamma \ll 1$: Adiabatic regime (linear response).
+    *   If $\gamma \gg 1$: Non-adiabatic regime (polarization suppressed).
+    *   Source: `Theory_of_the_nonlinear_Rashba-Edelstein.pdf`, Page 2, Eq (12); Page 11-12.
 
-*   **Scattering Time ($\tau$):**
-    *   **Magnitude:** Magnetization is linearly proportional to the transport scattering time ($M \propto \tau$).
-        *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 3, Equation (8).
-        *   **Source:** "Out-of-plane Edelstein effects: Electric-field induced magnetization in p-wave magnets" (arXiv:2501.01888), Page 1, Equation (1).
+**Electric Field Direction:**
+*   The magnetization direction is perpendicular to both the electric field and the spin-orbit field axis ($\hat{z}$).
+*   Direction: $\mathbf{M} \propto \hat{z} \times \mathbf{E}$.
+    *   If $\mathbf{E} \parallel \hat{x} \implies \mathbf{M} \parallel \hat{y}$.
+    *   If $\mathbf{E} \parallel \hat{y} \implies \mathbf{M} \parallel -\hat{x}$.
+    *   Source: `Edelstein_Effect_in_Isotropic_and_Anisot.pdf`, Page 2, Eq (2), (8).
 
-*   **Chemical Potential / Fermi Energy ($\mu$ or $E_F$):**
-    *   **HDR:** In the high-density regime, the magnetization is independent of the Fermi energy (constant plateau).
-        *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 3, Equation (8).
-    *   **LDR:** In the low-density regime, the magnetization increases with the square root of the Fermi energy ($M \propto \sqrt{E_F}$).
-        *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 3, Equation (9).
+**Chirality ($\nu$):**
+*   Chirality determines the band index ($\nu = \pm$).
+*   In HDR, contributions from both chiral bands ($\nu = +$ and $\nu = -$) sum up (Eq 4 in `Edelstein_Effect_in_Isotropic_and_Anisot.pdf`).
+*   In LDR, only one band contributes.
+*   Source: `Boltzmann_theory_of_the_inverse_Edelstei.pdf`, Page 2, Eq (2); `Edelstein_Effect_in_Isotropic_and_Anisot.pdf`, Page 2, Eq (4).
 
-*   **Chirality ($\nu$):**
-    *   The spin polarization arises from the imbalance of populations in the chiral bands ($\nu = \pm$). The net magnetization is the sum of contributions from both bands, weighted by their Fermi momenta and scattering times.
-        *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 2, Equation (4).
-        *   **Source:** "Boltzmann theory of the inverse Edelstein effect..." (arXiv:2601.02473), Page 2, Equation (3) and (4).
+**Fermi Velocity ($v_F$):**
+*   Group velocity at the Fermi surface:
+    $$
+    v^\nu_F = \frac{k^\nu_F}{m} + \nu \alpha_R
+    $$
+*   Source: `Boltzmann_theory_of_the_inverse_Edelstei.pdf`, Page 3, Eq (8).
+*   Magnetization scales inversely with $v_F$ in some formulations (e.g., $M \propto \alpha_R / v_F^2$ in `Raimondi & Cserti` summary, though explicit formula in PDFs uses $\tau, m, \alpha$).
 
-## 4. Boltzmann Transport Framework
-For a rigorous calculation involving non-equilibrium distribution functions:
+**Rashba Coupling ($\alpha_R$):**
+*   In HDR: $M \propto \alpha_R$.
+*   In LDR: $M \propto \sqrt{\alpha_R^2 + \dots}$.
+*   Source: `Edelstein_Effect_in_Isotropic_and_Anisot.pdf`, Page 3, Eq (8), (9).
 
-*   **Boltzmann Equation:** The semiclassical Boltzmann equation describes the evolution of the distribution function $f(\mathbf{r}, \mathbf{k})$.
-    $$ \mathbf{v}_k \cdot \frac{\partial f(\mathbf{r}, \mathbf{k})}{\partial \mathbf{r}} = -\frac{f(\mathbf{r}, \mathbf{k}) - \langle f \rangle}{\tau} $$
-    *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 5, Equation (13).
-    *   **Source:** "Boltzmann theory of the inverse Edelstein effect..." (arXiv:2601.02473), Page 3, Equation (5).
+**Relaxation Time ($\tau$):**
+*   Magnetization is linearly proportional to the transport/relaxation time $\tau$.
+*   Source: `Edelstein_Effect_in_Isotropic_and_Anisot.pdf`, Page 3, Eq (8), (9).
 
-*   **Distribution Function Correction:** The non-equilibrium correction $g(x, v_x)$ is solved to find the current and magnetization.
-    *   **Source:** "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712), Page 5, Equation (14).
-    *   **Source:** "Boltzmann theory of the inverse Edelstein effect..." (arXiv:2601.02473), Page 3, Equation (6).
-
-## 5. Summary of Dependencies for Model Implementation
-To compute the magnetization magnitude and direction:
-1.  **Input:** Electric Field vector $\mathbf{E}$, Rashba parameter $\alpha$, effective mass $m$, scattering time $\tau$, chemical potential $\mu$.
-2.  **Direction:** $\mathbf{M} = M \cdot (\hat{z} \times \hat{E})$. The magnetization is always in-plane and perpendicular to $\mathbf{E}$.
-3.  **Magnitude:**
-    *   Calculate $k_F$ based on $\mu$ and $\alpha$ (using Eq. 3 or 4 from Paper 2).
-    *   Determine regime (HDR if $\mu \geq 0$, LDR if $\mu < 0$).
-    *   Use Eq. (8) for HDR or Eq. (9) for LDR from "Edelstein Effect in Isotropic and Anisotropic Rashba Models" (arXiv:2503.20712).
-    *   Alternatively, use the susceptibility $\alpha^{ME}$ from Eq. (13) of "Out-of-plane Edelstein effects..." (arXiv:2501.01888).
-4.  **Parameters Check:** Ensure $M$ scales linearly with $E$, $\alpha$, and $\tau$. Ensure $M$ is constant in HDR with respect to $\mu$, and scales as $\sqrt{\mu}$ in LDR.
+## 5. Model Building Steps
+1.  **Define Parameters:** Set $m, \alpha_R, \mu, \tau, \mathbf{E}$.
+2.  **Determine Regime:** Check if $\mu \ge 0$ (HDR) or $\mu < 0$ (LDR).
+3.  **Calculate Fermi Momenta:** Use Eq (3) or (4) from `Boltzmann_theory_of_the_inverse_Edelstei.pdf`.
+4.  **Calculate Magnetization:** Use Eq (8) or (9) from `Edelstein_Effect_in_Isotropic_and_Anisot.pdf` for linear response.
+5.  **Check Nonlinearity:** Calculate $\gamma$ using Eq (12) from `Theory_of_the_nonlinear_Rashba-Edelstein.pdf`. If $\gamma \not\ll 1$, use nonlinear solutions (Eq 30, 38).
+6.  **Direction:** Apply $\hat{z} \times \mathbf{E}$ rule.

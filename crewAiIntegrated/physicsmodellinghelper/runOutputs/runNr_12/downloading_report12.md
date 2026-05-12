@@ -1,35 +1,33 @@
 
 
-# Download Report
+# Paper Download Report
 
-## Status: **SUCCESS**
+## Download Status
 
-All 5 papers were successfully downloaded without any issues.
+**❌ FAILED** - Unable to download the requested papers.
 
-## Papers Downloaded
+## Papers Attempted
 
-| # | arxivID | Title | Status |
-|---|---------|-------|--------|
-| 1 | 2503.20712 | Edelstein Effect in Isotropic and Anisotropic Rashba Models | ✓ |
-| 2 | 2501.01888 | Out-of-plane Edelstein effects: Electric-field induced magnetization in p-wave magnets | ✓ |
-| 3 | 1506.08330 | Theory of the nonlinear Rashba-Edelstein effect | ✓ |
-| 4 | 2307.02872 | Spin and orbital Edelstein effect in a bilayer system with Rashba interaction | ✓ |
-| 5 | cond-mat/0609078 | Out-of-plane spin polarization from in-plane electric and magnetic fields | ✓ |
-
-## Directory
-
-```
-C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\crewAiIntegrated\physicsmodellinghelper\arxiv_papers\runNr_12\
-```
+- **arxivID:** 1206.4146 (Igarashi & Nagao, 2012)
+- **arxivID:** 1506.06467 (Oji & Ando, 2015)
+- **arxivID:** 1803.07511 (Raimondi & Cserti, 2018)
 
 ## Issues Encountered
 
-- **None** - All papers downloaded successfully
+The following errors were encountered during download attempts:
 
-## Files Saved
+1. **Network Timeout Errors:** Multiple requests resulted in "The read operation timed out" - indicating connectivity issues with the Arxiv server.
 
-- `Edelstein_Effect_in_Isotropic_and_Anisot.pdf`
-- `Out-of-plane_Edelstein_effects_Electric-.pdf`
-- `Theory_of_the_nonlinear_Rashba-Edelstein.pdf`
-- `Spin_and_orbital_Edelstein_effect_in_a_b.pdf`
-- `Out-of-plane_spin_polarization_from_in-p.pdf`
+2. **HTTP 429 Error:** One attempt returned "HTTP Error 429: Unknown Error" - suggesting rate limiting or server-side restrictions.
+
+3. **PDF URL Extraction Failed:** The tool could not extract PDF URLs from the search results.
+
+## Save Directory
+
+**No files were saved** - All download attempts failed before any files could be written to disk.
+
+## Recommendation
+
+- Wait and retry later when Arxiv server load is lower
+- Check network connectivity
+- Consider alternative download methods (direct Arxiv PDF URLs)

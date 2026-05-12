@@ -44,7 +44,7 @@ simulation_task:
   description: >
     implement the implementation plan. Be very precise, especially with the unit conversions.
   expected_output: >
-    directly executabe pyhton code. maximum 150 lines
+    directly executabe pyhton code that makes calculations and plots if appropriate. Reasonable lenght.
   agent: model_simulator
 
 checking_task:
