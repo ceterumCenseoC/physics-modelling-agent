@@ -1,0 +1,4 @@
+problem with the magnetisation formula
+\mu_B is missing, the Bohr-Magneton is missing in the implementation
+
+the unit conversion for the rashba couptling is wrong

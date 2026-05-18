@@ -1,4 +1,4 @@
-from physicsmodellinghelper.tools.pDFReader import PDFReader # custom tool to read pdfs and extract text from them
+from physicsmodellinghelperCustomSim.tools.pDFReader import PDFReader # custom tool to read pdfs and extract text from them
 
 if __name__ == "__main__":
     tool = PDFReader()

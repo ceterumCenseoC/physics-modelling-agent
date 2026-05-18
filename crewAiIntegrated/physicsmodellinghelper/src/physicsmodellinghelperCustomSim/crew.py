@@ -5,8 +5,8 @@ from crewai import LLM, Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from crewai_tools import ArxivPaperTool
-from physicsmodellinghelper.tools.arxivSearch import ArxivDownloader # custom tool to download arxiv papers based on search results
-from physicsmodellinghelper.tools.pDFReader import PDFReader # custom tool to read pdfs and extract text from them
+from physicsmodellinghelperCustomSim.tools.arxivSearch import ArxivDownloader # custom tool to download arxiv papers based on search results
+from physicsmodellinghelperCustomSim.tools.pDFReader import PDFReader # custom tool to read pdfs and extract text from them
 
 #from src.physicsmodellinghelper.embedderCustom import EmbedderCustom
 
@@ -93,25 +93,22 @@ class Physicsmodellinghelper():
         )
 
     @agent
-    def formula_checker(self) -> Agent:
+    def simulation_planner(self) -> Agent:
         return Agent(
-            config=self.agents_config['formula_checker'], # type: ignore[index]
+            config=self.agents_config['simulation_planner'], # type: ignore[index]
             verbose=True,
             temperature=0.0,
             llm=LLM(
-                model = "qwen3.5-122b-a10b", # needed because we want to read pdf's
+                model = "deepseek-r1-distill-llama-70b", # needed because we want to read pdf's
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
-                #reasoning="deep", # for better reasoning capabilities; should be supported for deepseek
-                #type="chat-completions"
-            ),
-            tools=[PDFReader(run_identifier=str(self.outputNr))] #looking for good parameters
+            )
         )
     
     @agent
-    def model_simulator(self) -> Agent:
+    def simulation_implementer(self) -> Agent:
         return Agent(
-            config=self.agents_config['model_simulator'], # type: ignore[index]
+            config=self.agents_config['simulation_implementer'], # type: ignore[index]
             verbose=True,
             temperature=0.0,
             llm=LLM(
@@ -122,36 +119,6 @@ class Physicsmodellinghelper():
             ),
             allow_code_execution=True
             #tools = [CodeInterpreterTool()]
-        )
-
-    @agent
-    def simulation_validator(self) -> Agent:
-        return Agent(
-            config=self.agents_config['simulation_validator'], # type: ignore[index]
-            verbose=True,
-            temperature=0.0,
-            llm=LLM(
-                model = "deepseek-r1-distill-llama-70b", # for best results regarding logical consistency
-                base_url="https://chat-ai.academiccloud.de/v1",
-                api_key=os.getenv("OPENAI_API_KEY"),
-                #reasoning="deep", # for better reasoning capabilities; should be supported for deepseek
-                #type="chat-completions"
-            ),
-        )
-    
-    @agent
-    def checker(self) -> Agent:
-        return Agent(
-            config=self.agents_config['checker'], # type: ignore[index]
-            verbose=True,
-            temperature=0.0,
-            llm=LLM(
-                model = "qwen3.5-122b-a10b", #MODEL NEEDS TO SUPPORT AUTO TOOL CALLING; strong logic model for comparision: we want an understading of the output; OR strong overall model for better text parsing and comparisions???
-                base_url="https://chat-ai.academiccloud.de/v1",
-                api_key=os.getenv("OPENAI_API_KEY"),
-                #type="chat-completions"
-            ),
-            tools=[ArxivDownloader(run_identifier=str(self.outputNr)), ArxivPaperTool(), PDFReader(run_identifier=str(self.outputNr))]
         )
 
     # To learn more about structured task outputs,
@@ -191,11 +158,11 @@ class Physicsmodellinghelper():
         )
     
     @task
-    def formula_checking_task(self) -> Task:
+    def simulation_planning_task(self) -> Task:
         return Task(
-            config=self.tasks_config['formula_checking_task'], # type: ignore[index]
+            config=self.tasks_config['simulation_planning_task'], # type: ignore[index]
             markdown=True,
-            output_file=self.outputDir + 'formula_checking' + str(self.outputNr) + '.md'
+            output_file=self.outputDir + 'simulation_plan' + str(self.outputNr) + '.md'
         )
 
     @task
@@ -204,22 +171,6 @@ class Physicsmodellinghelper():
             config=self.tasks_config['simulation_task'], # type: ignore[index]
             markdown=False,
             output_file=self.outputDir + 'simulation_results' + str(self.outputNr) + '.py'
-        )
-    
-    @task
-    def validation_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['validation_task'], # type: ignore[index]
-            markdown=False,
-            output_file=self.outputDir + 'simulation_validation' + str(self.outputNr) + '.py'
-        )
-    
-    @task
-    def checking_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['checking_task'], # type: ignore[index]
-            markdown=True,
-            output_file=self.outputDir + 'checking_results' + str(self.outputNr) + '.md'
         )
 
     @crew

@@ -32,31 +32,18 @@ simple_modelling_task:
     MARKDOWN format with $...$ and $$...$$. No code.
   agent: simple_modeller
 
-formula_checking_task:
+simulation_planning_task:
   description: >
-    check all the formulas of the model and make sure, they match with the sources.
-    Do all necessary unit conversions so mistakes because of unit missmatches or different unit systems are avoided
+    create a step by step guide for simulating the model. Make sure, every aspect desired in {aim} is covered.
+    Check all unit conversions and final units for physical accuracy.
   expected_output: >
-    the necessary formulas, corrected if necessary. A list of all necessary unit conversions. MARKDOWN format with $...$ and $$...$$.
-  agent: formula_checker
+    a step by step guide that describes the implementation fool proove. MARKDOWN format wiht $... annd $$...$$. No Python code.
+  agent: simulation_planner
 
 simulation_task:
   description: >
-    implement the model to accomplish {aim}. Use the formulas and unit conversions from the formula_checking_task.
+    implement the plan exactly. Do not include new content to the plan or leave out content.
+    Report on problems you encounter as comments in the programm.
   expected_output: >
-    directly executabe pyhton code that makes calculations and plots if appropriate. No ''' or not python text.
-  agent: model_simulator
-
-validation_task:
-  description: >
-    check to code of the simulation_task for correct formula implementation and correct unit conversions.
-  expected_output: >
-    a python file with correct formulas and unit conversions. The file should be directly executable.
-  agent: simulation_validator
-
-checking_task:
-  description: >
-    compare the current model to existing results for {aim}. Determine how good the simulation currently is.
-  expected_output: >
-    a table comparing the most important aspects and a short text summarizing the most important results. MARKDOWN format with $...$ and $$...$$.
-  agent: checker
+    an executable python file that implements the given plan.
+  agent: simulation_implementer

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from physicsmodellinghelper.main import run
+from physicsmodellinghelperCustomSim.main import run
 def input12():
     inputs = {
         'topic': 'Edelstein-Effect',
@@ -19,7 +19,7 @@ def inputExplicitPlot():
                 'Compute the magnitization magnitude and direction of different directions and magnitudes of the applied electric field. '
                 'Consider how the result depends on relevant parameters of the model (e.g. chirality, fermi velocity) and display the relations.'
     }
-    run(inputs = inputs, outputNr = 15, outputDir = "runOutputs/")
+    run(inputs = inputs, outputNr = 2, outputDir = "runOutputsCustomSim/")
 
 if __name__ == "__main__":
     inputExplicitPlot()
