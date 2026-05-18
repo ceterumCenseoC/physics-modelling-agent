@@ -1,33 +1,31 @@
 
 
-# Edelstein Effect Papers Download Report
+# Download Report: Edelstein Effect Papers
 
-## Status: **FAILED**
+## Download Status: **FAILED**
 
-### Issues Encountered
+All 5 requested papers failed to download due to network/Arxiv server issues.
 
-All 5 requested papers failed to download due to **network timeout errors**:
+### Papers Attempted:
+- `cond-mat/0503314` - Rashba (2005) - **FAILED** (Timeout)
+- `1305.6822` - Manchon & Valenzuela (2013) - **FAILED** (Timeout)
+- `1506.08091` - Henk et al. (2015) - **FAILED** (Timeout)
+- `1708.05386` - Vila et al. (2017) - **FAILED** (HTTP 429)
+- `1905.01682` - Scheurer & Schmalian (2019) - **FAILED** (HTTP 429)
 
-| arxivID | Paper Title | Status |
-|---------|-------------|--------|
-| 2503.20712 | Edelstein Effect in Isotropic and Anisotropic Rashba Models | ❌ Timeout |
-| 2307.02872 | Spin and Orbital Edelstein Effect in a Bilayer System with Rashba Interaction | ❌ Timeout |
-| 1805.05523 | Spin Accumulation at Nonmagnetic Interface Induced by Direct Rashba Edelstein Effect | ❌ Timeout |
-| 1912.01804 | Enhanced Edelstein Effect and Interdimensional Effects in an Electron Gas with Rashba Spin-Orbit Coupling Interface | ❌ Timeout |
-| 1901.06953 | Edelstein Effects, Spin-Transfer Torque, and Spin Pumping Caused by Pristine Surface States of Topological Insulators | ❌ Timeout |
+### Errors Encountered:
+- **Timeout Errors:** Papers 1-3 failed with read operation timeouts
+- **HTTP 429 Errors:** Papers 4-5 failed with rate-limiting (Too Many Requests)
 
-### Error Details
+### Issues:
+- Arxiv server appears to be experiencing connectivity issues or rate limiting
+- The tool could not extract PDF URLs due to these server errors
 
-```
-Failed to fetch or download Arxiv papers: The read operation timed out
-```
+### Directory:
+- **No files were saved** - downloads did not complete
+- Default tool path was not utilized as no PDFs were retrieved
 
-### Expected Save Directory
-
-**Default tool path:** `./arxiv_papers/` (or system default as configured by the tool)
-
-### Recommendations
-
-1. Retry the download after network connectivity stabilizes
-2. Consider downloading directly from Arxiv URLs if tool continues to fail
-3. Check Arxiv server status for potential temporary outages
+### Recommendations:
+- Retry the download after some time to avoid rate limiting
+- Check Arxiv server status for potential outages
+- Consider downloading directly from Arxiv URLs if tool continues to fail

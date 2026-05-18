@@ -106,6 +106,19 @@ class Physicsmodellinghelper():
         )
     
     @agent
+    def unit_checker(self) -> Agent:
+        return Agent(
+            config=self.agents_config['unit_checker'], # type: ignore[index]
+            verbose=True,
+            temperature=0.0,
+            llm=LLM(
+                model = "deepseek-r1-distill-llama-70b", # needed because we want to read pdf's
+                base_url="https://chat-ai.academiccloud.de/v1",
+                api_key=os.getenv("OPENAI_API_KEY"),
+            )
+        )
+    
+    @agent
     def simulation_implementer(self) -> Agent:
         return Agent(
             config=self.agents_config['simulation_implementer'], # type: ignore[index]
@@ -163,6 +176,14 @@ class Physicsmodellinghelper():
             config=self.tasks_config['simulation_planning_task'], # type: ignore[index]
             markdown=True,
             output_file=self.outputDir + 'simulation_plan' + str(self.outputNr) + '.md'
+        )
+    
+    @task
+    def unit_checking_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['unit_checking_task'], # type: ignore[index]
+            markdown=True,
+            output_file=self.outputDir + 'unit_check' + str(self.outputNr) + '.md'
         )
 
     @task

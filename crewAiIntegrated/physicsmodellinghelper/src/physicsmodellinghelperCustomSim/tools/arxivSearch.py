@@ -39,9 +39,12 @@ class ArxivDownloader(ArxivPaperTool):
         pdf_path = os.path.join(output_dir, f"{title}.pdf")
 
         # --- Download PDF ---
-        r = requests.get(pdf_url)
-        with open(pdf_path, "wb") as f:
-            f.write(r.content)
+        try:
+            r = requests.get(pdf_url)
+            with open(pdf_path, "wb") as f:
+                f.write(r.content)
+        except Exception as e:
+            return {"error": f"Failed to download PDF: {str(e)}", "raw_output": raw}
 
         return {
             "saved_pdf": pdf_path,

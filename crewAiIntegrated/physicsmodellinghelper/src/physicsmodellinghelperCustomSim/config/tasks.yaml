@@ -40,10 +40,18 @@ simulation_planning_task:
     a step by step guide that describes the implementation fool proove. MARKDOWN format wiht $... annd $$...$$. No Python code.
   agent: simulation_planner
 
+unit_checking_task:
+  description: >
+    Calculate the units of all the used formulas just from the source material. Compare them to the expectation for the calculated properties.
+    If there are missmatches, modify the formulas accordingly. MARKDOWN format with $...$ and $$...$$.
+  expected_output: >
+    The units of the equations and necessary modifications
+  agent: unit_checker
+
 simulation_task:
   description: >
     implement the plan exactly. Do not include new content to the plan or leave out content.
-    Report on problems you encounter as comments in the programm.
+    Report on problems you encounter as comments in the programm. The final code should achive {aim}.
   expected_output: >
     an executable python file that implements the given plan.
   agent: simulation_implementer
