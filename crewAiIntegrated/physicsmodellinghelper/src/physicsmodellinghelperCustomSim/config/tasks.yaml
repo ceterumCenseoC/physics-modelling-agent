@@ -42,10 +42,12 @@ simulation_planning_task:
 
 unit_checking_task:
   description: >
-    Calculate the units of all the used formulas just from the source material. Compare them to the expectation for the calculated properties.
+    Start by determining the units of the used quantities.
+    Using this, substitude the units into the equations and determine the resulting unit.
+    Compare these units to the general physical expectation precisely and carefully.
     If there are missmatches, modify the formulas accordingly. MARKDOWN format with $...$ and $$...$$.
   expected_output: >
-    The units of the equations and necessary modifications
+    The units of the equations and necessary modifications.
   agent: unit_checker
 
 simulation_task:

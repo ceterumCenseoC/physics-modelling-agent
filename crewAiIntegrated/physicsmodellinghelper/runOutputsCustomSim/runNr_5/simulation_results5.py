@@ -1,4 +1,3 @@
-```python
 import numpy as np
 
 # Physical constants (SI units)
@@ -51,4 +50,3 @@ print("Edelstein susceptibility (chi):", chi, "S")
 print("Magnetization vector (M):", M, "A/m")
 print("Magnetization magnitude:", M_magnitude, "A/m")
 print("Magnetization direction:", M_direction / np.linalg.norm(M_direction))
-```

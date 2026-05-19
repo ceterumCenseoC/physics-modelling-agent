@@ -17,9 +17,9 @@ def inputExplicitPlot():
         'current_time': str(datetime.now()),
         'aim': 'Calculate the Edelstein effect for a Rashba fermion (at the Gamma point of the Brillouin zone). ' #THIS IS THE CURRENT AIM FOR GETTING A FIRST MODEL
                 'Compute the magnitization magnitude and direction of different directions and magnitudes of the applied electric field. '
-                'Consider how the result depends on relevant parameters of the model (e.g. chirality, fermi velocity) and display the relations.'
+                'Consider how the result depends on relevant parameters of the model (e.g. chirality, fermi velocity) and make explicit graphics.'
     }
-    run(inputs = inputs, outputNr = 5, outputDir = "runOutputsCustomSim/")
+    run(inputs = inputs, outputNr = 6, outputDir = "runOutputsCustomSim/")
 
 if __name__ == "__main__":
     inputExplicitPlot()

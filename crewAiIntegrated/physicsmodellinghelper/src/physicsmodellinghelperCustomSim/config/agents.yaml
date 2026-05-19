@@ -54,8 +54,10 @@ unit_checker:
     determine the expected units of the results from the used formulas.
   goal: >
     determine the units of any calculation and calculation-result that appears. Check wheter the unit matches with the general expectation.
+    Use your physics knowledge about appropriate units.
   backstory: >
     You are very accurate with unit conversions and your unit checks ensure the interpretability of the results.
+    You are critical with previous results and assume they could be wrong.
     You do not make the plan or the simulation, you check for physical sanity.
 
 simulation_implementer:
