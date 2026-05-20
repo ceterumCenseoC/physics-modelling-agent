@@ -2,7 +2,7 @@
 import sys
 import warnings
 
-from physicsmodellinghelperCustomSim.crew import Physicsmodellinghelper
+from physicsmodellinghelperCS2.crew import Physicsmodellinghelper
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 

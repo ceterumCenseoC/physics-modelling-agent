@@ -5,8 +5,8 @@ from crewai import LLM, Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from crewai_tools import ArxivPaperTool
-from physicsmodellinghelperCustomSim.tools.arxivSearch import ArxivDownloader # custom tool to download arxiv papers based on search results
-from physicsmodellinghelperCustomSim.tools.pDFReader import PDFReader # custom tool to read pdfs and extract text from them
+from physicsmodellinghelperCS2.tools.arxivSearch import ArxivDownloader # custom tool to download arxiv papers based on search results
+from physicsmodellinghelperCS2.tools.pDFReader import PDFReader # custom tool to read pdfs and extract text from them
 
 #from src.physicsmodellinghelper.embedderCustom import EmbedderCustom
 
@@ -24,6 +24,17 @@ class Physicsmodellinghelper():
         self.outputNr : int = outputNr
         self.outputDir = outputDir + f"runNr_{self.outputNr}/"
 
+        self.verbose = False
+        self.allow_delegation = False
+        self.temperature = 0.0
+        self.top_p = 3
+        self.top_k = 3
+        self.frequency_penalty = 0
+        self.presence_penalty = 0
+        self.max_iter = 1
+        
+        self.async_execution = False
+
     # Learn more about YAML configuration files here:
     # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
     # Tasks: https://docs.crewai.com/concepts/tasks#yaml-configuration-recommended
@@ -34,14 +45,14 @@ class Physicsmodellinghelper():
     def source_gatherer(self) -> Agent:
         return Agent(
             config=self.agents_config['source_gatherer'], # type: ignore[index]
-            verbose=False,
-            allow_delegation=False,
-            temperature=0.0,
-            top_p=1,
-            top_k=1,
-            frequency_penalty=0,
-            presence_penalty=0,
-            max_iter=1,
+            verbose=self.verbose,
+            allow_delegation=self.allow_delegation,
+            temperature=self.temperature,
+            top_p=self.top_p,
+            top_k=self.top_k,
+            frequency_penalty=self.frequency_penalty,
+            presence_penalty=self.presence_penalty,
+            max_iter=self.max_iter,
             llm=LLM(
                 model = "qwen3.5-122b-a10b",
                 base_url="https://chat-ai.academiccloud.de/v1",
@@ -55,14 +66,14 @@ class Physicsmodellinghelper():
     def paper_downloader(self) -> Agent:
         return Agent(
             config=self.agents_config['paper_downloader'], # type: ignore[index]
-            verbose=False,
-            allow_delegation=False,
-            temperature=0.0,
-            top_p=1,
-            top_k=1,
-            frequency_penalty=0,
-            presence_penalty=0,
-            max_iter=1,
+            verbose=self.verbose,
+            allow_delegation=self.allow_delegation,
+            temperature=self.temperature,
+            top_p=self.top_p,
+            top_k=self.top_k,
+            frequency_penalty=self.frequency_penalty,
+            presence_penalty=self.presence_penalty,
+            max_iter=self.max_iter,
             llm=LLM(
                 model = "qwen3.5-122b-a10b",
                 base_url="https://chat-ai.academiccloud.de/v1",
@@ -76,14 +87,14 @@ class Physicsmodellinghelper():
     def information_extractor(self) -> Agent:
         return Agent(
             config=self.agents_config['information_extractor'], # type: ignore[index]
-            verbose=False,
-            allow_delegation=False,
-            temperature=0.0,
-            top_p=1,
-            top_k=1,
-            frequency_penalty=0,
-            presence_penalty=0,
-            max_iter=1,
+            verbose=self.verbose,
+            allow_delegation=self.allow_delegation,
+            temperature=self.temperature,
+            top_p=self.top_p,
+            top_k=self.top_k,
+            frequency_penalty=self.frequency_penalty,
+            presence_penalty=self.presence_penalty,
+            max_iter=self.max_iter,
             llm=LLM(
                 model = "qwen3.5-122b-a10b",
                 base_url="https://chat-ai.academiccloud.de/v1",
@@ -98,14 +109,14 @@ class Physicsmodellinghelper():
     def simple_modeller(self) -> Agent:
         return Agent(
             config=self.agents_config['simple_modeller'], # type: ignore[index]
-            verbose=False,
-            allow_delegation=False,
-            temperature=0.0,
-            top_p=1,
-            top_k=1,
-            frequency_penalty=0,
-            presence_penalty=0,
-            max_iter=1,
+            verbose=self.verbose,
+            allow_delegation=self.allow_delegation,
+            temperature=self.temperature,
+            top_p=self.top_p,
+            top_k=self.top_k,
+            frequency_penalty=self.frequency_penalty,
+            presence_penalty=self.presence_penalty,
+            max_iter=self.max_iter,
             llm=LLM(
                 model = "deepseek-r1-distill-llama-70b",
                 base_url="https://chat-ai.academiccloud.de/v1",
@@ -117,36 +128,17 @@ class Physicsmodellinghelper():
         )
 
     @agent
-    def simulation_planner(self) -> Agent:
-        return Agent(
-            config=self.agents_config['simulation_planner'], # type: ignore[index]
-            verbose=False,
-            allow_delegation=False,
-            temperature=0.0,
-            top_p=1,
-            top_k=1,
-            frequency_penalty=0,
-            presence_penalty=0,
-            max_iter=1,
-            llm=LLM(
-                model = "deepseek-r1-distill-llama-70b", # needed because we want to read pdf's
-                base_url="https://chat-ai.academiccloud.de/v1",
-                api_key=os.getenv("OPENAI_API_KEY"),
-            )
-        )
-    
-    @agent
     def unit_checker(self) -> Agent:
         return Agent(
             config=self.agents_config['unit_checker'], # type: ignore[index]
-            verbose=False,
-            allow_delegation=False,
-            temperature=0.0,
-            top_p=1,
-            top_k=1,
-            frequency_penalty=0,
-            presence_penalty=0,
-            max_iter=1,
+            verbose=self.verbose,
+            allow_delegation=self.allow_delegation,
+            temperature=self.temperature,
+            top_p=self.top_p,
+            top_k=self.top_k,
+            frequency_penalty=self.frequency_penalty,
+            presence_penalty=self.presence_penalty,
+            max_iter=self.max_iter,
             llm=LLM(
                 model = "deepseek-r1-distill-llama-70b", # needed because we want to read pdf's
                 base_url="https://chat-ai.academiccloud.de/v1",
@@ -155,17 +147,37 @@ class Physicsmodellinghelper():
         )
     
     @agent
-    def simulation_implementer(self) -> Agent:
+    def simulation_physician(self) -> Agent:
         return Agent(
-            config=self.agents_config['simulation_implementer'], # type: ignore[index]
-            verbose=False,
-            allow_delegation=False,
-            temperature=0.0,
-            top_p=1,
-            top_k=1,
-            frequency_penalty=0,
-            presence_penalty=0,
-            max_iter=1,
+            config=self.agents_config['simulation_physician'], # type: ignore[index]
+            verbose=self.verbose,
+            allow_delegation=self.allow_delegation,
+            temperature=self.temperature,
+            top_p=self.top_p,
+            top_k=self.top_k,
+            frequency_penalty=self.frequency_penalty,
+            presence_penalty=self.presence_penalty,
+            max_iter=self.max_iter,
+            llm=LLM(
+                model = "deepseek-r1-distill-llama-70b", # needed because we want to read pdf's
+                base_url="https://chat-ai.academiccloud.de/v1",
+                api_key=os.getenv("OPENAI_API_KEY"),
+            )
+        )
+    
+    
+    @agent
+    def simulation_correcter(self) -> Agent:
+        return Agent(
+            config=self.agents_config['simulation_correcter'], # type: ignore[index]
+            verbose=self.verbose,
+            allow_delegation=self.allow_delegation,
+            temperature=self.temperature,
+            top_p=self.top_p,
+            top_k=self.top_k,
+            frequency_penalty=self.frequency_penalty,
+            presence_penalty=self.presence_penalty,
+            max_iter=self.max_iter,
             llm=LLM(
                 model = "devstral-2-123b-instruct-2512",
                 base_url="https://chat-ai.academiccloud.de/v1",
@@ -185,7 +197,7 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['gathering_task'], # type: ignore[index]
             markdown=True,
-            async_execution=False,
+            async_execution=self.async_execution,
             output_file=self.outputDir + 'sources' + str(self.outputNr) + '.md'
         )
     
@@ -194,7 +206,7 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['downloading_task'], # type: ignore[index]
             markdown=True,
-            async_execution=False,
+            async_execution=self.async_execution,
             output_file=self.outputDir + 'downloading_report' + str(self.outputNr) + '.md'
         )
     
@@ -203,7 +215,7 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['extraction_task'], # type: ignore[index]
             markdown=True,
-            async_execution=False,
+            async_execution=self.async_execution,
             output_file=self.outputDir + 'information' + str(self.outputNr) + '.md'
         )
     
@@ -212,17 +224,8 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['simple_modelling_task'], # type: ignore[index]
             markdown=True,
-            async_execution=False,
+            async_execution=self.async_execution,
             output_file=self.outputDir + 'simple_model' + str(self.outputNr) + '.md'
-        )
-    
-    @task
-    def simulation_planning_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['simulation_planning_task'], # type: ignore[index]
-            markdown=True,
-            async_execution=False,
-            output_file=self.outputDir + 'simulation_plan' + str(self.outputNr) + '.md'
         )
     
     @task
@@ -230,17 +233,27 @@ class Physicsmodellinghelper():
         return Task(
             config=self.tasks_config['unit_checking_task'], # type: ignore[index]
             markdown=True,
-            async_execution=False,
+            async_execution=self.async_execution,
             output_file=self.outputDir + 'unit_check' + str(self.outputNr) + '.md'
         )
 
+        
     @task
-    def simulation_task(self) -> Task:
+    def physician_simulation_task(self) -> Task:
         return Task(
-            config=self.tasks_config['simulation_task'], # type: ignore[index]
+            config=self.tasks_config['physician_simulation_task'], # type: ignore[index]
+            markdown=True,
+            async_execution=self.async_execution,
+            output_file=self.outputDir + 'simulation_physician' + str(self.outputNr) + '.py'
+        )
+
+    @task
+    def simulation_correction_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['simulation_correction_task'], # type: ignore[index]
             markdown=False,
-            async_execution=False,
-            output_file=self.outputDir + 'simulation_results' + str(self.outputNr) + '.py'
+            async_execution=self.async_execution,
+            output_file=self.outputDir + 'simulation_correction' + str(self.outputNr) + '.py'
         )
 
     @crew
@@ -253,6 +266,6 @@ class Physicsmodellinghelper():
             agents=self.agents, # Automatically created by the @agent decorator
             tasks=self.tasks, # Automatically created by the @task decorator
             process=Process.sequential, # for simplicity
-            verbose=False,
+            verbose=self.verbose,
             # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
         )

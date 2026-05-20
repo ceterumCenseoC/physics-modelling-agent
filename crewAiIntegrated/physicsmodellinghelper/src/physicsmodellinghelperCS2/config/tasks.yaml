@@ -1,0 +1,59 @@
+gathering_task:
+  description: >
+    find at least 3 relevant papers for {topic}. Include papers that explore ideas for {aim}.
+  expected_output: >
+    a list with the important sources: arxivID, Author, date, url, short summary.
+    Sort the sources by relevance. MARKDOWN format with $...$ and $$...$$.
+  agent: source_gatherer
+
+downloading_task:
+  description: >
+    download the papers found by the previous task. Make sure you download the correct papers and nothing more or less.
+    Use the path the tool uses by default.
+  expected_output: >
+    the according papers should be downloaded. Provide a very short report about issues or problem encountered.
+    The directory to which was saved
+  agent: paper_downloader
+
+extraction_task:
+  description: >
+    Find relevant information from the given sources that allow to build a model that accomplishes {aim}.
+    Do not build the model.
+  expected_output: >
+    All necessary information for building the model. MARKDOWN format with $...$ and $$...$$.
+  agent: information_extractor
+
+simple_modelling_task:
+  description: >
+    use the information provided by the extraction_task to create a model that accomplishes {aim}.
+    explain why you took which step and which information you used.
+  expected_output: >
+    a matematical description of the modell with textual explaination that describes the model and allows numerical implementations in future tasks.
+    MARKDOWN format with $...$ and $$...$$. No code.
+  agent: simple_modeller
+
+unit_checking_task:
+  description: >
+    Start by determining the units of the used quantities.
+    Using this, substitude the units into the equations and determine the resulting unit.
+    Compare these units to the general physical expectation precisely and carefully.
+    If there are missmatches, modify the formulas accordingly.
+  expected_output: >
+    The units of the equations and necessary modifications. MARKDOWN format with $...$ and $$...$$.
+  agent: unit_checker
+
+physician_simulation_task:
+  description: >
+    implement the model accurately. Take the units and alterations of the unit_checking_task into account.
+    Be sure to create physical meaningfull output.
+  expected_output: >
+    Only python code. The code should implement to model closely.
+  agent: simulation_physician
+
+simulation_correction_task:
+  description: >
+    Correct bugs in the code. Ensure the final code is running and correct.
+    If the calculation results are unaffected you are allowed to make style and efficiency improvements.
+  expected_output: >
+    Ready to run python code without bugs.
+  agent: simulation_correcter
