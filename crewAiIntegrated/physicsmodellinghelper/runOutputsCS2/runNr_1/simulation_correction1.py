@@ -1,103 +1,89 @@
+The Edelstein effect model for Rashba fermions is implemented in Python as follows:
+
+```python
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Constants
-mu_B = 1.0  # Bohr magneton (in appropriate units)
-e = 1.0     # Elementary charge
-hbar = 1.0  # Reduced Planck's constant
-tau = 1.0   # Relaxation time
+# Physical constants
+e = 1.602e-19  # Elementary charge (C)
+hbar = 1.055e-34  # Reduced Planck constant (J·s)
+m_e = 9.109e-31  # Electron mass (kg)
+k_B = 1.381e-23  # Boltzmann constant (J/K)
 
-def edelstein_effect(alpha, m, E_F, E, parameters=None):
-    """
-    Calculate the magnetization due to the Edelstein effect.
+# Model parameters
+alpha = 50e-22  # Spin-orbit coupling strength (J·m)
+v_F = 1e6  # Fermi velocity (m/s)
+tau = 1e-12  # Relaxation time (s)
+E = 10  # Electric field magnitude (V/m)
+T = 0  # Temperature (K)
 
-    Parameters:
-    - alpha (float): Rashba spin-orbit coupling strength
-    - m (float): Effective mass
-    - E_F (float): Fermi energy
-    - E (float): Electric field magnitude
-    - parameters (dict, optional): Additional parameters for nonlinear effects
+# Derived parameters
+m_star = m_e  # Effective mass
+epsilon_F = (hbar**2 * (m_star * v_F)**2) / (2 * m_star)
 
-    Returns:
-    - M (float): Magnetization magnitude
-    - direction (str): Direction of magnetization
-    """
-    if parameters is None:
-        parameters = {}
+# Compute spin polarization
+def compute_spin_polarization(alpha, tau, E, m_star):
+    # Calculate the magnitude
+    S_mag = (e * tau * alpha * E) / (hbar**2)
+    return S_mag
 
-    # High-Density Regime (HDR)
-    if E_F > 0:
-        M = (mu_B * e * tau) / (2 * np.pi) * m * alpha * E
-        return M, "Perpendicular to E"
+# Vector components for direction
+def compute_spin_direction(E_vector):
+    # Assuming E is in the x-y plane
+    E_x, E_y = E_vector
+    S_x = -E_y
+    S_y = E_x
+    return np.array([S_x, S_y])
 
-    # Low-Density Regime (LDR)
-    elif E_F < 0:
-        M = (mu_B * e * tau) / (2 * np.pi) * np.sqrt((m * alpha)**2 + 2 * m * E_F) * E
-        return M, "Perpendicular to E"
+# Example electric field vector
+E_vector = np.array([E, 0])  # E along x-axis
+S_vector = compute_spin_direction(E_vector)
+S_mag = compute_spin_polarization(alpha, tau, E, m_star)
 
-    # Nonlinear Regime
-    else:
-        gamma = (e * E * hbar) / (alpha * (m * alpha)**2)
-        if gamma < 1:
-            # Adiabatic regime
-            S_y = - (alpha * 1.0) / (1.0)  # Simplified for demonstration
-            return S_y, "Perpendicular to E"
-        else:
-            # Non-adiabatic regime
-            S_y = - (alpha * 1.0) / (1.0) * (1.0 / (1.0 + gamma**2))
-            return S_y, "Perpendicular to E"
+print(f"Spin Polarization Magnitude: {S_mag} spins/m²")
+print(f"Spin Polarization Direction: {S_vector}")
 
-# Example usage
-alpha = 1.0  # Rashba parameter
-m = 1.0      # Effective mass
-E_F = 1.0    # Fermi energy (HDR)
-E = 1.0      # Electric field
+# Plotting
+# Create an array of electric field magnitudes
+E_values = np.linspace(0, 100, 100)  # V/m
 
-M_HDR, direction_HDR = edelstein_effect(alpha, m, E_F, E)
-print(f"High-Density Regime: M = {M_HDR}, Direction = {direction_HDR}")
+# Compute spin polarization for each E
+S_magnitudes = [compute_spin_polarization(alpha, tau, E_val, m_star) for E_val in E_values]
 
-E_F = -1.0   # Low-Density Regime
-M_LDR, direction_LDR = edelstein_effect(alpha, m, E_F, E)
-print(f"Low-Density Regime: M = {M_LDR}, Direction = {direction_LDR}")
-
-# Nonlinear effects
-E = 10.0     # High electric field
-M_nonlinear, direction_nonlinear = edelstein_effect(alpha, m, 0.0, E)
-print(f"Nonlinear Regime: M = {M_nonlinear}, Direction = {direction_nonlinear}")
-
-# Graphics generation
-# Magnetization vs. Electric Field
-E_fields = np.linspace(0, 10, 100)
-M_values_HDR = [edelstein_effect(alpha, m, E_F=1.0, E=e)[0] for e in E_fields]
-M_values_LDR = [edelstein_effect(alpha, m, E_F=-1.0, E=e)[0] for e in E_fields]
-
-plt.figure(figsize=(10, 5))
-plt.subplot(1, 2, 1)
-plt.plot(E_fields, M_values_HDR, label='HDR')
-plt.plot(E_fields, M_values_LDR, label='LDR')
-plt.xlabel('Electric Field (E)')
-plt.ylabel('Magnetization (M)')
-plt.title('M vs E')
+# Plot S vs E
+plt.figure(figsize=(10, 6))
+plt.plot(E_values, S_magnitudes, label='Spin Polarization')
+plt.xlabel('Electric Field (V/m)')
+plt.ylabel('Spin Polarization (spins/m²)')
+plt.title('Spin Polarization vs Electric Field')
 plt.legend()
-
-# Parameter Dependencies
-alpha_values = np.linspace(0, 2, 100)
-M_alpha_HDR = [edelstein_effect(a, m, E_F=1.0, E=1.0)[0] for a in alpha_values]
-
-plt.subplot(1, 2, 2)
-plt.plot(alpha_values, M_alpha_HDR)
-plt.xlabel('Spin-Orbit Coupling (α)')
-plt.ylabel('Magnetization (M)')
-plt.title('M vs α')
-
-plt.tight_layout()
+plt.grid(True)
 plt.show()
-""" ```
 
-### Key Improvements:
-1. **Default Parameter Handling**: Added a default value for the `parameters` argument in the `edelstein_effect` function to avoid potential errors.
-2. **Comparison Operator**: Changed `gamma << 1` to `gamma < 1` for proper comparison.
-3. **Code Clarity**: Improved variable naming and added comments for better readability.
-4. **Error Handling**: Ensured the function can handle cases where `parameters` is not provided.
+# Polar plot for direction
+theta = np.linspace(0, 2*np.pi, 100)
+E_x = E * np.cos(theta)
+E_y = E * np.sin(theta)
+S_x = -E_y
+S_y = E_x
 
-This refined code should run without errors and provide the expected results for the Edelstein effect in a Rashba fermion system at the Gamma point. """
+plt.figure(figsize=(8, 8))
+plt.quiver(np.zeros_like(theta), np.zeros_like(theta), S_x, S_y, color='b')
+plt.xlabel('S_x')
+plt.ylabel('S_y')
+plt.title('Spin Polarization Direction vs Electric Field Direction')
+plt.grid(True)
+plt.show()
+```
+
+### Explanation of the Code:
+
+1. **Physical Constants**: Defined constants include the elementary charge, reduced Planck constant, electron mass, and Boltzmann constant.
+
+2. **Model Parameters**: These are user-defined values for spin-orbit coupling strength, Fermi velocity, relaxation time, electric field, and temperature.
+
+3. **Spin Polarization Calculation**: The function `compute_spin_polarization` calculates the magnitude of the spin polarization using the provided formula. The direction is computed using the cross product to ensure perpendicularity.
+
+4. **Plotting**: The code generates plots to visualize how the spin polarization magnitude varies with electric field and how the direction changes as the electric field rotates.
+
+This implementation provides a clear and modular approach to studying the Edelstein effect, allowing for easy modification and extension to include additional effects such as temperature dependence or quantum geometric contributions.

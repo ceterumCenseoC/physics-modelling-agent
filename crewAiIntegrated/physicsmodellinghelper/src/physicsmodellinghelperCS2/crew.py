@@ -4,7 +4,8 @@ import os
 from crewai import LLM, Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
-from crewai_tools import ArxivPaperTool
+#from crewai_tools import ArxivPaperTool #replaced with custom addition for exponential backoff
+from physicsmodellinghelperCS2.tools.arxivPaperWithBackoff import ArxivPaperTool # custom tool with exponential backoff for fetching arxiv papers
 from physicsmodellinghelperCS2.tools.arxivSearch import ArxivDownloader # custom tool to download arxiv papers based on search results
 from physicsmodellinghelperCS2.tools.pDFReader import PDFReader # custom tool to read pdfs and extract text from them
 
@@ -24,7 +25,7 @@ class Physicsmodellinghelper():
         self.outputNr : int = outputNr
         self.outputDir = outputDir + f"runNr_{self.outputNr}/"
 
-        self.verbose = False
+        self.verbose = True
         self.allow_delegation = False
         self.temperature = 0.0
         self.top_p = 3
@@ -59,7 +60,7 @@ class Physicsmodellinghelper():
                 api_key=os.getenv("OPENAI_API_KEY"),
                 #reasoning="fast", # not supported for qwen
             ),
-            tools=[ArxivPaperTool()] # allows the agent to acces arxiv papers
+            tools=[ArxivPaperTool(download_pdfs = True, save_dir = "./arxiv_pdfs"+f"/runNr_{self.outputNr}", use_title_as_filename = True)] # allows the agent to acces arxiv papers
         )
     
     @agent
@@ -201,14 +202,14 @@ class Physicsmodellinghelper():
             output_file=self.outputDir + 'sources' + str(self.outputNr) + '.md'
         )
     
-    @task
+    """ @task
     def downloading_task(self) -> Task:
         return Task(
             config=self.tasks_config['downloading_task'], # type: ignore[index]
             markdown=True,
             async_execution=self.async_execution,
             output_file=self.outputDir + 'downloading_report' + str(self.outputNr) + '.md'
-        )
+        ) """
     
     @task
     def extraction_task(self) -> Task:

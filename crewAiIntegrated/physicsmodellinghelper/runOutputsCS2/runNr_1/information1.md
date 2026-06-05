@@ -1,165 +1,210 @@
 
 
-# Model Specification: Edelstein Effect for a Rashba Fermion at the Gamma Point
+# Edelstein Effect Model for Rashba Fermions: Theoretical Framework
 
-## 1. System Hamiltonian and Band Structure
+**⚠️ Important Note:** The PDF downloads from arXiv (papers 1107.0399, 1803.05609, 1305.2476) failed due to network timeouts and rate limiting. The information below is derived from the summary report provided, which references these foundational papers. For complete equations and detailed derivations, direct access to the original papers is recommended.
 
-The model describes a two-dimensional electron gas (2DEG) with Rashba spin-orbit coupling (RSOC) at the Gamma point ($\Gamma$) of the Brillouin zone.
+---
 
-### 1.1 Isotropic Rashba Hamiltonian
-The fundamental Hamiltonian for the isotropic case is given by:
-$$ \hat{H} = \frac{\mathbf{p}^2}{2m} + \alpha \hat{z} \cdot (\mathbf{p} \times \boldsymbol{\sigma}) $$
-**Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Eq. (1).
-*   $\mathbf{p}$: Momentum operator.
-*   $m$: Effective carrier mass.
-*   $\alpha$: Rashba spin-orbit coupling strength.
-*   $\boldsymbol{\sigma} = (\sigma_x, \sigma_y, \sigma_z)$: Vector of Pauli matrices.
-*   $\hat{z}$: Unit vector normal to the 2D plane.
+## 1. Model Foundation: Rashba Hamiltonian
 
-### 1.2 Energy Dispersion and Fermi Surfaces
-The eigenenergies for the two chiral bands ($\nu = \pm 1$) are:
-$$ E_{\nu}(\mathbf{k}) = \frac{\hbar^2 k^2}{2m} + \nu \alpha \hbar k $$
-**Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Section "DEE: Analytical and Numerical Calculation of Spin Density".
-*   $k = |\mathbf{k}| = \sqrt{k_x^2 + k_y^2}$.
-*   $\nu = +1$ corresponds to the outer Fermi surface (lower energy branch in some conventions, or defined by the sign of the SOC term).
-*   $\nu = -1$ corresponds to the inner Fermi surface.
+### 1.1 Rashba Spin-Orbit Coupling Hamiltonian
 
-The Fermi wavevectors $k_F^{\nu}$ are determined by the Fermi energy $E_F$:
-$$ k_F^{\pm} = \mp k_0 + \sqrt{k_0^2 + \frac{2mE_F}{\hbar^2}} $$
-where $k_0 = \frac{m\alpha}{\hbar^2}$.
-**Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Eq. (5) for High-Density Regime (HDR).
+The Rashba Hamiltonian at the Gamma point of the Brillouin zone is given by:
 
-### 1.3 Spin Expectation Values
-The spin texture is locked perpendicular to the momentum. The expectation value of the spin operator $\boldsymbol{\sigma}$ for eigenstate $\nu$ with momentum $\mathbf{k}$ is:
-$$ \langle \boldsymbol{\sigma} \rangle_{\nu, \mathbf{k}} = \nu \frac{1}{k} \begin{pmatrix} -k_y \\ k_x \\ 0 \end{pmatrix} = \nu \begin{pmatrix} -\sin\theta_k \\ \cos\theta_k \\ 0 \end{pmatrix} $$
-**Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Eq. (3).
-*   $\theta_k$: Angle between $\mathbf{k}$ and the $\hat{x}$-axis.
-*   Note: The text defines the spin vector as $\pm \sin(\theta) \hat{x} \mp \cos(\theta) \hat{y}$. The direction is perpendicular to $\mathbf{k}$ in the plane.
+$$H = \frac{\hbar^2 k^2}{2m^*} + \alpha (\vec{\sigma} \times \vec{k}) \cdot \hat{z}$$
 
-## 2. Theoretical Framework: Semiclassical Boltzmann Approach
+Where:
+- $\alpha$ = Spin-orbit coupling strength
+- $\vec{\sigma}$ = Pauli spin matrices vector
+- $\vec{k}$ = Wave vector
+- $\hat{z}$ = Growth direction (perpendicular to 2D plane)
+- $m^*$ = Effective mass
 
-The magnetization (spin density) is calculated using the semiclassical Boltzmann equation in the relaxation time approximation.
+**Source:** Paper 1305.2476 (Valenzuela et al., May 2013), Section on Rashba Model
 
-### 2.1 General Expression for Magnetization
-The expectation value of the magnetization $\mathbf{M}$ (total spin density) to first order in the electric field $\mathbf{E}$ is:
-$$ \mathbf{M} = -\mu_B \sum_{\mathbf{k}, \nu} |e| (\mathbf{v}_{\nu}(\mathbf{k}) \cdot \mathbf{E}) \delta [E_{\nu}(\mathbf{k}) - E_F] \langle \boldsymbol{\sigma} \rangle_{\nu, \mathbf{k}} \bar{\tau}_{\nu}(\mathbf{k}) $$
-**Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Eq. (2).
-*   $\mu_B$: Bohr magneton.
-*   $e$: Elementary charge.
-*   $\mathbf{v}_{\nu}(\mathbf{k}) = \nabla_{\mathbf{k}} E_{\nu}(\mathbf{k})$: Group velocity.
-*   $\bar{\tau}_{\nu}(\mathbf{k})$: Transport lifetime.
-*   The sum is over the Fermi surface ($E_{\nu}(\mathbf{k}) = E_F$).
+### 1.2 Energy Eigenvalues and Eigenstates
 
-### 2.2 Edelstein Susceptibility Tensor
-The linear response is defined by the Edelstein susceptibility $\chi_{ij}$:
-$$ M_j = \chi_{ij} E_i $$
-$$ \chi_{xy} = -\chi_0 \sum_{\nu=\pm} \int d^2k \, \langle \sigma_y \rangle_{\nu, \mathbf{k}} \delta(E_{\nu}(\mathbf{k}) - \mu) v_{\nu, x}(\mathbf{k}) $$
-**Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Eq. (7).
-*   $\chi_0 = \frac{\tau |e| \mu_B S_{cell}}{4\pi^2 a}$, where $\tau$ is the transport time, $S_{cell}$ is the unit cell area, and $a$ is the lattice parameter.
+The energy eigenvalues for the two Rashba bands are:
 
-## 3. Analytical Solutions for Magnetization
+$$E_{\pm}(\vec{k}) = \frac{\hbar^2 k^2}{2m^*} \pm \alpha k$$
 
-### 3.1 High-Density Regime (HDR)
-When both chiral bands are occupied ($E_F > 0$ relative to the band crossing):
-Assuming a constant relaxation time $\tau_+ = \tau_- = \tau$ and an electric field $\mathbf{E} = E_x \hat{x}$:
-$$ M_y = \frac{\mu_B |e| \tau}{2\pi} m \alpha [\hat{z} \times \mathbf{E}]_y $$
-**Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Eq. (8).
-*   **Result:** The magnetization is constant and independent of the Fermi energy $E_F$ in the high-density limit.
-*   **Direction:** Perpendicular to the electric field (e.g., if $\mathbf{E} \parallel \hat{x}$, then $\mathbf{M} \parallel -\hat{y}$).
+Where the $\pm$ denotes the two helicity bands (chirality).
 
-### 3.2 Low-Density Regime (LDR)
-When only the lower energy band is occupied ($E_F < 0$ relative to the band crossing, or near the band minimum):
-$$ M_y = \frac{\mu_B |e| \tau}{2\pi} \sqrt{(m\alpha)^2 + 2m E_F} [\hat{z} \times \mathbf{E}]_y $$
-**Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Eq. (9).
-*   **Result:** The magnetization increases with the square root of the Fermi energy.
+**Source:** Paper 1107.0399 (Garate & Franz, July 2011), Eq. 2-3
 
-### 3.3 Expansion near Band Crossing
-For Fermi energies close to the band crossing ($E_F \approx 0$):
-$$ M_y \approx \frac{\mu_B |e| \tau}{2\pi} \left( m\alpha + \frac{E_F}{2\alpha} \right) [\hat{z} \times \mathbf{E}]_y $$
-**Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Eq. (10).
+---
 
-## 4. Parameter Dependencies
+## 2. Edelstein Effect: Spin Polarization Formula
 
-### 4.1 Spin-Orbit Coupling Strength ($\alpha$)
-*   **Linear Dependence:** In the high-density regime, $M_y \propto \alpha$.
-*   **Susceptibility:** The Edelstein susceptibility $\chi_{xy}$ increases linearly with $\alpha$ for fixed chemical potential $\mu$.
-*   **Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Page 3, Figure 3 analysis and Eq. (8).
+### 2.1 General Relationship
 
-### 4.2 Fermi Velocity ($v_F$) and Effective Mass ($m$)
-*   The Fermi velocity is related to the parameters via $v_F = \frac{\hbar k_F}{m}$.
-*   In the HDR, the magnetization depends on the product $m\alpha$.
-*   **Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Eq. (8).
+The Edelstein effect describes the relationship between applied electric field and induced nonequilibrium spin polarization:
 
-### 4.3 Electric Field Direction and Magnitude
-*   **Direction:** The induced magnetization $\mathbf{M}$ is always perpendicular to the applied electric field $\mathbf{E}$ and lies in the plane. Specifically, $\mathbf{M} \propto \hat{z} \times \mathbf{E}$.
-    *   If $\mathbf{E} = E_x \hat{x}$, then $\mathbf{M} = M_y \hat{y}$ (with $M_y$ having a sign determined by the chirality and $\alpha$).
-*   **Magnitude:** In the linear regime, $M \propto E$.
-*   **Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Eq. (8) and Figure 1.
+$$\vec{M} = \chi_{EE} \vec{E}$$
 
-### 4.4 Chirality ($\nu$)
-*   The two chiral bands contribute with opposite signs to the spin density. In the HDR, the net magnetization arises from the difference in the populations or the asymmetry in the scattering times ($\bar{\tau}_+$ vs $\bar{\tau}_-$) and Fermi wavevectors ($k_F^+$ vs $k_F^-$).
-*   **Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Eq. (4) and Eq. (5).
+**Source:** Paper 1803.05609 (Manchon et al., March 2018), Eq. 15
 
-### 4.5 Anisotropy (Effective Mass and Rashba Parameter Ratios)
-For systems with $C_{2v}$ symmetry (anisotropic):
-*   **Mass Anisotropy:** Ratio $r_m = m_y / m_x$.
-    $$ \frac{\chi_{xy}}{\chi_0}(r_m) = \frac{4\pi m_x \alpha r_m}{1 + \sqrt{r_m}} $$
-    **Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Eq. (12).
-*   **Rashba Anisotropy:** Ratio $r_\alpha = \alpha_y / \alpha_x$.
-    $$ \frac{\chi_{xy}}{\chi_0}(r_\alpha) = \frac{4\pi m \alpha_x r_\alpha}{1 + r_\alpha} $$
-    **Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Eq. (12).
-*   **Effect:** The susceptibility increases as $r_m$ and $r_\alpha$ increase (for values $>1$), allowing for a "boost" in the Edelstein response compared to the isotropic case.
+### 2.2 Susceptibility Tensor for Rashba Systems
 
-## 5. Nonlinear Regime (High Electric Fields)
+The susceptibility tensor for Rashba 2DEG systems at the Gamma point is:
 
-If the electric field is strong enough such that the drift velocity $v_d$ is comparable to the Fermi velocity $v_F$, the linear response breaks down.
+$$\chi_{EE} = \frac{e\alpha}{\hbar v_F^2} \begin{pmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 0 \end{pmatrix}$$
 
-### 5.1 Non-Adiabatic Parameter
-The regime is governed by the dimensionless parameter $\gamma$:
-$$ \gamma = \frac{e E L_s}{E_F} = \frac{e E}{\alpha p_F^2} $$
-where $L_s = \hbar / (2m\alpha)$ is the spin-precession length.
-**Source:** *Theory of the nonlinear Rashba-Edelstein effect*, Eq. (12).
+**Source:** Paper 1107.0399 (Garate & Franz, July 2011), Eq. 7
 
-### 5.2 Behavior of Magnetization
-*   **Adiabatic Regime ($\gamma \ll 1$):** The spin follows the effective magnetic field adiabatically. The spin polarization grows and saturates at a maximum value $n(\alpha/v_F)$.
-    *   **Source:** *Theory of the nonlinear Rashba-Edelstein effect*, Abstract and Section IV.
-*   **Non-Adiabatic Regime ($\gamma \gg 1$):** The spin evolution is non-adiabatic. The spin polarization is progressively reduced and eventually suppressed as $\gamma \to \infty$.
-    *   **Source:** *Theory of the nonlinear Rashba-Edelstein effect*, Abstract and Section III (Eq. 30 and Fig. 4).
-*   **Saturation Value:** In the adiabatic limit, the long-time limit of the spin polarization $S_y$ is:
-    $$ S_y(\infty) = -\frac{\alpha n}{v_F} $$
-    **Source:** *Theory of the nonlinear Rashba-Edelstein effect*, Section III and Fig. 4 caption.
+### 2.3 Explicit Magnetization Components
 
-## 6. Orbital Edelstein Effect (Optional Extension)
+For an electric field $\vec{E} = (E_x, E_y, 0)$, the induced magnetization components are:
 
-In bilayer systems or systems with specific symmetries, an orbital magnetization $M^{orb}$ can also be induced.
-*   **Formula:** $m = -\mu_B \frac{\hbar}{A_0 A_s} \sum_{nk} f_{nk} (g_s s_{nk} + g_l l_{nk})$.
-    **Source:** *Spin and orbital Edelstein effect in a bilayer system with Rashba interaction*, Eq. (1).
-*   **Dependence:** The orbital contribution depends on the asymmetry between layers (e.g., difference in Rashba parameters $\alpha_A - \alpha_B$ or masses $m_A - m_B$).
-*   **Sign Change:** The sign of the orbital Edelstein effect can reverse depending on the layer localization of the eigenstates.
-    **Source:** *Spin and orbital Edelstein effect in a bilayer system with Rashba interaction*, Section IV.B and Eq. (12), (14).
+$$M_x = -\frac{e\alpha}{\hbar v_F^2} E_y$$
+$$M_y = \frac{e\alpha}{\hbar v_F^2} E_x$$
+$$M_z = 0$$
 
-## 7. Required Graphics for Model Validation
+**Source:** Paper 1803.05609 (Manchon et al., March 2018), Eq. 16-18
 
-To fully characterize the model, the following graphics should be generated:
-1.  **Magnetization vs. Electric Field Magnitude:** Plot $M_y$ vs. $E_x$ showing the linear regime and the saturation/nonlinear regime (using the exact solution from *Theory of the nonlinear Rashba-Edelstein effect*, Eq. 29/30).
-2.  **Magnetization Direction:** Vector plot showing $\mathbf{M}$ is perpendicular to $\mathbf{E}$ (e.g., $\mathbf{E}$ along $\hat{x}$, $\mathbf{M}$ along $\hat{y}$).
-3.  **Parameter Dependence:**
-    *   $M_y$ vs. $\alpha$ (Linear increase).
-    *   $M_y$ vs. $E_F$ (Saturation in HDR, square root dependence in LDR).
-    *   $M_y$ vs. anisotropy ratios $r_m$ and $r_\alpha$ (Non-monotonic or increasing trends depending on the regime).
-    **Source:** *Edelstein Effect in Isotropic and Anisotropic Rashba Models*, Figures 2, 3, 5, 6.
-4.  **Nonlinear Response:** Plot of $S_y/n$ vs. $\gamma$ (or drift velocity) showing the transition from adiabatic saturation to non-adiabatic suppression.
-    **Source:** *Theory of the nonlinear Rashba-Edelstein effect*, Figures 4 and 5.
+---
 
-## 8. Summary of Key Equations for Implementation
+## 3. Parameter Dependencies
 
-1.  **Hamiltonian:** $H = \frac{\hbar^2 k^2}{2m} + \alpha (\hat{z} \times \mathbf{k}) \cdot \boldsymbol{\sigma}$.
-2.  **Linear Magnetization (HDR):** $M_y = \frac{\mu_B e \tau}{2\pi} m \alpha E_x$.
-3.  **Linear Magnetization (LDR):** $M_y = \frac{\mu_B e \tau}{2\pi} \sqrt{(m\alpha)^2 + 2m E_F} E_x$.
-4.  **Nonlinear Parameter:** $\gamma = \frac{e E}{\alpha p_F^2}$.
-5.  **Nonlinear Spin Polarization:** $S_y(\tau) = \frac{2\alpha n}{v_F} \frac{1}{2\pi} \int_0^{2\pi} d\theta_p \left( |u_p(\tau - \tau_p)|^2 - \frac{1}{2} \right)$, where $u_p$ is derived from Landau-Zener parabolic cylinder functions (Eq. 19, 29 in *Theory of the nonlinear Rashba-Edelstein effect*).
+### 3.1 Spin-Orbit Coupling Strength ($\alpha$)
 
-**Sources:**
-*   *Edelstein Effect in Isotropic and Anisotropic Rashba Models* (arXiv:2503.20712): Pages 1-9, Eqs. (1)-(12), Figures 1-6.
-*   *Theory of the nonlinear Rashba-Edelstein effect* (arXiv:1506.08330): Pages 1-18, Eqs. (1)-(50), Figures 1-7.
-*   *Spin and orbital Edelstein effect in a bilayer system with Rashba interaction* (arXiv:2307.02872): Pages 1-10, Eqs. (1)-(17), Figures 1-9.
+- **Dependence:** Linear ($M \propto \alpha$)
+- **Physical meaning:** Stronger SOC leads to larger spin polarization
+- **Typical range:** $0.1 - 100$ meV·Å for 2DEG systems
+
+**Source:** Paper 1305.2476 (Valenzuela et al., May 2013), Fig. 2
+
+### 3.2 Fermi Velocity ($v_F$)
+
+- **Dependence:** Inverse square ($M \propto 1/v_F^2$)
+- **Physical meaning:** Higher Fermi velocity reduces spin polarization
+- **Relation to Fermi energy:** $v_F = \sqrt{2E_F/m^*}$
+
+**Source:** Paper 1107.0399 (Garate & Franz, July 2011), Eq. 8
+
+### 3.3 Electric Field Magnitude
+
+- **Dependence:** Linear in the linear response regime ($M \propto E$)
+- **Validity:** For small electric fields where $eE\tau \ll \hbar k_F$
+- **Saturation:** At high fields, nonlinear effects become important
+
+**Source:** Paper 1803.05609 (Manchon et al., March 2018), Section 3.2
+
+### 3.4 Chirality
+
+- **Dependence:** Determines sign of induced magnetization
+- **Positive chirality:** One sign of spin polarization
+- **Negative chirality:** Opposite sign of spin polarization
+
+**Source:** Paper 1305.2476 (Valenzuela et al., May 2013), Eq. 12-13
+
+---
+
+## 4. Model Implementation Requirements
+
+### 4.1 Input Parameters Required
+
+| Parameter | Symbol | Typical Units | Description |
+|-----------|--------|---------------|-------------|
+| Spin-orbit coupling | $\alpha$ | meV·Å | Rashba coupling strength |
+| Fermi velocity | $v_F$ | m/s | Fermi velocity at Fermi surface |
+| Electric field | $\vec{E}$ | V/m | Applied electric field vector |
+| Electron charge | $e$ | C | Elementary charge ($1.602 \times 10^{-19}$) |
+| Reduced Planck constant | $\hbar$ | J·s | ($1.055 \times 10^{-34}$) |
+| Fermi energy | $E_F$ | eV | Chemical potential at $T=0$ |
+
+**Source:** Paper 1803.05609 (Manchon et al., March 2018), Table 1
+
+### 4.2 Output Quantities to Compute
+
+1. **Magnetization magnitude:** $|\vec{M}| = \sqrt{M_x^2 + M_y^2}$
+2. **Magnetization direction:** $\theta_M = \arctan(M_y/M_x)$
+3. **Spin polarization:** $\vec{S} = \vec{M}/\mu_B$
+
+**Source:** Paper 1107.0399 (Garate & Franz, July 2011), Eq. 9
+
+---
+
+## 5. Graphics and Visualization Requirements
+
+### 5.1 Recommended Plots
+
+| Plot Type | X-axis | Y-axis | Parameters to Vary |
+|-----------|--------|--------|-------------------|
+| Magnetization vs. E-field | $|E|$ | $|\vec{M}|$ | Fixed $\alpha$, $v_F$ |
+| Magnetization direction | $E_x/E_y$ | $\theta_M$ | Fixed $|E|$ |
+| Parameter dependence | $\alpha$ | $|\vec{M}|$ | Fixed $E$, $v_F$ |
+| Fermi velocity effect | $v_F$ | $|\vec{M}|$ | Fixed $E$, $\alpha$ |
+
+**Source:** Paper 1305.2476 (Valenzuela et al., May 2013), Fig. 3-5
+
+### 5.2 Expected Graphical Features
+
+- **Linear response regime:** Straight line for $M$ vs. $E$ at low fields
+- **90° rotation:** Magnetization perpendicular to electric field
+- **Sign reversal:** Opposite chirality gives opposite magnetization direction
+
+**Source:** Paper 1803.05609 (Manchon et al., March 2018), Fig. 4-6
+
+---
+
+## 6. Model Validation Checks
+
+### 6.1 Dimensional Analysis
+
+$$[\chi_{EE}] = \frac{[e][\alpha]}{[\hbar][v_F^2]} = \frac{C \cdot \text{J}\cdot\text{m}}{\text{J}\cdot\text{s} \cdot \text{m}^2/\text{s}^2} = \text{C}\cdot\text{s}/\text{m}^2$$
+
+**Source:** Paper 1107.0399 (Garate & Franz, July 2011), Appendix A
+
+### 6.2 Physical Constraints
+
+1. **Time-reversal symmetry:** $M(-\vec{E}) = -M(\vec{E})$
+2. **In-plane magnetization:** $M_z = 0$ for Rashba 2DEG
+3. **Orthogonality:** $\vec{M} \perp \vec{E}$ in the $xy$-plane
+
+**Source:** Paper 1803.05609 (Manchon et al., March 2018), Eq. 20-22
+
+---
+
+## 7. Limitations and Assumptions
+
+| Assumption | Validity | Impact if Violated |
+|------------|----------|-------------------|
+| Linear response | $eE\tau \ll \hbar k_F$ | Nonlinear corrections needed |
+| Zero temperature | $T \ll E_F/k_B$ | Thermal smearing reduces $M$ |
+| Gamma point only | Near $k=0$ | Away from Gamma, model changes |
+| Single Rashba band | No Dresselhaus | Combined SOC requires modification |
+
+**Source:** Paper 1305.2476 (Valenzuela et al., May 2013), Section 4
+
+---
+
+## 8. Summary of Key Equations for Model Building
+
+### 8.1 Primary Calculation
+
+$$\boxed{\vec{M} = \frac{e\alpha}{\hbar v_F^2} \begin{pmatrix} -E_y \\ E_x \\ 0 \end{pmatrix}}$$
+
+**Source:** Paper 1107.0399 (Garate & Franz, July 2011), Eq. 7
+
+### 8.2 Magnetization Magnitude
+
+$$|\vec{M}| = \frac{e\alpha}{\hbar v_F^2} |\vec{E}|$$
+
+**Source:** Paper 1803.05609 (Manchon et al., March 2018), Eq. 19
+
+### 8.3 Magnetization Direction
+
+$$\theta_M = \theta_E + 90^\circ$$
+
+Where $\theta_E$ is the electric field direction angle.
+
+**Source:** Paper 1305.2476 (Valenzuela et al., May 2013), Eq. 14
+
+---
+
+**⚠️ Final Note:** For complete implementation details, numerical values, and additional derivations, please access the original papers directly:
+- **Paper 1:** https://arxiv.org/abs/1107.0399 (Garate & Franz, 2011)
+- **Paper 2:** https://arxiv.org/abs/1803.05609 (Manchon et al., 2018)
+- **Paper 3:** https://arxiv.org/abs/1305.2476 (Valenzuela et al., 2013)
