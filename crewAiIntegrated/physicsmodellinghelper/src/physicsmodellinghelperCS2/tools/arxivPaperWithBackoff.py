@@ -21,13 +21,13 @@ class ArxivToolInput(BaseModel):
         ..., description="Search query for Arxiv, e.g., 'transformer neural network'"
     )
     max_results: int = Field(
-        5, ge=1, le=100, description="Max results to fetch; must be between 1 and 100"
+        5, ge=1, le=10, description="Max results to fetch; must be between 1 and 10"
     )
     max_retries: int = Field(
         5, ge=1, le=10, description="Max retries for API calls; must be between 1 and 10"
     )
     base_delay: float = Field(
-        1.0, ge=0.1, le=10.0, description="Base delay for backoff strategy; must be between 0.1 and 10.0"
+        1.0, ge=4.0, le=10.0, description="Base delay for backoff strategy; must be between 4.0 and 10.0"
     )
 
 
@@ -36,17 +36,17 @@ class ArxivPaperTool(BaseTool):
     SLEEP_DURATION: ClassVar[int] = 1
     SUMMARY_TRUNCATE_LENGTH: ClassVar[int] = 300
     ATOM_NAMESPACE: ClassVar[str] = "{http://www.w3.org/2005/Atom}"
-    REQUEST_TIMEOUT: ClassVar[int] = 30
+    REQUEST_TIMEOUT: ClassVar[int] = 50
     name: str = "Arxiv Paper Fetcher and Downloader"
     description: str = "Fetches metadata from Arxiv based on a search query and optionally downloads PDFs."
     args_schema: type[BaseModel] = ArxivToolInput
     model_config = ConfigDict(extra="allow")
     package_dependencies: list[str] = Field(default_factory=lambda: ["pydantic"])
     env_vars: list[EnvVar] = Field(default_factory=list)
-    download_pdfs: bool = False
+    download_pdfs: bool = True # want that
     save_dir: str = "./arxiv_pdfs"
-    use_title_as_filename: bool = False
-    def _run(self, search_query: str, max_results: int = 5, max_retries: int = 5, base_delay: float = 1.0) -> str:
+    use_title_as_filename: bool = True # yes
+    def _run(self, search_query: str, max_results: int = 5, max_retries: int = 10, base_delay: float = 4.0) -> str:
         try:
             args = ArxivToolInput(search_query=search_query, max_results=max_results, max_retries=max_retries, base_delay=base_delay)
             logger.info(
@@ -87,25 +87,50 @@ class ArxivPaperTool(BaseTool):
         api_url = f"{self.BASE_API_URL}?search_query={urllib.parse.quote(search_query)}&start=0&max_results={max_results}"
         logger.info(f"Fetching data from Arxiv API: {api_url}")
 
+        success = False
+        data = ""
+
         for attempt in range(max_retries):
-            print(f"Attempt {attempt + 1} of {max_retries} to fetch Arxiv data...")
+            print(f"Attempt {attempt + 1} of {max_retries} to fetch data from Arxiv API...")
             try:
-                with urllib.request.urlopen(  # noqa: S310
-                    api_url, timeout=self.REQUEST_TIMEOUT
-                ) as response:
+                req = urllib.request.Request(
+                    api_url,
+                    headers={"User-Agent": "MyArxivClient/1.0 (mailto:your-email@example.com)"}
+                )
+                with urllib.request.urlopen(req, timeout=self.REQUEST_TIMEOUT) as response:
                     if response.status != 200:
-                        print(f"Received non-200 response: {response.status} {response.reason}")
                         raise Exception(f"HTTP {response.status}: {response.reason}")
                     data = response.read().decode("utf-8")
-            except urllib.error.URLError as e:
-                # Last attempt → re-raise
+                    success = True
+                    break  # Exit loop on success
+
+            except urllib.error.HTTPError as e:
+                # Respect Retry-After if present
+                print(f"HTTP error occurred: {e.code} {e.reason}. Retrying...")
+                retry_after = e.headers.get("Retry-After")
+                if retry_after:
+                    time.sleep(int(retry_after))
+                    continue
+
                 if attempt == max_retries - 1:
                     raise
 
-                # Exponential backoff + jitter
+                # Exponential backoff with jitter
                 delay = base_delay * (2 ** attempt)
-                delay = delay + random.uniform(0, delay * 0.3)  # jitter
+                delay = delay * (1 + random.uniform(0, 0.3))
                 time.sleep(delay)
+
+            except urllib.error.URLError as e:
+                print(f"Network error occurred: {e.reason}. Retrying in {base_delay} seconds...")
+                if attempt == max_retries - 1:
+                    raise
+                delay = base_delay * (2 ** attempt)
+                delay = delay * (1 + random.uniform(0, 0.3))
+                time.sleep(delay)
+
+        if success:
+            print("Successfully fetched data from Arxiv API.")
+            time.sleep(base_delay)  # Sleep after successful fetch to be polite to the API
 
         root = ET.fromstring(data)  # noqa: S314
         papers = []

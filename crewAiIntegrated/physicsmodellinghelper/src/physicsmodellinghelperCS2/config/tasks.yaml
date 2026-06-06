@@ -6,15 +6,6 @@ gathering_task:
     Sort the sources by relevance. MARKDOWN format with $...$ and $$...$$.
   agent: source_gatherer
 
-downloading_task:
-  description: >
-    download the papers found by the previous task. Make sure you download the correct papers and nothing more or less.
-    Use the path the tool uses by default.
-  expected_output: >
-    the according papers should be downloaded. Provide a very short report about issues or problem encountered.
-    The directory to which was saved
-  agent: paper_downloader
-
 extraction_task:
   description: >
     Find relevant information from the given sources that allow to build a model that accomplishes {aim}.

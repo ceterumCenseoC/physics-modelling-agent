@@ -63,6 +63,7 @@ class Physicsmodellinghelper():
             tools=[ArxivPaperTool(download_pdfs = True, save_dir = "./arxiv_pdfs"+f"/runNr_{self.outputNr}", use_title_as_filename = True)] # allows the agent to acces arxiv papers
         )
     
+    """
     @agent
     def paper_downloader(self) -> Agent:
         return Agent(
@@ -83,6 +84,7 @@ class Physicsmodellinghelper():
             ),
             tools=[ArxivDownloader(run_identifier=str(self.outputNr))]# allows the agent to download PDFs
         )
+    """
 
     @agent
     def information_extractor(self) -> Agent:

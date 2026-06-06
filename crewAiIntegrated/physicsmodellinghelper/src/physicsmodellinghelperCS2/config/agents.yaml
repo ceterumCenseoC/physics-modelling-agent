@@ -8,17 +8,6 @@ source_gatherer:
   backstory: >
     You are great at finding relevant resources. You always double check that the information your provided is accurate.
 
-paper_downloader:
-  role: >
-    arxiv paper downloader
-  goal: >
-    Download the papers found by the gathering_task using the tool you are provided.
-    Call your tool for every paper found.
-    Report problems or success of downloading.
-    use the path the tool uses by default.
-  backstory: >
-    You lay the groundwork for a successfull run. You openly mention arising problems.
-
 information_extractor:
   role: >
     extract the necessary information from given sources
