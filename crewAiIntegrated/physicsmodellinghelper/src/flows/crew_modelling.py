@@ -4,10 +4,7 @@ import os
 from crewai import LLM, Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
-#from crewai_tools import ArxivPaperTool #replaced with custom addition for exponential backoff
-from physicsmodellinghelperCS2.tools.arxivPaperWithBackoff import ArxivPaperTool # custom tool with exponential backoff for fetching arxiv papers
-from physicsmodellinghelperCS2.tools.arxivSearch import ArxivDownloader # custom tool to download arxiv papers based on search results
-from physicsmodellinghelperCS2.tools.pDFReader import PDFReader # custom tool to read pdfs and extract text from them
+from flows.tools.pDFReader import PDFReader # custom tool to read pdfs and extract text from them
 
 #from src.physicsmodellinghelper.embedderCustom import EmbedderCustom
 
@@ -16,8 +13,8 @@ from physicsmodellinghelperCS2.tools.pDFReader import PDFReader # custom tool to
 # https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
 
 @CrewBase
-class Physicsmodellinghelper():
-    """Physicsmodellinghelper crew"""
+class ModellerCrew():
+    """modeller Crew; does everything that does not need the arxiv search"""
 
     agents: list[BaseAgent]
     tasks: list[Task]
@@ -42,50 +39,7 @@ class Physicsmodellinghelper():
     
     # If you would like to add tools to your agents, you can learn more about it here:
     # https://docs.crewai.com/concepts/agents#agent-tools
-    @agent
-    def source_gatherer(self) -> Agent:
-        return Agent(
-            config=self.agents_config['source_gatherer'], # type: ignore[index]
-            verbose=self.verbose,
-            allow_delegation=self.allow_delegation,
-            temperature=self.temperature,
-            top_p=self.top_p,
-            top_k=self.top_k,
-            frequency_penalty=self.frequency_penalty,
-            presence_penalty=self.presence_penalty,
-            max_iter=self.max_iter,
-            llm=LLM(
-                model = "qwen3.5-122b-a10b",
-                base_url="https://chat-ai.academiccloud.de/v1",
-                api_key=os.getenv("OPENAI_API_KEY"),
-                #reasoning="fast", # not supported for qwen
-            ),
-            tools=[ArxivPaperTool(download_pdfs = True, save_dir = "./arxiv_pdfs"+f"/runNr_{self.outputNr}", use_title_as_filename = True)] # allows the agent to acces arxiv papers
-        )
     
-    """
-    @agent
-    def paper_downloader(self) -> Agent:
-        return Agent(
-            config=self.agents_config['paper_downloader'], # type: ignore[index]
-            verbose=self.verbose,
-            allow_delegation=self.allow_delegation,
-            temperature=self.temperature,
-            top_p=self.top_p,
-            top_k=self.top_k,
-            frequency_penalty=self.frequency_penalty,
-            presence_penalty=self.presence_penalty,
-            max_iter=self.max_iter,
-            llm=LLM(
-                model = "qwen3.5-122b-a10b",
-                base_url="https://chat-ai.academiccloud.de/v1",
-                api_key=os.getenv("OPENAI_API_KEY"),
-                #type="chat-completions"
-            ),
-            tools=[ArxivDownloader(run_identifier=str(self.outputNr))]# allows the agent to download PDFs
-        )
-    """
-
     @agent
     def information_extractor(self) -> Agent:
         return Agent(
@@ -194,24 +148,6 @@ class Physicsmodellinghelper():
     # To learn more about structured task outputs,
     # task dependencies, and task callbacks, check out the documentation:
     # https://docs.crewai.com/concepts/tasks#overview-of-a-task
-
-    @task
-    def gathering_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['gathering_task'], # type: ignore[index]
-            markdown=True,
-            async_execution=self.async_execution,
-            output_file=self.outputDir + 'sources' + str(self.outputNr) + '.md'
-        )
-    
-    """ @task
-    def downloading_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['downloading_task'], # type: ignore[index]
-            markdown=True,
-            async_execution=self.async_execution,
-            output_file=self.outputDir + 'downloading_report' + str(self.outputNr) + '.md'
-        ) """
     
     @task
     def extraction_task(self) -> Task:

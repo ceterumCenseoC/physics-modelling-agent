@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from physicsmodellinghelperCS2.main import run
+from flows.main import run
 def input12():
     inputs = {
         'topic': 'Edelstein-Effect',
@@ -21,14 +21,13 @@ def inputExplicitPlot():
     }
     run(inputs = inputs, outputNr = 6, outputDir = "runOutputsCustomSim/")
 
-def inputMoreDeterministic():
+def runCrewModelling(topic : str, aim : str, ouputNr : int, outputDir : str, previous_output : dict):
     inputs = {
-        'topic': 'Edelstein-Effect',
-        'aim': 'Calculate the Edelstein effect for a Rashba fermion (at the Gamma point of the Brillouin zone). ' #THIS IS THE CURRENT AIM FOR GETTING A FIRST MODEL
-                'Compute the magnitization magnitude and direction of different directions and magnitudes of the applied electric field. '
-                'Consider how the result depends on relevant parameters of the model (e.g. chirality, fermi velocity, spin-orbit coupling strength) and make explicit graphics.'
+        'topic': topic,
+        'aim': aim,
+        'previous_output': previous_output
     }
-    run(inputs = inputs, outputNr = 6, outputDir = "runOutputsCS2/")
+    run(inputs = inputs, outputNr = ouputNr, outputDir = outputDir)
 
 if __name__ == "__main__":
     inputMoreDeterministic()
