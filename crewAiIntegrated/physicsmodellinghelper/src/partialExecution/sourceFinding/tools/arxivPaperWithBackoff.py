@@ -58,7 +58,6 @@ class ArxivPaperTool(BaseTool):
             papers = self.fetch_arxiv_data(args.search_query, args.max_results, args.max_retries, args.base_delay)
 
             if self.download_pdfs:
-                print(f"Preparing to download PDFs to: {self.save_dir}")
                 save_dir = self._validate_save_path(self.save_dir)
                 for paper in papers:
                     if paper["pdf_url"]:
@@ -69,7 +68,7 @@ class ArxivPaperTool(BaseTool):
                             filename_base = safe_title or paper["arxiv_id"]
                         else:
                             filename_base = paper["arxiv_id"]
-                        filename = f"{filename_base[:500]}.pdf"
+                        filename = f"{filename_base[:100]}.pdf" # Truncate to 100 chars to avoid filesystem issues (max path length)
                         save_path = Path(save_dir) / filename
 
                         self.download_pdf(paper["pdf_url"], save_path)  # type: ignore[arg-type]

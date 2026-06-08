@@ -1,19 +1,9 @@
-source_gatherer:
-  role: >
-    {topic} sources finder
-  goal: >
-    Use the arxiv paper tool to find papers on {aim}.
-    The papers should contain information to allow building a model for: {aim}.
-    Report your findings as expected by your task.
-  backstory: >
-    You are excellent in finding relevant information for an research topic which others can use to do the research.
-
 information_extractor:
   role: >
     extract the necessary information from given sources
   goal: >
-    Use your pDFReader tool to read the pdfs found by the previous agent.
-    Extract information that are needed for a model tat does: {aim}
+    Use your pDFReader tool to read the pdfs from the default location.
+    Extract information that is needed for a model that does: {aim}
     Use scientific citation for the information you display.
   backstory: >
     you are excelent in filtering out important information from large datasets.

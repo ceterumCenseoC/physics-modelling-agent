@@ -5,7 +5,7 @@ from crewai import LLM, Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 #from crewai_tools import ArxivPaperTool #replaced with custom addition for exponential backoff
-from flows.tools.arxivPaperWithBackoff import ArxivPaperTool # custom tool with exponential backoff for fetching arxiv papers
+from partialExecution.sourceFinding.tools.arxivPaperWithBackoff import ArxivPaperTool # custom tool with exponential backoff for fetching arxiv papers
 
 # If you want to run a snippet of code before or after the crew starts,
 # you can use the @before_kickoff and @after_kickoff decorators
@@ -17,9 +17,9 @@ class PaperFinderCrew():
 
     agents: list[BaseAgent]
     tasks: list[Task]
-    def __init__(self, outputNr: int, outputDir: str):
-        self.outputNr : int = outputNr
-        self.outputDir = outputDir + f"runNr_{self.outputNr}/"
+    def __init__(self, outputDir: str, pdfSaveDir: str):
+        self.outputDir = outputDir
+        self.pdfSaveDir = pdfSaveDir
 
         self.verbose = True
         self.allow_delegation = False
@@ -56,7 +56,7 @@ class PaperFinderCrew():
                 api_key=os.getenv("OPENAI_API_KEY"),
                 #reasoning="fast", # not supported for qwen
             ),
-            tools=[ArxivPaperTool(download_pdfs = True, save_dir = "./arxiv_pdfs"+f"/runNr_{self.outputNr}", use_title_as_filename = True)] # allows the agent to acces arxiv papers
+            tools=[ArxivPaperTool(download_pdfs = True, save_dir = self.pdfSaveDir, use_title_as_filename = True)] # allows the agent to acces arxiv papers
         )
     
     # Learn more about structured task outputs,
@@ -69,7 +69,7 @@ class PaperFinderCrew():
             config=self.tasks_config['gathering_task'], # type: ignore[index]
             markdown=True,
             async_execution=self.async_execution,
-            output_file=self.outputDir + 'sources' + str(self.outputNr) + '.md'
+            output_file=self.outputDir + 'sources' + '.md'
         )
 
     @crew

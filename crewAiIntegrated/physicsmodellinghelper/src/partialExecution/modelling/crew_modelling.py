@@ -4,7 +4,7 @@ import os
 from crewai import LLM, Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
-from flows.tools.pDFReader import PDFReader # custom tool to read pdfs and extract text from them
+from partialExecution.modelling.tools.pDFReader import PDFReader # custom tool to read pdfs and extract text from them
 
 #from src.physicsmodellinghelper.embedderCustom import EmbedderCustom
 
@@ -18,9 +18,9 @@ class ModellerCrew():
 
     agents: list[BaseAgent]
     tasks: list[Task]
-    def __init__(self, outputNr: int, outputDir: str):
-        self.outputNr : int = outputNr
-        self.outputDir = outputDir + f"runNr_{self.outputNr}/"
+    def __init__(self, outputDir: str, pdfSaveDir: str):
+        self.outputDir = outputDir
+        self.pdfSaveDir = pdfSaveDir
 
         self.verbose = True
         self.allow_delegation = False
@@ -59,7 +59,7 @@ class ModellerCrew():
                 max_tokens=8000,
                 #type="chat-completions"
             ),
-            tools=[PDFReader(run_identifier=str(self.outputNr))] # allows the agent to read pdfs
+            tools=[PDFReader(pdf_save_dir=self.pdfSaveDir)] # allows the agent to read pdfs
         )
     
     @agent
@@ -155,7 +155,7 @@ class ModellerCrew():
             config=self.tasks_config['extraction_task'], # type: ignore[index]
             markdown=True,
             async_execution=self.async_execution,
-            output_file=self.outputDir + 'information' + str(self.outputNr) + '.md'
+            output_file=self.outputDir + 'information' + '.md'
         )
     
     @task
@@ -164,7 +164,7 @@ class ModellerCrew():
             config=self.tasks_config['simple_modelling_task'], # type: ignore[index]
             markdown=True,
             async_execution=self.async_execution,
-            output_file=self.outputDir + 'simple_model' + str(self.outputNr) + '.md'
+            output_file=self.outputDir + 'simple_model' + '.md'
         )
     
     @task
@@ -173,7 +173,7 @@ class ModellerCrew():
             config=self.tasks_config['unit_checking_task'], # type: ignore[index]
             markdown=True,
             async_execution=self.async_execution,
-            output_file=self.outputDir + 'unit_check' + str(self.outputNr) + '.md'
+            output_file=self.outputDir + 'unit_check' + '.md'
         )
 
         
@@ -183,7 +183,7 @@ class ModellerCrew():
             config=self.tasks_config['physician_simulation_task'], # type: ignore[index]
             markdown=False,
             async_execution=self.async_execution,
-            output_file=self.outputDir + 'simulation_physician' + str(self.outputNr) + '.py'
+            output_file=self.outputDir + 'simulation_physician' + '.py'
         )
 
     @task
@@ -192,7 +192,7 @@ class ModellerCrew():
             config=self.tasks_config['simulation_correction_task'], # type: ignore[index]
             markdown=False,
             async_execution=self.async_execution,
-            output_file=self.outputDir + 'simulation_correction' + str(self.outputNr) + '.py'
+            output_file=self.outputDir + 'simulation_correction' + '.py'
         )
 
     @crew

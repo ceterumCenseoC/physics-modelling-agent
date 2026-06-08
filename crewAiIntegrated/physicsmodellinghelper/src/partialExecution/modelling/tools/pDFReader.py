@@ -20,9 +20,9 @@ class PDFReader(BaseTool):
     name: str = "pdf_reader"
     description: str = "Read all PDF files in a directory and return extracted text."
     args_schema: Type[BaseModel] = PDFReaderInput
-    read_path: str = "./arxiv_pdfs" # default path, can be overridden
+    pdf_save_dir: str = "./pdfs" # default path, can be overridden
 
-    run_identifier: str = "0"  # default value, can be overridden
+    #run_identifier: str = "0"  # default value, can be overridden
 
     def _gather(self, p: Path, recursive: bool, max_files: Optional[int] = 5) -> List[Path]:
         if p.is_file():
@@ -51,12 +51,12 @@ class PDFReader(BaseTool):
         finally:
             doc.close()
 
-    def _run(self, path: str = read_path, recursive: bool = False, max_files: Optional[int] = None) -> str:
+    def _run(self, path: str = pdf_save_dir, recursive: bool = False, max_files: Optional[int] = None) -> str:
         #p = Path(os.path.abspath(os.path.expanduser(path)))
         #source_dir = Path(__file__).resolve().parent.parent.parent.parent / "arxiv_pdfs" / f"runNr_{self.run_identifier}"
-        if path != self.read_path:
-            path = self.read_path    
-        source_dir = Path(path) / f"runNr_{self.run_identifier}"
+        if path != self.pdf_save_dir:
+            path = self.pdf_save_dir    
+        source_dir = Path(path)
         print(f"PDFReader: Gathering PDF files from {source_dir}")
 
         files = self._gather(source_dir, recursive, max_files)
