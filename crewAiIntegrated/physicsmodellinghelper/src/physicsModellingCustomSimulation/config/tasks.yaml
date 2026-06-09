@@ -1,0 +1,46 @@
+gathering_task:
+  description: >
+    find at least 3 relevant papers for {topic}. Include papers that explore ideas for {aim}.
+  expected_output: >
+    a list with the important sources: arxivID, Author, date, url, short summary.
+    Sort the sources by relevance. MARKDOWN format with $...$ and $$...$$.
+  agent: source_gatherer
+
+downloading_task:
+  description: >
+    download the papers found by the previous task. Make sure you download the correct papers and nothing more or less.
+    Use the path the tool uses by default.
+  expected_output: >
+    the according papers should be downloaded. Provide a very short report about issues or problem encountered.
+    The directory to which was saved
+  agent: paper_downloader
+
+extraction_task:
+  description: >
+    Find relevant information from the given sources that allow to build a model that accomplishes {aim}.
+    Do not build the model.
+  expected_output: >
+    All necessary information for building the model. MARKDOWN format with $...$ and $$...$$.
+  agent: information_extractor
+
+simple_modelling_task:
+  description: >
+    use the information provided by the extraction_task to create a model that accomplishes {aim}.
+    explain why you took which step and which information you used.
+  expected_output: >
+    a matematical description of the modell with textual explaination that describes the model and allows for a numerical implementations. MARKDOWN format with $...$ and $$...$$.
+  agent: simple_modeller
+
+simulation_task:
+  description: >
+    use the simple_modelling_task's result to code a numerical implementation of the same model for {aim}.
+  expected_output: >
+    a python file that can be run right away and does not need to be debugged first.
+  agent: model_simulator
+
+answering_task:
+  description: >
+    give a proper answer for: {aim}. Rely on the results of the simple_modelling_task and the simulation_task.
+  expected_output: >
+    a String (plain text) answering the given question. Write it inside a txt file. MARKDOWN format with $...$ and $$...$$.
+  agent: answerer

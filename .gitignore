@@ -2,3 +2,12 @@ literature
 venv/*
 .venv/*
 .env
+.aux
+.bbl
+.bcf
+.nav
+.xml
+.snm
+.syctex
+.log
+.blg
