@@ -11,3 +11,5 @@ venv/*
 *.syctex
 *.log
 *.blg
+*.out
+*.toc
