@@ -1,0 +1,275 @@
+\documentclass[t,
+handout,
+]{beamer}
+
+%beamer settings
+\setbeamerfont{normal text}{size=\large}
+\AtBeginDocument{\usebeamerfont{normal text}}
+
+% general language
+\usepackage{polyglossia}
+\setmainfont{Arial}
+\setdefaultlanguage{english}
+%\usepackage[utf8]{inputenc} % ignor1 anyway due to uft8 based engines
+\usepackage[autostyle=true]{csquotes}
+\setcounter{tocdepth}{3}
+\renewcommand{\baselinestretch}{1.0}
+
+%colors
+\usepackage{xcolor}
+\definecolor{bluei}{rgb}{0.0, 0.0, 1.0}
+\definecolor{greni}{rgb}{0.3, 0.8, 0.2}
+\definecolor{greyi}{rgb}{0.5, 0.5 0.5}
+\definecolor{b1}{rgb}{0, 0, 0}
+\definecolor{r1}{rgb}{255, 0, 0}
+
+% graphics
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{subcaption}
+
+%date
+\usepackage[nodayofweek,level]{datetime}
+
+%change
+\newcommand{\authorName}{Janis Jacobi\\Niels Schröter}
+\newcommand{\topicName}{physics modelling agent}
+\newdate{date1}{24}{12}{2025}
+
+% general layout settings for beamer
+\usetheme{Madrid}
+%\usecolortheme[RGB={0, 100, 250}]{beamer color theme}
+\usecolortheme{seahorse}
+%\usefonttheme{structurebold}
+
+\useoutertheme{default}
+% beamer template
+\setbeamercolor{footline left}{bg=blue!20, fg=b1}
+\setbeamercolor{footline center}{bg=blue!10, fg=b1}
+\setbeamercolor{footline right}{bg=blue!20, fg=b1}
+\setbeamertemplate{footline}{%
+	\leavevmode%
+	\hbox{%
+		\begin{beamercolorbox}[wd=.33\paperwidth,ht=2.5ex,dp=1ex,left]{footline left}%
+			\hspace{1em}\topicName
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.34\paperwidth,ht=2.5ex,dp=1ex,center]{footline center}%
+			\insertshortdate{}
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.33\paperwidth,ht=2.5ex,dp=1ex,right]{footline right}%
+			\insertframenumber{} / \inserttotalframenumber\hspace{1em}
+		\end{beamercolorbox}%
+	}%
+}
+
+\setbeamertemplate{headline}{}
+% restore visible bullets
+
+
+
+% title-page settings
+\title{\topicName}
+\subtitle{update, Arxiv and units}
+\date{\today}
+%\logo{logo text}
+\author{\authorName}
+
+\usepackage[backend=biber, style=numeric, citestyle=numeric, hyperref=true, date=short, backref=false]{biblatex}
+%\bibliography{biblio/jabRef.bib}
+%\addbibresource{/biblio/jabRef.bib}
+\setlength\bibitemsep{7pt}
+\setcounter{biburllcpenalty}{9000}
+
+%captions
+\usepackage{caption}
+\usepackage{subcaption}
+
+%math
+\usepackage{mathtools}
+\usepackage{unicode-math}
+\setmathfont{Latin Modern Math}
+\usepackage{amsmath,amssymb}
+\usepackage[locale=DE, separate-uncertainty=true]{siunitx}
+\usepackage{nicefrac}
+\usepackage{physics}
+\newcommand{\RNum}[1]{\uppercase\expandafter{\romannumeral #1\relax}} %roman numeral
+\numberwithin{equation}{section}
+\usepackage{numprint}
+\usepackage[version=4]{mhchem}
+
+\newcommand{\al}{\ensuremath{\mathcolor{c1}{|}}}
+\newcommand{\scProd}[2]{\ensuremath{\langle #1,#2 \rangle}}
+\newcommand{\parti}[2]{\ensuremath{\frac{\mathrm{d}#1}{\mathrm{d}#2}}}
+\newcommand{\pard}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
+
+% graphics
+\usepackage{graphicx}
+%\usepackage[margin=2cm]{geometry}
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
+
+%circuits and drawing
+\usepackage{tikz}
+\usetikzlibrary{
+	shapes.geometric,
+	arrows.meta,
+	positioning,
+	fit,
+	calc
+}
+
+% insert documents
+\usepackage{pdfpages}
+\usepackage{float}
+
+% tables
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{pgfplotstable}
+\usepackage{multirow}
+
+%csv
+\usepackage{csvsimple}
+
+%code
+\usepackage{listings}
+\usepackage{lstautogobble}
+\lstdefinestyle{py}{language={Python}}
+\lstset{style=py,
+	basicstyle=\normalsize,
+	frame=tb,
+	language=Python,
+	breaklines=true,
+	showstringspaces=false,
+	columns=flexible,
+	stringstyle = \color{blue},
+	commentstyle = \color{grey},
+	tabsize=3,
+	numbers=left,
+	keywordstyle=\color{r1},
+	columns=flexible,
+	frame=single,
+	xleftmargin = 20pt,
+	autogobble=true,
+}
+
+% beamer content display settings:
+\usepackage{overpic}
+
+%BIBLIOGRAPHIE
+\usepackage[
+	backend=biber, %type of file
+	style=numeric, %bib entry listing
+	citestyle=numeric, % how citation is in text
+	hyperref=true, %link the bib entryies
+%	date=short, %date format
+%	backref=true, % where citation was used
+%	url=true, %display url
+%	doi=true, % digital object identifier: a permanent, unique link
+%	maxbibnames=10, %max number of names displayed
+%	minbibnames=3, %minimal number of names displayed
+]{biblatex}
+
+%\addbibresource{bib/bibliography.bib}
+\setlength\bibitemsep{7pt} %spacing between entries
+\setcounter{biburlucpenalty}{9000} %prevent mid word url breaks
+\setcounter{biburllcpenalty}{9000} %makes sure urls do not run out of the page
+
+%hyperlinks
+\usepackage{hyperref}
+\hypersetup{
+	baseurl={https://www.janisjacobi.de/home.html},
+	pdfpagemode = UseNone,
+	pdfauthor={\authorName},
+	pdfsubject = {\topicName},
+	pdfcreator = {\authorName},
+	pdfcreationdate = {\today},
+	pdfnewwindow,
+	bookmarksopen=true,
+	backref=page,
+	colorlinks,
+	urlcolor=bluei,
+	citebordercolor=bluei,
+	citecolor=bluei,
+	linkcolor=bluei,
+}
+
+\begin{document}
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	\begin{frame}{outline}
+		\tableofcontents
+	\end{frame}
+	
+	\section{arxiv problem}
+	\begin{frame}{the arxiv issue}[c]
+		\begin{alertblock}{the problem}
+			\begin{itemize}
+				\item arxiv queries where rejected
+				\item papers could not be read or downloaded
+			\end{itemize}
+		\end{alertblock}
+		\begin{block}{the underlying issue}
+			\begin{itemize}
+				\item crewai's ArxivPaperTool does not implement a proper exponential back-off and waiting time for the arxiv request
+				\item[$\implies$] Arxiv-API-server rejects requests and even blocks IP address temporary
+			\end{itemize}
+		\end{block}
+	\end{frame}
+		
+	\begin{frame}{solution}
+		\begin{exampleblock}{solution}
+			\begin{itemize}
+				\item exponential back-off and proper waiting time (\si{5 \second} between request)
+				\item split the crew in two:
+				\begin{enumerate}
+					\item arxiv request and paper downloading (all in one step)
+					\item extract infos from downloaded papers; build the model and 	implement it
+				\end{enumerate}
+			\end{itemize}
+		\end{exampleblock}
+		
+		\begin{block}{further improvements}
+			\begin{itemize}
+				\item from one set of arxiv papers, the second crew can be run in multiple configurations without a new arxiv-server request
+				\item[$\implies$] drastically reduces the number of server requests
+				\item[$\implies$] papers could be added from another source into the directory the second crew reads from
+			\end{itemize}
+		\end{block}
+	\end{frame}
+	
+	\section{units}
+	
+	\begin{frame}{the key formula}
+		with
+		{\centering
+		\begin{equation*}
+			M_y = \frac{\mu_b \abs{e} \tau}{2\pi} m^* \alpha_R \left[\hat{z} \times \vec{E}\right]_y
+			\end{equation*}}
+		
+		\begin{itemize}
+			\item $\mu_B$ Bohr magneton in \si{\joule /\tesla}
+			\item $e$ charge in \si{\coulomb}
+			\item $\tau$ relaxation time in \si{\second}
+			\item $m^*$ effectice mass in \si{\kilo \gram}
+			\item $\alpha_R$ rashba coupling strength in (\si{\joule \meter})
+			\item $\vec{E}$ electric field in \si{\volt / \meter } $=$\si{\kilogram \meter / (\ampere \second^3)}
+			\item $M_y$ magnetization expected in \si{\ampere/ \meter}
+		\end{itemize}
+		 
+		changing $\alpha_R$ units to \si{\meter^4 /\second} would result in matching units
+	\end{frame}
+
+	
+%	\begin{frame}[allowframebreaks]{sources}
+%		\printbibliography
+%	\end{frame}
+%	
+%	\begin{frame}[t]{AI usage}
+%		The drawings were created with help of \href{https://copilot.microsoft.com/chats}{microsoft copilot}. I take full responsibility for the figures contents.
+%	\end{frame}
+\end{document}
