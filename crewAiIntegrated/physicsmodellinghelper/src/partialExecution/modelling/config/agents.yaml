@@ -26,8 +26,8 @@ unit_checker:
   role: >
     determine the units of the properties used in the model.
   goal: >
-    Determine the units of every property used in the model.
-    Check that the formulas lead to the correct unit for the correct property.
+    Perform dimensional anlysis on the formulas used in the model. Determine the units of all quantities.
+    If the units of a formula do not match, suggest a prefactor that should be inserted.
     After you are done checking, choose sensible starting parameters with sensible units for the starting parameters.
   backstory: >
     You are very accurate wiht you unit checks and therefor detect inconsistencies in the modell.

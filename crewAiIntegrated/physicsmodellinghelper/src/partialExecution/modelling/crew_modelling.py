@@ -66,7 +66,7 @@ class ModellerCrew():
     def simple_modeller(self) -> Agent:
         return Agent(
             config=self.agents_config['simple_modeller'], # type: ignore[index]
-            verbose=self.verbose,
+            verbose=True,
             allow_delegation=self.allow_delegation,
             temperature= 0.2, # allow for some creativity to perhaps correct inconsistencies in the extracted information,
             top_p=self.top_p,
@@ -88,9 +88,9 @@ class ModellerCrew():
     def unit_checker(self) -> Agent:
         return Agent(
             config=self.agents_config['unit_checker'], # type: ignore[index]
-            verbose=self.verbose,
+            verbose= True,
             allow_delegation=self.allow_delegation,
-            temperature= 0.2, # to make transition between si units and not si units
+            temperature= 0.4, # to make transition between si units and not si units
             top_p=self.top_p,
             top_k=self.top_k,
             frequency_penalty=self.frequency_penalty,

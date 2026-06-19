@@ -40,7 +40,7 @@ def execute():
         'Consider how the result depends on relevant parameters of the model (e.g. chirality, fermi velocity, spin-orbit coupling strength) and make explicit graphics.'
     
     outputNr = 1 # change when you start a new run with new paper search
-    versionNr = 1 # change when you start a new version of the model with same papers searched
+
     outputDir = f"./partialExecutionOutputs/runNr_{outputNr}/"
     pdfSaveDir = f"./partialExecutionOutputs/runNr_{outputNr}/pdfs"
 
@@ -50,6 +50,7 @@ def execute():
     previous_output = resultPapers.raw """
     previous_output = None
     
+    versionNr = 4
     buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
     """
     versionNr += 1

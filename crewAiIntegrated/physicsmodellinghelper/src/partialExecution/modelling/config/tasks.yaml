@@ -18,12 +18,13 @@ simple_modelling_task:
 
 unit_checking_task:
   description: >
-    Determine the units off all quantities used in the model. Be aware, that papers might not use SI units.
-    Find a correct and consistent unit system for the model build.
+    Determine the units off all quantities used in the model.
+    Be aware, that papers might not use SI units but a unit convention specific to the field.
+    Insert a factor to corret the formula unit wise, if necessary.
     Determine sensible starting parameters for the model and sensible units for them.
   expected_output: >
-    A table containing all properties used and their units.
-    A description of the choosen unit system.
+    The unit convention in the specific field.
+    The unit check for all formulas and corrections if necessary.
     Starting parameters.
     . MARKDOWN format with $...$ and $$...$$.
   agent: unit_checker
