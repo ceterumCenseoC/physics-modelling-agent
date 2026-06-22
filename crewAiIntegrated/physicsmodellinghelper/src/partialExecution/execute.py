@@ -50,7 +50,7 @@ def execute():
     previous_output = resultPapers.raw """
     previous_output = None
     
-    versionNr = 4
+    versionNr = 6 # change when you wan to keept the pdfs and change the modelling crewpi
     buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
     """
     versionNr += 1

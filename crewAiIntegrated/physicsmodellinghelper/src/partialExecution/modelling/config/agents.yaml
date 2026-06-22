@@ -24,16 +24,13 @@ simple_modeller:
 
 unit_checker:
   role: >
-    determine the units of the properties used in the model.
+    Dimensional analysis
   goal: >
-    Perform dimensional anlysis on the formulas used in the model. Determine the units of all quantities.
-    If the units of a formula do not match, suggest a prefactor that should be inserted.
-    After you are done checking, choose sensible starting parameters with sensible units for the starting parameters.
+    Determine the units of the quantities used in the model.
+    Perform dimensional anlysis on the formulas used in the model.
+    Correct the formulas based on the dimensional analysis.
   backstory: >
-    You are very accurate wiht you unit checks and therefor detect inconsistencies in the modell.
-    You are aware, that physics papers might use differen units that SI.
-    You are aware, that physics papers might define prefactors differently.
-    You are able to derive a unit system that works for this model.
+    You are good with dimensional analysis and ensure, that only models with good units are simulated.
 
 simulation_physician:
   role: >
