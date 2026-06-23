@@ -12,7 +12,7 @@ from pydantic import BaseModel, Field
 from crewai.tools import BaseTool
 
 class DimensionalAnalysisInput(BaseModel):
-    equation: str = Field(..., description="The equation to analyze, represented as a string. Do not use sympy special symbols like, 'E', 'I', 'pi', 'I'. Example: 'F = m * a'.")
+    equation: str = Field(..., description="The equation to analyze, represented as a string. Do not use sympy special symbols like, 'E', 'I', 'pi', 'I'. Allowed operators: '+', '-', '*', '/', '**'. Example: 'F = m * a'.")
     dimensions: dict[str, str] = Field(..., description="A dictionary containing variable names as keys and their corresponding dimensions as values. Example: {'x': 'length', 'v': 'length/time'}.")
     unitList: str = Field(..., description="A string containing all the units to be used in the analysis, separated by a specified separator. Example: 'length, time, mass'.")
     separator: str = Field(default=",", description="The separator used in the unitList string. Default is ','.")

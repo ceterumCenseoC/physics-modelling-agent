@@ -5,6 +5,7 @@ from crewai import LLM, Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from partialExecution.modelling.tools.pDFReader import PDFReader # custom tool to read pdfs and extract text from them
+from partialExecution.modelling.tools.dimemsionalAnalysis import DimensionalAnalysis # custom tool to perform dimensional analysis
 
 #from src.physicsmodellinghelper.embedderCustom import EmbedderCustom
 
@@ -95,13 +96,15 @@ class ModellerCrew():
             top_k=self.top_k,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
-            max_iter=self.max_iter,
+            max_iter= 10, # to allow the tool to be called on multiple formulas
             llm=LLM(
-                model = "deepseek-r1-distill-llama-70b", # needed because we want to read pdf's
+                model = "qwen3.5-122b-a10b", # needed because we want to read pdf's
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
-            )
+            ),
+            tools=[DimensionalAnalysis()] # allows the agent to perform dimensional analysis on equations
         )
+    
     
     @agent
     def simulation_physician(self) -> Agent:

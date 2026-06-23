@@ -34,12 +34,16 @@ def findAndBuild(topic : str, aim : str, outputDir : str, pdfSaveDir : str):
     return result, result2
 
 def execute():
+    """
+    this method runs the acctual crew
+    change
+    """
     topic = 'Edelstein-Effect'
     aim = 'Calculate the Edelstein effect for a Rashba fermion (at the Gamma point of the Brillouin zone). ' \
         'Compute the magnitization magnitude and direction of different directions and magnitudes of the applied electric field. '\
         'Consider how the result depends on relevant parameters of the model (e.g. chirality, fermi velocity, spin-orbit coupling strength) and make explicit graphics.'
     
-    outputNr = 1 # change when you start a new run with new paper search
+    outputNr = 1 # CHANGE THIS NUMBER WHEN YOU START A NEW RUN WITH NEW PAPER SEARCH
 
     outputDir = f"./partialExecutionOutputs/runNr_{outputNr}/"
     pdfSaveDir = f"./partialExecutionOutputs/runNr_{outputNr}/pdfs"
@@ -50,7 +54,7 @@ def execute():
     previous_output = resultPapers.raw """
     previous_output = None
     
-    versionNr = 6 # change when you wan to keept the pdfs and change the modelling crewpi
+    versionNr = 7 # CHANGE THIS NUMBER WHEN YOU WANT TO KEEP THE PDF'S AND CHANGE THE MODELLING CREW
     buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
     """
     versionNr += 1

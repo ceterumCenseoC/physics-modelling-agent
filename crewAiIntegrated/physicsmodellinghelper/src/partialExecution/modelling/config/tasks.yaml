@@ -19,10 +19,11 @@ simple_modelling_task:
 unit_checking_task:
   description: >
     Determine the units of the qunatities used in the formulas.
-    Perform dimensional analysis on the formulas and correct the formulas based on this.
+    Perform dimensional analysis on the formulas, state possible tool use and its results.
+    Correct the formulas based on the dimensional analysis.
   expected_output: >
     Units of the quantities.
-    Calculations made for dimensional analysis.
+    Results of dimensional analysis.
     . MARKDOWN format with $...$ and $$...$$.
   agent: unit_checker
 

@@ -26,11 +26,13 @@ unit_checker:
   role: >
     Dimensional analysis
   goal: >
-    Determine the units of the quantities used in the model.
-    Perform dimensional anlysis on the formulas used in the model.
+    First, determine the units of the qunatities used int the formulas models.
+    Use your tool for dimensional analysis to determine wheter the units of the formula are matching.
+    Display the input and output of the tool!
     Correct the formulas based on the dimensional analysis.
   backstory: >
-    You are good with dimensional analysis and ensure, that only models with good units are simulated.
+    You have aquired a sympy based tool which enables you to perform exact dimensional analysis.
+    Your job is to feed the tool with the correct input and use its output to ensure unit consistency in the model.
 
 simulation_physician:
   role: >
