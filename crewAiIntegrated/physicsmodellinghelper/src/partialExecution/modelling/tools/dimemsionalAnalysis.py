@@ -119,16 +119,19 @@ class EquationHandler():
 
         return leftUnits, rightUnits, proposedCorrection
 
-""" if __name__ == "__main__":#
+def testFunction():
     # this is a test method for manual testing
     # sympy has some problems with special symbols like 'E', 'I', 'pi', 'I', so we need to use different symbols for the variables in the equation
     input_data = DimensionalAnalysisInput(
-        equation="En = m*c**2",
-        dimensions={"En": "mass*length**2/time**2", "m": "mass", "c": "length/time"},
-        unitList="length, time, mass",
+        equation="M = muB * eL * tau / (2 * pi) * m * alpha * E",
+        dimensions={"M": "A/m", "muB": "kg/(s**2 * A)", "eL": "C", "tau": "s", "m": "kg", "alpha": "kg* m**2 /s**2 *m", "E": "kg * m**2/s**3/A/m"},
+        unitList="A, kg, s, m, C",
         separator=","
     )
 
     dimensionalAnalysisInstance = DimensionalAnalysis()
     result = dimensionalAnalysisInstance._run(**input_data.dict())
-    print(f"Proposed correction for the equation '{input_data.equation}': {result}") """
+    print(f"Proposed correction for the equation '{input_data.equation}': {result}")
+
+""" if __name__ == "__main__":
+    testFunction() """
