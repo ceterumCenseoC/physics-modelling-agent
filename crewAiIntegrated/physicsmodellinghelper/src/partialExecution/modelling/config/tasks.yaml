@@ -24,8 +24,18 @@ unit_checking_task:
   expected_output: >
     Units of the quantities.
     Results of dimensional analysis.
-    . MARKDOWN format with $...$ and $$...$$.
+    MARKDOWN format with $...$ and $$...$$.
   agent: unit_checker
+
+parameter_suggestion_task:
+  description: >
+   Suggest realistic starting parameters for the model.
+   explain your choice of parameters.
+  expected_output: >
+   Realistic ranges for the starting parameters of the model.
+   The logic and sources the parameters are derived from.
+   MARKDOWN format with $...$ and $$...$$.
+  agent: paramter_suggester
 
 physician_simulation_task:
   description: >

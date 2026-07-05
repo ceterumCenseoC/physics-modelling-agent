@@ -91,7 +91,7 @@ class ModellerCrew():
             config=self.agents_config['unit_checker'], # type: ignore[index]
             verbose= True,
             allow_delegation=self.allow_delegation,
-            temperature= 0.4, # to make transition between si units and not si units
+            temperature= 0.2, # to make transition between si units and not si units
             top_p=self.top_p,
             top_k=self.top_k,
             frequency_penalty=self.frequency_penalty,
@@ -105,6 +105,25 @@ class ModellerCrew():
             tools=[DimensionalAnalysis()] # allows the agent to perform dimensional analysis on equations
         )
     
+    @agent
+    def paramter_suggester(self) -> Agent:
+        return Agent(
+            config=self.agents_config['paramter_suggester'], # type: ignore[index]
+            verbose= True,
+            allow_delegation=self.allow_delegation,
+            temperature=self.temperature,
+            top_p=self.top_p,
+            top_k=self.top_k,
+            frequency_penalty=self.frequency_penalty,
+            presence_penalty=self.presence_penalty,
+            max_iter=self.max_iter,
+            llm=LLM(
+                model = "qwen3.5-122b-a10b", # needed because we want to read pdf's
+                base_url="https://chat-ai.academiccloud.de/v1",
+                api_key=os.getenv("OPENAI_API_KEY"),
+                #type="chat-completions"
+            )
+        )
     
     @agent
     def simulation_physician(self) -> Agent:
@@ -178,7 +197,15 @@ class ModellerCrew():
             async_execution=self.async_execution,
             output_file=self.outputDir + 'unit_check' + '.md'
         )
-
+    
+    @task
+    def parameter_suggestion_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['parameter_suggestion_task'], # type: ignore[index]
+            markdown=True,
+            async_execution=self.async_execution,
+            output_file=self.outputDir + 'parameter_suggestion' + '.md'
+        )
         
     @task
     def physician_simulation_task(self) -> Task:

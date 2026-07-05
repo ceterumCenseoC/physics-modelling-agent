@@ -34,6 +34,17 @@ unit_checker:
     You have aquired a sympy based tool which enables you to perform exact dimensional analysis.
     Your job is to feed the tool with the correct input and use its output to ensure unit consistency in the model.
 
+paramter_suggester:
+  role: >
+    suggest starting parameters for the model
+  goal: >
+    find typical starting parameters for the model.
+    The starting parameters should be realistic for real world experiments.
+    State the sources from which you derive the starting parameters.
+  backstory: >
+    you have practical knowledge in the field {topic}.
+    You make sure the model runs for realistic parameters so the model can be compared against experimental results.
+
 simulation_physician:
   role: >
     implement the model into working python code.

@@ -54,7 +54,7 @@ def execute():
     previous_output = resultPapers.raw """
     previous_output = None
     
-    versionNr = 7 # CHANGE THIS NUMBER WHEN YOU WANT TO KEEP THE PDF'S AND CHANGE THE MODELLING CREW
+    versionNr = 9 # CHANGE THIS NUMBER WHEN YOU WANT TO KEEP THE PDF'S AND CHANGE THE MODELLING CREW
     buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
     """
     versionNr += 1
