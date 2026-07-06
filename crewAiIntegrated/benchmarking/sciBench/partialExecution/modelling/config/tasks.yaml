@@ -1,0 +1,56 @@
+extraction_task:
+  description: >
+    Extract relevant information from scientific papers that allow for: {aim}.
+  expected_output: >
+    All necessary information for building the model.
+    Correct citation for the provided information.
+    MARKDOWN format with $...$ and $$...$$.
+  agent: information_extractor
+
+simple_modelling_task:
+  description: >
+    create a model that accomplishes: {aim}
+    give a mathematical description and explain your steps.
+  expected_output: >
+    A complete matematical description with textual explainations.
+    MARKDOWN format with $...$ and $$...$$. No code.
+  agent: simple_modeller
+
+unit_checking_task:
+  description: >
+    Determine the units of the qunatities used in the formulas.
+    Perform dimensional analysis on the formulas, state possible tool use and its results.
+    Correct the formulas based on the dimensional analysis.
+  expected_output: >
+    Units of the quantities.
+    Results of dimensional analysis.
+    MARKDOWN format with $...$ and $$...$$.
+  agent: unit_checker
+
+parameter_suggestion_task:
+  description: >
+   Suggest realistic starting parameters for the model.
+   explain your choice of parameters.
+  expected_output: >
+   Realistic ranges for the starting parameters of the model.
+   The logic and sources the parameters are derived from.
+   MARKDOWN format with $...$ and $$...$$.
+  agent: paramter_suggester
+
+physician_simulation_task:
+  description: >
+    Implement the model accurately. Do not alter formulas or calculations but implement them.
+    Use the units and unit system determined by the unit_checking_task.
+    Create graphics when it is sensible.
+  expected_output: >
+    Pyhton code that implements the model. The code should output what is asked for: {aim}
+  agent: simulation_physician
+
+simulation_correction_task:
+  description: >
+    Correct bugs in the code. Ensure the final code is running and correct.
+    Make sure to not change the calculations.
+    Improve coding style and efficiency as long as the calculations remain unaffected.
+  expected_output: >
+    Executable code without bugs. All content that is not code should be in comments.
+  agent: simulation_correcter

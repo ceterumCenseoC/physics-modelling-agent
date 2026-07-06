@@ -1,0 +1,3 @@
+[submodule "crewAiIntegrated/benchmarking/crewAiIntegrated/benchmarking/sciBench/scibench"]
+	path = crewAiIntegrated/benchmarking/crewAiIntegrated/benchmarking/sciBench/scibench
+	url = git@github.com:mandyyyyii/scibench.git
