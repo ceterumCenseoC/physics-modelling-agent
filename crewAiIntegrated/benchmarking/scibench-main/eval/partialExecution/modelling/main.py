@@ -27,7 +27,9 @@ def run_crew_modelling(inputs : dict, outputDir : str, pdfSaveDir : str):
         os.environ["CREWAI_ENABLE_AUTO_TOOL_CHOICE"] = "false"
         os.environ["CREWAI_TOOL_CALL_PARSER"] = "true"
         
+        # crew, agent, task initialization, nothing too special, defines sync or async execution
         modeller = ModellerCrew(outputDir = outputDir, pdfSaveDir = pdfSaveDir)
+        # run the crew
         fullResult = modeller.crew().kickoff(inputs=inputs)
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")
