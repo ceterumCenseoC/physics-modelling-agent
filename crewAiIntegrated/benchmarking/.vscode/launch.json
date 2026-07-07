@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug as module",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "scibench-main.eval.eval_zero",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "python": ".venv\\Scripts\\python",
+      "justMyCode": false
+    }
+  ]
+}
