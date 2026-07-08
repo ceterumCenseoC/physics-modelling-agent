@@ -35,7 +35,7 @@ def call_engine(messages, engine,temperature=0,n=1, patience=100000, sleep_time=
     while patience > 0:
         patience -= 1
         try:
-            #replace with entry to own ai-pipeline
+            ###replace with entry to own ai-pipeline
             """ response = openai.ChatCompletion.create(model=engine,
                               messages=messages,
                               temperature=temperature) """
@@ -48,7 +48,7 @@ def call_engine(messages, engine,temperature=0,n=1, patience=100000, sleep_time=
                                         outputDir = outputDir,
                                         pdfSaveDir = outputDir + "pdfs",
                                         versionNr = 1)
-
+            
             if n == 1:
                 prediction = response['choices'][0]['message']['content'].strip()
                 if prediction != "" and prediction != None:
@@ -100,7 +100,7 @@ def run(file, engine, start_n, sys):
         sys_prompt=""
         sys_name="_nosys"
     
-    #change the path
+    ###change the path
     BASE_DIR = Path(__file__).resolve().parent
     path = (BASE_DIR / ".." / "dataset" / "original" / f"{file}.json").resolve()
     with open(path, encoding='utf-8') as json_file:
@@ -116,9 +116,9 @@ def run(file, engine, start_n, sys):
                     unit_prob=remove_not(problem_data["unit"])
                 problem_text=problem_data["problem_text"]+" The unit of the answer is "+unit_prob+"."
                 message=zero(sys_prompt, problem_text)
-                model_output_ori=call_engine(message, engine=engine)
+                model_output_ori=call_engine(message, engine=engine) # this is a dict (json)
                 
-                model_output = parse_math_answer(model_output_ori)
+                model_output = parse_math_answer(model_output_ori) # this seems to not view the output as a number and returns None; Probably is the unit the problem
                 answer = problem_data["answer_number"]
                 if unit_prob!=problem_data["unit"]:
                     model_output=cal_not(parse_not(model_output))

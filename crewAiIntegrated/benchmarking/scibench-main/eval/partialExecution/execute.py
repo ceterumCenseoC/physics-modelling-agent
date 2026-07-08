@@ -1,3 +1,5 @@
+import json # use for converting raw output of the crew to a dictionary
+
 from .sourceFinding.main import run_crew_paperFinder
 from .modelling.main import run_crew_modelling
 
@@ -63,6 +65,12 @@ def execute():
     buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
     """
 
+def convertToDict(inStr : str) -> dict:
+    """
+    this method converts the output of the crew to a dictionary
+    """
+    return json.loads(inStr)    
+
 def executeInterface(topic : str, aim : str, outputDir : str, pdfSaveDir : str, versionNr : int):
     """
     this method allows for another programm to access and run the crew. Necessary for evaluation
@@ -75,13 +83,11 @@ def executeInterface(topic : str, aim : str, outputDir : str, pdfSaveDir : str, 
         previous_output = resultPapers.raw"""
     previous_output = None
     
-    input("Press Enter to continue...")
     resultModel = buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
-    print(resultModel.raw) # raw gives output of only the last agent
-    print(resultModel.json_dict)
-    print(type(resultModel.raw))
-    input("Press Enter to continue...")
-    return resultModel
+    finalOutputString = resultModel.raw
+    return convertToDict(inStr = finalOutputString) # raw gives output of only the last agent
 
 if __name__ == "__main__":
     execute()
+    inStr = '{\n"choices": [\n {\n "message": {\n "content": "50.7 atm"\n }\n }\n ]\n }\n'
+    convertToDict(inStr)

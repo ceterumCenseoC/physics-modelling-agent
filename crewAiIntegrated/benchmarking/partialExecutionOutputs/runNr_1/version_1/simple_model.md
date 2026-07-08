@@ -1,55 +1,32 @@
 
 
-# Ideal Gas Law Calculation for Ethane Pressure
+# Predicting Pressure Using the Ideal Gas Law
 
-## Problem Statement
-Calculate the pressure exerted by $10.0 \, \mathrm{mol}$ of $\mathrm{C}_2\mathrm{H}_6(\mathrm{g})$ confined to $4.860 \, \mathrm{dm}^3$ at $27^{\circ}\mathrm{C}$ using the **perfect gas law** (ideal gas law).
+## Step-by-Step Explanation
 
----
+1. **Identify the Given Values**:
+   - Number of moles (n) = 10.0 mol
+   - Volume (V) = 4.860 dm³ = 4.860 L
+   - Temperature (T) = 27°C = 300.15 K
 
-## Key Information Extracted
-### 1. **Ideal Gas Law Equation**
-The pressure $P$ is calculated using:
-$$
-P = \frac{nRT}{V}
-$$
-Where:
-- $n = 10.0 \, \mathrm{mol}$ (amount of gas)
-- $R = 0.0821 \, \mathrm{L \cdot atm \cdot mol^{-1} \cdot K^{-1}}$ (gas constant for atm units)
-- $T = 27^{\circ}\mathrm{C} + 273.15 = 300.15 \, \mathrm{K}$ (temperature in Kelvin)
-- $V = 4.860 \, \mathrm{dm}^3 = 4.860 \, \mathrm{L}$ (volume, since $1 \, \mathrm{dm}^3 = 1 \, \mathrm{L}$)
+2. **Select the Appropriate Gas Constant (R)**:
+   - Since the desired unit for pressure is atm, we use R = 0.0821 L·atm/(mol·K).
 
-**Source**: Atkins, P., & de Paula, J. (2010). *Physical Chemistry* (9th ed.). Oxford University Press.
+3. **Apply the Ideal Gas Law**:
+   - The ideal gas law is given by \( PV = nRT \).
+   - Rearranging for pressure: \( P = \frac{nRT}{V} \).
 
----
+4. **Substitute the Values into the Formula**:
+   \[
+   P = \frac{(10.0 \, \text{mol})(0.0821 \, \text{L·atm/(mol·K)})(300.15 \, \text{K})}{4.860 \, \text{L}}
+   \]
 
-### 2. **Unit Conversions**
-- Temperature: $T = 27 + 273.15 = 300.15 \, \mathrm{K}$
-- Volume: $4.860 \, \mathrm{dm}^3 = 4.860 \, \mathrm{L}$
+5. **Perform the Calculation**:
+   - Calculate the numerator: \( 10.0 \times 0.0821 \times 300.15 \approx 246.72 \, \text{L·atm} \).
+   - Divide by the volume: \( \frac{246.72}{4.860} \approx 50.7 \, \text{atm} \).
 
-**Source**: Lide, D. R. (Ed.). (2005). *CRC Handbook of Chemistry and Physics* (86th ed.). CRC Press.
+6. **Conclusion**:
+   - The pressure exerted by ethane, assuming ideal gas behavior, is approximately 50.7 atm.
 
----
-
-### 3. **Gas Constant Value**
-The value $R = 0.0821 \, \mathrm{L \cdot atm \cdot mol^{-1} \cdot K^{-1}}$ is standard for pressure in atmospheres.
-
-**Source**: NIST Chemistry WebBook. (n.d.). *Gas Constant*. Retrieved from https://webbook.nist.gov
-
----
-
-## Calculation
-Substitute values into the ideal gas law:
-$$
-P = \frac{(10.0 \, \mathrm{mol}) \times (0.0821 \, \mathrm{L \cdot atm \cdot mol^{-1} \cdot K^{-1}}) \times (300.15 \, \mathrm{K})}{4.860 \, \mathrm{L}}
-$$
-$$
-P = \frac{246.42315}{4.860} \approx 50.7 \, \mathrm{atm}
-$$
-
-**Significant Figures**: The input values have 3 significant figures ($10.0$, $27^{\circ}\mathrm{C}$), so the answer is rounded to **$50.7 \, \mathrm{atm}$**.
-
----
-
-## Final Answer
-The pressure exerted by the ethane is **$50.7 \, \mathrm{atm}$**.
+### Final Answer
+The pressure exerted by ethane is \(\boxed{50.7 \, \mathrm{atm}}\).
