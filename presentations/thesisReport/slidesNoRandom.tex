@@ -248,7 +248,7 @@ handout, % comment out for getting non handout version
 %				\node[box, below=0.4cm of n2, xshift=2.0cm] (n3) {describe a model to answer the question};
 %				\draw[->] (n2) -- (n3);
 				\pause
-				\node[box, below=0.4cm of n2, xshift=2.0cm] (n4) {reports findings:\\ $\bullet$ human readable \textbf{model desciption}\\ $\bullet$ executable \textbf{numerical implementation}};
+				\node[box, below=0.4cm of n2, xshift=2.0cm] (n4) {reports findings:\\ $\bullet$ human readable \textbf{model description}\\ $\bullet$ executable \textbf{numerical implementation}};
 				\draw[->] (n2) -- (n4);
 			\end{tikzpicture}
 		\end{alertblock}
@@ -263,13 +263,13 @@ handout, % comment out for getting non handout version
 				\item mostly use tokenization: dividing text into pieces and applying transformation function
 			\end{itemize}
 		\end{block}
-		
+		\pause
 		\begin{block}{what is an AI}
 			\begin{itemize}
 				\item general: system that acts to achieve the best version of the expected result \autocite{russell2023}
 			\end{itemize}
 		\end{block}
-		
+		\pause
 		\begin{block}{what is an agentic AI}
 			\begin{itemize}
 				\item an AI with enhanced capabilities including: strategic planning, (external) tools usage, collaboration with other agents \autocite{agenticAiDefinitions}
@@ -283,7 +283,6 @@ handout, % comment out for getting non handout version
 	\begin{frame}[c]{architectural foundations}
 		\begin{alertblock}{constraints}
 			\begin{itemize}
-				\pause
 				\item only use open source software
 				\item try to use only free software (no payed subscriptions)
 			\end{itemize}
@@ -292,6 +291,7 @@ handout, % comment out for getting non handout version
 		\begin{block}{design choices}
 			\begin{itemize}
 				\item use agentic AI to harness strategic planning capabilities and tool usage
+				\pause
 				\item[$\rightarrow$] Scalable AI Accelerator (\textbf{SAIA}) from the GWDG\autocite{saiaDoc}
 				\begin{itemize}
 					\item access via remote servers with valid API key \autocite{academicId}
@@ -304,7 +304,6 @@ handout, % comment out for getting non handout version
 				\end{itemize}
 			\end{itemize}
 		\end{block}
-		\pause
 		\begin{figure}[h]
 			\centering
 			\includegraphics[scale= 0.19]{data/crewAiLogo.png}
@@ -321,7 +320,7 @@ handout, % comment out for getting non handout version
 			\pause
 			\begin{itemize}
 				\item allows to access any AI-models we have access to (SAIA)
-				\item behaviour can be defined via parameters (name, goal, backstory, creativity)
+				\item behaviour can be defined via parameters (role, goal, backstory, creativity)
 				\item tools can be added to enhance capabilities (e.g. web search, code execution)
 			\end{itemize}
 		\end{block}
@@ -340,8 +339,8 @@ handout, % comment out for getting non handout version
 		\begin{block}{the Crew\autocite{crewPy}}
 			contains all agents with their tasks and handles the interactions between agents
 		\end{block}
-		\centering
 		\pause
+		\centering
 		\begin{tikzpicture}[
 			box/.style={
 				rectangle, draw, rounded corners,
@@ -378,23 +377,28 @@ handout, % comment out for getting non handout version
 			\node[box, below=1.0cm of crew, xshift=-2.0cm] (assemble) {assemble crew};
 			\node[box, below=0.8cm of assemble, xshift=-1.5cm] (agents) {initialise agents};
 			\node[box, below=0.8cm of assemble, xshift=+1.5cm ] (tasks) {initialise tasks\\ \bullet assign agent};
-			\node[box, below=1.0cm of crew, xshift = 2.0cm] (run) {run crew};
 			
 			\draw[dashed, arrow] (crew) -- (assemble) node[midway, right] {inside crew};
-			\draw[dashed, arrow] (run) -- (crew);
-			
 			\draw[dashed, arrow] (assemble) -- (agents) node[midway, right] {1};
 			\draw[dashed, arrow] (assemble) -- (tasks) node[midway, right] {2};
-			\draw[dashed, arrow] (assemble) -- (run) node[midway, right] {3};
 			
+			\pause
+			
+			\node[box, below=1.0cm of crew, xshift = 2.0cm] (run) {run crew};
+			\draw[dashed, arrow] (assemble) -- (run) node[midway, right] {3};
+			\draw[dashed, arrow] (run) -- (crew);
+			
+			\pause
 			% diffrent run paths
 			\node[redbox, below=1.3cm of run, xshift=0.6cm] (hierachical) {hierarchical\\\scriptsize $\bullet$ agents call other agents\\\scriptsize $\bullet$ not used for reproducability};
+			\draw[dashed, arrow, draw=red!40] (run) -- (hierachical);
+			
+			\pause
 			
 			\node[bluebox, below=-0.3cm of run, xshift=3.4cm] (sequential) {sequential\\\scriptsize $\bullet$ tasks in order of definition};
 			\node[bluebox, below= 0.85cm of sequential, xshift=0.3cm] (seq2) {output accumulates;
 				\\\scriptsize passed to next task};
 			
-			\draw[dashed, arrow, draw=red!40] (run) -- (hierachical);
 			\draw[dashed, arrow, draw=blue] (run) -- (sequential);
 			\draw[dashed, arrow, draw=blue] (sequential) -- (seq2);
 		\end{tikzpicture}
@@ -404,13 +408,13 @@ handout, % comment out for getting non handout version
 	
 	\subsection{general architecture}
 	\begin{frame}[c]{orchestrating agentic AI's}
-		\begin{itemize}
-			\item use crewai framework: define own agents and task; let crewai handle:
-			\begin{itemize}
-				\item orchestration of the tasks and agents (simple pipeline)
-				\item enabling agents tool use and communication with each other
-			\end{itemize}
-		\end{itemize}
+%		\begin{itemize}
+%			\item use crewai framework: define own agents and task; let crewai handle:
+%			\begin{itemize}
+%				\item orchestration of the tasks and agents (simple pipeline)
+%				\item enabling agents tool use and communication with each other
+%			\end{itemize}
+%		\end{itemize}
 		\vspace{0.1cm}
 		\begin{figure}
 			\begin{tikzpicture}[
@@ -426,16 +430,24 @@ handout, % comment out for getting non handout version
 				]
 				\node[graybox] (input) {free form modelling request};
 
-				\node[box, below = 0.7cm of input, xshift = -4.1cm] (info) {\textbf{find information}\\\scriptsize$\bullet$ use scientific sources\\\scriptsize$\bullet$ papers, textbooks};
+				\pause
+				
+				\node[box, below = 1.3cm of input, xshift = -4.1cm] (info) {\textbf{find information}\\\scriptsize$\bullet$ use scientific sources\\\scriptsize$\bullet$ papers, textbooks};
 				\draw[dashed, arrow] (input) -- (info);
+				
+				\pause
 				
 				\node[box, right=1cm of info] (model) {\textbf{build model}\\\scriptsize$\bullet$ based on information\\\scriptsize$\bullet$ ensure reproducability\\\scriptsize \& proper citatation};
 				\draw[dashed, arrow] (info) -- (model);
 				
+				\pause
+				
 				\node[box, right = 1cm of model] (implement) {\textbf{implementation}\\\scriptsize$\bullet$ (python) code\\\scriptsize$\bullet$ calculate accurate numerical values\\\scriptsize for desired properties};
 				\draw[dashed, arrow] (model) -- (implement);
 				
-				\node[graybox, below=2.85cm of input] (output) {model description and implementation};
+				\pause
+				
+				\node[graybox, below=4.05cm of input] (output) {model description and implementation};
 				\draw[dashed, arrow] (implement) -- (output);
 				
 			\end{tikzpicture}
@@ -444,23 +456,27 @@ handout, % comment out for getting non handout version
 		\end{figure}
 	\end{frame}
 
-	\subsection{information finding}
+	\subsection{challenges during the design process}
 	\begin{frame}[c]{information finding}
+		\uncover<2->{
 		\begin{alertblock}{problems encountered}
 			\begin{enumerate}
-				\item crewai agent can not perform a live web-search
-				\item[{\color{green1}$\checkmark$}] use arXiv API Access\autocite{arxiv}; scientific sources available
-				\item LLM models with strong reasoning capabilities can not read PDFs
-				\item[{\color{green1}$\checkmark$}] split this step into two tasks
+				\uncover<3->{\item crewai agent on it's own can not perform a live web-search}
+				\uncover<4->{\item[{\color{green1}$\checkmark$}] use arXiv API Access\autocite{arxiv}; scientific sources available}
+				\uncover<5->{\item LLM models with strong reasoning capabilities can not read PDFs}
+				\uncover<6->{\item[{\color{green1}$\checkmark$}] split this step into two tasks
 				\begin{itemize}
-					\item[A] find and download papers via arXiv API
-					\item[B] have a capable agent extract relevant information from the downloaded papers
-				\end{itemize}
-				\item crewai tool gets denied by arXiv servers due to too many requests
-				\item[{\color{green1}$\checkmark$}] implement custom tools performing exponential back-off
-				\item[{\color{green1}$\checkmark$}] separate the task performing the arXiv request from the crew $\implies$ no new requests when testing other tasks
+					\item[A] find and download papers via arXiv API}
+					\uncover<7->{\item[B] have a capable agent extract relevant information from the downloaded papers
+				\end{itemize}}
+				\uncover<8->{\item crewai tool gets denied by arXiv servers due to too many requests}
+				\uncover<9->{\item[{\color{green1}$\checkmark$}] implement custom tools performing exponential back-off}
+				\uncover<10->{\item[{\color{green1}$\checkmark$}] separate the task performing the arXiv request from the crew $\implies$ no new requests when testing other tasks}
 			\end{enumerate}
 		\end{alertblock}
+		}
+		
+		\uncover<1->{
 		\begin{figure}
 			\centering
 			\begin{tikzpicture}[
@@ -515,26 +531,31 @@ handout, % comment out for getting non handout version
 %				\draw [arrow, red] (answer) -- (output);
 			\end{tikzpicture}
 		\end{figure}
+		}
  	\end{frame}
  	
  	\begin{frame}[c] {modelling}
+ 		\uncover<2->{
  		\begin{alertblock}{the unit problem}
  			\begin{enumerate}
  				\item task outputs formula from the sources; theoretical formulas often use different definitions of parameters
- 				\item[{\color{green1}$\checkmark$}] custom tool using SymPy \autocite{symPy}:
+ 				\uncover<3->{\item[{\color{green1}$\checkmark$}] custom tool using SymPy \autocite{symPy}:
  				\begin{itemize}
- 					\item[A] perform dimensional analysis to find possible unit mismatches
- 					\item[B] correct the formulas base on dimensional analysis 
- 				\end{itemize}
+ 					\item[A] perform dimensional analysis to find possible unit mismatches}
+ 					\uncover<4->{\item[B] correct the formulas base on dimensional analysis 
+ 				\end{itemize}}
  			\end{enumerate}
  		\end{alertblock}
+ 		}
  		
- 		\begin{block}{starting parameters}
+ 		\uncover<5->{\begin{block}{starting parameters}
  			\begin{itemize}
  				\item for realistic results realistic start parameters are necessary
- 				\item[$\implies$] agent for suggesting reasonable starting parameters
+ 				\uncover<6->{\item[$\implies$] agent for suggesting reasonable starting parameters}
  			\end{itemize}
  		\end{block}
+ 		}
+ 		\uncover<1->{
  		\begin{figure}
  			\centering
  			\begin{tikzpicture}[
@@ -592,22 +613,27 @@ handout, % comment out for getting non handout version
 %				\draw [arrow, red] (answer) -- (output);
  			\end{tikzpicture}
  		\end{figure}
+ 		}
  	\end{frame}
  	
  	\begin{frame}[c]{numerical implementation}
+ 		\uncover<2->{
  		\begin{alertblock}{minor challenges}
  			\begin{enumerate}
  				\item first simulation agent specialized on logic often puts out code with bugs
- 				\item[{\color{green1}$\checkmark$}] second agent used LLM specialized in programming and corrects these mistakes
+ 				\uncover<3->{\item[{\color{green1}$\checkmark$}] second agent used LLM specialized in programming and corrects these mistakes}
  			\end{enumerate}
  		\end{alertblock}
- 		
- 		\begin{block}{get a proper result in code}
+ 		}
+ 		\uncover<4->{
+ 		\begin{block}{answer: provide a short result at runtime}
  			\begin{itemize}
  				\item needed for automatic evaluation of the system (benchmarking)
  			\end{itemize}
  		\end{block}
- 		
+ 		}
+ 			
+ 		\uncover<1->{
  		\begin{figure}
  			\centering
  			\begin{tikzpicture}[
@@ -665,7 +691,7 @@ handout, % comment out for getting non handout version
 				\draw [arrow, red] (answer) -- (output);
  			\end{tikzpicture}
  		\end{figure}
- 		
+ 		}
  	\end{frame}
 	
 	\section{example workflow: The Edelstein Effect}
@@ -679,17 +705,22 @@ handout, % comment out for getting non handout version
 	\end{frame}
 	
 	\begin{frame}[c] {papers found}
+		\uncover<2->{
 		agent configuration:
 		\begin{itemize}
 			\item no creativity (temperature = 0)
 			\item LLM model: qwen3.5-122b-a10b\autocite{qwenteam2026} (general purpose \& usage)
 			\item tools: arXiv\_Papers\_With\_Backoff
 		\end{itemize}
+		}
+		\uncover<3->{
 		\begin{exampleblock}{papers found (\href{https://github.com/ceterumCenseoC/publicFiles/blob/main/sources.md}{view full report})}
 			\enquote{Edelstein Effect in Isotropic and Anisotropic Rashba Models}\autocite{Gaiardoni_2025}\newline
 			\enquote{Spin and orbital Edelstein effect in spin-orbit coupled noncentrosymmetric superconductors}\autocite{Ando_2024}\newline
 			\enquote{Spin and orbital Edelstein effect in a bilayer system with Rashba interaction}\autocite{Leiva_Montecinos_2023}
 		\end{exampleblock}
+		}
+		\uncover<1->{
 		\begin{figure}
 			\centering
 			\begin{tikzpicture}[
@@ -752,15 +783,20 @@ handout, % comment out for getting non handout version
 				\draw [arrow, gray] (implement) -- (output);
 			\end{tikzpicture}
 		\end{figure}
+		}
 	\end{frame}
 	
 	\begin{frame}[c] {information extraction}
+		\uncover<2->{
 		agent configuration:
 		\begin{itemize}
 			\item no creativity (temperature = 0)
 			\item LLM model: qwen3.5-122b-a10b\autocite{qwenteam2026} (general \& tool usage)
 			\item tools: pDF\_Reader
 		\end{itemize}
+		}
+		
+		\uncover<3->{
 		\begin{exampleblock}{extracted information (\href{https://github.com/ceterumCenseoC/publicFiles/blob/main/information.pdf}{view full report})}
 			\[
 			\begin{aligned}
@@ -770,6 +806,8 @@ handout, % comment out for getting non handout version
 			\end{aligned}
 			\]
 		\end{exampleblock}
+		}
+		\uncover<1->{
 		\begin{figure}
 			\centering
 			\begin{tikzpicture}[
@@ -832,18 +870,24 @@ handout, % comment out for getting non handout version
 				\draw [arrow, gray] (implement) -- (output);
 			\end{tikzpicture}
 		\end{figure}
+		}
 	\end{frame}
 	
 	\begin{frame}[c] {build model}
+		\uncover<2->{
 		agent configuration:
 		\begin{itemize}
 			\item little creativity (temperature = 0.2)
 			\item LLM model: deepseek-r1-distill-llama-70b\autocite{deepSeek}; (optimized for logic \& reasoning)
 			\item tools: this LLM is unable to use tools
 		\end{itemize}
+		}
+		\uncover<3->{
 		\begin{exampleblock}{extracted information (\href{https://github.com/ceterumCenseoC/publicFiles/blob/main/simple_model.pdf}{view full report})}
 			restates results from information extraction
 		\end{exampleblock}
+		}
+		\uncover<1->{
 		\begin{figure}
 			\centering
 			\begin{tikzpicture}[
@@ -909,14 +953,18 @@ handout, % comment out for getting non handout version
 				\draw [arrow, gray] (implement) -- (output);
 			\end{tikzpicture}
 		\end{figure}
+		}
 	\end{frame}
 	
 	\begin{frame}[c] {unit check}
+		\uncover<2->{
 		\begin{itemize}
 			\item little creativity (temperature = 0.2)
 			\item LLM model: qwen3.5-122b-a10b\autocite{qwenteam2026}; (allow tool usage)
 			\item tools: dimensional\_Analysis using SymPy \autocite{symPy}
 		\end{itemize}
+		}
+		\uncover<3->{
 		\begin{exampleblock}{unit corrections (\href{https://github.com/ceterumCenseoC/publicFiles/blob/main/simple_model.pdf}{view full report})}
 			\[
 			\begin{aligned}
@@ -926,6 +974,8 @@ handout, % comment out for getting non handout version
 			\end{aligned}
 			\]
 		\end{exampleblock}
+		}
+		\uncover<1->{
 		\begin{figure}
 			\centering
 			\begin{tikzpicture}[
@@ -996,14 +1046,18 @@ handout, % comment out for getting non handout version
 				\draw [arrow, gray] (implement) -- (output);
 			\end{tikzpicture}
 		\end{figure}
+		}
 	\end{frame}
 	
 	\begin{frame}[c] {parameter suggestion}
+		\uncover<2->{
 		\begin{itemize}
 			\item no creativity (temperature = 0)
 			\item LLM model: qwen3.5-122b-a10b\autocite{qwenteam2026}; (general purpose)
 			\item tools: no tool used
 		\end{itemize}
+		}
+		\uncover<3->{
 		\begin{exampleblock}{suggested starting parameters (\href{https://github.com/ceterumCenseoC/publicFiles/blob/main/paramter_sug.pdf}{view full report})}
 			\[
 			\begin{aligned}
@@ -1014,6 +1068,8 @@ handout, % comment out for getting non handout version
 			\end{aligned}
 			\]
 		\end{exampleblock}
+		}
+		\uncover<1->{
 		\begin{figure}
 			\centering
 			\begin{tikzpicture}[
@@ -1084,15 +1140,18 @@ handout, % comment out for getting non handout version
 				\draw [arrow, gray] (implement) -- (output);
 			\end{tikzpicture}
 		\end{figure}
+		}
 	\end{frame}
 
 	\begin{frame}[c] {numerical implementation I}
+		\uncover<2->{
 		\begin{itemize}
 			\item no creativity (temperature = 0)
 			\item LLM model: deepseek-r1-distill-llama-70b \autocite{deepSeek}; devstral-2-123b-instruct-2512 \autocite{huggFace}
 			\item tools: no tool used
 		\end{itemize}
-		
+		}
+		\uncover<3->{
 		\begin{exampleblock}{results for magnetisation (\href{https://github.com/ceterumCenseoC/publicFiles/blob/main/simulation_correction.py}{view full report})}
 			\[
 			\begin{aligned}
@@ -1103,7 +1162,8 @@ handout, % comment out for getting non handout version
 			\end{aligned}
 			\]
 		\end{exampleblock}
-		
+		}
+		\uncover<1->{
 		\begin{figure}
 			\centering
 			\begin{tikzpicture}[
@@ -1175,9 +1235,11 @@ handout, % comment out for getting non handout version
 				\draw [arrow, red] (corrimpl) -- (output);
 			\end{tikzpicture}
 		\end{figure}
+		}
 	\end{frame}
 	
 	\begin{frame}[c] {numerical implementation II}
+		\uncover<2->{
 		\begin{figure}
 			\begin{subfigure}{0.49\textwidth}
 				\centering
@@ -1191,7 +1253,8 @@ handout, % comment out for getting non handout version
 				\caption{magnetisation over Rashba param. $\alpha$}
 			\end{subfigure}
 		\end{figure}
-		
+		}
+		\uncover<1->{
 		\begin{figure}
 			\centering
 			\begin{tikzpicture}[
@@ -1263,26 +1326,28 @@ handout, % comment out for getting non handout version
 				\draw [arrow, red] (corrimpl) -- (output);
 			\end{tikzpicture}
 		\end{figure}
+		}
 	\end{frame}
 	
 	\section{next steps}
 	
 	\begin{frame}[c]{next steps}
+		\uncover<1->{
 		\begin{block}{benchmark the \enquote{physics-modelling-agent}}
-			a method to measure the systems performance
+			a method to measure the systems performance }
 			\begin{itemize}
-				\item use sciBench \autocite{wang2024scibench}: problems, solutions and execution script are open source; the problems are at high-school level
-				\item alternatively CritPt \autocite{critPtArx}\autocite{critptGit}: evaluation only via their servers, solutions are not public; problems are more difficult
+				\uncover<2->{\item use sciBench \autocite{wang2024scibench}: problems, solutions and execution script are open source; the problems are at high-school level}
+				\uncover<3->{\item alternatively CritPt \autocite{critPtArx}\autocite{critptGit}: evaluation only via their servers, solutions are not public; problems are more difficult}
 			\end{itemize}
 		\end{block}
-		
-		\begin{exampleblock}{research the influence of (some of) the following aspects}
+		\uncover<4->{
+		\begin{exampleblock}{research the influence of (some of) the following aspects}}
 			\begin{enumerate}
-				\item agents temperature: which temperature maximizes performance?
-				\item LLM models: does performance increase with LLM complexity?
-				\item output variance: how consistent is the system over multiple runs?
-				\item execution time: how is it influenced by parameters?
-				\item sources: how does the number (and possibly type) of sources influence the systems results?
+				\uncover<5->{\item agents temperature: which temperature maximizes performance?}
+				\uncover<6->{\item LLM models: does performance increase with LLM complexity?}
+				\uncover<7->{\item output variance: how consistent is the system over multiple runs?}
+				\uncover<8->{\item execution time: how is it influenced by parameters?}
+				\uncover<9->{\item sources: how does the number (and possibly type) of sources influence the systems results?}
 			\end{enumerate}
 		\end{exampleblock}
 	\end{frame}
@@ -1316,10 +1381,10 @@ handout, % comment out for getting non handout version
 			
 			% ---------------- INPUT ----------------
 			\node[stage] (input) {Input};
-			
 			\node[sub, right=0.69cm of input] (ffmr) {free form modelling request};
 			\draw[arrow, gray] (input) -- (ffmr);
 			
+			\pause
 			%%%%AGENT and TASK
 			\node (task) at (input |- input) [info, xshift= 4.2cm, yshift=1.6cm] {
 				\textbf{TASK}\\$\bullet$ description\\$\bullet$ expected output\\$\bullet$ agent
@@ -1330,12 +1395,14 @@ handout, % comment out for getting non handout version
 			};
 			
 			% ---------------- gather ----------------
+			\pause
 			\node[stage, below=0.6cm of input] (gather) {gather information};
 			\draw[arrow, red] (input) -- (gather);
 			
 			\node[sub, right=0.69cm of gather] (arxiv) {arXiv search \& information extraction};
 			\draw[arrow, gray] (gather) -- (arxiv);
 			
+			\pause
 			% ---------------- model ----------------
 			\node[stage, below=0.6cm of gather] (model) {suggest a model};
 			\draw[arrow, red] (gather) -- (model);
@@ -1343,6 +1410,7 @@ handout, % comment out for getting non handout version
 			\node[sub, right=0.69cm of model] (modsug) {based on given information};
 			\draw[arrow, gray] (model) -- (modsug);
 			
+			\pause
 			% ---------------- unitcheck ----------------
 			\node[stage, below=0.6cm of model] (unitCheck) {check \& correct units};
 			\draw[arrow, red] (model) -- (unitCheck);
@@ -1350,6 +1418,7 @@ handout, % comment out for getting non handout version
 			\node[sub, right=0.69cm of unitCheck] (dimen) {dimensional analysis};
 			\draw[arrow, gray] (unitCheck) -- (dimen);
 			
+			\pause
 			% ---------------- implement -----------------
 			
 			\node[stage, below=0.6cm of unitCheck] (implement) {implement model};
