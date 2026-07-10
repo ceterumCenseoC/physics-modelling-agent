@@ -138,7 +138,7 @@ class ModellerCrew():
             presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
             llm=LLM(
-                model = "deepseek-r1-distill-llama-70b", # needed because we want to read pdf's
+                model = "deepseek-r1-distill-llama-70b",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
             )

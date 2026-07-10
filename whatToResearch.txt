@@ -1,8 +1,9 @@
 what to research:
 
-- Tokeniation
-- temperature
-- rag
-- parallel agents
-- tool use
-- chosen model
+- temperature; must, quality of output
+- model usage; quality of output
+- variance over same setups; maybe at different temperatures
+- time of execution; nice to know, is it influenced by task or more by agent?
+- with and without arxiv sources
+
+- tokenization
