@@ -39,11 +39,10 @@ def calculate_isotropic_magnetization(params, regime='HDR'):
     tau = params['tau']
     E_x = params['E_field']
 
-    numerator = mu_b * e_charge * tau * m * alpha * E_x
+    numerator = mu_b * e_charge * tau * E_x
     denominator = 2 * np.pi * hbar**2
-
     if regime == 'HDR':
-        M_y = numerator / denominator
+        M_y = numerator * m * alpha / denominator
     elif regime == 'LDR':
         sqrt_term = np.sqrt(m**2 * alpha**2 + 2 * m * E_F)
         M_y = (numerator * sqrt_term) / denominator
@@ -72,7 +71,7 @@ def calculate_anisotropic_susceptibility(params, r_m=1.0, r_alpha=1.0):
     chi_0 = (mu_b * e_charge * params['tau']) / (2 * np.pi * hbar**2)
 
     # Mass anisotropy dependence
-    chi_xy_mass = (4 * np.pi * m * alpha_y * r_m) / (1 + np.sqrt(r_m))
+    chi_xy_mass = (4 * np.pi * m * params['alpha_rashba'] * r_m) / (1 + np.sqrt(r_m))
 
     # Rashba parameter anisotropy dependence
     chi_xy_alpha = (4 * np.pi * m * alpha_x * r_alpha) / (1 + r_alpha)

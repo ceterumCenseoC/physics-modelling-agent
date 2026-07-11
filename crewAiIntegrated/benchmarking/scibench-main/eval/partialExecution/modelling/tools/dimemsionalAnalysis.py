@@ -133,5 +133,5 @@ def testFunction():
     result = dimensionalAnalysisInstance._run(**input_data.dict())
     print(f"Proposed correction for the equation '{input_data.equation}': {result}")
 
-""" if __name__ == "__main__":
-    testFunction() """
+if __name__ == "__main__":
+    testFunction()

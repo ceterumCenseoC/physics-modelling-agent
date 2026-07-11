@@ -123,8 +123,8 @@ def testFunction():
     # this is a test method for manual testing
     # sympy has some problems with special symbols like 'E', 'I', 'pi', 'I', so we need to use different symbols for the variables in the equation
     input_data = DimensionalAnalysisInput(
-        equation="M = muB * eL * tau / (2 * pi) * m * alpha * E",
-        dimensions={"M": "A/m", "muB": "kg/(s**2 * A)", "eL": "C", "tau": "s", "m": "kg", "alpha": "kg* m**2 /s**2 *m", "E": "kg * m**2/s**3/A/m"},
+        equation="M = muB * car * tau * m * alpha * fi",
+        dimensions={"M": "A/m", "muB": "J /(V*s / (m**2))", " car": "A * s", "tau": "s", "m": "kg", "alpha": "m / s", "fi": "V/m"},
         unitList="A, kg, s, m, C",
         separator=","
     )
@@ -133,5 +133,5 @@ def testFunction():
     result = dimensionalAnalysisInstance._run(**input_data.dict())
     print(f"Proposed correction for the equation '{input_data.equation}': {result}")
 
-""" if __name__ == "__main__":
-    testFunction() """
+if __name__ == "__main__":
+    testFunction()
