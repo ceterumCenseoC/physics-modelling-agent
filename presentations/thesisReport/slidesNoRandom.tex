@@ -1,6 +1,6 @@
 \documentclass[t,
 10pt,
-handout, % comment out for getting non handout version
+%handout, % comment out for getting non handout version
 ]{beamer}
 
 %beamer settings
@@ -406,8 +406,8 @@ handout, % comment out for getting non handout version
 	
 	\section{design process}
 	
-	\subsection{general architecture}
-	\begin{frame}[c]{orchestrating agentic AI's}
+	\subsection{general system design}
+	\begin{frame}[c]{general design of the pipeline}
 %		\begin{itemize}
 %			\item use crewai framework: define own agents and task; let crewai handle:
 %			\begin{itemize}
@@ -958,6 +958,99 @@ handout, % comment out for getting non handout version
 	
 	\begin{frame}[c] {unit check}
 		\uncover<2->{
+			\begin{itemize}
+				\item little creativity (temperature = 0.2)
+				\item LLM model: qwen3.5-122b-a10b\autocite{qwenteam2026}; (allow tool usage)
+				\item tools: dimensional\_Analysis using SymPy \autocite{symPy}
+			\end{itemize}
+		}
+		\uncover<3->{
+			\begin{exampleblock}{unit corrections (\href{https://github.com/ceterumCenseoC/publicFiles/blob/main/simple_model.pdf}{view full report})}
+				\[
+				\begin{aligned}
+					M_y &= \frac{\mu_b \abs{e} \tau}{2\pi \color{red} \hbar^2} m \alpha \left[\hat{z} \times \mathbf{E}\right]_y & \ \ \ \ & \text{magnetization in HDR}\\
+					\frac{E}{B L^3} &= \frac{E}{B} \cdot Q \cdot T \cdot M \cdot E L \cdot \frac{E}{Q L} & \ \ \ \ &\text{dimensions} \\
+					\iff \frac{E}{B L^3} &= E^3 \cdot M \frac{T}{B} & \ \ \ \ & \\
+				\end{aligned}
+				\]
+			\end{exampleblock}
+		}
+		\uncover<1->{
+			\begin{figure}
+				\centering
+				\begin{tikzpicture}[
+					box/.style={
+						rectangle, draw, rounded corners,
+						minimum width=0.9cm, minimum height=0.2cm,
+						align=center, fill=blue!5, font=\normalsize
+					},
+					graybox/.style={
+						box, fill=gray!10
+					},
+					arrow/.style={->, thick},
+					redbox/.style={
+						rectangle, draw, rounded corners,
+						minimum width=1.5cm, minimum height=0.6cm,
+						align=center, fill=red!10, font=\scriptsize
+					},
+					bluebox/.style={
+						box, fill=blue!10
+					},
+					smallbox/.style={
+						rectangle, draw, rounded corners,
+						minimum width=0.2cm, minimum height=0.1cm,
+						align=center, fill=gray!10, font=\scriptsize
+					},
+					]
+					
+					\node[graybox] (input) {input};
+					
+					%first set
+					\node (inf) at (input |- input) [graybox, xshift=1.9cm, yshift=0.0cm] {gather info};
+					\draw [arrow, gray] (input) -- (inf);
+					
+					%				\node[graybox, right=0.3cm of input, yshift=0.4cm] (source) {find sources};
+					%				\draw[arrow, gray] (input) -- (source);
+					%				
+					%				\node (info) at (source |- input) [bluebox, xshift=0cm,yshift=-0.4cm] {get info};
+					%				\draw[arrow, red] (source) -- (info);
+					
+					%2. set
+					%				\node (mod) at (source |- input) [graybox, xshift = 2.2cm, yshift=0.0cm] {build model};
+					%				\draw [arrow, red] (info) -- (mod);
+					
+					\node (model) at (inf |- input) [smallbox, xshift=2.0cm, yshift=0.6cm] {model};
+					\draw [arrow, gray] (inf) -- (model);
+					
+					\node (unit) at (model |- input) [bluebox, xshift=0cm, yshift=-0.0cm] {unit check};
+					\draw [arrow, red] (model) -- (unit);
+					
+					\node (param) at (unit |- unit) [smallbox, xshift= 0.0cm, yshift = -0.6cm] {param. sugg.};
+					\draw [arrow, red] (unit) -- (param);
+					
+					%3. set
+					\node (implement) at (mod |- input) [graybox, xshift = 2.7cm, yshift=0.0cm] {implementation};
+					\draw [arrow, gray] (param) -- (implement);
+					%				\node (phyimpl) at (model |- input) [bluebox, xshift=2.5cm, yshift=0.5cm] {physics implem.};
+					%				\draw [arrow, red] (param) -- (phyimpl);
+					%				
+					%				\node (corrimpl) at (phyimpl |- input) [bluebox, xshift=0cm, yshift=-0.5cm] {implem. check};
+					%				\draw [arrow, red] (phyimpl) -- (corrimpl);
+					
+					%4. set
+					%				\node (answer) at (phyimpl |- input) [graybox, xshift = 2.3 cm, yshift = 0cm] {answer};
+					%				\draw [arrow, red] (corrimpl) -- (answer);
+					
+					%5. set
+					\node (output) at (implement |- implement) [graybox, xshift = 2.3cm, yshift = 0.0cm] {output};
+					\draw [arrow, gray] (implement) -- (output);
+				\end{tikzpicture}
+			\end{figure}
+		}
+	\end{frame}
+	
+	\begin{frame}[c] {unit check}
+		\uncover<2->{
 		\begin{itemize}
 			\item little creativity (temperature = 0.2)
 			\item LLM model: qwen3.5-122b-a10b\autocite{qwenteam2026}; (allow tool usage)
@@ -1156,11 +1249,12 @@ handout, % comment out for getting non handout version
 			\[
 			\begin{aligned}
 				&\text{Isotropic HDR Magnetization:} \ & M_y &= 3,25 \times 10^{-9} \si{\ampere / \meter}\\
-				&\text{Isotropic LDR Magnetization:} \ & M_y &= 4,65 \times 10^{-35} \si{\ampere / \meter}\\
+				&\text{Isotropic LDR Magnetization:} \ & M_y &= 1,52 \times 10^{-8} \si{\ampere / \meter}\\
 				&\text{Anisotropic Magnetization Components:} \ & M_x &= 2,04 \times 10^{-8} \si{\ampere / \meter}\\
 				& \ & M_y &= 2,04 \times 10^{-8} \si{\ampere / \meter}
 			\end{aligned}
 			\]
+			some minor corrections necessary
 		\end{exampleblock}
 		}
 		\uncover<1->{
@@ -1220,10 +1314,10 @@ handout, % comment out for getting non handout version
 %				\node (implement) at (mod |- input) [graybox, xshift = 2.7cm, yshift=0.0cm] {implementation};
 %				\draw [arrow, red] (param) -- (implement);
 				
-				\node (phyimpl) at (mod |- input) [bluebox, xshift=2.7cm, yshift=0.5cm] {physics implem.};
+				\node (phyimpl) at (mod |- input) [bluebox, xshift=2.7cm, yshift=0.36cm] {physics implem.};
 				\draw [arrow, red] (mod) -- (phyimpl);
 				
-				\node (corrimpl) at (phyimpl |- input) [bluebox, xshift=0cm, yshift=-0.5cm] {implem. check};
+				\node (corrimpl) at (phyimpl |- input) [bluebox, xshift=0cm, yshift=-0.36cm] {implem. check};
 				\draw [arrow, red] (phyimpl) -- (corrimpl);
 				
 				%4. set
@@ -1433,5 +1527,3 @@ handout, % comment out for getting non handout version
 		\printbibliography
 	\end{frame}
 \end{document}
-
-% stokesche parameter
