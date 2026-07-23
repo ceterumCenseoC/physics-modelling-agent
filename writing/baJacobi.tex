@@ -1,0 +1,409 @@
+\documentclass[
+	fontsize = 11pt,
+	paper = a4,
+	draft = false,
+	twoside = true,
+	parskip = none, %half,full
+	DIV = 13,
+	titlepage = false
+]{scrartcl}
+
+
+%TEXT GENERAL SETUP
+\usepackage[main = english]{babel} %recommended package for scr/koma
+%quotations
+\usepackage{csquotes} % quotations
+%font settings
+\usepackage{fontspec} % load fonts
+\setmainfont{Times New Roman}  %\setmainfont{Arial} %main font
+% for enhancing readability (letter spacing, letter stretching); only works with a font that supports microtype
+\usepackage[protrusion=true, expansion=true, activate=true]{microtype}
+% noindent
+\setlength{\parindent}{0pt}
+
+
+%DATE
+\usepackage[en-GB]{datetime2} %the modern date ; % use en-GB for english format
+\DTMlangsetup[en-GB]{ord=level}
+\DTMsetdatestyle{dmyyyy}
+
+% === OWN COMMANDS ===
+% === TITLEPAGE FIELDS ===
+\newcommand{\institution}{Martin-Luther-Universität Halle-Wittenberg}
+\newcommand{\institute}{Faculty of Natural Science II\\Institute of Physics}
+
+\newcommand{\dTitle}{Physics Modelling Assistant}
+\newcommand{\subTitle}{Using Agentic Artificial Intelligence in physics modelling}
+
+\newcommand{\documentType}{\textbf{Bachelor's Thesis}\\
+	for the Award of the Academic Degree\\
+	Bachelor of Science\\
+	in Physik und Digitale Technologien}
+
+\newcommand{\aauthor}{Janis Felix Jacobi}
+\newcommand{\matriculationNumber}{223308195}
+\newcommand{\supervisorO}{Prof. Dr. Niels Schröter}
+\newcommand{\supervisorT}{Prof. Dr. Samir Lounis}
+
+
+\DTMsavedate{thesisdate}{2026-08-23}
+%\newcommand{\dateOfSubmission}{\DTMdate{2026-09-23}}
+
+
+%TITLEPAGE
+\newcommand{\makeTitlePage}{
+	\thispagestyle{empty}
+	\begin{center}
+		% Document type
+		\Large\institution\\
+		\Large \institute\\
+		\vspace{3cm}
+		\Huge{\bfseries \dTitle}\\
+		\vspace{0.4cm}
+		\huge \subTitle\\
+		\vspace{3cm}
+		\Large \documentType
+	
+		% Students
+		\Large submitted by: \textbf{\aauthor}\\
+		\vspace{0.1cm}
+		\Large Matriculation number: \matriculationNumber
+
+		% Assistant
+		\Large Supervisor 1: \supervisorO\\
+		\vspace{0.2cm}
+		\Large Supervisor 2: \supervisorT
+		
+		% University + institute
+	
+		
+		% Dates
+		\Large submission: Halle (Saale), \DTMusedate{thesisdate}
+	\end{center}
+}
+
+
+%CAPTIONS
+\usepackage{caption}
+\usepackage{subcaption}
+
+
+%HEADERS AND FOOTERS
+\usepackage[automark]{scrlayer-scrpage} %enables scr-commands
+\pagestyle{scrheadings} %scr/koma style
+
+\KOMAoptions{
+	headsepline=true, %line seperates header from page
+	footsepline=true %line seperates footer from page
+}
+
+%use subsection titles in the header
+\clearpairofpagestyles
+\automark[subsection]{section}
+
+%content for header and footer
+\ihead{\headmark} %inner head (left side of page)
+\chead{}
+\ohead{\dTitle} %outer head (right side of page)
+\ifoot{\pagemark}
+\cfoot{}
+\ofoot{\institution}
+
+
+%\makeatletter
+%\expandafter\let\csname ps@plain.scrheadings\endcsname\csname ps@scrheadings\endcsname
+%\makeatother% display head and foot in toc
+
+%MATH AND UNITS
+%general math packages
+\usepackage{mathtools} % loads amsmath + fixes + extras
+\usepackage{amssymb}
+\usepackage{physics} % drivatives, bra/ket
+\usepackage{nicefrac} % inline fractions
+
+% Roman numerals
+\newcommand{\romanNumeral}[1]{\textup{\uppercase\romannumeral #1}}
+
+% Equation numbering
+\numberwithin{equation}{subsection}
+
+%units, uncertanties,
+\usepackage{siunitx}
+
+%setup for si unitx
+\sisetup{
+	locale = DE, %adapt to babel language
+	detect-all = true, % units and numbers follow sourrounding settings
+	separate-uncertainty = true, %uncertanty format with \pm
+	uncertainty-separator = {\,}, %thins space before \pm
+	per-mode = symbol, %m/s instead of m s^{-1}
+	exponent-product = {\cdot}, %\cdot instead of x
+	%	output-decimal-marker = {,}, %forces decimal comma
+	round-mode = figures, %round to number of significant figures
+	round-precision = 3 % keep N significant digits
+}
+
+% When English becomes active: SI default format will be EN
+\AddBabelHook{english}{afterextras}{\sisetup{locale = UK}}
+
+% examples
+%\begin{multline}
+%	Inhalt...
+%\end{multline}
+%\SI{1.134 \pm 0.0345}{\meter}
+%\num{3.14159265}
+%\begin{tabular}{S} %aligns decimal points
+
+
+%TABLES
+\usepackage{array}          % custom column types
+\usepackage{tabularx}       % flexible-width tables
+\usepackage{booktabs}       % professional rules
+\usepackage{longtable}      % multi-page tables
+\usepackage{multirow}       % vertical cell merging
+\usepackage{makecell}       % line breaks in cells (use \\)
+\usepackage{threeparttable} % table notes
+%	example: \tnote{a}
+%	\begin{tablenotes}
+%		\item[a]
+%	\end{tablenotes}
+
+
+%CSV INPUT wiht \pgfplotstable
+\usepackage{pgfplotstable} % general pgf envirloment
+\pgfplotsset{compat=1.18} % for compatibility
+
+%global settings
+\pgfplotstableset{
+	mycsvstyle/.style={
+		col sep=comma,
+		header=false,
+		columns/.style={column type=l},
+		every last row/.style={after row=\bottomrule},
+	}
+}
+
+
+%Enumerations
+\usepackage{enumitem} % general package
+
+% Global list spacing (professional academic)
+\setlist{
+	topsep=6pt plus 2pt minus 1pt, %vertical space between lists
+	itemsep=3pt plus 1pt minus 1pt, %space between items
+	parsep=0pt,%spaceing paragraphs inside the list item
+	leftmargin=*%intendation
+}
+
+% Numbered lists
+\setlist[enumerate,1]{label=\textbf{\arabic*.}, ref=\arabic*} %first level of numbering
+\setlist[enumerate,2]{label=\alph*), ref=\theenumi.\alph*} %second level of numbering
+\setlist[enumerate,3]{label=\roman*), ref=\theenumii.\roman*} %third level of numbering
+
+% Itemize lists
+%\setlist[itemize]{label=--} %set default bullet to en-dsh
+
+% Inline lists
+\newlist{inlinelist}{enumerate*}{1} %allows inline lists
+\setlist[inlinelist]{label=(\arabic*)} %specifies numbering of inline lists
+
+
+%GRAPHIC INPUT & INCLUDE DOCUMENTS
+\usepackage{float} %here to have the H option for placing figures
+\usepackage{graphicx} %for multiple types of images, also for pdf
+\usepackage{placeins} % provides FloatBarrier
+% Smart image inclusion: scale to max width/height
+\newcommand{\smartImage}[2][]{%
+	\begingroup
+	\setbox0=\hbox{\includegraphics[#1]{#2}}%
+	\ifdim\wd0>\linewidth
+	\includegraphics[#1,width=\linewidth]{#2}%
+	\else
+	\ifdim\ht0>\textheight
+	\includegraphics[#1,height=\textheight]{#2}%
+	\else
+	\includegraphics[#1]{#2}%
+	\fi
+	\fi
+	\endgroup
+}
+
+% Smart figure environment
+\newcommand{\smartFigure}[4][]{%
+	\begin{figure}[htbp]
+		\centering
+		\smartImage[#1]{#2}
+		\caption{#3}
+		\label{#4}
+	\end{figure}
+}
+
+\usepackage{pdfpages}   % include external PDFs
+\usepackage{standalone} % standalone TikZ or sub-documents
+
+\newcommand{\smartFigureStandalone}[4][]{%
+	\begin{figure}[htbp]
+		\centering
+		\includestandalone[#1]{#2}
+		\caption{#3}
+		\label{#4}
+	\end{figure}
+}
+
+%COLORS
+\usepackage{xcolor}
+\definecolor{blue1}{RGB}{30, 90, 200}
+\definecolor{red1}{RGB}{200, 40, 40}
+\definecolor{gray1}{RGB}{70, 70, 70}
+
+%TABLE OF FIGURES
+\usepackage{tocloft}
+
+\newlistof{figidx}{fig}{Figure Index}
+\newcommand{\figentry}[1]{%
+	\addcontentsline{fig}{figidx}{#1}%
+}
+%TABLE OF TABLES
+\newlistof{tabidx}{tab}{Table of Tables}
+\newcommand{\tabentry}[1]{%
+	\addcontentsline{tab}{tabidx}{#1}%
+}
+
+%INCLUDE CODE
+\usepackage{listings}
+\lstdefinestyle{pythonstyle}{
+	language=Python,
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{blue1}\bfseries,
+	stringstyle=\color{red1},
+	commentstyle=\color{gray1}\itshape,
+	showstringspaces=false,
+	breaklines=true,
+	breakatwhitespace=true,
+	frame=lines,
+	framesep=2mm,
+	tabsize=4,
+	numbers=left,
+	numberstyle=\tiny\color{gray1},
+	numbersep=5pt
+}
+\lstset{style=pythonstyle}
+
+\newcommand{\pythonfileIn}[4][]{%
+	\begin{listing}[htbp]
+		\centering
+		\caption{#3}
+		\label{#4}
+		\lstinputlisting[#1]{#2}
+	\end{listing}
+}
+
+%example
+%\pythonfile[firstline=5,lastline=20]{code/simulation.py}{Simulation core}{lst:simcore}
+
+
+%BIBLIOGRAPHIE
+\usepackage[
+	backend=biber, %type of file
+	style=numeric, %bib entry listing
+	citestyle=numeric, % how citation is in text
+	hyperref=true, %link the bib entryies
+	date=short, %date format
+	backref=true, % where citation was used
+	url=true, %display url
+	doi=true, % digital object identifier: a permanent, unique link
+	maxbibnames=10, %max number of names displayed
+	minbibnames=3, %minimal number of names displayed
+]{biblatex}
+
+\addbibresource{bib/bibliography.bib}
+\setlength\bibitemsep{7pt} %spacing between entries
+\setcounter{biburlucpenalty}{9000} %prevent mid word url breaks
+\setcounter{biburllcpenalty}{9000} %makes sure urls do not run out of the page
+
+%%KOMA
+\KOMAoptions{toc=flat}
+
+%HYPERREF
+\usepackage{hyperref}
+\hypersetup{
+	pdfauthor={Janis Jacobi},        % or a macro
+	pdftitle={\dTitle},     % if you define \title properly
+	pdfsubject={},
+	pdfkeywords={},
+	pdfcreator={LaTeX},
+	pdfproducer={LaTeX},
+	pdfcreationdate = {\today},
+	colorlinks=true,          % colored links instead of boxes
+	linkcolor=blue1,        % internal links (sections, equations)
+	citecolor=blue1,      % citations
+	urlcolor=blue1,          % URLs
+	filecolor=blue1,        % file links
+	menucolor=blue1,        % Acrobat menu items (rarely used)
+	linktoc=all,              % make TOC entries clickable
+	breaklinks=true,          % allow links to break across lines
+	pdfstartview=FitH,        % start with full-width view
+	bookmarksopen=true,       % expand bookmarks
+	bookmarksnumbered=true,    % number bookmarks
+%	backref=page,		% bib entries gain hyperlinks back to pages where each ref was cited
+}
+
+
+\begin{document}
+	\makeTitlePage
+	\pagebreak
+	\begingroup
+		\tableofcontents
+		\thispagestyle{scrheadings}
+	\endgroup
+	\pagebreak
+	\begingroup
+		\pagestyle{scrheadings}
+		\listoffigidx
+		\thispagestyle{scrheadings}
+	
+		\listoftabidx
+		\thispagestyle{scrheadings}
+	\endgroup
+	\pagebreak
+	\section{title}
+	\subsection{dsf}
+	\begin{figure}
+		\caption{testC}
+		\label{sdf}
+		\figentry{testFig}
+	\end{figure}
+	\begin{table}
+		\centering
+		\caption{Detector parameters}
+		\tabentry{Detector parameters}
+		\begin{tabular}{cc}
+		a & b\\
+		c & d\\
+		\end{tabular}
+	\end{table}
+	\FloatBarrier
+	\pagebreak
+	\nocite{*}
+	\printbibliography
+	\pagebreak
+	\section{Appendix}
+	\pagebreak
+	\section{Acknowledgement}
+	\pagebreak
+	\raggedbottom
+	\section{Declaration of authorship}
+	
+	I hereby declare that I have written this thesis independently and without unauthorized assistance.
+	
+	All sources and references used have been properly cited.
+	
+	This thesis has not been submitted in the same or substantially similar form for any other degree or academic qualification.\newline
+	
+	Halle (Saale), \DTMusedate{thesisdate}\\
+	
+	\rule{7cm}{0.4pt} \\
+	\aauthor
+	
+\end{document}
+	
