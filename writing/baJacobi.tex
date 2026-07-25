@@ -3,14 +3,14 @@
 	paper = a4,
 	draft = false,
 	twoside = true,
-	parskip = none, %half,full
-	DIV = 13,
+	DIV = 12,
 	titlepage = false
 ]{scrartcl}
 
 
 %TEXT GENERAL SETUP
 \usepackage[main = english]{babel} %recommended package for scr/koma
+
 %quotations
 \usepackage{csquotes} % quotations
 %font settings
@@ -21,6 +21,8 @@
 % noindent
 \setlength{\parindent}{0pt}
 
+%%%DO NOT STRETCH PAGES TO FULL HEIGHT
+\raggedbottom
 
 %DATE
 \usepackage[en-GB]{datetime2} %the modern date ; % use en-GB for english format
@@ -94,7 +96,8 @@
 
 \KOMAoptions{
 	headsepline=true, %line seperates header from page
-	footsepline=true %line seperates footer from page
+	footsepline=true, %line seperates footer from page
+	parskip=full, %full, half, none
 }
 
 %use subsection titles in the header
@@ -118,7 +121,7 @@
 %general math packages
 \usepackage{mathtools} % loads amsmath + fixes + extras
 \usepackage{amssymb}
-\usepackage{physics} % drivatives, bra/ket
+\usepackage{physics2} % drivatives, bra/ket % should no omit \qty
 \usepackage{nicefrac} % inline fractions
 
 % Roman numerals
@@ -257,14 +260,25 @@
 \definecolor{gray1}{RGB}{70, 70, 70}
 
 %TABLE OF FIGURES
-\usepackage{tocloft}
+\DeclareNewTOC[
+type=figidx,
+types=figidx,
+name=Figure Index,
+listname=Figure Index
+]{fig}
 
-\newlistof{figidx}{fig}{Figure Index}
 \newcommand{\figentry}[1]{%
 	\addcontentsline{fig}{figidx}{#1}%
 }
+
 %TABLE OF TABLES
-\newlistof{tabidx}{tab}{Table of Tables}
+\DeclareNewTOC[
+type=tabidx,
+types=tabidx,
+name=Table of Tables,
+listname=Table of Tables
+]{tab}
+
 \newcommand{\tabentry}[1]{%
 	\addcontentsline{tab}{tabidx}{#1}%
 }
@@ -348,6 +362,11 @@
 %	backref=page,		% bib entries gain hyperlinks back to pages where each ref was cited
 }
 
+\usepackage[automake=immediate]{glossaries-extra} % accept no datatool support warning
+\makeglossaries
+\newglossaryentry{AI}{name=AI, description={Artificial Intelligence}}
+\newglossaryentry{LLM}{name=LLM, description={Large Language Model}}
+
 
 \begin{document}
 	\makeTitlePage
@@ -358,16 +377,61 @@
 	\endgroup
 	\pagebreak
 	\begingroup
-		\pagestyle{scrheadings}
+		\phantomsection
+		\addcontentsline{toc}{section}{Table of Figures}
 		\listoffigidx
-		\thispagestyle{scrheadings}
-	
+		
+		\phantomsection
+		\addcontentsline{toc}{section}{Table of Tables}
 		\listoftabidx
+		\glsaddall
+		\printglossaries
 		\thispagestyle{scrheadings}
 	\endgroup
 	\pagebreak
-	\section{title}
-	\subsection{dsf}
+	\section{introduction}
+	Artificial Intelligence can be of great assistance in scientific research \autocite{aiHistWang}. As shown by \citeauthor{aiUseStat} \autocite{aiUseStat}, researchers in natural science are among the groups most familiar with \gls{AI} among scientists. There is a wide range of application stretching from finding sources in the literature to aiding in the presenting research findings and including the steps in between. It can help in forming hypothesis and in evaluating them. This includes the design and control of practical experiments as well as aiding during simulations especially with the program implementation.\autocite{aiHistWang}
+	
+	To improve the work with \gls{AI} in scientific research automated \gls{AI} research pipelines where developed in the last two years. The first fully autonomous approach was published by \citeauthor{aiScientist} in \citedate{aiScientist}\autocite{aiScientist}. This framework identifies interesting research questions, plans and executes according experiments, interprets the results and writes a paper stating its findings in a multistep process. \newline
+	The 
+	Less automated approaches where made by \citeauthor{sciSci} with the introduction of SciSciGPT \autocite{sciSci}. This system is for Science of Science research which is why SciSciGPT is equipped with data management component amongst a literature review and an analytics component.
+	
+	
+	Use of AI in society and science
+	often single models; reduces flexibility in tasks and multi step workflows
+	
+	want to automate larger part of research so human can focus on important part: get model suggested from literature, see whether it's sufficient
+	
+	=> multi step workflow
+	\pagebreak
+	\section{theoretical work}
+	
+	
+	AI; LLM; AGENTICAI
+	
+	LLM models
+	
+	how agentic ai works
+	
+	SAIA
+	
+	Orchestration of Agentic ai
+	
+	Crewai
+	
+	Tools
+	
+	\section{Configurations of the pipeline}
+	
+	Task \& Agent defs
+	
+	Steps
+	
+	Output
+	
+	\section{Benchmarking}
+	
+	\FloatBarrier
 	\begin{figure}
 		\caption{testC}
 		\label{sdf}
@@ -375,21 +439,22 @@
 	\end{figure}
 	\begin{table}
 		\centering
-		\caption{Detector parameters}
-		\tabentry{Detector parameters}
+		\caption{testTab}
+		\tabentry{testTab}
 		\begin{tabular}{cc}
 		a & b\\
 		c & d\\
 		\end{tabular}
 	\end{table}
+	
 	\FloatBarrier
 	\pagebreak
-	\nocite{*}
+	%\nocite{*}
 	\printbibliography
+	
 	\pagebreak
 	\section{Appendix}
-	\pagebreak
-	\section{Acknowledgement}
+
 	\pagebreak
 	\raggedbottom
 	\section{Declaration of authorship}
@@ -398,12 +463,14 @@
 	
 	All sources and references used have been properly cited.
 	
-	This thesis has not been submitted in the same or substantially similar form for any other degree or academic qualification.\newline
+	This thesis has not been submitted in the same or substantially similar form for any other degree or academic qualification.
 	
-	Halle (Saale), \DTMusedate{thesisdate}\\
+	Halle (Saale), \DTMusedate{thesisdate}
 	
 	\rule{7cm}{0.4pt} \\
 	\aauthor
-	
+	\pagebreak
+	\section{Acknowledgement}
+		
 \end{document}
 	
