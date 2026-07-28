@@ -526,11 +526,21 @@ listname=Table Index
 	
 	
 	\subsection{Orchestrating \gls{AI}s to behave as an \gls{Agentic AI}}
-	Apart from how the \gls{LLM}s output is processed to arrive at a human readable output, other changes can be made to influence the \gls{AI} systems behaviour. Some of these will be discussed in the following.
+	As mentioned in \autoref{subsub:Agentic}, combining multiple \gls{AI} systems into one enables the resulting system to perform more complex tasks and achieve better results. The common approaches on how multiple \gls{AI} systems can interact will be discussed in the following:
 	
+	styles\autocite{orchStyles}
 	
+	protocols
 	
-	how agentic ai works
+	tool use is handeled by the overlay agentic protocol; mentioned in \autocite{crewaiProtocols}, \autocite{howToolsAreUsed}
+	\autocite{orchStyles} mentions sth about memory handling; in general depends on architecture and protocol; but mostly shared memory everybody can access
+	
+
+	
+	\section{Configurations of the pipeline}
+	
+	\subsection{Orchestration Framework}
+	\autocite{orchFrameworks}
 	
 	SAIA
 	
@@ -540,16 +550,14 @@ listname=Table Index
 	
 	Tools
 	
-	\section{Configurations of the pipeline}
-	
 	\subsection{The chosen \gls{AI} models}
 	- PROBLEM: no clear benchmarks, only for older models or different versions of models
 	=> need to use general predictors: POWER SCALING LAW; Context window length; only lastly some general implication about the general capabilities of model families
 	
-	===> this will be mostly a fixed choice since a real investigation of which model is suited better for which task would require an indepth analysis of how the models where designed and trained which is beyond the scope of this Thesis.
+	===> this will be mostly a fixed choice since a real investigation of which model is suited better for which task would require an in-depth analysis of how the models where designed and trained which is beyond the scope of this Thesis.
 	
 	what to do instead: see whether assigning special models to certain tasks is better in the pipeline
-	Design: Identify strongest overall model; identify supposetly strongest model in reasoning, argument handeling/filtering from large texts and coding
+	Design: Identify strongest overall model; identify supposedly strongest model in reasoning, argument handling/filtering from large texts and coding
 	- one run with only specialized models, one with overall best; compare; more as a prove of concept
 	
 	
