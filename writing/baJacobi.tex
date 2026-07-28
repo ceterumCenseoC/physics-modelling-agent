@@ -421,7 +421,7 @@ listname=Table Index
 	\end{enumerate}
 	This results in a set of output \glspl{token} which are a human readable text and provide the most likely output which ideally is the result desired by the one providing the input. The process of developing a model which can do the described procedure well enough is a highly complex task and beyond the scope of this Thesis.
 	
-	The distinction between Language Models and Large Language Models is in the number of internal parameters a model uses. As stated in \citetitle{zhao2026surveylargelanguagemodels}\autocite{zhao2026surveylargelanguagemodels}, there is no hard cut-off for a Language Model being Large, but commonly models have around $10 \cdot 10^{9}$ parameters when considered Large Language Models (\gls{LLM}s).
+	The distinction between Language Models and Large Language Models is in the number of internal parameters a model uses. Internal parameters include input and output \glspl{token} as well as the parameters discussed in \autoref{subsub:softmax}, \autoref{subsub:topk} and \autoref{subsub:topp}.  As stated in \citetitle{zhao2026surveylargelanguagemodels}\autocite{zhao2026surveylargelanguagemodels}, there is no hard cut-off for a Language Model being Large, but commonly models have around $10 \cdot 10^{9}$ parameters when considered Large Language Models (\gls{LLM}s).
 	
 	A \gls{LLM} is one way of implementing \gls{AI}.
 	
@@ -441,16 +441,17 @@ listname=Table Index
 			s(v'_Z)
 		\end{pmatrix} = s(v) \ \ \ \ \text{where $Z$ is the size of the vocabulary $\mathcal{V}$} \label{LLM as function}
 	\end{equation}
+	$v'_i$ with $i \in [1,Z] \subset \mathbb{N}$ is an element from the ordered set of $\mathcal{V}'$ which allows to map the probabilities to the \glsps{token}.
 	The probability indicates how well a \gls{token} is suited to be the next output \gls{token}\autocite[p.~4]{llmDetail}. The probabilities $s(v)$ are called \enquote{\glspl{logit}}\autocite[p.~4]{llmDetail} and not normalized by default, larger values of a \gls{logit} signal a better fit for the corresponding \gls{token} to be the next \gls{token}.
 	
 	The \gls{LLM} outputs a probability distribution including every \gls{token} from its vocabulary. To choose a \gls{token} based on this probability distribution, \citeauthor{llmDetail} state that the following optimization problem needs to be solved and labelled \enquote{MASTER PROBLEM}\autocite[p.~5]{llmDetail}:
 	\begin{equation}
-		q^*= \mathrm{arg}\max_{q \in \Delta(\mathcal{V})} \left[\underbrace{\langle 1, s \rangle}_{\sum_{v \in \mathcal{V}} q(v) \cdot s(v)} - \lambda \Omega(q)\right] \label{masterProblem}
+		q^*= \mathrm{arg}\max_{q \in \Delta(\mathcal{V})} \left[\underbrace{\langle q, s \rangle}_{\sum_{v \in \mathcal{V}} q(v) \cdot s(v)} - \lambda \Omega(q)\right] \label{masterProblem}
 	\end{equation}
 	The used properties are:
 	\begin{itemize}
 		\item $q^*$ is the probability distribution maximizing \autoref{masterProblem}
-		\item $\Delta (\mathcal{V})$ is the set of all possible probability
+		\item $\Delta (\mathcal{V})$ is the set of all possible probability distributions
 		\item $q$ is a single probability distribution
 		 distributions for a given vocabulary $\mathcal{V}$
 		\item $s$ is the initial vector of \glspl{logit} the \gls{LLM} produces
@@ -459,10 +460,10 @@ listname=Table Index
 	\end{itemize}
 	There are different approaches for finding $q^*$ and eventually getting a single \gls{token} from it, the once relevant to this Thesis will be discussed in the following.
 	
-	\subsubsection{Greedy Decoding \autocite{llmDetail}} \label{subsub:greedy}
+	\subsubsection{Greedy Decoding \autocite[p.~10]{llmDetail}} \label{subsub:greedy}
 	This method uses no special regularisation function $\Omega(q)$, respectively sets $\lambda=0$. This simplifies \autoref{masterProblem} to $q^* = \mathrm{arg}\max_{q \in \Delta (\mathcal{V})}\langle q,s\rangle$. The resulting $q^*$ vector has the value $1$ in the line where $s$ has its maximum, while every other line of $q^*$ is $0$. This means, that the next \gls{token} will always be the most likely token according to the \gls{LLM}s calculations. If multiple \gls{token} have the highest probability $s(v)$, a single token is picked.\autocite[p.~10]{llmDetail}
 	
-	\subsubsection{Softmax Decoding \autocite{llmDetail}} \label{subsub:softmax}
+	\subsubsection{Softmax Decoding} \label{subsub:softmax}
 	For Softmax Decoding, the regularisation function is chosen as $\Omega(q) = - \sum_{v \in \mathcal{V}} q(v) \log(q(v))$ which is the negative entropy of $q$. Using this in solving \autoref{masterProblem} leads to the following optimal distribution $q^*$, where $q^*(v)$ os the probability per \gls{token}\autocite[p.~10-12]{llmDetail}:
 	\begin{equation}
 		q^*(v) = \frac{e^{\frac{s(v)}{\lambda}}}{\sum_{u \in \mathcal{V}}e^{\frac{s(u)}{\lambda}}}
@@ -470,7 +471,9 @@ listname=Table Index
 	This distribution is normalised and has the parameter $\lambda$ which controls how the distribution $q^*$ is spread. For larger values of $\lambda$, the probability is spread more evenly across all \glspl{token}. This results in \glspl{token} the \glspl{LLM} predicts to be less likely being more probable to be the next \glspl{token}. When $\lambda$ becomes very small, the \gls{token} the \gls{LLM} calculates to me suitable become more likely. For the edge case $\lambda = 0$, simply Greedy Decoding is performed as it is discussed in \autoref{subsub:greedy}.
 	The next token is then selected from the final probability distribution.
 	
-	\subsubsection{Top-k Decoding \autocite{llmDetail}} \label{subsub:topk}
+	The parameter $\lambda$ is one way of controlling the general randomness of the output. In the context of \gls{LLM} it is often associated with the creativity of a model and called \textbf{Temperature} $T$  \autocite[p.~10-12]{llmDetail}.
+	
+	\subsubsection{Top-k Decoding} \label{subsub:topk}
 	Top-k Decoding extends Softmax Decoding (\autoref{subsub:softmax}) by selecting the $k$ ($k \in \mathbb{N} \setminus k = 0$) \gls{token} with the highest \gls{logit} values\autocite[p.~12]{llmDetail}. These \gls{token} for a subset of the vocabulary called $\mathcal{V}_k$ on which Softmax Decoding is performed, while the probability for every other \gls{token} is set to $0$.
 	This gives the following probability distribution\autocite[p.~12]{llmDetail}:
 	\begin{equation}
@@ -481,7 +484,9 @@ listname=Table Index
 	\end{equation}
 	For $k >= \lvert\mathcal{V}\rvert$, Top-k Decoding is equivalent to the standard Softmax Decoding (\autoref{subsub:softmax}). Setting $k = 1$ results in a result similar to Greedy Decoding (see \autoref{subsub:greedy}).
 	
-	\subsubsection{Top-p Decoding \autocite{llmDetail}}}
+	Top-k Decoding provides another parameter called \textbf{top\_k} which can be used to shape the output of an \gls{AI} system \autocite[p.~12]{llmDetail}.
+	
+	\subsubsection{Top-p Decoding} \label{subsub:topp}
 	Top-p Decoding is another extension to Softmax Decoding (\autoref{subsub:softmax}) also selecting a subset of \gls{token} called $\mathcal{V}_p$ from the vocabulary $\mathcal{V}$. In contrast the Top-k Decoding (\autoref{subsub:topk}), Top-p Decoding defines a certain amount of probability $p \in \left(\right.0,1\left.\right]$ which will be considered for the Softmax Decoding. How this works is that the \gls{token} with the highest probability $s(v)$ from the set $\mathcal{V} \setminus \mathcal{V}_p$ will be added to the set $\mathcal{V}_p$. This will be repeated until the sum of the probabilities of all \gls{token} $v \in \mathcal{V}_p$ exceeds the value of $p$. Then the probability of the \glspl{token} in $\mathcal{V}\setminus \mathcal{V}_p$ will be set to $0$, while Softmax Decoding (\autoref{subsub:softmax}) will be performed on $\mathcal{V}_p$. The resulting probability distribution is (from \autocite{llmDetail}):
 	\begin{equation}
 		q^*(v) = \begin{cases}
@@ -493,7 +498,37 @@ listname=Table Index
 	
 	Top-p Decoding allows for dynamic adaptation based on how sharp or spread out the probability distribution given by the \gls{LLM} is. For a sharp distribution, only the view very likely \gls{token} are given a non $0$ probability, whereas for a flatter distribution a higher number of \glspl{token} is selected and thus is a possible output \gls{token}.
 	
+	The resulting parameter \textbf{top\_p} is yet another parameter often used in the field of \gls{LLM} to modify a systems output \autocite[p.~13]{llmDetail}.
+	
+	\subsection{Other parameters that can influence an \gls{AI} systems performance}	
+	\subsubsection{Selection of the \gls{LLM}}
+	As shown by numerous benchmarks (\autocite{huggArena}, \autocite{faceLeaderBoard}) different \gls{LLM} perform differently. 
+	
+	One of the most noticeable differences in \gls{LLM} systems is the number of internal parameters used. The general assumption is that more parameters lead to better performance. Another important feature is the amount of data used to train a \gls{LLM}. As shown by \citeauthor{powerLaw}(\autocite[p.~5]{powerLaw}) combining the number of internal parameters $N$ a model uses and the number of \glspl{token} $D$ used in training a model can predict the \enquote{cross-entropy loss} \autocite[p.~6]{powerLaw} $L$ of a \gls{LLM}:
+	\begin{equation}
+		L(N,D) = \left[\left(\frac{N_C}{N}\right)^{\frac{\alpha_N}{\alpha_D}} + \frac{D_C}{D}\right]^{\alpha_D} \label{powerLawEq}
+	\end{equation}
+	\begin{itemize}
+		\item $L(N,D)$ is the \enquote{cross-entropy loss}\autocite[p.~6]{powerLaw}. Lower Values indicate a better model.
+		\item $N_C$ is the critical number of internal parameter until which \autoref{powerLawEq} is applicable. $N_C \approx 8.8 \cdot 10^{13}$
+		\item $N$ is the number of internal parameters the model uses
+		\item $D_C$ is the critical number of \glspl{token} until which \autoref{powerLawEq} is applicable. $D_C \approx 5.4 \cdot 10^{13}$
+		\item $\alpha_N$ is the exponent for predicting $L(N)$. $\alpha_N \approx 0.076$
+		\item $\alpha_D$ is the exponent for predicting $L(D)$. $\alpha_D \approx 0.095$
+	\end{itemize}
+	
+	There are also other influences on a models performance, \citeauthor{powerLaw} discus the influence of the number of training steps or the batch size (\glspl{token} per step) \autocite{powerLaw}. \citeauthor{modelSelection} \autocite{modelSelection} showed the relevance of how the training data are composed, highlighting the increases in predicting a models performance.
+	
+	\subsubsection{Sources provided to a model}
+	Since all \gls{LLM}s have a limited amount of training data, the model on its own will not be able to answer some questions correctly. In order to mitigate this \gls{LLM}s are getting fed extra information to help them answer the question at hand. Realizing this via human input is inefficient and impractical, especially when the human itself is not very knowledgeable in the question at hand. For that reason, \gls{LLM} systems are getting equipped with tools, allowing them to access information not included in their training data. As shown by \citeauthor{websearch1} \autocite{websearch1} and \citeauthor{websearch2} \autocite{websearch2}, equipping a \gls{LLM} with some sort of web search tool allows to reduces the false output of the system. Note that tool use is one of the features making an \gls{AI} an \gls{Agentic AI} as discussed in \autoref{subsub:Agentic}.
+	sources provided; How many, which
+	Execution time
+	
+	
 	\subsection{Orchestrating \gls{AI}s to behave as an \gls{Agentic AI}}
+	Apart from how the \gls{LLM}s output is processed to arrive at a human readable output, other changes can be made to influence the \gls{AI} systems behaviour. Some of these will be discussed in the following.
+	
+	
 	
 	how agentic ai works
 	
@@ -507,6 +542,19 @@ listname=Table Index
 	
 	\section{Configurations of the pipeline}
 	
+	\subsection{The chosen \gls{AI} models}
+	- PROBLEM: no clear benchmarks, only for older models or different versions of models
+	=> need to use general predictors: POWER SCALING LAW; Context window length; only lastly some general implication about the general capabilities of model families
+	
+	===> this will be mostly a fixed choice since a real investigation of which model is suited better for which task would require an indepth analysis of how the models where designed and trained which is beyond the scope of this Thesis.
+	
+	what to do instead: see whether assigning special models to certain tasks is better in the pipeline
+	Design: Identify strongest overall model; identify supposetly strongest model in reasoning, argument handeling/filtering from large texts and coding
+	- one run with only specialized models, one with overall best; compare; more as a prove of concept
+	
+	
+	
+		
 	Task \& Agent defs
 	
 	Steps

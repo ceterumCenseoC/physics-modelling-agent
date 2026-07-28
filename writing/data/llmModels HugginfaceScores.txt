@@ -1,0 +1,15 @@
+DeepSeek V4 Flash, 40
+Gemma 4 31B, 29
+GLM 5.2, 51
+Llama Nemotron Super 49B v1.5, 12
+Mistral Medium 3.5, 30
+gpt-oss-120b (high), 24
+qwen3.6 27B, 37
+qwen3.6 35B A3B, 32
+qwen3.5 397B A17B, 34
+Qwen3 Omni 30B A3B, 10
+Claude Sonnet 5 (max), 53
+GPT-5.5 (high), 53
+GPT-5.4 (xhigh), 51
+GPT-5 (high), 35
+o3, 30
