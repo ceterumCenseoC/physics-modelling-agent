@@ -143,7 +143,7 @@
 	exponent-product = {\cdot}, %\cdot instead of x
 	%	output-decimal-marker = {,}, %forces decimal comma
 	round-mode = figures, %round to number of significant figures
-	round-precision = 3 % keep N significant digits
+	round-precision = 2 % keep N significant digits
 }
 
 % When English becomes active: SI default format will be EN
@@ -371,6 +371,7 @@ listname=Table Index
 \newglossaryentry{context-window}{name={context-window}, description={a size describing how far back previous output \gls{token} are considered in the \gls{LLM}}}
 \newglossaryentry{logit}{name=logit, description={an \gls{LLM}s output for every \gls{token} indicating how well it is suited to be the next \gls{token}. Larger values indicate a better fit. \autocite[p.~4]{llmDetail}}, plural=logits}
 \newglossaryentry{Agent}{name=Agent, description={a singular \gls{AI} system which is commonly part of an \gls{Agentic AI} system}, plural=Agents}
+\newglossaryentry{API key}{name={API key}, description={application programming interface key; a unique and secret identifier granting access to a service}, plural={API keys}}
 
 \begin{document}
 	\makeTitlePage
@@ -520,9 +521,11 @@ listname=Table Index
 	
 	There are also other influences on a models performance, \citeauthor{powerLaw} discus the influence of the number of training steps or the batch size (\glspl{token} per step) \autocite{powerLaw}. \citeauthor{modelSelection} \autocite{modelSelection} showed the relevance of how the training data are composed, highlighting the increases in predicting a models performance.
 	
-	\subsubsection{Sources provided to a model}
+	\subsubsection{Tool use for \gls{LLM}s} \label{subsub:tool}
 	Since all \gls{LLM}s have a limited amount of training data, the model on its own will not be able to answer some questions correctly. In order to mitigate this \gls{LLM}s are getting fed extra information to help them answer the question at hand. Realizing this via human input is inefficient and impractical, especially when the human itself is not very knowledgeable in the question at hand. For that reason, \gls{LLM} systems are getting equipped with tools, allowing them to access information not included in their training data. As shown by \citeauthor{websearch1} \autocite{websearch1} and \citeauthor{websearch2} \autocite{websearch2}, equipping a \gls{LLM} with some sort of web search tool allows to reduces the false output of the system. Note that tool use is one of the features making an \gls{AI} an \gls{Agentic AI} as discussed in \autoref{subsub:Agentic}.
 	
+	Another common tool is file reader, they can be able to parse various formats like PDF, json, or plain text. Code execution tools allow a \gls{LLM} run code it generates. This introduces the problem of untrusted code execution, since the model could generate malicious code accessing private information or modifying important data. Executing untrusted code should therefore be done in a container separate from important data and systems. As stated by \citeauthor{sandboxEscape} \autocite{sandboxEscape}, these containers called Sandboxes are not always fully secure strong \gls{LLM} models are able to escape them.
+		
 	\subsection{Orchestrating \gls{AI}s to behave as an \gls{Agentic AI}}
 	As mentioned in \autoref{subsub:Agentic}, combining multiple \gls{AI} systems into one enables the resulting system to perform more complex tasks and achieve better results. The individual \gls{AI} systems of an \gls{Agentic AI} system are commonly referred to as \glspl{Agent}. In the following the common approaches on how \glspl{Agent} can work together will be presented.
 	
@@ -559,7 +562,7 @@ listname=Table Index
 	In order to properly assess how well \gls{AI} systems handle more complex tasks human grading can be used. This is use by Arena Intelligence \autocite{arena}, where users write a prompt and then decide from two anonymous answers which they like best. Human grading is also used by in \enquote{SciEx} \autocite{humanGrading}, where experts evaluate the
 	 results. As acknowledged by \citeauthor{humanGrading} human grading is not feasible for large scale benchmarking.
 	
-	\subsubsection{CritPt}
+	\subsubsection{CritPt} \label{subsub:critPt}
 	A first step to bridge the gap between simple answer comparison and human level evaluation is done by \citeauthor{critPtArx} with the introduction of \enquote{CritPt} \autocite{critPtArx}. In the first step the system, which is to be evaluated, is prompted with the question and generates its answer. Secondly, \citeauthor{critPtArx} \autocite{critPtArx} guides the system to implement the needed for the automatic evaluation.
 	
 	There are three types of questions requiring either a numerical value, a symbolic expression or python code, which can be executed. Composite answers are only graded to be correct if all individual parts are correct \autocite{critPtArx}.
@@ -568,41 +571,55 @@ listname=Table Index
 	In order to easily enable future work on and with the Physics Modelling Assistant the choice was made to only use services, which are open source and free of charge.
 	
 	\subsection{Orchestration Framework: CrewAI}
-	The decision was not to design a new framework for orchestration to save time on this software development heavy task and instead focus on the Physic Modelling Assistants configurations. \citeauthor{orchFrameworks} \autocite{orchFrameworks} discuss a number of frameworks varying in complexity and beginner friendliness. For this Thesis CrewAI \autocite{crewAi} will be used for its role focused style \autocite{orchFrameworks} consisting of \glspl{Agent} and Tasks \autocite{crewAi}. Each \gls{Agent} can be configured individually, which includes using different \gls{LLM}s for different tasks. Every task has its own description and specification including the \gls{Agent} assigned to it. On execution of a task, its definition will be merged with the assigned \gls{Agent} which provides the input for the \gls{LLM} used. The organisation of multiple CrewAI \glspl{Agent} and tasks is managed by the so called crew. It is responsible for validating the configurations beforehand and then execute the system. As stated by \citeauthor{orchFrameworks} \autocite{orchFrameworks} CrewAI implements an orchestration combining elements from the ACP, A2A and ANP (see  \autoref{subsub:protocols}).
+	The decision was made not to design a new framework for orchestrating \gls{AI}s to save time on this software development heavy task and instead focus on the Physic Modelling Assistants configurations. \citeauthor{orchFrameworks} \autocite{orchFrameworks} discuss a number of frameworks varying in complexity and beginner friendliness. For this Thesis CrewAI \autocite{crewAi} will be used for its role focused style \autocite{orchFrameworks} consisting of \glspl{Agent} and Tasks \autocite{crewAi}. Each \gls{Agent} can be configured individually, which includes using different \gls{LLM}s for different tasks. Every task has its own description and specification including the \gls{Agent} assigned to it. On execution of a task, its definition will be merged with the assigned \gls{Agent} which provides the input for the \gls{LLM} used. An \glspl{Agent} behaviour will be defined by its role, goal and backstory. The role a very short description comparable to a job title, the goal describes what the \gls{Agent} does while working similar to a job description while the backstory provides details on the agents behaviour like preferences or advice on how to approach tasks. CrewAI allows to access any \gls{LLM} provided the user has a valid \gls{API key}. This \gls{LLM} can be assigned parameters including the discussed Temperature (\autoref{subsub:softmax}) and top\_p (\autoref{subsub:topp}), the number of \glspl{token} to be used and others. The Task gets a description and specifications regarding the output and output format along with the designated agent \autocite{taskPy}. Tools can be assigned to both \glspl{Agent} and Tasks with CrewAI providing ready to use tools \autocite{crewaiTool} but also allowing to add custom tools.
 	
-	\subsection{Constraints}
+	The organisation of multiple CrewAI \glspl{Agent} and tasks is managed by the so called crew. It is responsible for validating the configurations beforehand and then execute the system. As stated by \citeauthor{orchFrameworks} \autocite{orchFrameworks} CrewAI implements an orchestration combining elements from the ACP, A2A and ANP (see  \autoref{subsub:protocols}). The CrewAI documentation \autocite{crewAi} and the source code available on GitHub \autocite{crewPy} show a sequential and a hierarchical execution approach. The sequential execution will run the tasks in their order of definition they are defined inside the code which gives a Sequential Pipeline (see \autoref{par:pipe}). This can be modified into a Parallel Fan-Out with Merge (see \autoref{par:paral}) by allowing certain tasks to execute asynchronously \autocite{crewaiParallel}, the merging is handles by specifying a task, which should wait with its execution until the parallel tasks are done. The hierarchical execution style of CrewAI enables a Hierarchical Supervisor-Worker style by delegating tasks or aspects of them. Implementing a Reflexive Self-Correcting Loop (see \autoref{par:reflex}) with CrewAI is possible by making use of Flows \autocite{crewaiFlow}, which allow for conditional calls and the coupling of multiple crews.
 	
+	In order to achieve a deterministic workflow the Sequential Pipeline architecture (\autoref{par:pipe}) is used.
 	
-	\subsection{Orchestration Framework}
-	\autocite{orchFrameworks}
+	\subsection{\gls{LLM}s used}
+	In order to use \gls{LLM}s effectively in an automated pipeline a provider offering a program access to its \gls{LLM} is needed. For this reason the \enquote{Scalable AI Accellarator (SAIA)} \autocite{saiaDoc} provided by the \enquote{Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen} (GWDG) \autocite{gwdg}. The \gls{LLM}s offered by SAIA can be accessed via an \gls{API key} obtained from the GWDG. The available \gls{LLM}s are listed at the \citetitle{saiaModels} webpage \autocite{saiaModels} but also via a direct request to the server hosting the models. To identify the most capable of the models offered the benchmarking provided by Artificial Analysis \autocite{artifAna} with the \gls{LLM}s being evaluated on the following benchmarks: AA-LCR (long context reasoning), GPQA Diamond (scientific reasoning), SciCode (science and coding) and CritPt (\autoref{subsub:critPt}). The result seen in \autoref{saiaModelsBench} conclude qwen3.6 27B (27 billion parameters) to be the best model for long context reasoning, while qwen3.5 397B A17B (397 billion parameters in total, 17 billion active at a time) performs best in scientific reasoning. glm-4.7 (358 billion parameters \autocite{glmParams}) achieves the best result in science and coding. For the CritPt benchmark both glm-4.7 and qwen3.5 397B A17B achieve the best score among the available models, with both of them scoring at only \SI{1,7}{\percent}, indicating the difficulty of this benchmark.
 	
-	SAIA
+	\begin{table}[ht]
+		\centering
+		\caption{Benchmarking results for the \gls{LLM}s provided by SAIA \autocite{saiaDoc}. The benchmarking results are taken from Artificial Analysis \autocite{artifAna}. The chosen benchmarks are: AA-LCR evaluates long context reasoning, GPQA Diamnond evaluates scientific reasoning, SciCode evaluates coding and science, CritPt evaluates physics reasoning}
+		\label{saiaModelsBench}
+		\tabentry{Benchmarking SAIA models}
+		\begin{tabular}{c
+				S[table-format=2, round-mode=places, round-precision=0, output-decimal-marker={.}] 
+				S[table-format=2, round-mode=places, round-precision=0, output-decimal-marker={.}] 
+				S[table-format=2, round-mode=places, round-precision=0, output-decimal-marker={.}] 
+				S[table-format=1.1, round-mode=places, round-precision=0, output-decimal-marker={.}]
+				}
+			\toprule[2pt]
+			model & {AA-LCR in \si{\percent}} & {GPQA Diamond in \si{\percent}} & {SciCode in \si{\percent}} & {CritPt in \si{\percent}}\\
+			\midrule[1pt]
+			apertus 70B Instruct &0&27&6&0\\
+			deepSeek V4 Flash &33&72&37&0\\
+			devstral 2&30&53&29&0\\
+			gemma 4 31B&62&86&43&1\\
+			glm-4.7&64&86&{\color{red}45}&{\color{red}1.7}\\
+			llama 3.1 8B&16&26&13&0\\
+			mistral Medium 3.5&61&75&40&0\\
+			gpt-oss-120B (high)&51&78&39&1\\
+			qwen3 30B A3B 2507&59&71&33&0\\
+			qwen3 coder next&40&74&32&0\\
+			qwen3 omni 30B A3B&0&73&31&0\\
+			qwen3.5 122B A10B&67&86&42&1\\
+			qwen3.5 397B A17B&66&{\color{red}89}&42&{\color{red}1.7}\\
+			qwen3.6 27B&{\color{red}69}&84&40&1\\
+			qwen3.6 35B A3B&64&84&36&0\\
+			\bottomrule[1pt]
+		\end{tabular}
+	\end{table}
 	
-	Orchestration of Agentic ai
+	\subsection{Tools used}
+	To enhance the Physics Modelling Assistants capabilities, certain \glspl{Agent} are equipped with tools (see \autoref{subsub:tool}).
 	
-	Crewai
+	\subsubsection{arxiv\_paper\_tool\_exponential\_backoff}
+	CrewAI already provides the \enquote{arxiv\_Paper\_Tool} \autocite{crewaiArxivPaperTool} accessing the arXiv-API \autocite{arxiv}. During the development process this tools request repeatedly kept getting denied making it unable to find and download papers from arXiv. As listed in the arXiv-APIs Terms of Use rate limits are enforced so sending too many requests in a short amount of time. Furthermore, web servers will deny repeated request from the same client from the same service \autocite{rechnernetze}. Since the arxiv\_paper\_tool does not implement any strategy for waiting, its requests where eventually blocked by the arXiv-API servers. As a consequence a custom tool was implemented  extending the arxiv\_paper\_tool by implementing an exponential back-off strategy as it is common for modern server requests \autocite{rechnernetze}. Additionally to the exponential waiting the new arxiv\_paper\_tool\_exponential\_backoff adds a small random wait which is common to prevent two clients requesting the same service from waiting for the same amount of time and blocking each others requests repeatability.
 	
-	Tools
-	
-	\subsection{The chosen \gls{AI} models}
-	- PROBLEM: no clear benchmarks, only for older models or different versions of models
-	=> need to use general predictors: POWER SCALING LAW; Context window length; only lastly some general implication about the general capabilities of model families
-	
-	===> this will be mostly a fixed choice since a real investigation of which model is suited better for which task would require an in-depth analysis of how the models where designed and trained which is beyond the scope of this Thesis.
-	
-	what to do instead: see whether assigning special models to certain tasks is better in the pipeline
-	Design: Identify strongest overall model; identify supposedly strongest model in reasoning, argument handling/filtering from large texts and coding
-	- one run with only specialized models, one with overall best; compare; more as a prove of concept
-	
-	
-	
-		
-	Task \& Agent defs
-	
-	Steps
-	
-	Output
-	
+	\FloatBarrier
 	\section{Benchmarking}
 	
 	\FloatBarrier
@@ -611,15 +628,6 @@ listname=Table Index
 		\label{sdf}
 		\figentry{testFig}
 	\end{figure}
-	\begin{table}
-		\centering
-		\caption{testTab}
-		\tabentry{testTab}
-		\begin{tabular}{cc}
-		a & b\\
-		c & d\\
-		\end{tabular}
-	\end{table}
 	
 	\FloatBarrier
 	\pagebreak
@@ -644,6 +652,8 @@ listname=Table Index
 	\aauthor
 	\pagebreak
 	\section{Acknowledgement}
+	The authors gratefully acknowledge the computing time granted by the KISSKI project. The calculations for this research were conducted with computing resources under the project 9e28b773-a710-4a17-a242-523e92c812de.
+		
 		
 \end{document}
 	

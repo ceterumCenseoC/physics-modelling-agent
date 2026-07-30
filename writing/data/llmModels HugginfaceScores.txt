@@ -1,15 +1,17 @@
-DeepSeek V4 Flash, 40
-Gemma 4 31B, 29
-GLM 5.2, 51
-Llama Nemotron Super 49B v1.5, 12
-Mistral Medium 3.5, 30
-gpt-oss-120b (high), 24
-qwen3.6 27B, 37
-qwen3.6 35B A3B, 32
-qwen3.5 397B A17B, 34
-Qwen3 Omni 30B A3B, 10
-Claude Sonnet 5 (max), 53
-GPT-5.5 (high), 53
-GPT-5.4 (xhigh), 51
-GPT-5 (high), 35
-o3, 30
+model&AA-LCR (long context reasoning)&GPQA Diamond (scientific reasoning)&sciCode&critPt
+Apertus 70B Instruct&0&27&6&0
+DeepSeek V4 Flash&33&72&37&0
+Devstral 2&30&53&29&0
+Gemma 4 31B&62&86&43&1
+GLM-4.7&64&86&45&2 c 1.7
+Llama 3.1 8B&16&26&13&0
+Mistral Medium 3.5&61&75&40&0
+gpt-oss-120b (high)&51&78&39&1
+qwen3 30b a3b 2507&59&71&33&0
+qwen3 coder next&40&74&32&0
+qwen3 omni 30b a3b&0&73&31&0
+qwen3.5 122b a10b&67&86&42&1
+qwen3.5 397b a17b&66&89&42&1.7 b d
+qwen3.6 27b&69&84&40&1;  a
+qwen3.6 25b a3b&64&84&36&0
+mistral 7b&0&18&2&0
