@@ -29,6 +29,10 @@ class PaperFinderCrew():
         self.frequency_penalty = 0
         self.presence_penalty = 0
         self.max_iter = 1
+
+        self.additional_params = {
+            "max_tokens": 130_000,
+        }
         
         self.async_execution = False
 
@@ -54,6 +58,7 @@ class PaperFinderCrew():
                 model = "qwen3.5-122b-a10b",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
+                additional_params = self.additional_params,
                 #reasoning="fast", # not supported for qwen
             ),
             tools=[ArxivPaperTool(download_pdfs = True, save_dir = self.pdfSaveDir, use_title_as_filename = True)] # allows the agent to acces arxiv papers

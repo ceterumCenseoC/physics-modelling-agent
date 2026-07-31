@@ -1,5 +1,30 @@
+import json # use for converting raw output of the crew to a dictionary
+
 from .sourceFinding.main import run_crew_paperFinder
 from .modelling.main import run_crew_modelling
+
+def listModels() -> list:
+    '''
+    This method can be used to list available models from the AI service.
+    '''
+    import os
+    from dotenv import load_dotenv
+    from pathlib import Path
+    env_path = Path(__file__).resolve().parent.parent / ".env"
+    load_dotenv(dotenv_path=env_path)
+    apiKey = os.getenv("API_KEY")
+
+    import openai
+    client = openai.OpenAI(
+        api_key=apiKey,
+        base_url="https://chat-ai.academiccloud.de/v1"
+    )
+    
+    models = client.models.list().data
+    modelList : list[str] = []
+    for m in models:
+        modelList.append(m.id)
+    return modelList
 
 def findPapers(topic : str, aim : str, outputDir : str, pdfSaveDir : str):
     inputs = {
@@ -48,10 +73,10 @@ def execute():
     outputDir = f"./partialExecutionOutputs/runNr_{outputNr}/"
     pdfSaveDir = f"./partialExecutionOutputs/runNr_{outputNr}/pdfs"
 
-    """ resultPapers = findPapers(topic = topic, aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir)
+    resultPapers = findPapers(topic = topic, aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir)
     with open(f"{outputDir}/result_papers.txt", "w") as f:
           f.write(resultPapers.raw)
-    previous_output = resultPapers.raw """
+    previous_output = resultPapers.raw
     previous_output = None
     
     versionNr = 9 # CHANGE THIS NUMBER WHEN YOU WANT TO KEEP THE PDF'S AND CHANGE THE MODELLING CREW
@@ -63,5 +88,30 @@ def execute():
     buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
     """
 
+def convertToDict(inStr : str) -> dict:
+    """
+    this method converts the output of the crew to a dictionary
+    """
+    return json.loads(inStr)    
+
+def executeInterface(topic : str, aim : str, outputDir : str, pdfSaveDir : str, versionNr : int):
+    """
+    this method allows for another programm to access and run the crew. Necessary for evaluation
+    """
+    resultPapers = findPapers(topic = topic, aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir)
+    """ with open(f"{outputDir}/result_papers.txt", "w") as f:
+          f.write(resultPapers.raw)
+    """
+    """ if previous_output is None:
+        previous_output = resultPapers.raw"""
+    previous_output = None
+    
+    resultModel = buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
+    finalOutputString = resultModel.raw
+    return convertToDict(inStr = finalOutputString) # raw gives output of only the last agent
+
 if __name__ == "__main__":
+    print("Available models: ", listModels())
     execute()
+    #inStr = '{\n"choices": [\n {\n "message": {\n "content": "50.7 atm"\n }\n }\n ]\n }\n'
+    #convertToDict(inStr)

@@ -1,0 +1,31 @@
+
+
+# Relevant Papers on Edelstein Effect for Rashba Fermions
+
+## 1. **Edelstein Effect in Isotropic and Anisotropic Rashba Models**
+- **arXiv ID:** `2503.20712`
+- **Authors:** Irene Gaiardoni, Mattia Trama, Alfonso Maiellaro, Claudio Guarcello, Francesco Romeo, Roberta Citro
+- **Date:** 2025-03-26
+- **URL:** https://arxiv.org/abs/2503.20712
+- **PDF:** https://arxiv.org/pdf/2503.20712v1
+- **Summary:** This is the most recent and directly relevant paper for your research. It investigates spin-to-charge conversion via the Edelstein effect in a 2D Rashba electron gas using the semiclassical Boltzmann approach. The paper analyzes the magnetization arising from the direct Edelstein effect, considering both isotropic and anisotropic Rashba models. It explicitly studies how the effect depends on effective parameters including spin-orbit coupling strength, Fermi velocity, and electric field direction. The work provides analytical expressions and graphical representations of magnetization magnitude and direction as functions of applied electric field, making it ideal for building your computational model.
+
+## 2. **Spin and Orbital Edelstein Effect in a Bilayer System with Rashba Interaction**
+- **arXiv ID:** `2307.02872`
+- **Authors:** Sergio Leiva M., Jürgen Henk, Ingrid Mertig, Annika Johansson
+- **Date:** 2023-07-06
+- **URL:** https://arxiv.org/abs/2307.02872
+- **PDF:** https://arxiv.org/pdf/2307.02872v2
+- **Summary:** This paper addresses both spin and orbital Edelstein effects in systems with Rashba interaction. It provides detailed theoretical framework for calculating current-induced magnetization in noncentrosymmetric systems. The work includes explicit calculations of magnetization magnitude and direction for different electric field configurations and discusses parameter dependencies including spin-orbit coupling strength and Fermi surface properties. The paper contains graphics showing the relationship between applied electric field and induced magnetization, which will be valuable for your research.
+
+## 3. **Enhanced Edelstein Effect and Interdimensional Effects in an Electron Gas with Rashba Spin-Orbit Coupling Interface**
+- **arXiv ID:** `1912.01804`
+- **Authors:** A. C. Zulkoskey, R. Dick, K. Tanaka
+- **Date:** 2019-12-04
+- **URL:** https://arxiv.org/abs/1912.01804
+- **PDF:** https://arxiv.org/pdf/1912.01804v1
+- **Summary:** This foundational paper examines the Edelstein effect in a three-dimensional electron gas with a two-dimensional interface featuring Rashba spin-orbit coupling. It provides comprehensive analysis of both bound-state and free-state contributions to the density of states and their impact on the Edelstein effect. The work includes explicit calculations of magnetization as a function of electric field direction and magnitude, with detailed discussion of how results depend on spin-orbit coupling strength, Fermi velocity, and other model parameters. The paper contains graphical representations that illustrate the relationship between applied electric field and induced spin polarization, making it essential for understanding the fundamental physics of the Edelstein effect in Rashba systems.
+
+---
+
+**Note:** These three papers provide a comprehensive theoretical foundation for calculating the Edelstein effect in Rashba fermion systems. The first paper (2025) is the most recent and directly addresses your specific requirements. The second and third papers provide additional theoretical frameworks and parameter dependencies that will help you build a complete computational model including magnetization magnitude, direction, and their dependence on chirality, Fermi velocity, and spin-orbit coupling strength.

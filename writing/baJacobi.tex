@@ -450,7 +450,7 @@ listname=Table Index
 	\begin{equation}
 		q^*= \mathrm{arg}\max_{q \in \Delta(\mathcal{V})} \left[\underbrace{\langle q, s \rangle}_{\sum_{v \in \mathcal{V}} q(v) \cdot s(v)} - \lambda \Omega(q)\right] \label{masterProblem}
 	\end{equation}
-	The used properties are:
+	The used quantities are:
 	\begin{itemize}
 		\item $q^*$ is the probability distribution maximizing \autoref{masterProblem}
 		\item $\Delta (\mathcal{V})$ is the set of all possible probability distributions
@@ -616,11 +616,34 @@ listname=Table Index
 	\subsection{Tools used}
 	To enhance the Physics Modelling Assistants capabilities, certain \glspl{Agent} are equipped with tools (see \autoref{subsub:tool}).
 	
-	\subsubsection{arxiv\_paper\_tool\_exponential\_backoff}
-	CrewAI already provides the \enquote{arxiv\_Paper\_Tool} \autocite{crewaiArxivPaperTool} accessing the arXiv-API \autocite{arxiv}. During the development process this tools request repeatedly kept getting denied making it unable to find and download papers from arXiv. As listed in the arXiv-APIs Terms of Use rate limits are enforced so sending too many requests in a short amount of time. Furthermore, web servers will deny repeated request from the same client from the same service \autocite{rechnernetze}. Since the arxiv\_paper\_tool does not implement any strategy for waiting, its requests where eventually blocked by the arXiv-API servers. As a consequence a custom tool was implemented  extending the arxiv\_paper\_tool by implementing an exponential back-off strategy as it is common for modern server requests \autocite{rechnernetze}. Additionally to the exponential waiting the new arxiv\_paper\_tool\_exponential\_backoff adds a small random wait which is common to prevent two clients requesting the same service from waiting for the same amount of time and blocking each others requests repeatability.
+	\subsubsection{arxiv\_paper\_tool with exponential backoff}
+	CrewAI already provides the \enquote{arxiv\_Paper\_Tool} \autocite{crewaiArxivPaperTool} accessing the arXiv-API \autocite{arxiv}. During the development process this tools request repeatedly kept getting denied making it unable to find and download papers from arXiv. As listed in the arXiv-APIs Terms of Use rate limits are enforced so sending too many requests in a short amount of time. Furthermore, web servers will deny repeated request from the same client from the same service \autocite{rechnernetze}. Since the arxiv\_paper\_tool does not implement any strategy for waiting, its requests where eventually blocked by the arXiv-API servers. As a consequence a custom tool was implemented  extending the arxiv\_paper\_tool by implementing an exponential back-off strategy as it is common for modern server requests \autocite{rechnernetze}. Additionally to the exponential waiting the new arxiv\_paper\_tool\_exponential\_backoff adds a small random wait which is common to prevent two clients requesting the same service from waiting for the same amount of time and blocking each others requests repeatability. The tool will find a specified number of papers and download them to a designated directory.
+	
+	\subsubsection{pdf\_reader}
+	In order access the papers downloaded from arXiv a PDF reader tool was developed. It can read all PDF files from the assigned directory, allowing an \gls{Agent} to use the content of the documents. Problems can occur when large or many files are read, the number of \glspl{token} can exceed the context window size \autocite{saiaModels} of the \gls{LLM} is exceeded, causing the \gls{Agent} to fail its task. A \gls{LLM} with a larger context window would allow for more and longer files to be read, among the SAIA models deepSeek V4 Flash has the largest context window allowing for 1 million \glspl{token} \autocite{saiaModels} while the qwen3.6 35B A3B \gls{LLM} has the second largest context window with 262 \glspl{token}.
+	
+	Since the tool only allows to read files from a hard coded subdirectory this tool is deemed secure to be used outside of a sandbox environment (see \autoref{subsub:tool}).
+	
+	\subsubsection{dimensional\_analysis}
+	During the testing of the system formulas from source papers where stated correctly but assigning correct units to the individual quantities proved to be difficult. Mistakes in vastly incorrect results for the values produced by the numerical implementation of the model. To ensure consistent units in all used formulas the dimensional\_analysis tool was created, using the symPy libary to allow an \gls{Agent} to check its unit proposal. The tool takes the equation as a string, a dictionary containing the used quantities with their units both as strings, as well as a string containing all units used in the dimensions. The units are substituted in for their respective quantities and both sides of the formula are simplified separately, numeric values are not considered since the aim is to achieve unit consistency. Lastly the left side of the formula is divide by the right side giving  the unit correction needed on the right side. Ideally this value will be 1, indicating no correction is needed. If it is not 1 the \gls{Agent} is supposed to interpret the unit mismatch correctly by adjusting the assumed units for the used quantities. Another option for the \gls{Agent} is to modify the formula by inserting physical constants. This allows to keep real world units while implementing a formula, which uses a different unit system.
+	
+	\subsubsection{code execution}
+	As discussed by \citeauthor{sandboxEscape}, designing a secure sandbox is a complex task but necessary if \gls{LLM} generated code should be executed directly. For that reason no \gls{Agent} of the Physics Modelling Assistant uses a code execution tool in this Thesis.
+	
+	\subsection{experimental setup for the pipeline}
+	Task description; Agent descriptions
+	- design modelled to mirror tasks from a human scientific research workflow; reflection step missing
+	- parameters used: temperature, llm model, top\_p (verbose, reasoning, memory)
+	- changes that will be applied: temperature, top\_p; sources; measure time; rerun each config 5-10 times to see consitency
+	
+	Formulate 5 questions
 	
 	\FloatBarrier
-	\section{Benchmarking}
+	\section{Results and Discussion}
+	
+	results from each test
+	
+	\section{Conclusion and Future Work}
 	
 	\FloatBarrier
 	\begin{figure}
