@@ -22,3 +22,11 @@ Yiyi Wang
 # allows for good md view
 # to enable markdown preview
 STRG+SHIFT+V
+
+
+
+### critpt
+# the following command is used to run the file at CritPt/src/critpt/__main_.py as a module
+python -m critpt <ARGUMENTS>
+
+# the file will be modified to allow running the custom pipeline
