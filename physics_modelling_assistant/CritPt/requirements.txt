@@ -2,7 +2,7 @@
 # For evaluation server
 
 # Core
-python>=3.9
+#python>=3.9 not needed
 inspect-ai>=0.3.0
 pydantic>=2.0.0
 python-dotenv>=1.0.0
