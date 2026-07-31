@@ -24,10 +24,11 @@ def main():
 
         # Evaluation modes
         if mode in ['eval', 'eval-batch', 'serve']:
-            from critpt.evaluation.cli import main as eval_main
-            eval_main()
+            from critpt.evaluation.cli import main as eval_main #? cli doesn't exist inside evaluation package # probably eval-batch needed
+            input("TT")
+            eval_main() 
             return
-
+        
         # Generation mode
         elif mode == 'generate':
             # Remove 'generate' from args and run generation

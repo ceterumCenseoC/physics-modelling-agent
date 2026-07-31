@@ -39,7 +39,7 @@ def _serialize_submission(submission: Submission) -> Dict[str, Any]:
     }
 
 
-def _build_batch_payload(
+def _build_batch_payload( ### first step
     submissions: List[Submission],
     batch_metadata: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
@@ -78,7 +78,7 @@ def _extract_single_result(batch_response: Dict[str, Any]) -> Dict[str, Any]:
     return result
 
 
-class EvaluationClient:
+class EvaluationClient: ###This will probably do the evaluation for batch of submissions, try this one
     """Blocking client for the evaluation server."""
 
     def __init__(self, server_url: str, timeout: float = 300.0, api_key: Optional[str] = None) -> None:
@@ -93,7 +93,7 @@ class EvaluationClient:
         response.raise_for_status()
         return response.json()
 
-    def evaluate_batch(
+    def evaluate_batch( ###INSPECT, maybe this can be modified to 
         self,
         submissions: List[Submission],
         batch_metadata: Optional[Dict[str, Any]] = None,

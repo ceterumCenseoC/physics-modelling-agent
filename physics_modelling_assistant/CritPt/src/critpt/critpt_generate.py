@@ -19,7 +19,7 @@ from inspect_ai.solver import TaskState, use_tools
 from inspect_ai.tool import bash, python, web_search
 
 from critpt.data_loader import NotebookDataLoader, JsonDataLoader
-from critpt.generation.solver import cortex_solver
+from critpt.generation.solver import cortex_solver ###
 from critpt.paths import RESULTS_DIR, PROJECT_ROOT
 from critpt.submission import create_submission
 from critpt.templates import get_default_system_prompt
