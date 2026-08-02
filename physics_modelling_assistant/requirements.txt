@@ -111,9 +111,13 @@ psutil==7.2.2
 pyarrow==24.0.0
 pybase64==1.4.3
 pycparser==3.0
-pydantic==2.11.9
+pydantic
+#2.13.4
+#2.11.9
 pydantic-settings==2.10.1
-pydantic_core==2.33.2
+pydantic_core
+#2.46.4
+#2.33.2
 Pygments==2.20.0
 PyJWT==2.12.1
 PyMuPDF==1.26.7
@@ -149,7 +153,9 @@ starlette==1.0.0
 sympy==1.14.0
 tenacity==9.1.4
 textual==8.2.4
-tiktoken==0.8.0
+tiktoken
+#0.13.0
+#0.8.0
 tokenizers==0.22.2
 tomli==2.0.2
 tomli_w==1.1.0

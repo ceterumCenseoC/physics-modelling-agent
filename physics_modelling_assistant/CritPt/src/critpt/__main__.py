@@ -25,7 +25,6 @@ def main():
         # Evaluation modes
         if mode in ['eval', 'eval-batch', 'serve']:
             from critpt.evaluation.cli import main as eval_main #? cli doesn't exist inside evaluation package # probably eval-batch needed
-            input("TT")
             eval_main() 
             return
         
@@ -37,7 +36,7 @@ def main():
             from inspect_ai import eval as inspect_eval
             from critpt.critpt_generate import critpt_generate
 
-            # Parse args
+            # Parse args, split them by '=' and convert into dictionary
             kwargs = {}
             for arg in sys.argv[1:]:
                 if "=" in arg:
@@ -46,25 +45,25 @@ def main():
                         v = int(v)
                     if k in ["use_golden_for_prev_steps", "parsing", "skip_if_exists", "use_python", "use_web_search", "multiturn_with_answer", "evaluate", "run_main", "run_sub"]:
                         assert v in ["True", "False", "None"]
-                        v = eval(v)
+                        v = eval(v) # python intern eval function
                     kwargs[k] = v
 
             load_dotenv(dotenv_path=ENV_FILE)
 
             # Load config
-            task_config: dict | str | None = kwargs.pop('task_config', None)
-            if not task_config or isinstance(task_config, str):
-                if not task_config:
+            task_config: dict | str | None = kwargs.pop('task_config', None) # gets task_config from kwargs if it exists, otherwise None
+            if not task_config or isinstance(task_config, str): # if task_config is None or string, it will be resolved
+                if not task_config: # if task_config is None, load its path from environment variable
                     task_config_path = os.environ.get("CRITPT_TASK_CONFIG")
-                else:
+                else: # it is a string, the path will be resolved
                     task_config_path = Path(task_config)
                 if task_config_path and not Path(task_config_path).is_absolute():
-                    task_config_path = PROJECT_ROOT / Path(task_config_path)
-                if task_config_path:
+                    task_config_path = PROJECT_ROOT / Path(task_config_path) # get absoulute path
+                if task_config_path: # if task_config_path is not None, load the config from the file
                     with open(task_config_path, 'r', encoding='utf-8') as f:
                         task_config: dict = json.load(f)
 
-            if not task_config:
+            if not task_config: 
                 print("Error: No task config provided")
                 print("Usage: python -m critpt generate task_config=path/to/config.json")
                 return
@@ -87,13 +86,14 @@ def main():
                 if k in critpt_generate_params:
                     kwargs.pop(k)
 
-            if task_config.get("multiturn_with_answer"):
-                task_config["use_golden_for_prev_steps"] = False
+            if task_config.get("multiturn_with_answer"): # ?? purpose of it?
+                task_config["use_golden_for_prev_steps"] = False # what is golden?
 
             print("=" * 70)
             print("CRITPT BENCHMARK - GENERATION (PRIVATE)")
             print("=" * 70)
-            task = critpt_generate(**task_config)
+            #here arises a problem
+            task = critpt_generate(**task_config) #
             inspect_eval(task, **kwargs)
 
             print("=" * 70)

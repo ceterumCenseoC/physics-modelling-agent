@@ -275,9 +275,9 @@ def critpt_generate(
     Args:
         reader_paths: Paths to problem data (notebooks or JSON)
         output_dir_prefix: Directory to save submissions
-        use_golden_for_prev_steps: Use golden answers for previous steps
+        use_golden_for_prev_steps: Use golden answers for previous steps # don't do it
         parsing: Enable parsing mode
-        multiturn_with_answer: Include answers in multi-turn conversation
+        multiturn_with_answer: Include answers in multi-turn conversation # what is that?
         skip_if_exists: Skip if results already exist
         skip_if_not_exists: Skip if results don't exist
         model_label: Label for model variant
@@ -351,9 +351,11 @@ def critpt_generate(
             multiturn_with_answer=multiturn_with_answer
         )
 
-        output_dir = output_dir_prefix / _loader.dataset_name
+        print(output_dir_prefix)
+        print(_loader.dataset_name)
+        output_dir = output_dir_prefix + "/" + _loader.dataset_name
         for k, v in config.items():
-            output_dir = output_dir / (str(k) + "_" + str(v))
+            output_dir = output_dir + "/" + (str(k) + "_" + str(v))
 
         # Create tool label based on use_python and use_web_search
         tool_label = None
