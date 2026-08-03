@@ -113,13 +113,15 @@ class Physics_Modelling_Assistant(Model):
 ########################################################
 # FOR CRITPT EVALUATION
 ########################################################
-from inspect_ai.model import Model
+from inspect_ai.model import ModelAPI, ModelOutput, ChatMessage, ToolInfo, ToolChoice, GenerateConfig
 
-class CritPtExpose(Model):
-    def __init__(self, **kwargs):
-        self.agent = Physics_Modelling_Assistant(**kwargs)
+class CritPtExposeAPI(ModelAPI):
+    __registry_name__ = "pma"  # This is the name that will be used to register the model in the registry   
+    def __init__(self, model_name: str, **model_args):
+        super().__init__(model_name, **model_args)
+        self.agent = Physics_Modelling_Assistant(**model_args)
 
-    async def generate(self, input, tools=None, config=None, cache=None):
+    async def generate(self, input, tools=None, tool_choice = None, config=None, cache=None) -> ModelOutput:
         # latest user message
         user_input = input[-1].content
 
@@ -127,6 +129,8 @@ class CritPtExpose(Model):
         output = await self.agent.executeInterface(topic="", aim=user_input, outputDir="./critPt/eval/", pdfSaveDir="./critPt/eval/pdfs", versionNr=1)
 
         # return Inspect-compatible output
+        # investigate how this object really works
+        return ModelOutput(choices=[ToolChoice(message=ChatMessage(role="assistant", content=output))])
         return {
             "role": "assistant",
             "content": output

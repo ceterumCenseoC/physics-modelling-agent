@@ -353,9 +353,9 @@ def critpt_generate(
 
         print(output_dir_prefix)
         print(_loader.dataset_name)
-        output_dir = output_dir_prefix + "/" + _loader.dataset_name
+        output_dir = output_dir_prefix / _loader.dataset_name
         for k, v in config.items():
-            output_dir = output_dir + "/" + (str(k) + "_" + str(v))
+            output_dir = output_dir / (str(k) + "_" + str(v))
 
         # Create tool label based on use_python and use_web_search
         tool_label = None
