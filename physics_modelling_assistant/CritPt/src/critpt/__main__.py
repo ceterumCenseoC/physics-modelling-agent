@@ -94,8 +94,9 @@ def main():
             print("=" * 70)
             #here arises a problem
             task = critpt_generate(**task_config) #
-            inspect_eval(task, **kwargs)
-
+            input("GOOD")
+            inspect_eval(task, **kwargs) ## problem wiht crewai not being installed
+            input("NICE!")
             print("=" * 70)
             print("✓ Generation complete!")
             print("=" * 70)
