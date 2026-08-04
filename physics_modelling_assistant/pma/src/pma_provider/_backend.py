@@ -1,4 +1,4 @@
-from inspect_ai.model import ModelAPI, ModelOutput, ChatMessage, ToolInfo, ToolChoice, GenerateConfig
+""" from inspect_ai.model import ModelAPI, ModelOutput, ChatMessage, ToolInfo, ToolChoice, GenerateConfig
 import json, subprocess, sys
 
 class CritPtExposeAPI(ModelAPI):
@@ -31,4 +31,65 @@ class CritPtExposeAPI(ModelAPI):
         if proc.returncode != 0:
             raise RuntimeError(f"physics modelling assistant subprocess failed: {err}")
         resp = json.loads(out)
-        return ModelOutput(choices=[{"text": resp["text"]}])
+        return ModelOutput(choices=[{"text": resp["text"]}]) """
+
+# pma_provider/backend.py
+import sys
+import json
+import asyncio
+from pathlib import Path
+from inspect_ai.model import ModelAPI, ModelOutput, ChatMessage
+
+# Resolve pma_source subprocess path
+class PMAModelAPI(ModelAPI):
+    def convert_messages_to_prompt(self, messages: list[ChatMessage]) -> str:
+        parts = []
+        for m in messages:
+            role = getattr(m, "role", "user")
+            text = getattr(m, "content", getattr(m, "text", ""))
+            parts.append(f"{role}: {text}")
+        return "\n".join(parts)
+
+    def resolve_pma_paths(self) -> tuple[Path, Path]:
+        repo_root = Path(__file__).resolve().parents[3]
+        pma_root = repo_root
+
+        if sys.platform == "win32":
+            python_exe = pma_root / ".venv" / "Scripts" / "python.exe"
+        else:
+            python_exe = pma_root / ".venv" / "bin" / "python"
+
+        cli_script = "pma_source.cli"
+        return python_exe, cli_script, pma_root
+
+    async def generate(self, input, tools, tool_choice, config):
+        prompt = self.convert_messages_to_prompt(input)
+        payload = json.dumps({"prompt": prompt})
+
+        # location of the execution srcipts
+        python_exe, cli_script, pma_root = self.resolve_pma_paths()
+        print(f"Using Python executable: {python_exe}")
+        print(f"Using CLI script: {cli_script}")
+        print(f"Using PMA root directory: {pma_root}")
+
+        # Spawn pma_source subprocess
+        proc = await asyncio.create_subprocess_exec(
+            str(python_exe),
+            "-m", cli_script,
+            stdin=asyncio.subprocess.PIPE,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+            cwd = pma_root,
+            text=False
+        )
+
+        # Send JSON payload
+        stdout, stderr = await proc.communicate((payload + "\n").encode())
+
+        if proc.returncode != 0:
+            raise RuntimeError(stderr.decode())
+
+        resp = json.loads(stdout.decode())
+        text = resp.get("text", "")
+
+        return ModelOutput(choices=[{"text": text}])

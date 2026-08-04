@@ -92,11 +92,8 @@ def main():
             print("=" * 70)
             print("CRITPT BENCHMARK - GENERATION (PRIVATE)")
             print("=" * 70)
-            #here arises a problem
-            task = critpt_generate(**task_config) #
-            input("GOOD")
+            task = critpt_generate(**task_config)
             inspect_eval(task, **kwargs) ## problem wiht crewai not being installed
-            input("NICE!")
             print("=" * 70)
             print("✓ Generation complete!")
             print("=" * 70)

@@ -1,15 +1,3 @@
-_Virtual Environment setupt
-# inside physic_modelling_assistant/CritPt
-# create the virtual environment 
-python -m venv .venv
-# activate the virtual environment
-.venv/scripts/Activate.ps1
-# install necessary packages
-# the requirements of CritPt
-pip install -r .\requirements.txt
-# the pma containing the physics modelling assistant's interface to CritPt; it needs to be installed into CritPt's venv
-pip install -e ../pma
-
 _Explaination:
 - CritPt module: is the repo from github used for the evaluation
 - pma module provides the interface for CritPt to access the physics modelling assistant
@@ -18,5 +6,51 @@ _Explaination:
 - pma_source is where the physics modelling assistant livies
   - has its seperate venv
 
+
+_Virtual Environment setup for CritPt
+# inside physic_modelling_assistant/CritPt
+# create the virtual environment 
+python -m venv .venv
+# activate the virtual environment
+./.venv/scripts/Activate.ps1
+# install necessary packages
+# the requirements of CritPt
+pip install -r .\requirements.txt
+# a .config is needed specifying hwo the model should be run
+CritPt/.config/pma.json
+# install all the content inside the CritPt dir to the venv # needs to be repeated if changes where made in the directory
+pip install -e .
+# the pma containing the physics modelling assistant's interface to CritPt; it needs to be installed into CritPt's venv # needs to be repeated if changes where made in the directory
+pip install -e ../pma
+
+
+_setup for pma
+# inside the pma
+# needed to be recognised as a module
+pyproject.toml
+
+_setup for pma_source
+# inside the pma_source
+# needed to be recognised as a module
+pyproject.toml
+# handles the ineraction with pma
+cli.py
+# needs its own venv
+python -m venv .venv
+# activate the venv
+.\.venv\Scripts\Activate.ps1
+# module needs to be installed into the active venv
+pip install -e .
+
+
+# run just the crew withoug CritPt
+# activate the venv inside pma_source
+./.venv/Scripts/Activate.ps1
+# move out of the module
+cd ..
+# then run as a module
+python -m pma_source.execute
+
 # then run critpt (the __main__.py file in CritPt/src/critpt)
+# from an active venv
 python -m critpt generate generate model=pma/pma task_config=.config/pma.json

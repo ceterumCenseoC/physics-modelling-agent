@@ -26,7 +26,7 @@ def listModels() -> list:
         modelList.append(m.id)
     return modelList
 
-class Physics_Modelling_Assistant(Model):
+class Physics_Modelling_Assistant:
     def findPapers(self, topic : str, aim : str, outputDir : str, pdfSaveDir : str):
         inputs = {
             'topic': topic,
@@ -74,14 +74,14 @@ class Physics_Modelling_Assistant(Model):
         outputDir = f"./partialExecutionOutputs/runNr_{outputNr}/"
         pdfSaveDir = f"./partialExecutionOutputs/runNr_{outputNr}/pdfs"
 
-        resultPapers = findPapers(topic = topic, aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir)
-        with open(f"{outputDir}/result_papers.txt", "w") as f:
+        resultPapers = self.findPapers(topic = topic, aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir)
+        """ with open(f"{outputDir}/result_papers.txt", "w") as f:
             f.write(resultPapers.raw)
-        previous_output = resultPapers.raw
+        previous_output = resultPapers.raw """
         previous_output = None
         
         versionNr = 9 # CHANGE THIS NUMBER WHEN YOU WANT TO KEEP THE PDF'S AND CHANGE THE MODELLING CREW
-        buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
+        self.buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
         """
         versionNr += 1
         buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
@@ -99,42 +99,21 @@ class Physics_Modelling_Assistant(Model):
         """
         this method allows for another programm to access and run the crew. Necessary for evaluation
         """
-        resultPapers = findPapers(topic = topic, aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir)
+        print("Finding papers")
+        resultPapers = self.findPapers(topic = topic, aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir)
         """ with open(f"{outputDir}/result_papers.txt", "w") as f:
             f.write(resultPapers.raw)
         """
         """ if previous_output is None:
             previous_output = resultPapers.raw"""
         previous_output = None
-        
+        print("Building model")
         resultModel = self.buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
         return resultModel.raw # only a string 
 
 ########################################################
 # FOR CRITPT EVALUATION
 ########################################################
-from inspect_ai.model import ModelAPI, ModelOutput, ChatMessage, ToolInfo, ToolChoice, GenerateConfig
-
-class CritPtExposeAPI(ModelAPI):
-    __registry_name__ = "pma"  # This is the name that will be used to register the model in the registry   
-    def __init__(self, model_name: str, **model_args):
-        super().__init__(model_name, **model_args)
-        self.agent = Physics_Modelling_Assistant(**model_args)
-
-    async def generate(self, input, tools=None, tool_choice = None, config=None, cache=None) -> ModelOutput:
-        # latest user message
-        user_input = input[-1].content
-
-        # run your agent pipeline
-        output = await self.agent.executeInterface(topic="", aim=user_input, outputDir="./critPt/eval/", pdfSaveDir="./critPt/eval/pdfs", versionNr=1)
-
-        # return Inspect-compatible output
-        # investigate how this object really works
-        return ModelOutput(choices=[ToolChoice(message=ChatMessage(role="assistant", content=output))])
-        return {
-            "role": "assistant",
-            "content": output
-        }
 
 if __name__ == "__main__":
     print("Available models: ", listModels())
