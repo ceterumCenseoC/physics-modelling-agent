@@ -47,11 +47,12 @@ class PaperFinderCrew():
             temperature=self.temperature,
             top_p=self.top_p,
             top_k=self.top_k,
+            max_tokens=120_000,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
             llm=LLM(
-                model = "qwen3.5-122b-a10b",
+                model = "qwen3.6-27b",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 #reasoning="fast", # not supported for qwen

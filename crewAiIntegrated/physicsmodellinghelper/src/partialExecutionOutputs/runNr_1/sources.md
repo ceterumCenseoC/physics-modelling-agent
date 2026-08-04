@@ -1,0 +1,33 @@
+
+
+# Relevant Papers for Edelstein Effect in Rashba Fermions
+
+## 1. **Edelstein Effect in Isotropic and Anisotropic Rashba Models** (Most Recent)
+- **arXiv ID:** 2503.20712v1
+- **Authors:** Irene Gaiardoni, Mattia Trama, Alfonso Maiellaro, Claudio Guarcello, Francesco Romeo, Roberta Citro
+- **Date:** March 26, 2025
+- **URL:** https://arxiv.org/pdf/2503.20712v1
+- **Summary:** This paper investigates spin-to-charge conversion via the Edelstein effect in a 2D Rashba electron gas using the semiclassical Boltzmann approach. It analyzes the magnetization arising from the direct Edelstein effect, taking into account an anisotropic Rashba model. The study explicitly examines how the Edelstein effect depends on effective mass, spin-orbit coupling strength, and Fermi energy. This is the most recent work directly addressing the Edelstein effect in Rashba models with detailed parameter dependence analysis.
+
+## 2. **Spin and Orbital Edelstein Effect in a Bilayer System with Rashba Interaction**
+- **arXiv ID:** 2307.02872v2
+- **Authors:** Sergio Leiva M., Jürgen Henk, Ingrid Mertig, Annika Johansson
+- **Date:** July 6, 2023
+- **URL:** https://arxiv.org/pdf/2307.02872v2
+- **Summary:** This work focuses on the spin Edelstein effect as a promising phenomenon to generate spin polarization from charge current in systems without inversion symmetry. It also addresses current-induced orbital magnetization (orbital Edelstein effect) in bilayer systems with Rashba interaction. The paper provides theoretical framework for understanding how magnetization depends on electric field direction and magnitude, with explicit consideration of spin-orbit coupling strength and system parameters.
+
+## 3. **Out-of-plane Spin Polarization from In-plane Electric and Magnetic Fields** (Foundational)
+- **arXiv ID:** cond-mat/0609078v1
+- **Authors:** Hans-Andreas Engel, Emmanuel I. Rashba, Bertrand I. Halperin
+- **Date:** September 5, 2006
+- **URL:** https://arxiv.org/pdf/cond-mat/0609078v1
+- **Summary:** This classic paper demonstrates the joint effect of spin-orbit and magnetic fields leading to spin polarization perpendicular to the plane of a 2D electron system with Rashba spin-orbit coupling. It specifically addresses in-plane parallel dc magnetic and electric fields, providing the fundamental theoretical framework for calculating magnetization magnitude and direction as a function of electric field direction. The paper includes explicit analytical expressions showing dependence on Fermi velocity, spin-orbit coupling strength, and scattering mechanisms.
+
+---
+
+**Note:** These three papers provide a comprehensive foundation for your research:
+- The 2025 paper offers the most recent computational framework with explicit graphics and parameter dependence
+- The 2023 paper extends the theory to bilayer systems with both spin and orbital contributions
+- The 2006 paper provides the foundational theoretical framework with explicit analytical expressions for magnetization as a function of electric field direction and system parameters
+
+All three papers contain the necessary information to build a model for calculating the Edelstein effect in Rashba fermions at the Gamma point, including magnetization magnitude and direction for different electric field configurations, and explicit dependence on chirality, Fermi velocity, and spin-orbit coupling strength.

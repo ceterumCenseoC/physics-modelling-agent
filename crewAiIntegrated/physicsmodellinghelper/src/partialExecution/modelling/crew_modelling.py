@@ -31,7 +31,7 @@ class ModellerCrew():
         self.frequency_penalty = 0
         self.presence_penalty = 0
         self.max_iter = 1
-        
+        self.max_tokens = 120_000
         self.async_execution = False
 
     # Learn more about YAML configuration files here:
@@ -50,11 +50,12 @@ class ModellerCrew():
             temperature=self.temperature,
             top_p=self.top_p,
             top_k=self.top_k,
+            max_tokens=self.max_tokens,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
             llm=LLM(
-                model = "qwen3.5-122b-a10b",
+                model = "qwen3.6-27b",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 max_tokens=8000,
@@ -76,9 +77,10 @@ class ModellerCrew():
             presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
             llm=LLM(
-                model = "deepseek-r1-distill-llama-70b",
+                model = "qwen3.5-122b-a10b",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
+                max_tokens=self.max_tokens,
                 #reasoning="deep", # for better reasoning capabilities; should be supported for deepseek
                 #type="chat-completions"
             ),
@@ -101,6 +103,7 @@ class ModellerCrew():
                 model = "qwen3.5-122b-a10b", # needed because we want to read pdf's
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
+                max_tokens=self.max_tokens,
             ),
             tools=[DimensionalAnalysis()] # allows the agent to perform dimensional analysis on equations
         )
@@ -121,6 +124,7 @@ class ModellerCrew():
                 model = "qwen3.5-122b-a10b", # needed because we want to read pdf's
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
+                max_tokens=self.max_tokens,
                 #type="chat-completions"
             )
         )
@@ -138,9 +142,10 @@ class ModellerCrew():
             presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
             llm=LLM(
-                model = "deepseek-r1-distill-llama-70b",
+                model = "glm-4.7",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
+                max_tokens=self.max_tokens,
             )
         )
     
@@ -158,9 +163,10 @@ class ModellerCrew():
             presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
             llm=LLM(
-                model = "devstral-2-123b-instruct-2512",
+                model = "glm-4.7",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
+                max_tokens=self.max_tokens,
                 #type="chat-completions"
             ),
             allow_code_execution=True
