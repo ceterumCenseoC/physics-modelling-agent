@@ -50,7 +50,7 @@ pip install -e .
 # move out of the module
 cd ..
 # then run as a module
-python -m pma_source.execute
+python -X utf8 -m pma_source.execute
 
 # then run critpt (the __main__.py file in CritPt/src/critpt)
 # from an active venv

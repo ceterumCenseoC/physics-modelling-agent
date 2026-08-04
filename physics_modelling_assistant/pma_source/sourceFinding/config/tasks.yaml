@@ -1,6 +1,6 @@
 gathering_task:
   description: >
-    find at least 3 relevant papers for {aim}. One of the papers should be very recent
+    find at 3-6 relevant papers for {aim}. One of the papers should be very recent
   expected_output: >
     a list with the important sources: arxivID, Author, date, url, short summary.
     Sort the sources by relevance. MARKDOWN format.

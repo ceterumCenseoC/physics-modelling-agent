@@ -443,7 +443,7 @@ listname=Table Index
 	\subsection{Decoding the output of \gls{LLM}s}
 	In \autoref{subsub:llm} \gls{LLM} is defined based on the functionality it provides. In order to understand how the behaviour of \gls{LLM}s can be modified, a more formal definition will be given, based on the work of \citeauthor{llmDetail} in \citetitle{llmDetail} \autocite{llmDetail}.
 	
-	\subsubsection{\gls{LLM} as a function which assigns probabilities}
+	\subsubsection{\gls{LLM} as a function which assigns probabilities} \label{subsub:contextWindow}
 	A \gls{LLM} can be described as a function $f$ with internal parameters $\theta$. Additionally, $f$ takes a set of input \gls{token} $t_{in} = (i_1, ..., i_N)$ where $N \in \mathbb{N}$ is the number of input \glspl{token}, and a set of previous output \gls{token} $v_{out,prev} = (o_{-1}, ..., o_{-M})$ where $M \in  \mathbb{N}$ is the number of previous output \glspl{token} considered, which is called the \gls{context-window} with size $M$. The function $f(\theta, t_{in}, t_{outp,prev})$ assigns a probability $s(v)$ to every \gls{token} $v \in \mathcal{V}$ where $\mathcal{V}$ is the vocabulary of \glspl{token} known to the \gls{LLM}:
 	\begin{equation}
 		f(\theta, t_{in}, t_{outp,prev}) = \begin{pmatrix}
@@ -563,13 +563,12 @@ listname=Table Index
 	\subsubsection{Memory}
 	In the context of \gls{Agentic AI} memory is an \gls{Agent}s awareness of previous actions. Short-term memory is the context for the task the \gls{Agent} currently performs. Long-term memory allows an \gls{Agent} to access information obtained from previous runs \autocite{orchFrameworks}. Other kinds of memory include \enquote{semantic memory} \autocite{orchFrameworks}, \enquote{procedural memory} \autocite{orchFrameworks} and \enquote{episodic memory} \autocite{orchFrameworks} but will not be discussed in this Thesis.
 	
-	\subsection{Evaluation of \gls{AI} systems}
+	\subsection{Evaluation of \gls{AI} systems} \label{sub:eval}
 	In order to measure the configurations influence on an \gls{AI} system, be it a \gls{LLM} or an \gls{Agentic AI}, a metric for the systems performance is needed. One approach is giving the \gls{AI} system one multiple choice question at a time and deem each answer either right or wrong \autocite{mmlu}. The total score over the set of questions determines the system performance. This approach is used by \autocite{faceLeaderBoard} \autocite{mmluExplained} for their \autocite{faceArchive}.
 	
 	Another option are questions without answers to choose from which is used by \enquote{SciBench}\autocite{scibench}. The answers are usually short and need to be matched exactly as they are compared against the expected answer. The performance over all questions is accumulated and gives a final evaluation of the tested system.
 	
-	In order to properly assess how well \gls{AI} systems handle more complex tasks human grading can be used. This is use by Arena Intelligence \autocite{arena}, where users write a prompt and then decide from two anonymous answers which they like best. Human grading is also used by in \enquote{SciEx} \autocite{humanGrading}, where experts evaluate the
-	 results. As acknowledged by \citeauthor{humanGrading} human grading is not feasible for large scale benchmarking.
+	In order to properly assess how well \gls{AI} systems handle more complex tasks human grading can be used. This is use by Arena Intelligence \autocite{arena}, where users write a prompt and then decide from two anonymous answers which they like best. Human grading is also used by in \enquote{SciEx} \autocite{humanGrading}, where experts evaluate the results. As acknowledged by \citeauthor{humanGrading} human grading is not feasible for large scale benchmarking.
 	
 	\subsubsection{CritPt} \label{subsub:critPt}
 	A first step to bridge the gap between simple answer comparison and human level evaluation is done by \citeauthor{critPtArx} with the introduction of \enquote{CritPt} \autocite{critPtArx}. In the first step the system, which is to be evaluated, is prompted with the question and generates its answer. Secondly, \citeauthor{critPtArx} \autocite{critPtArx} guides the system to implement the needed for the automatic evaluation.
@@ -582,11 +581,11 @@ listname=Table Index
 	\subsection{Orchestration Framework: CrewAI} \label{sub:crewAi}
 	The decision was made not to design a new framework for orchestrating \gls{AI}s to save time on this software development heavy task and instead focus on the Physic Modelling Assistants configurations. \citeauthor{orchFrameworks} \autocite{orchFrameworks} discuss a number of frameworks varying in complexity and beginner friendliness. For this Thesis CrewAI \autocite{crewAi} will be used for its role focused style \autocite{orchFrameworks} consisting of \glspl{Agent} and Tasks \autocite{crewAi}. Each \gls{Agent} can be configured individually, which includes using different \gls{LLM}s for different Tasks. Every Task has its own description and specification including the \gls{Agent} assigned to it. On execution of a Task, its definition will be merged with the assigned \gls{Agent} which provides the input for the \gls{LLM} used. An \glspl{Agent} behaviour will be defined by its role, goal and backstory. The role a very short description comparable to a job title, the goal describes what the \gls{Agent} does while working similar to a job description while the backstory provides details on the agents behaviour like preferences or advice on how to approach Tasks. CrewAI allows to access any \gls{LLM} provided the user has a valid \gls{API key}. This \gls{LLM} can be assigned parameters including the discussed Temperature (\autoref{subsub:softmax}) and top\_p (\autoref{subsub:topp}), the number of \glspl{token} to be used and others. The Task gets a description and specifications regarding the output and output format along with the designated agent \autocite{taskPy}. Tools can be assigned to both \glspl{Agent} and Tasks with CrewAI providing ready to use tools \autocite{crewaiTool} but also allowing to add custom tools.
 	
-	The organisation of multiple CrewAI \glspl{Agent} and Tasks is managed by the so called crew. It is responsible for validating the configurations beforehand and then execute the system. As stated by \citeauthor{orchFrameworks} \autocite{orchFrameworks} CrewAI implements an orchestration combining elements from the ACP, A2A and ANP (see  \autoref{subsub:protocols}). The CrewAI documentation \autocite{crewAi} and the source code available on GitHub \autocite{crewPy} show a sequential and a hierarchical execution approach. The sequential execution (see \autoref{fig:crewExe}) will run the Tasks in their order of definition they are defined inside the code which gives a Sequential Pipeline (see \autoref{par:pipe}). This can be modified into a Parallel Fan-Out with Merge (see \autoref{par:paral}) by allowing certain Tasks to execute asynchronously \autocite{crewaiParallel}, the merging is handles by specifying a Task, which should wait with its execution until the parallel Tasks are done. The hierarchical execution style of CrewAI enables a Hierarchical Supervisor-Worker style by delegating Tasks or aspects of them. Implementing a Reflexive Self-Correcting Loop (see \autoref{par:reflex}) with CrewAI is possible by making use of Flows \autocite{crewaiFlow}, which allow for conditional calls and the coupling of multiple crews.
+	The organisation of multiple CrewAI \glspl{Agent} and Tasks is managed by the so called crew. It is responsible for validating the configurations beforehand and then execute the system. As stated by \citeauthor{orchFrameworks} \autocite{orchFrameworks} CrewAI implements an orchestration combining elements from the ACP, A2A and ANP (see  \autoref{subsub:protocols}). The CrewAI documentation \autocite{crewAi} and the source code available on GitHub \autocite{crewPy} show a sequential and a hierarchical execution approach. The sequential execution (see \autoref{fig:crewExe}) will run the Tasks in their order of definition they are defined inside the code which gives a Sequential Pipeline (see \autoref{par:pipe}). This can be modified into a Parallel Fan-Out with Merge (see \autoref{par:paral}) by allowing certain Tasks to execute asynchronously \autocite{crewaiParallel}, the merging is handles by specifying a Task, which should wait with its execution until the parallel Tasks are done. The hierarchical execution  (see \autoref{fig:crewExe})style of CrewAI enables a Hierarchical Supervisor-Worker style by delegating Tasks or aspects of them. Implementing a Reflexive Self-Correcting Loop (see \autoref{par:reflex}) with CrewAI is possible by making use of Flows \autocite{crewaiFlow}, which allow for conditional calls and the coupling of multiple crews.
 	
 	In order to achieve a deterministic workflow the Sequential Pipeline architecture (\autoref{par:pipe}) is used.
 	
-		\begin{figure}
+	\begin{figure}[ht]
 		\centering
 		\begin{tikzpicture}[
 			box/.style={
@@ -597,18 +596,18 @@ listname=Table Index
 			smallbox/.style={
 				rectangle, draw, rounded corners,
 				minimum width=2.0cm, minimum height=0.6cm,
-				align=center, fill=blue!5, font=\scriptsize
+				align=center, fill=blue!5, font=\normalsize
 			},
 			arrow/.style={->, thick},
 			redbox/.style={
 				rectangle, draw, rounded corners,
 				minimum width=1.5cm, minimum height=0.6cm,
-				align=center, fill=red!10, font=\scriptsize
+				align=center, fill=red!10, font=\normalsize
 			},
 			bluebox/.style={
 				rectangle, draw, rounded corners,
 				minimum width=1.5cm, minimum height=0.6cm,
-				align=center, fill=blue!35, font=\scriptsize
+				align=center, fill=blue!35, font=\normalsize
 			},
 			]
 			
@@ -633,17 +632,17 @@ listname=Table Index
 			\draw[dashed, arrow] (run) -- (crew);
 			
 			% diffrent run paths
-			\node[redbox, below=1.3cm of run, xshift=0.6cm] (hierachical) {hierarchical\\\scriptsize $\bullet$ Agents call other Agents\\\scriptsize $\bullet$ not used for reproducability};
+			\node[redbox, below=1.3cm of run, xshift=1.3cm] (hierachical) {hierarchical\\$\bullet$ \glspl{Agent} call other \glspl{Agent}\\$\bullet$ not used for reproducability};
 			\draw[dashed, arrow, draw=red!40] (run) -- (hierachical);
 			
-			\node[bluebox, below=-0.3cm of run, xshift=3.4cm] (sequential) {sequential\\\scriptsize $\bullet$ tasks in order of definition};
-			\node[bluebox, below= 0.85cm of sequential, xshift=1.0cm] (seq2) {output accumulates;
-				\\\scriptsize passed to next task};
+			\node[bluebox, below=-0.3cm of run, xshift=5.0cm] (sequential) {sequential\\$\bullet$ Tasks in order of definition};
+			\node[bluebox, below= 0.85cm of sequential, xshift=1.5cm] (seq2) {output accumulates;
+				\\is passed to next Task};
 			
 			\draw[dashed, arrow, draw=blue] (run) -- (sequential);
 			\draw[dashed, arrow, draw=blue] (sequential) -- (seq2);
 		\end{tikzpicture}
-		\caption{The main steps executed during a run of a CrewAI crew. The crew receives an input containing various parameters specifying the crews behaviour. This includes a message stating what the crew should do as well as parameters shaping the \gls{LLM}s behaviour (Temperature \autoref{subsub:softmax}, top\_p \autoref{subsub:topp}) and the \glspl{Agent} behaviour (planning before execution, how many times to rerun itself \autocite{agentCore}). The crew is assembled by initializing all \glspl{Agent} and Tasks. The \glspl{Agent} get mapped to the tasks, ensuring every task has a corresponding \gls{Agent}. If there is a Task without an \gls{Agent}, the crew will fail. After the crew is assembled correctly, it can run either in a hierarchical or a sequential style. In hierarchical execution one main \gls{Agent} calls other \glspl{Agent}, which in turn can call other \glspl{Agent} themselves (see \autoref{sub:crewAi}). During the sequential execution the \glspl{Agent} (the Tasks with their \glspl{Agent}) are executed in the order they where defined (see \autoref{sub:crewAi}).}
+		\caption{The main steps executed during a run of a CrewAI crew. The crew receives an input containing various parameters specifying the crews behaviour. This includes a message stating what the crew should do as well as parameters shaping the \gls{LLM}s behaviour (Temperature \autoref{subsub:softmax}, top\_p \autoref{subsub:topp}) and the \glspl{Agent} behaviour (planning before execution, how many times to rerun itself \autocite{agentCore}). The crew is assembled by initializing all \glspl{Agent} and Tasks. The \glspl{Agent} get mapped to the tasks, ensuring every task has a corresponding \gls{Agent}. If there is a Task without an \gls{Agent}, the crew will fail. After the crew is assembled correctly, it can run either in a hierarchical or a sequential style. In the hierarchical execution one main \gls{Agent} calls other \glspl{Agent}, which in turn can call other \glspl{Agent} themselves (see \autoref{sub:crewAi}). During the sequential execution the \glspl{Agent} (the Tasks with their \glspl{Agent}) are executed in the order they where defined (see \autoref{sub:crewAi}).}
 		\label{fig:crewExe}
 		\figentry{CrewAI execution modes}
 	\end{figure}
@@ -702,7 +701,12 @@ listname=Table Index
 	As discussed by \citeauthor{sandboxEscape}, designing a secure sandbox is a complex task but necessary if \gls{LLM} generated code should be executed directly. For that reason no \gls{Agent} of the Physics Modelling Assistant uses a code execution tool in this Thesis.
 	
 	\subsection{experimental setup for the pipeline}
-	The final pipeline consists of 3 major steps
+	The final system is designed to mirror a simplified research workflow consisting of the finding of relevant information, developing a model based on the knowledge acquired and implementing the model to get an idea of what it predicts. In order to give definitive answers to the questions from benchmarks (see \autoref{sub:eval}), a Task providing a comprehensive answer is run in the end.
+	
+	\subsubsection{Input}
+	The Physics Modelling Assistant receives a single message (a string called aim) as its input. Additional parameters can be set via its interface. The output directory for the files created by the tasks can and should be specified to previous outputs from being overwritten. The Temperature (see \autoref{subsub:softmax}) and the top\_p (see \autoref{subsub:topp}) parameters can be specified to shape the \gls{LLM}s output. 
+	
+	
 	Task description; Agent descriptions
 	- design modelled to mirror tasks from a human scientific research workflow; reflection step missing
 	- parameters used: temperature, llm model, top\_p (verbose, reasoning, memory)
@@ -711,7 +715,7 @@ listname=Table Index
 	Formulate 5 questions
 
 	
-	\begin{figure}
+	\begin{figure}[ht]
 		\centering
 		\begin{tikzpicture}[
 			box/.style={
@@ -736,37 +740,40 @@ listname=Table Index
 			\node[graybox] (input) {input};
 			
 			%first set
-			\node[graybox, right=0.3cm of input, yshift=0.5cm] (source) {find sources};
+			\node[bluebox, right=0.3cm of input, yshift=0.5cm] (source) {find sources};
 			\draw[arrow, gray] (input) -- (source);
 			
-			\node (info) at (source |- input) [graybox, xshift=0cm,yshift=-0.5cm] {get info};
+			\node (info) at (source |- input) [bluebox, xshift=0cm,yshift=-0.5cm] {get info};
 			\draw[arrow, gray] (source) -- (info);
 			
 			%2. set
-			\node (model) at (source |- input) [graybox, xshift=2.0cm, yshift=0.5cm] {model};
+			\node (model) at (source |- input) [bluebox, xshift=2.0cm, yshift=0.5cm] {model};
 			\draw [arrow, gray] (info) -- (model);
 			
-			\node (unit) at (model |- input) [graybox, xshift=0cm, yshift=-0.5cm] {unit check};
+			\node (unit) at (model |- input) [bluebox, xshift=0cm, yshift=-0.5cm] {unit check};
 			\draw [arrow, gray] (model) -- (unit);
 			
-			\node (param) at (unit |- unit) [graybox, xshift= 0.0cm, yshift = - 1.0cm] {param. sugg.};
+			\node (param) at (unit |- unit) [bluebox, xshift= 0.0cm, yshift = - 1.0cm] {param. sugg.};
 			\draw [arrow, gray] (unit) -- (param);
 			
 			%3. set
 			\node (phyimpl) at (model |- input) [bluebox, xshift=2.5cm, yshift=0.5cm] {physics implem.};
-			\draw [arrow, red] (param) -- (phyimpl);
+			\draw [arrow, gray] (param) -- (phyimpl);
 			
 			\node (corrimpl) at (phyimpl |- input) [bluebox, xshift=0cm, yshift=-0.5cm] {implem. check};
-			\draw [arrow, red] (phyimpl) -- (corrimpl);
+			\draw [arrow, gray] (phyimpl) -- (corrimpl);
 			
 			%4. set
 			\node (answer) at (phyimpl |- input) [bluebox, xshift = 2.3 cm, yshift = 0cm] {answer};
-			\draw [arrow, red] (corrimpl) -- (answer);
+			\draw [arrow, gray] (corrimpl) -- (answer);
 			
 			%5. set
 			\node (output) at (answer |- answer) [graybox, xshift = 1.7cm, yshift = 0.0cm] {output};
-			\draw [arrow, red] (answer) -- (output);
+			\draw [arrow, gray] (answer) -- (output);
 		\end{tikzpicture}
+		\caption{Overview of all the Tasks and their order as they are performed by the Physics Modelling Assistant. The system receives an input string as a free form modelling request; it will find papers on that topic and download them from arXiv; the papers will be read and necessary information gets extracted; a model is build based on the extracted information; the formulas of the model are checked for unit consistency; realistic starting parameters are suggested for the simulation; the model is implemented into Python code; the code is checked and corrected if necessary; a final answer to the input is provided; output is the final answer and the files created by the individual tasks}
+		\label{fig:tasks}
+		\figentry{Overview of the Physics Modelling Assistants Tasks}
 	\end{figure}
 	
 	\FloatBarrier

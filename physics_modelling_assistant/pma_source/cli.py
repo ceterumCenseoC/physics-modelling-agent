@@ -9,7 +9,7 @@ def main():
         data = json.load(sys.stdin)
         aim = data.get("aim", "") # string
         versionNr = data.get("versionNr", 1) # int
-        outputDir = data.get("outputDir", "./critPt/eval/") # string
+        outputDir = data.get("outputDir", "./evalOUTPUT/") # string
         temperature = data.get("temperature", 1.0) # float
         top_p = data.get("top_p", 1.0) # float
         max_tokens = data.get("max_tokens", 100_000) # int
