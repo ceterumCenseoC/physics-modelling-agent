@@ -60,6 +60,5 @@ final_output_task:
    provide the final answer to: {aim}
    Ensure the desired output format is matched.
   expected_output: >
-   JSON file, with the response acessible wiht : response['choices'][0]['message']['content'].
-   You must match this format.
+   a string containing the answer and the stept taken to get there. This will make the solution understandable.
   agent: final_outputer

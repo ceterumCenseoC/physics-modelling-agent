@@ -23,12 +23,14 @@ class PaperFinderCrew():
 
         self.verbose = True
         self.allow_delegation = False
-        self.temperature = 0.0
-        self.top_p = 3
-        self.top_k = 3
+        self.max_iter = 1
+
+        self.temperature = 1.0
+        self.top_p = 0.95
+        self.max_tokens = 120_000
         self.frequency_penalty = 0
         self.presence_penalty = 0
-        self.max_iter = 1
+        
         
         self.async_execution = False
 
@@ -44,18 +46,16 @@ class PaperFinderCrew():
             config=self.agents_config['source_gatherer'], # type: ignore[index]
             verbose=self.verbose,
             allow_delegation=self.allow_delegation,
-            temperature=self.temperature,
-            top_p=self.top_p,
-            top_k=self.top_k,
-            max_tokens=120_000,
-            frequency_penalty=self.frequency_penalty,
-            presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
             llm=LLM(
                 model = "qwen3.6-27b",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
-                #reasoning="fast", # not supported for qwen
+                temperature=self.temperature,
+                top_p=self.top_p,
+                max_tokens=self.max_tokens,
+                frequency_penalty=self.frequency_penalty,
+                presence_penalty=self.presence_penalty,
             ),
             tools=[ArxivPaperTool(download_pdfs = True, save_dir = self.pdfSaveDir, use_title_as_filename = True)] # allows the agent to acces arxiv papers
         )

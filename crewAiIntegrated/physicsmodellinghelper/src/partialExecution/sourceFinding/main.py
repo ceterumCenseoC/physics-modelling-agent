@@ -2,7 +2,7 @@
 import sys
 import warnings
 
-from .crew_paperFinder import PaperFinderCrew
+from .crew_paperFinderOLD import PaperFinderCrew
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 

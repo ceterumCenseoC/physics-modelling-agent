@@ -2,7 +2,7 @@
 import sys
 import warnings
 
-from .crew_modelling import ModellerCrew
+from .crew_modellingOLD import ModellerCrew
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 

@@ -17,21 +17,21 @@ class PaperFinderCrew():
 
     agents: list[BaseAgent]
     tasks: list[Task]
-    def __init__(self, outputDir: str, pdfSaveDir: str, temperature: float, top_p: float):
+    def __init__(self, outputDir: str, pdfSaveDir: str, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning : bool):
         self.outputDir = outputDir
         self.pdfSaveDir = pdfSaveDir
-        self.temperature = temperature
-        self.top_p = top_p
 
         self.verbose = True
         self.allow_delegation = False
+        self.max_iter = max_iter
+        self.reasoning = reasoning
+
+        self.temperature = temperature
+        self.top_p = top_p
+        self.max_tokens = max_tokens
         self.frequency_penalty = 0
         self.presence_penalty = 0
-        self.max_iter = 1
-
-        self.additional_params = {
-            "max_tokens": 130_000,
-        }
+        
         
         self.async_execution = False
 
@@ -47,17 +47,17 @@ class PaperFinderCrew():
             config=self.agents_config['source_gatherer'], # type: ignore[index]
             verbose=self.verbose,
             allow_delegation=self.allow_delegation,
-            temperature=self.temperature,
-            top_p=self.top_p,
-            frequency_penalty=self.frequency_penalty,
-            presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
+            reasoning=self.reasoning,
             llm=LLM(
-                model = "qwen3.5-122b-a10b",
+                model = "qwen3.6-27b",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
-                additional_params = self.additional_params,
-                #reasoning="fast", # not supported for qwen
+                temperature=self.temperature,
+                top_p=self.top_p,
+                max_tokens=self.max_tokens,
+                frequency_penalty=self.frequency_penalty,
+                presence_penalty=self.presence_penalty,
             ),
             tools=[ArxivPaperTool(download_pdfs = True, save_dir = self.pdfSaveDir, use_title_as_filename = True)] # allows the agent to acces arxiv papers
         )

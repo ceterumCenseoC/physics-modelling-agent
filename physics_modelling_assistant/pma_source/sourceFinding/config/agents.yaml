@@ -1,6 +1,6 @@
 source_gatherer:
   role: >
-    {topic} sources finder
+    sources finder
   goal: >
     Use the arxiv paper tool to find papers on {aim}.
     The papers should contain information to allow building a model for: {aim}.

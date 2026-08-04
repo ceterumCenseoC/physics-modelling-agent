@@ -25,13 +25,14 @@ class ModellerCrew():
 
         self.verbose = True
         self.allow_delegation = False
-        self.temperature = 0.0
-        self.top_p = 3
-        self.top_k = 3
-        self.frequency_penalty = 0
-        self.presence_penalty = 0
         self.max_iter = 1
+
+        self.temperature = 1.0
+        self.top_p = 0.95
         self.max_tokens = 120_000
+        self.frequency_penalty = 0 # parameter not used; set to default
+        self.presence_penalty = 0 # parameter not used; set to default
+        
         self.async_execution = False
 
     # Learn more about YAML configuration files here:
@@ -47,19 +48,17 @@ class ModellerCrew():
             config=self.agents_config['information_extractor'], # type: ignore[index]
             verbose=self.verbose,
             allow_delegation=self.allow_delegation,
-            temperature=self.temperature,
-            top_p=self.top_p,
-            top_k=self.top_k,
-            max_tokens=self.max_tokens,
-            frequency_penalty=self.frequency_penalty,
-            presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
+
             llm=LLM(
                 model = "qwen3.6-27b",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
-                max_tokens=8000,
-                #type="chat-completions"
+                temperature=self.temperature,
+                top_p=self.top_p,
+                max_tokens=self.max_tokens,
+                frequency_penalty=self.frequency_penalty,
+                presence_penalty=self.presence_penalty,
             ),
             tools=[PDFReader(pdf_save_dir=self.pdfSaveDir)] # allows the agent to read pdfs
         )
@@ -68,21 +67,19 @@ class ModellerCrew():
     def simple_modeller(self) -> Agent:
         return Agent(
             config=self.agents_config['simple_modeller'], # type: ignore[index]
-            verbose=True,
+            verbose=self.verbose,
             allow_delegation=self.allow_delegation,
-            temperature= 0.2, # allow for some creativity to perhaps correct inconsistencies in the extracted information,
-            top_p=self.top_p,
-            top_k=self.top_k,
-            frequency_penalty=self.frequency_penalty,
-            presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
+
             llm=LLM(
-                model = "qwen3.5-122b-a10b",
+                model = "qwen3.5-397b-a17b", #qwen3.5-397b-a17b
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
+                temperature= self.temperature, # allow for some creativity to perhaps correct inconsistencies in the extracted information,
+                top_p=self.top_p,
                 max_tokens=self.max_tokens,
-                #reasoning="deep", # for better reasoning capabilities; should be supported for deepseek
-                #type="chat-completions"
+                frequency_penalty=self.frequency_penalty,
+                presence_penalty=self.presence_penalty,
             ),
             #tools=[FileReadTool(file_path='../..runOutputs/information.md')] # for the simple modeller we currently dont see a need for tools, but we can easily add some if needed
         )
@@ -91,19 +88,19 @@ class ModellerCrew():
     def unit_checker(self) -> Agent:
         return Agent(
             config=self.agents_config['unit_checker'], # type: ignore[index]
-            verbose= True,
+            verbose= self.verbose,
             allow_delegation=self.allow_delegation,
-            temperature= 0.2, # to make transition between si units and not si units
-            top_p=self.top_p,
-            top_k=self.top_k,
-            frequency_penalty=self.frequency_penalty,
-            presence_penalty=self.presence_penalty,
-            max_iter= 10, # to allow the tool to be called on multiple formulas
+
+            max_iter= self.max_iter, # to allow the tool to be called on multiple formulas
             llm=LLM(
-                model = "qwen3.5-122b-a10b", # needed because we want to read pdf's
+                model = "qwen3.5-397b-a17b", # needed because we want to read pdf's 'qwen3.5-397b-a17b
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
+                temperature= self.temperature, # to make transition between si units and not si units
+                top_p=self.top_p,
                 max_tokens=self.max_tokens,
+                frequency_penalty=self.frequency_penalty,
+                presence_penalty=self.presence_penalty,
             ),
             tools=[DimensionalAnalysis()] # allows the agent to perform dimensional analysis on equations
         )
@@ -112,20 +109,18 @@ class ModellerCrew():
     def paramter_suggester(self) -> Agent:
         return Agent(
             config=self.agents_config['paramter_suggester'], # type: ignore[index]
-            verbose= True,
+            verbose= self.verbose,
             allow_delegation=self.allow_delegation,
-            temperature=self.temperature,
-            top_p=self.top_p,
-            top_k=self.top_k,
-            frequency_penalty=self.frequency_penalty,
-            presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
             llm=LLM(
-                model = "qwen3.5-122b-a10b", # needed because we want to read pdf's
+                model = "qwen3.5-397b-a17b", # needed because we want to read pdf's qwen3.5-397b-a17b
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
+                temperature=self.temperature,
+                top_p=self.top_p,
                 max_tokens=self.max_tokens,
-                #type="chat-completions"
+                frequency_penalty=self.frequency_penalty,
+                presence_penalty=self.presence_penalty,
             )
         )
     
@@ -135,17 +130,16 @@ class ModellerCrew():
             config=self.agents_config['simulation_physician'], # type: ignore[index]
             verbose=self.verbose,
             allow_delegation=self.allow_delegation,
-            temperature=self.temperature, # just coding
-            top_p=self.top_p,
-            top_k=self.top_k,
-            frequency_penalty=self.frequency_penalty,
-            presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
             llm=LLM(
-                model = "glm-4.7",
+                model = "glm-4.7", # needed because we want to read pdf's
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
+                temperature=self.temperature, # just coding
+                top_p=self.top_p,
                 max_tokens=self.max_tokens,
+                frequency_penalty=self.frequency_penalty,
+                presence_penalty=self.presence_penalty,
             )
         )
     
@@ -155,22 +149,39 @@ class ModellerCrew():
         return Agent(
             config=self.agents_config['simulation_correcter'], # type: ignore[index]
             verbose=self.verbose,
-            allow_delegation=self.allow_delegation, # just correct
-            temperature=self.temperature,
-            top_p=self.top_p,
-            top_k=self.top_k,
-            frequency_penalty=self.frequency_penalty,
-            presence_penalty=self.presence_penalty,
+            allow_delegation=self.allow_delegation,
             max_iter=self.max_iter,
             llm=LLM(
                 model = "glm-4.7",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
+                temperature=self.temperature,
+                top_p=self.top_p,
                 max_tokens=self.max_tokens,
-                #type="chat-completions"
+                frequency_penalty=self.frequency_penalty,
+                presence_penalty=self.presence_penalty,
             ),
             allow_code_execution=True
             #tools = [CodeInterpreterTool()]
+        )
+
+    @agent
+    def final_outputer(self) -> Agent:
+        return Agent(
+            config=self.agents_config['final_outputer'], # type: ignore[index]
+            verbose=self.verbose,
+            allow_delegation=self.allow_delegation,
+            max_iter=self.max_iter,
+            llm=LLM(
+                model = "qwen3.5-397b-a17b", # scored best on logic and critpt; qwen3.5-397b-a17b
+                base_url="https://chat-ai.academiccloud.de/v1",
+                api_key=os.getenv("OPENAI_API_KEY"),
+                temperature=self.temperature,
+                top_p=self.top_p,
+                max_tokens=self.max_tokens,
+                frequency_penalty=self.frequency_penalty,
+                presence_penalty=self.presence_penalty,
+            )
         )
 
     # To learn more about structured task outputs,
@@ -229,6 +240,15 @@ class ModellerCrew():
             markdown=False,
             async_execution=self.async_execution,
             output_file=self.outputDir + 'simulation_correction' + '.py'
+        )
+    
+    @task
+    def final_output_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['final_output_task'], # type: ignore[index]
+            markdown=False,
+            async_execution=self.async_execution,
+            output_file=self.outputDir + 'final_output' + '.json'
         )
 
     @crew
