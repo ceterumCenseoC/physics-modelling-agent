@@ -248,7 +248,7 @@ def generation_only_scorer(output_dir=None, evaluate_online=False, server_url=No
     return score
 
 
-def critpt_generate(
+def critpt_generate( #I
     reader_paths,
     output_dir_prefix=None,
     use_golden_for_prev_steps=None,

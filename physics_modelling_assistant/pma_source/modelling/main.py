@@ -11,7 +11,7 @@ warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 # Replace with inputs you want to test with, it will automatically
 # interpolate any tasks and agents information
 
-def run_crew_modelling(inputs : dict, outputDir : str, pdfSaveDir : str):
+def run_crew_modelling(inputs : dict, outputDir : str, pdfSaveDir : str, temperature: float, top_p: float):
     """
     Run the crew.
     """
@@ -28,7 +28,7 @@ def run_crew_modelling(inputs : dict, outputDir : str, pdfSaveDir : str):
         os.environ["CREWAI_TOOL_CALL_PARSER"] = "true"
         
         # crew, agent, task initialization, nothing too special, defines sync or async execution
-        modeller = ModellerCrew(outputDir = outputDir, pdfSaveDir = pdfSaveDir)
+        modeller = ModellerCrew(outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p)
         # run the crew
         fullResult = modeller.crew().kickoff(inputs=inputs)
     except Exception as e:
@@ -36,40 +36,40 @@ def run_crew_modelling(inputs : dict, outputDir : str, pdfSaveDir : str):
 
     return fullResult
 
-def train(inputs : dict, outputDir : str, pdfSaveDir : str):
+def train(inputs : dict, outputDir : str, pdfSaveDir : str, temperature: float, top_p: float):
     """
     Train the crew for a given number of iterations.
     """
     inputs = inputs
     try:
-        ModellerCrew(outputDir = outputDir, pdfSaveDir = pdfSaveDir).crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
+        ModellerCrew(outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p).crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while training the crew: {e}")
 
-def replay(outputDir : str, pdfSaveDir : str):
+def replay(outputDir : str, pdfSaveDir : str, temperature: float, top_p: float):
     """
     Replay the crew execution from a specific task.
     """
     try:
-        ModellerCrew(outputDir = outputDir, pdfSaveDir = pdfSaveDir).crew().replay(task_id=sys.argv[1])
+        ModellerCrew(outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p).crew().replay(task_id=sys.argv[1])
 
     except Exception as e:
         raise Exception(f"An error occurred while replaying the crew: {e}")
 
-def test(inputs : dict, outputDir : str, pdfSaveDir : str):
+def test(inputs : dict, outputDir : str, pdfSaveDir : str, temperature: float, top_p: float):
     """
     Test the crew execution and returns the results.
     """
     inputs = inputs
 
     try:
-        ModellerCrew(outputDir = outputDir, pdfSaveDir = pdfSaveDir).crew().test(n_iterations=int(sys.argv[1]), eval_llm=sys.argv[2], inputs=inputs)
+        ModellerCrew(outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p).crew().test(n_iterations=int(sys.argv[1]), eval_llm=sys.argv[2], inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while testing the crew: {e}")
 
-def run_with_trigger(inputs : dict, outputDir : str, pdfSaveDir : str):
+def run_with_trigger(inputs : dict, outputDir : str, pdfSaveDir : str, temperature: float, top_p: float):
     """
     Run the crew with trigger payload.
     """
@@ -86,7 +86,7 @@ def run_with_trigger(inputs : dict, outputDir : str, pdfSaveDir : str):
     inputs = inputs
 
     try:
-        result = ModellerCrew(outputDir = outputDir, pdfSaveDir = pdfSaveDir).crew().kickoff(inputs=inputs)
+        result = ModellerCrew(outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p).crew().kickoff(inputs=inputs)
         return result
     except Exception as e:
         raise Exception(f"An error occurred while running the crew with trigger: {e}")

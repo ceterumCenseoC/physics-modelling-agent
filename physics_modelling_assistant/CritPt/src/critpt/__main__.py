@@ -33,8 +33,8 @@ def main():
             # Remove 'generate' from args and run generation
             sys.argv.pop(1)
 
-            from inspect_ai import eval as inspect_eval
-            from critpt.critpt_generate import critpt_generate
+            from inspect_ai import eval as inspect_eval #II
+            from critpt.critpt_generate import critpt_generate #I
 
             # Parse args, split them by '=' and convert into dictionary
             kwargs = {}

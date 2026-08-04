@@ -64,13 +64,22 @@ class PMAModelAPI(ModelAPI):
 
     async def generate(self, input, tools, tool_choice, config):
         prompt = self.convert_messages_to_prompt(input)
-        payload = json.dumps({"prompt": prompt})
+        temperature = getattr(config, "temperature", 1.0) # default values that don't modify anything
+        top_p = getattr(config, "top_p", 1.0)
+        max_tokens = getattr(config, "max_tokens", 250_000)
+        payload = json.dumps(
+                                {
+                                    "prompt": prompt,
+                                    "temperature": temperature,
+                                    "top_p": top_p,
+                                    "max_tokens": max_tokens,
+                                    "versionNr": 1,
+                                    "outputDir": "./critPt/eval/"
+                                }
+                            )
 
         # location of the execution srcipts
         python_exe, cli_script, pma_root = self.resolve_pma_paths()
-        print(f"Using Python executable: {python_exe}")
-        print(f"Using CLI script: {cli_script}")
-        print(f"Using PMA root directory: {pma_root}")
 
         # Spawn pma_source subprocess
         proc = await asyncio.create_subprocess_exec(

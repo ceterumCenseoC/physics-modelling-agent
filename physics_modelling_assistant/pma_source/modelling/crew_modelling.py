@@ -19,19 +19,17 @@ class ModellerCrew():
 
     agents: list[BaseAgent]
     tasks: list[Task]
-    def __init__(self, outputDir: str, pdfSaveDir: str):
+    def __init__(self, outputDir: str, pdfSaveDir: str, temperature: float = 0.95, top_p: float = 0.8):
         self.outputDir = outputDir
         self.pdfSaveDir = pdfSaveDir
 
         self.verbose = True
         self.allow_delegation = False
-        self.temperature = 0.0
-        self.top_p = 3
-        self.top_k = 3
+        self.temperature = temperature
+        self.top_p = top_p
         self.frequency_penalty = 0
         self.presence_penalty = 0
         self.max_iter = 1
-
         self.additional_params = {
             
         }
@@ -53,7 +51,6 @@ class ModellerCrew():
             allow_delegation=self.allow_delegation,
             temperature=self.temperature,
             top_p=self.top_p,
-            top_k=self.top_k,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
@@ -73,14 +70,13 @@ class ModellerCrew():
             config=self.agents_config['simple_modeller'], # type: ignore[index]
             verbose=True,
             allow_delegation=self.allow_delegation,
-            temperature= 0.2, # allow for some creativity to perhaps correct inconsistencies in the extracted information,
+            temperature= self.temperature, # allow for some creativity to perhaps correct inconsistencies in the extracted information,
             top_p=self.top_p,
-            top_k=self.top_k,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
             llm=LLM(
-                model = "qwen3.5-397b-a17b",
+                model = "qwen3.6-27b", #qwen3.5-397b-a17b
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 additional_params = self.additional_params,
@@ -96,14 +92,13 @@ class ModellerCrew():
             config=self.agents_config['unit_checker'], # type: ignore[index]
             verbose= True,
             allow_delegation=self.allow_delegation,
-            temperature= 0.2, # to make transition between si units and not si units
+            temperature= self.temperature, # to make transition between si units and not si units
             top_p=self.top_p,
-            top_k=self.top_k,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
             max_iter= 10, # to allow the tool to be called on multiple formulas
             llm=LLM(
-                model = "qwen3.5-397b-a17b", # needed because we want to read pdf's
+                model = "qwen3.6-27b", # needed because we want to read pdf's 'qwen3.5-397b-a17b
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 additional_params = self.additional_params,
@@ -119,12 +114,11 @@ class ModellerCrew():
             allow_delegation=self.allow_delegation,
             temperature=self.temperature,
             top_p=self.top_p,
-            top_k=self.top_k,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
             llm=LLM(
-                model = "qwen3.5-397b-a17b", # needed because we want to read pdf's
+                model = "qwen3.6-27b", # needed because we want to read pdf's qwen3.5-397b-a17b
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 additional_params = self.additional_params,
@@ -140,7 +134,6 @@ class ModellerCrew():
             allow_delegation=self.allow_delegation,
             temperature=self.temperature, # just coding
             top_p=self.top_p,
-            top_k=self.top_k,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
@@ -161,7 +154,6 @@ class ModellerCrew():
             allow_delegation=self.allow_delegation, # just correct
             temperature=self.temperature,
             top_p=self.top_p,
-            top_k=self.top_k,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
@@ -184,12 +176,11 @@ class ModellerCrew():
             allow_delegation=self.allow_delegation,
             temperature=self.temperature,
             top_p=self.top_p,
-            top_k=self.top_k,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
             llm=LLM(
-                model = "qwen3.5-397b-a17b", # needed because we want to read pdf's
+                model = "qwen3.6-27b", # needed because we want to read pdf's qwen3.5-397b-a17b
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 additional_params = self.additional_params,

@@ -16,13 +16,12 @@ python -m venv .venv
 # install necessary packages
 # the requirements of CritPt
 pip install -r .\requirements.txt
-# a .config is needed specifying hwo the model should be run
-CritPt/.config/pma.json
 # install all the content inside the CritPt dir to the venv # needs to be repeated if changes where made in the directory
 pip install -e .
 # the pma containing the physics modelling assistant's interface to CritPt; it needs to be installed into CritPt's venv # needs to be repeated if changes where made in the directory
 pip install -e ../pma
-
+# a .config is needed specifying hwo the model should be run
+CritPt/.config/pma.json # is on git, so it will be there automatically
 
 _setup for pma
 # inside the pma
@@ -39,6 +38,8 @@ cli.py
 python -m venv .venv
 # activate the venv
 .\.venv\Scripts\Activate.ps1
+# install the requirements
+pip install -r requirements.txt
 # module needs to be installed into the active venv
 pip install -e .
 

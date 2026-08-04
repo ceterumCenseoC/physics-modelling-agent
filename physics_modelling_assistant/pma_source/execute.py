@@ -27,36 +27,36 @@ def listModels() -> list:
     return modelList
 
 class Physics_Modelling_Assistant:
-    def findPapers(self, topic : str, aim : str, outputDir : str, pdfSaveDir : str):
+    def findPapers(self, topic : str, aim : str, outputDir : str, pdfSaveDir : str, temperature: float, top_p: float):
         inputs = {
             'topic': topic,
             'aim': aim
         }
-        result = run_crew_paperFinder(inputs = inputs, outputDir = outputDir, pdfSaveDir = pdfSaveDir)
+        result = run_crew_paperFinder(inputs = inputs, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p)
         return result
 
-    def buildModel(self, topic : str, aim : str, outputDir : str, pdfSaveDir : str, previous_output : str):
+    def buildModel(self, topic : str, aim : str, outputDir : str, pdfSaveDir : str, previous_output : str, temperature: float, top_p: float):
         inputs = {
             'topic': topic,
             'aim': aim,
             'previous_output': previous_output
         }
-        result = run_crew_modelling(inputs = inputs, outputDir = outputDir, pdfSaveDir = pdfSaveDir)
+        result = run_crew_modelling(inputs = inputs, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p)
         return result
 
-    def findAndBuild(self, topic : str, aim : str, outputDir : str, pdfSaveDir : str):
+    def findAndBuild(self, topic : str, aim : str, outputDir : str, pdfSaveDir : str, temperature: float, top_p: float):
         inputs = {
             'topic': topic,
             'aim': aim
         }
-        result = run_crew_paperFinder(inputs = inputs, outputDir = outputDir, pdfSaveDir = pdfSaveDir)
+        result = run_crew_paperFinder(inputs = inputs, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p)
         inputs2 = {
             'topic': topic,
             'aim': aim,
             'previous_output': result.raw
         }
         outputDir = outputDir +  f"/version_1/"
-        result2 = run_crew_modelling(inputs = inputs2, outputDir = outputDir, pdfSaveDir = pdfSaveDir)
+        result2 = run_crew_modelling(inputs = inputs2, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p)
         return result, result2
 
     def execute(self):
@@ -74,19 +74,21 @@ class Physics_Modelling_Assistant:
         outputDir = f"./partialExecutionOutputs/runNr_{outputNr}/"
         pdfSaveDir = f"./partialExecutionOutputs/runNr_{outputNr}/pdfs"
 
-        resultPapers = self.findPapers(topic = topic, aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir)
+        resultPapers = self.findPapers(topic = topic, aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = 0.95, top_p = 0.8)
         """ with open(f"{outputDir}/result_papers.txt", "w") as f:
             f.write(resultPapers.raw)
         previous_output = resultPapers.raw """
         previous_output = None
         
         versionNr = 9 # CHANGE THIS NUMBER WHEN YOU WANT TO KEEP THE PDF'S AND CHANGE THE MODELLING CREW
-        self.buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
+        self.buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output, temperature = 0.95, top_p = 0.8)
         """
         versionNr += 1
-        buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
+        self.buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output, temperature = 0.95, top_p = 0.8)
+        versionNr += 1
+        self.buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output, temperature = 0.95, top_p = 0.8)
         versionNr += 2
-        buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
+        self.buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output, temperature = 0.95, top_p = 0.8)
         """
 
     def convertToDict(self, inStr : str) -> dict:
@@ -95,12 +97,12 @@ class Physics_Modelling_Assistant:
         """
         return json.loads(inStr)    
 
-    def executeInterface(self, topic : str, aim : str, outputDir : str, pdfSaveDir : str, versionNr : int) -> str:
+    def executeInterface(self, topic : str, aim : str, outputDir : str, pdfSaveDir : str, versionNr : int, temperature: float, top_p: float) -> str:
         """
         this method allows for another programm to access and run the crew. Necessary for evaluation
         """
         print("Finding papers")
-        resultPapers = self.findPapers(topic = topic, aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir)
+        resultPapers = self.findPapers(topic = topic, aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p)
         """ with open(f"{outputDir}/result_papers.txt", "w") as f:
             f.write(resultPapers.raw)
         """
@@ -108,7 +110,7 @@ class Physics_Modelling_Assistant:
             previous_output = resultPapers.raw"""
         previous_output = None
         print("Building model")
-        resultModel = self.buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output)
+        resultModel = self.buildModel(topic = topic, aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output, temperature = temperature, top_p = top_p)
         return resultModel.raw # only a string 
 
 ########################################################

@@ -17,15 +17,14 @@ class PaperFinderCrew():
 
     agents: list[BaseAgent]
     tasks: list[Task]
-    def __init__(self, outputDir: str, pdfSaveDir: str):
+    def __init__(self, outputDir: str, pdfSaveDir: str, temperature: float, top_p: float):
         self.outputDir = outputDir
         self.pdfSaveDir = pdfSaveDir
+        self.temperature = temperature
+        self.top_p = top_p
 
         self.verbose = True
         self.allow_delegation = False
-        self.temperature = 0.0
-        self.top_p = 3
-        self.top_k = 3
         self.frequency_penalty = 0
         self.presence_penalty = 0
         self.max_iter = 1
@@ -50,7 +49,6 @@ class PaperFinderCrew():
             allow_delegation=self.allow_delegation,
             temperature=self.temperature,
             top_p=self.top_p,
-            top_k=self.top_k,
             frequency_penalty=self.frequency_penalty,
             presence_penalty=self.presence_penalty,
             max_iter=self.max_iter,
