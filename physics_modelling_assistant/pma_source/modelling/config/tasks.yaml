@@ -7,18 +7,18 @@ extraction_task:
     MARKDOWN format with $...$ and $$...$$.
   agent: information_extractor
 
-simple_modelling_task:
+modelling_task:
   description: >
     create a model that accomplishes: {aim}
     give a mathematical description and explain your steps.
   expected_output: >
     A complete matematical description with textual explainations.
     MARKDOWN format with $...$ and $$...$$. No code.
-  agent: simple_modeller
+  agent: modeller
 
 unit_checking_task:
   description: >
-    Determine the units of the qunatities used in the formulas.
+    Determine the units of the quantities used in the formulas.
     Perform dimensional analysis on the formulas, state possible tool use and its results.
     Correct the formulas based on the dimensional analysis.
   expected_output: >

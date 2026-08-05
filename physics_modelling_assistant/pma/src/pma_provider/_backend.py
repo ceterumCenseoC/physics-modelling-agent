@@ -1,4 +1,5 @@
 # pma_provider/backend.py
+import os
 import sys
 import json
 import asyncio
@@ -7,7 +8,8 @@ from inspect_ai.model import ModelAPI, ModelOutput, ChatMessage
 
 # Resolve pma_source subprocess path
 class PMAModelAPI(ModelAPI):
-    def convert_messages_to_prompt(self, messages: list[ChatMessage]) -> str:
+    
+    def convert_messages_to_prompt(self, messages: list[ChatMessage]) -> str: #check if this is correct for critpt
         parts = []
         for m in messages:
             role = getattr(m, "role", "user")
@@ -32,10 +34,15 @@ class PMAModelAPI(ModelAPI):
         versionNr = getattr(config, "versionNr", 1)
         outputDir = getattr(config, "outputDir", "./evalOUTPUT/")
         temperature = getattr(config, "temperature", 1.0) # default values that don't modify anything
-        top_p = getattr(config, "top_p", 1.0)
-        max_tokens = getattr(config, "max_tokens", 100_000)
+        top_p = getattr(config, "top_p", 0.95)
+        max_tokens = getattr(config, "max_tokens", 50_000)
         max_iter = getattr(config, "max_iter", 3)
         reasoning = getattr(config, "reasoning", True)
+        max_reasoning_attempts = getattr(config, "max_reasoning_attempts", 3)
+
+        os.makedirs(outputDir, exist_ok=True)
+        with open("." + outputDir + "outputAIM.txt", "w", encoding="utf-8") as f:
+            f.write(aim)
         
         payload = json.dumps(
                                 {
@@ -46,7 +53,8 @@ class PMAModelAPI(ModelAPI):
                                     "top_p": top_p,
                                     "max_tokens": max_tokens,
                                     "max_iter": max_iter,
-                                    "reasoning": reasoning
+                                    "reasoning": reasoning,
+                                    "max_reasoning_attempts": max_reasoning_attempts
                                 }
                             )
 
@@ -67,14 +75,69 @@ class PMAModelAPI(ModelAPI):
         # Send JSON payload
         stdout, stderr = await proc.communicate((payload + "\n").encode())
 
+        text = ""
+        os.makedirs(outputDir, exist_ok=True)
+        with open("." + outputDir + "output.txt", "r", encoding="utf-8") as f:
+            text = f.read()
+        
         if proc.returncode != 0:
-            return ModelOutput(choices=[{"text": f"Error: {stderr.decode()}"}])
-            #raise RuntimeError(stderr.decode())
-
-        resp = json.loads(stdout.decode())
-        text = resp.get("text", "")
-
+            return ModelOutput.from_content( # see inspect_ai/model/_model_output.py for class definition of ModelOutput
+                        model="pma-model",
+                        content=f"failure: {stderr.decode()}"
+                    ) 
+        
         return ModelOutput.from_content( # see inspect_ai/model/_model_output.py for class definition of ModelOutput
             model="pma-model",
             content=text
         ) 
+
+if __name__ == "__main__":
+    # For testing purposes
+    model_api = PMAModelAPI("pma_TEST")
+
+    # Option A: If the library exposes concrete message classes, prefer them.
+    # Try to import the concrete class; if not available, fall back to a simple shim.
+    try:
+        # adjust import path if the real names differ in your version
+        from inspect_ai.model import ChatMessageUser  # or ChatMessageAssistant
+        input_messages = [ChatMessageUser(content="Test aim for physics modelling.")]
+    except Exception:
+        # Fallback shim: a tiny object with the attributes your convert_messages_to_prompt expects
+        class SimpleUserMsg:
+            def __init__(self, content):
+                self.role = "user"
+                self.content = content
+                self.text = content
+
+        input_messages = [SimpleUserMsg("Test aim for physics modelling.")]
+
+    # Build a simple config object or dict. The generate signature expects a GenerateConfig,
+    # but your code uses getattr(config, "..."), so a simple object with attributes works.
+    class SimpleConfig:
+        def __init__(self, **kwargs):
+            for k, v in kwargs.items():
+                setattr(self, k, v)
+
+    config = SimpleConfig(
+        versionNr=1,
+        outputDir="./evalOUTPUT/",
+        temperature=1.0,
+        top_p=1.0,
+        max_tokens=100_000,
+        max_iter=3,
+        reasoning=True,
+        max_reasoning_attempts=3,
+    )
+
+    # generate() is async — run it properly
+    import asyncio
+
+    async def run_test():
+        # tools and tool_choice can be None for this test
+        result = await model_api.generate(input_messages, tools=None, tool_choice=None, config=config)
+        # ModelOutput is a pydantic model; print a compact representation
+        print("ModelOutput:", result)
+
+    asyncio.run(run_test())
+
+        

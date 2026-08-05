@@ -17,7 +17,7 @@ class PaperFinderCrew():
 
     agents: list[BaseAgent]
     tasks: list[Task]
-    def __init__(self, outputDir: str, pdfSaveDir: str, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning : bool):
+    def __init__(self, outputDir: str, pdfSaveDir: str, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning : bool, max_reasoning_attempts: int):
         self.outputDir = outputDir
         self.pdfSaveDir = pdfSaveDir
 
@@ -25,6 +25,7 @@ class PaperFinderCrew():
         self.allow_delegation = False
         self.max_iter = max_iter
         self.reasoning = reasoning
+        self.max_reasoning_attempts = max_reasoning_attempts
 
         self.temperature = temperature
         self.top_p = top_p
@@ -49,6 +50,7 @@ class PaperFinderCrew():
             allow_delegation=self.allow_delegation,
             max_iter=self.max_iter,
             reasoning=self.reasoning,
+            max_reasoning_attempts=self.max_reasoning_attempts,
             llm=LLM(
                 model = "qwen3.6-27b",
                 base_url="https://chat-ai.academiccloud.de/v1",

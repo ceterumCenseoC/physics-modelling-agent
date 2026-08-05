@@ -19,7 +19,7 @@ class ModellerCrew():
 
     agents: list[BaseAgent]
     tasks: list[Task]
-    def __init__(self, outputDir: str, pdfSaveDir: str, temperature : float, top_p: float, max_tokens: int, max_iter : int, reasoning : bool = False,):
+    def __init__(self, outputDir: str, pdfSaveDir: str, temperature : float, top_p: float, max_tokens: int, max_iter : int, reasoning : bool, max_reasoning_attempts : int):
         self.outputDir = outputDir
         self.pdfSaveDir = pdfSaveDir
 
@@ -27,6 +27,7 @@ class ModellerCrew():
         self.allow_delegation = False
         self.max_iter = max_iter
         self.reasoning = reasoning
+        self.max_reasoning_attempts = max_reasoning_attempts
 
         self.temperature = temperature
         self.top_p = top_p
@@ -50,7 +51,8 @@ class ModellerCrew():
             verbose=self.verbose,
             allow_delegation=self.allow_delegation,
             max_iter=self.max_iter,
-            reasoning=False,
+            reasoning=self.reasoning, # to allow the tool to be called on multiple formulas
+            max_reasoning_attempts=self.max_reasoning_attempts, # since reasoning is disabled, this parameter is not used
 
             llm=LLM(
                 model = "qwen3.6-27b",
@@ -66,13 +68,14 @@ class ModellerCrew():
         )
     
     @agent
-    def simple_modeller(self) -> Agent:
+    def modeller(self) -> Agent:
         return Agent(
-            config=self.agents_config['simple_modeller'], # type: ignore[index]
+            config=self.agents_config['modeller'], # type: ignore[index]
             verbose=self.verbose,
             allow_delegation=self.allow_delegation,
             max_iter=self.max_iter,
             reasoning=self.reasoning, # to allow the tool to be called on multiple formulas
+            max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
                 model = "glm-4.7", #qwen3.5-397b-a17b
@@ -95,7 +98,8 @@ class ModellerCrew():
             allow_delegation=self.allow_delegation,
             max_iter=self.max_iter, # to allow the tool to be called on multiple formulas
             reasoning=self.reasoning, # to allow the tool to be called on multiple formulas
-            
+            max_reasoning_attempts=self.max_reasoning_attempts,
+
             llm=LLM(
                 model = "glm-4.7", # needed because we want to read pdf's 'qwen3.5-397b-a17b
                 base_url="https://chat-ai.academiccloud.de/v1",
@@ -117,6 +121,7 @@ class ModellerCrew():
             allow_delegation=self.allow_delegation,
             max_iter=self.max_iter,
             reasoning=self.reasoning, # to allow the tool to be called on multiple formulas
+            max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
                 model = "glm-4.7", # needed because we want to read pdf's qwen3.5-397b-a17b
@@ -138,6 +143,7 @@ class ModellerCrew():
             allow_delegation=self.allow_delegation,
             max_iter=self.max_iter,
             reasoning=self.reasoning, # to allow the tool to be called on multiple formulas
+            max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
                 model = "glm-4.7", # needed because we want to read pdf's
@@ -160,6 +166,7 @@ class ModellerCrew():
             allow_delegation=self.allow_delegation,
             max_iter=self.max_iter,
             reasoning=self.reasoning,
+            max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
                 model = "glm-4.7",
@@ -183,6 +190,7 @@ class ModellerCrew():
             allow_delegation=self.allow_delegation,
             max_iter=self.max_iter,
             reasoning=self.reasoning,
+            max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
                 model = "glm-4.7", # scored best on logic and critpt; qwen3.5-397b-a17b
@@ -210,12 +218,12 @@ class ModellerCrew():
         )
     
     @task
-    def simple_modelling_task(self) -> Task:
+    def modelling_task(self) -> Task:
         return Task(
-            config=self.tasks_config['simple_modelling_task'], # type: ignore[index]
+            config=self.tasks_config['modelling_task'], # type: ignore[index]
             markdown=True,
             async_execution=self.async_execution,
-            output_file=self.outputDir + 'simple_model' + '.md'
+            output_file=self.outputDir + 'model' + '.md'
         )
     
     @task
@@ -260,7 +268,7 @@ class ModellerCrew():
             config=self.tasks_config['final_output_task'], # type: ignore[index]
             markdown=False,
             async_execution=self.async_execution,
-            output_file=self.outputDir + 'final_output' + '.json'
+            output_file=self.outputDir + 'final_output' + '.md'
         )
 
     @crew

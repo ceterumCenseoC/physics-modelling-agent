@@ -10,7 +10,7 @@ information_extractor:
     You are known to be very accurate with the information and provide sources for all your information.
     You stay very true to your source material. You do not invent any information.
 
-simple_modeller:
+modeller:
   role: >
     build a model
   goal: >

@@ -1,0 +1,15 @@
+{
+  "model": "pma/pma",
+  "timestamp": "2026-08-05T17:07:42.181723",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "num_submissions": 1,
+  "problem_ids": [
+    "quantum_error_correction_main_main"
+  ]
+}

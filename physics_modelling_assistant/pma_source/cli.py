@@ -3,48 +3,45 @@ import sys
 import json
 from .execute import Physics_Modelling_Assistant
 
-def main():
+def main(): # this works correctly
     ### Handles passing parameters to the physics modelling assistant during evaluation
     try:
         data = json.load(sys.stdin)
-        aim = data.get("aim", "") # string
-        versionNr = data.get("versionNr", 1) # int
-        outputDir = data.get("outputDir", "./evalOUTPUT/") # string
-        temperature = data.get("temperature", 1.0) # float
-        top_p = data.get("top_p", 1.0) # float
-        max_tokens = data.get("max_tokens", 100_000) # int
-        max_iter = data.get("max_iter", 3) # int
-        reasoning = data.get("reasoning", True) # bool
 
-        # Import crewai inside isolated venv
+        aim = data.get("aim", "no aim provided")
+        versionNr = data.get("versionNr", 1)
+        outputDir = data.get("outputDir", "./evalOUTPUT/")
+        temperature = data.get("temperature", 1.0)
+        top_p = data.get("top_p", 1.0)
+        max_tokens = data.get("max_tokens", 50_000)
+        max_iter = data.get("max_iter", 3)
+        reasoning = data.get("reasoning", True)
+        max_reasoning_attempts = data.get("max_reasoning_attempts", 3)
+
         pma = Physics_Modelling_Assistant()
-        text = pma.executeInterface(aim = aim,
-                                    outputDir = outputDir, 
-                                    pdfSaveDir = outputDir + "pdfs", 
-                                    versionNr = versionNr, 
-                                    temperature = temperature, 
-                                    top_p = top_p, 
-                                    max_tokens = max_tokens,
-                                    max_iter = max_iter,
-                                    reasoning = reasoning)
-
-        json.dump(
-                    {
-                        "status": "ok",
-                        "text": text
-                    }
-                , sys.stdout)
-        sys.stdout.flush()
-
+        text = pma.executeInterface(# for test purposes: pma.executeInterfaceShortcut(; otherwise: pma.executeInterface(
+            aim=aim,
+            outputDir=outputDir,
+            pdfSaveDir=outputDir + "pdfs",
+            versionNr=versionNr,
+            temperature=temperature,
+            top_p=top_p,
+            max_tokens=max_tokens,
+            max_iter=max_iter,
+            reasoning=reasoning,
+            max_reasoning_attempts=max_reasoning_attempts
+        )
+        import os
+        os.makedirs(outputDir, exist_ok=True)
+        with open(outputDir + "output.txt", "w", encoding="utf-8") as f:
+            f.write(text)
+        sys.stdout.flush() # signals to superprocess that output is complete and can be read
     except Exception as e:
+        # Log human-readable error to stderr
         print("ERROR:" + str(e), file=sys.stderr)
-        json.dump(
-                    {
-                        "status": "error",
-                        "text": text,
-                        "error": str(e)
-                    }
-                , sys.stdout)
+
+        with open(outputDir + "output.txt", "w", encoding="utf-8") as f:
+                    f.write(text)
         sys.stdout.flush()
 
 if __name__ == "__main__":
