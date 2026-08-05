@@ -68,9 +68,13 @@ class PMAModelAPI(ModelAPI):
         stdout, stderr = await proc.communicate((payload + "\n").encode())
 
         if proc.returncode != 0:
-            raise RuntimeError(stderr.decode())
+            return ModelOutput(choices=[{"text": f"Error: {stderr.decode()}"}])
+            #raise RuntimeError(stderr.decode())
 
         resp = json.loads(stdout.decode())
         text = resp.get("text", "")
 
-        return ModelOutput(choices=[{"text": text}])
+        return ModelOutput.from_content( # see inspect_ai/model/_model_output.py for class definition of ModelOutput
+            model="pma-model",
+            content=text
+        ) 

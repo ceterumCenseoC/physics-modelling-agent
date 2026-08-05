@@ -428,7 +428,7 @@ listname=Table Index
 	A Language Model is a \enquote{Transformer Language Model}\autocite{zhao2026surveylargelanguagemodels} as described by  \citeauthor{zhao2026surveylargelanguagemodels}. Then a multistep process is used to obtain an output:
 	\begin{enumerate}
 		\item The input text is divided into \glspl{token}, these are small words or parts of words. \autocite{zhao2026surveylargelanguagemodels}
-		\item The input tokens are plugged into a transformation function, which predicts the most likely next token based on its parameters, these include the previously generated \glspl{token}. The number of previous \glspl{token} considered is called context window. \autocite{howLLMwork}
+		\item The input tokens are plugged into a transformation function, which predicts the most likely next token based on its parameters, these include the previously generated \glspl{token}. The number of previous \glspl{token} considered is called \gls{context-window}. \autocite{howLLMwork}
 	\end{enumerate}
 	This results in a set of output \glspl{token} which are a human readable text and provide the most likely output, which ideally is the result desired by the one providing the input. The process of developing a model, which can do the described procedure well enough is a highly complex task and beyond the scope of this Thesis.
 	
@@ -690,7 +690,7 @@ listname=Table Index
 	CrewAI already provides the \enquote{arxiv\_Paper\_Tool} \autocite{crewaiArxivPaperTool} accessing the arXiv-API \autocite{arxiv}. During the development process this tools request repeatedly kept getting denied making it unable to find and download papers from arXiv. As listed in the arXiv-APIs Terms of Use rate limits are enforced so sending too many requests in a short amount of time. Furthermore, web servers will deny repeated request from the same client from the same service \autocite{rechnernetze}. Since the arxiv\_paper\_tool does not implement any strategy for waiting, its requests where eventually blocked by the arXiv-API servers. As a consequence a custom tool was implemented  extending the arxiv\_paper\_tool by implementing an exponential back-off strategy as it is common for modern server requests \autocite{rechnernetze}. Additionally to the exponential waiting the new arxiv\_paper\_tool\_exponential\_backoff adds a small random wait which is common to prevent two clients requesting the same service from waiting for the same amount of time and blocking each others requests repeatability. The tool will find a specified number of papers and download them to a designated directory.
 	
 	\subsubsection{pdf\_reader}
-	In order access the papers downloaded from arXiv a PDF reader tool was developed. It can read all PDF files from the assigned directory, allowing an \gls{Agent} to use the content of the documents. Problems can occur when large or many files are read, the number of \glspl{token} can exceed the context window size \autocite{saiaModels} of the \gls{LLM} is exceeded, causing the \gls{Agent} to fail its task. A \gls{LLM} with a larger context window would allow for more and longer files to be read, among the SAIA models deepSeek V4 Flash has the largest context window allowing for 1 million \glspl{token} \autocite{saiaModels} while the qwen3.6 35B A3B \gls{LLM} has the second largest context window with 262 \glspl{token}.
+	In order access the papers downloaded from arXiv a PDF reader tool was developed. It can read all PDF files from the assigned directory, allowing an \gls{Agent} to use the content of the documents. Problems can occur when large or many files are read, the number of \glspl{token} can exceed the \gls{context-window} size \autocite{saiaModels} of the \gls{LLM} is exceeded, causing the \gls{Agent} to fail its task. A \gls{LLM} with a larger \gls{context-window} would allow for more and longer files to be read, among the SAIA models deepSeek V4 Flash has the largest \gls{context-window} allowing for 1 million \glspl{token} \autocite{saiaModels} while the qwen3.6 35B A3B \gls{LLM} has the second largest \gls{context-window} with 262 \glspl{token}.
 	
 	Since the tool only allows to read files from a hard coded subdirectory this tool is deemed secure to be used outside of a sandbox environment (see \autoref{subsub:tool}).
 	
@@ -700,11 +700,25 @@ listname=Table Index
 	\subsubsection{code execution}
 	As discussed by \citeauthor{sandboxEscape}, designing a secure sandbox is a complex task but necessary if \gls{LLM} generated code should be executed directly. For that reason no \gls{Agent} of the Physics Modelling Assistant uses a code execution tool in this Thesis.
 	
-	\subsection{experimental setup for the pipeline}
+	\subsection{Experimental Setup for the Pipeline}
 	The final system is designed to mirror a simplified research workflow consisting of the finding of relevant information, developing a model based on the knowledge acquired and implementing the model to get an idea of what it predicts. In order to give definitive answers to the questions from benchmarks (see \autoref{sub:eval}), a Task providing a comprehensive answer is run in the end.
 	
 	\subsubsection{Input}
-	The Physics Modelling Assistant receives a single message (a string called aim) as its input. Additional parameters can be set via its interface. The output directory for the files created by the tasks can and should be specified to previous outputs from being overwritten. The Temperature (see \autoref{subsub:softmax}) and the top\_p (see \autoref{subsub:topp}) parameters can be specified to shape the \gls{LLM}s output. 
+	The Physics Modelling Assistant receives a single message (a string called aim) as its input. Additional parameters can be set via its interface. The output directory for the files created by the tasks can and should be specified to previous outputs from being overwritten. The Temperature (see \autoref{subsub:softmax}) and the top\_p (see \autoref{subsub:topp}) parameters can be specified to shape the \gls{LLM}s output. The \textbf{max\_tokens} parameter is set and will be used to control how many \glspl{token} a \gls{LLM} produces. This is done to prevent the \gls{context-window} to be exceeded, causing the \gls{Agent} to fail its Task.
+	
+	Each \gls{Agent} can perform \textbf{reasoning} before it performs its Task. Reasoning causes the \gls{Agent} to create a plan on how to approach the Task before working on it \autocite{crewaiAgentDoc}. An \gls{Agent} can also rerun itself to improve its output if it deems this to be necessary, the maximum amount of iterations is expressed through the \textbf{max\_iter} parameter. 
+	
+	The output directory for the Tasks output files and the PDF downloads can be specified.
+	
+	\subsubsection{Finding Information}
+	
+	\subsubsection{Building the Model}
+	
+	\subsubsection{Implementing the Model}
+	
+	\subsubsection{Giving a final Answer}
+	
+	\subsubsection{Output}
 	
 	
 	Task description; Agent descriptions

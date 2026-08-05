@@ -28,12 +28,24 @@ def main():
                                     max_iter = max_iter,
                                     reasoning = reasoning)
 
-        json.dump({"text": text}, sys.stdout)
+        json.dump(
+                    {
+                        "status": "ok",
+                        "text": text
+                    }
+                , sys.stdout)
         sys.stdout.flush()
 
     except Exception as e:
         print("ERROR:" + str(e), file=sys.stderr)
-        sys.exit(1)
+        json.dump(
+                    {
+                        "status": "error",
+                        "text": text,
+                        "error": str(e)
+                    }
+                , sys.stdout)
+        sys.stdout.flush()
 
 if __name__ == "__main__":
     main()
