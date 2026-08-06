@@ -76,7 +76,7 @@ class PMAModelAPI(ModelAPI):
         stdout, stderr = await proc.communicate((payload + "\n").encode())
 
         text = ""
-        os.makedirs(outputDir, exist_ok=True)
+        os.makedirs("." + outputDir, exist_ok=True)
         with open("." + outputDir + "output.txt", "r", encoding="utf-8") as f:
             text = f.read()
         
