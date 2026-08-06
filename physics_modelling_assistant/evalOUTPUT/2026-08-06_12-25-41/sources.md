@@ -1,0 +1,13 @@
+
+
+# Relevant Sources for Stochastic Bacterial Growth and Cell Size Control
+
+1. **arxivID**: 1611.07989v2 | **Author**: Jie Lin, Ariel Amir | **date**: 2016-11-23 | **url**: https://arxiv.org/pdf/1611.07989v2 | **short summary**: Directly addresses the quantitative relationship between single-cell stochasticity (fluctuating growth rates and division noise) and the asymptotic population growth rate $\Lambda$. Derives how cell-size control mechanisms, generation time correlations, and noise variance impact population-level growth, providing foundational equations for small-noise expansions.
+
+2. **arxivID**: 2401.05193v1 | **Author**: Arthur Genthon, Philipp Thomas | **date**: 2024-01-08 | **url**: https://arxiv.org/pdf/2401.05193v1 | **short summary**: *(Very Recent)* Introduces modern stochastic maps that unify fluctuating single-cell growth rates with size-dependent noise and division rules. Provides analytical frameworks for calculating population growth rates under extrinsic noise and explicitly analyzes the role of the size control parameter $\beta$ and division noise variance $\sigma^2$.
+
+3. **arxivID**: 2209.14683v3 | **Author**: Yaïr Hein, Farshid Jafarpour | **date**: 2022-09-29 | **url**: https://arxiv.org/pdf/2209.14683v3 | **short summary**: Investigates the asymptotic behavior of population growth rate and cell size distribution. Analyzes how continuous fluctuations in growth rates and inheritance mechanisms affect long-term population expansion, offering insights into the decoupling/coupling of $\Lambda$ and size homeostasis under stochastic dynamics.
+
+4. **arxivID**: 1605.03901v2 | **Author**: Ken Yamamoto, Jun-ichi Wakita | **date**: 2016-05-11 | **url**: https://arxiv.org/pdf/1605.03901v2 | **short summary**: Presents a phenomenological stochastic model for bacterial growth with fluctuating growth rates and cell cycles. Offers theoretical tools and master equation approaches to analyze cell-size distributions and population dynamics under multiplicative and additive noise, relevant for deriving $\Lambda$ expansions.
+
+5. **arxivID**: 1712.00194v3 | **Author**: Suckjoon Jun, Fangwei Si, Rami Pugatch, Matthew Scott | **date**: 2017-12-01 | **url**: https://arxiv.org/pdf/1712.00194v3 | **short summary**: Comprehensive review covering fundamental principles of bacterial physiology and cell size control. Discusses the physical and mathematical role of size regulation parameters (like $\beta$), division noise, and stochastic growth processes in determining population fitness, growth rates, and size homeostasis.

@@ -97,6 +97,11 @@ def main():
             print("=" * 70)
             print("✓ Generation complete!")
             print("=" * 70)
+
+            # a nice touch to get notified to discord
+            import requests
+            requests.post(os.getenv("DISCORD_WEBHOOK_URL"), json={"content": "Your Python script has finished!"})
+             
             return
 
     # Show help

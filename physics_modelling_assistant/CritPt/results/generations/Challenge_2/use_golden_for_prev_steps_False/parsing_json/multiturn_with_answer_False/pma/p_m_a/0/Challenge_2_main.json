@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_2_main",
+  "generated_code": "**\n$$\n\\Lambda = \\frac{k_+ \\lambda^+ + k_- \\lambda^-}{k_+ + k_-} \\left[ 1 - \\frac{(1-\\ln 2)(1+\\beta^2)}{2\\beta} \\frac{\\sigma^2}{\\bar{v}_b^2} \\right]\n$$",
+  "model": "pma/pma",
+  "timestamp": "2026-08-06T14:01:00.093275",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "**\n$$\n\\Lambda = \\frac{k_+ \\lambda^+ + k_- \\lambda^-}{k_+ + k_-} \\left[ 1 - \\frac{(1-\\ln 2)(1+\\beta^2)}{2\\beta} \\frac{\\sigma^2}{\\bar{v}_b^2} \\right]\n$$"
+    }
+  ]
+}

@@ -21,13 +21,13 @@ class ArxivToolInput(BaseModel):
         ..., description="Search query for Arxiv, e.g., 'transformer neural network'"
     )
     max_results: int = Field(
-        5, ge=1, le=10, description="Max results to fetch; must be between 1 and 10"
+        5, ge=1, le=6, description="Max results to fetch; must be between 1 and 10"
     )
     max_retries: int = Field(
         5, ge=1, le=10, description="Max retries for API calls; must be between 1 and 10"
     )
     base_delay: float = Field(
-        1.0, ge=4.0, le=10.0, description="Base delay for backoff strategy; must be between 4.0 and 10.0"
+        4.0, ge=4.0, le=10.0, description="Base delay for backoff strategy; must be between 4.0 and 10.0"
     )
 
 
@@ -56,7 +56,7 @@ class ArxivPaperTool(BaseTool):
             )
 
             papers = self.fetch_arxiv_data(args.search_query, args.max_results, args.max_retries, args.base_delay)
-
+            downloaded_pdfs : int = 0
             if self.download_pdfs:
                 save_dir = self._validate_save_path(self.save_dir)
                 for paper in papers:
@@ -72,6 +72,12 @@ class ArxivPaperTool(BaseTool):
                         save_path = Path(save_dir) / filename
 
                         self.download_pdf(paper["pdf_url"], save_path)  # type: ignore[arg-type]
+                        downloaded_pdfs += 1
+                        if downloaded_pdfs >= args.max_results: # if max_results is reached, stop downloading; due to the arxivAPI return, more than max_results papers can be returned
+                            # this will probably cause context window exceeding issues, so we stop downloading after max_results
+                            results = [self._format_paper_result(p) for p in papers]
+                            return "\n\n" + "-" * 80 + "\n\n".join(results)
+                            
                         time.sleep(self.SLEEP_DURATION)
 
             results = [self._format_paper_result(p) for p in papers]

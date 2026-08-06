@@ -41,7 +41,7 @@ class PMAModelAPI(ModelAPI):
         max_reasoning_attempts = getattr(config, "max_reasoning_attempts", 3)
 
         os.makedirs(outputDir, exist_ok=True)
-        with open("." + outputDir + "outputAIM.txt", "w", encoding="utf-8") as f:
+        with open(outputDir + "outputAIM.txt", "w", encoding="utf-8") as f:
             f.write(aim)
         
         payload = json.dumps(

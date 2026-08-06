@@ -1,5 +1,6 @@
 import json # use for converting raw output of the crew to a dictionary
-from datetime import datetime # to track how long execution takes
+from datetime import datetime
+import os # to track how long execution takes
 
 from .sourceFinding.main import run_crew_paperFinder
 from .modelling.main import run_crew_modelling
@@ -95,6 +96,8 @@ class Physics_Modelling_Assistant:
         print(f"Execution took {finalTime - startTime} time.")
         print(type(resultModel))
         print(resultModel.raw) # only a string
+        import requests
+        requests.post(os.getenv("DISCORD_WEBHOOK_URL"), json={"content": "Your Python script has finished!"})
 
     def convertToDict(self, inStr : str) -> dict:
         """
