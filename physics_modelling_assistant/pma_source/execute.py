@@ -118,7 +118,7 @@ class Physics_Modelling_Assistant:
         print("Finding papers")
         # paper finder uses no reasoning, because it is not necessary to reason about the papers, but only to find them
 
-        resultPapers = self.findPapers(aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = False, max_reasoning_attempts = 1)
+        resultPapers = self.findPapers(aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = 1, reasoning = False, max_reasoning_attempts = 1)
         """ with open(f"{outputDir}/result_papers.txt", "w") as f:
             f.write(resultPapers.raw)
         """

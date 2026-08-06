@@ -5,6 +5,7 @@ import json
 import asyncio
 from pathlib import Path
 from inspect_ai.model import ModelAPI, ModelOutput, ChatMessage
+import uuid
 
 # Resolve pma_source subprocess path
 class PMAModelAPI(ModelAPI):
@@ -30,6 +31,8 @@ class PMAModelAPI(ModelAPI):
         return python_exe, cli_script, pma_root
 
     async def generate(self, input, tools, tool_choice, config):
+        
+        problem_id = getattr(config, "problem_id", str(uuid.uuid4()))  # Generate a unique problem_id if not provided
         aim = self.convert_messages_to_prompt(input)
         versionNr = getattr(config, "versionNr", 1)
         outputDir = getattr(config, "outputDir", "./evalOUTPUT/")
@@ -40,12 +43,13 @@ class PMAModelAPI(ModelAPI):
         reasoning = getattr(config, "reasoning", True)
         max_reasoning_attempts = getattr(config, "max_reasoning_attempts", 3)
 
-        os.makedirs(outputDir, exist_ok=True)
-        with open(outputDir + "outputAIM.txt", "w", encoding="utf-8") as f:
-            f.write(aim)
+        os.makedirs("." + outputDir, exist_ok=True)
+        with open("." + outputDir + f"AIM{problem_id}.txt", "w", encoding="utf-8") as f:
+            f.write(str(input) + "\n\n" + str(config)) # write the input messages and the converted aim to a file for debugging
         
         payload = json.dumps(
                                 {
+                                    "problem_id": problem_id,
                                     "aim": aim,
                                     "versionNr": versionNr,
                                     "outputDir": outputDir,
@@ -77,7 +81,7 @@ class PMAModelAPI(ModelAPI):
 
         text = ""
         os.makedirs("." + outputDir, exist_ok=True)
-        with open("." + outputDir + "output.txt", "r", encoding="utf-8") as f:
+        with open("." + outputDir + f"output{problem_id}.txt", "r", encoding="utf-8") as f:
             text = f.read()
         
         if proc.returncode != 0:
@@ -119,14 +123,7 @@ if __name__ == "__main__":
                 setattr(self, k, v)
 
     config = SimpleConfig(
-        versionNr=1,
-        outputDir="./evalOUTPUT/",
-        temperature=1.0,
-        top_p=1.0,
-        max_tokens=100_000,
-        max_iter=3,
-        reasoning=True,
-        max_reasoning_attempts=3,
+        versionNr=1
     )
 
     # generate() is async — run it properly

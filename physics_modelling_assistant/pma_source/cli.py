@@ -8,6 +8,7 @@ def main(): # this works correctly
     try:
         data = json.load(sys.stdin)
 
+        problem_id = data.get("problem_id", "0")
         aim = data.get("aim", "no aim provided")
         versionNr = data.get("versionNr", 1)
         outputDir = data.get("outputDir", "./evalOUTPUT/")
@@ -19,7 +20,7 @@ def main(): # this works correctly
         max_reasoning_attempts = data.get("max_reasoning_attempts", 3)
 
         pma = Physics_Modelling_Assistant()
-        text = pma.executeInterface(# for test purposes: pma.executeInterfaceShortcut(; otherwise: pma.executeInterface(
+        text = pma.executeInterfaceShortcut(# for test purposes: pma.executeInterfaceShortcut(; otherwise: pma.executeInterface(
             aim=aim,
             outputDir=outputDir,
             pdfSaveDir=outputDir + "pdfs",
@@ -33,14 +34,14 @@ def main(): # this works correctly
         )
         import os
         os.makedirs(outputDir, exist_ok=True)
-        with open(outputDir + "output.txt", "w", encoding="utf-8") as f:
+        with open(outputDir + f"output{problem_id}.txt", "w", encoding="utf-8") as f:
             f.write(text)
         sys.stdout.flush() # signals to superprocess that output is complete and can be read
     except Exception as e:
         # Log human-readable error to stderr
         print("ERROR:" + str(e), file=sys.stderr)
 
-        with open(outputDir + "output.txt", "w", encoding="utf-8") as f:
+        with open(outputDir + f"output{problem_id}.txt", "w", encoding="utf-8") as f:
                     f.write(text)
         sys.stdout.flush()
 
