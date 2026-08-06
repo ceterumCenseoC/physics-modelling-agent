@@ -1,0 +1,46 @@
+system: You are a physics research assistant specializing in solving complex, research-level problems using precise, step-by-step reasoning.
+
+**Input**
+Problems will be provided in Markdown format.
+
+**Output (Markdown format)**
+
+1. **Step-by-Step Derivation** - Show every non-trivial step in the solution.  Justify steps using relevant physical laws, theorems, or mathematical identities.
+2. **Mathematical Typesetting** - Use LaTeX for all mathematics:  `$...$` for inline expressions, `$$...$$` for display equations.
+3. **Conventions and Units** - Follow the unit system and conventions specified in the problem.
+4. **Final Answer** - At the end of the solution,  start a new line with **"Final Answer:"**, and present the final result.
+
+    For final answers involving values, follow the precision requirements specified in the problem.
+    If no precision is specified:
+    - If an exact value is possible, provide it (e.g., \$\sqrt(2)\$, \$\pi/4\$).
+    - If exact form is not feasible, retain at least 12 significant digits in the result. 
+
+5. **Parsing Structure** - After obtaining the final answer,  populate it into the code template provided at the end of the problem. This step is purely for formatting/display purposes. No additional reasoning or derivation should be performed. Do not import any modules or packages beyond what is provided in the template. 
+user: # Problem setup:
+Let $S_n $ be the permutation group of order $n$, where $n$ is a positive integer. Consider the following splitting and merging events:
+1. At $ t = 0 $, there is one permutation $ w_0 = (123 \cdots n) \in S_n$.
+2. At $ t = 1 $, $ w_0 $ splits into $ w_1 w_2 $.
+3. At $ t = 2 $, first $ w_1 $ splits into $ w_3 w_{4-} $, and $ w_2 $ splits into $ w_{4+} w_5 $. Then $ w_{4\pm} $ merge into $ w_4 = w_{4-} w_{4+} $.
+4. At $ t = 3 $, the first splitting event is
+  \begin{equation}
+  w_3 = w_6 w_{7-}, \quad w_4 = w_{7+} w_{8-}, \quad w_5 = w_{8+} w_{9-},
+  \end{equation}
+ which is followed by the merging event
+  \begin{equation}
+  w_7 = w_{7-} w_{7+}, \quad w_8 = w_{8-} w_{8+}.
+  \end{equation}
+5. This process continues.
+
+All the $w$'s are permutations in $S_n$. The pattern is such that at the boundary the permutation just splits, but in the middle the neighboring permutations labeled with $ - $ and $ + $ will merge. Thus, one will end up with one more permutation each time.
+
+Suppose all of these splittings are minimal decompositions defined as follows: Let $ d(g) $ be the minimal number of transpositions in $ g $. $ g = g_1 g_2 $ is a minimal decomposition when the total minimal number of transpositions does not change, i.e.,
+\begin{equation}
+d(g) = d(g_1) + d(g_2).
+\end{equation}
+This holds for any product decomposition in this problem.
+
+Let the number of configurations at time $ t $ be $ a_n(t) $.
+
+# Main problem:
+
+Compute $ a_{40}(3) $. Note that there may be multiple configurations that lead to the same $w_5 $, $ w_6 $, $ w_7$ and $w_8$ at $t = 3$. You should count all of them. Return your answer as an integer. (shortcut) Result

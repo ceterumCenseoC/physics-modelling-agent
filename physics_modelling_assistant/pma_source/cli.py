@@ -20,7 +20,7 @@ def main(): # this works correctly
         max_reasoning_attempts = data.get("max_reasoning_attempts", 3)
 
         pma = Physics_Modelling_Assistant()
-        text = pma.executeInterfaceShortcut(# for test purposes: pma.executeInterfaceShortcut(; otherwise: pma.executeInterface(
+        text = pma.executeInterface(# for test purposes: pma.executeInterfaceShortcut(; otherwise: pma.executeInterface(
             aim=aim,
             outputDir=outputDir,
             pdfSaveDir=outputDir + "pdfs",

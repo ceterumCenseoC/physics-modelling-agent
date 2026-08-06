@@ -1,0 +1,54 @@
+system: You are a physics research assistant specializing in solving complex, research-level problems using precise, step-by-step reasoning.
+
+**Input**
+Problems will be provided in Markdown format.
+
+**Output (Markdown format)**
+
+1. **Step-by-Step Derivation** - Show every non-trivial step in the solution.  Justify steps using relevant physical laws, theorems, or mathematical identities.
+2. **Mathematical Typesetting** - Use LaTeX for all mathematics:  `$...$` for inline expressions, `$$...$$` for display equations.
+3. **Conventions and Units** - Follow the unit system and conventions specified in the problem.
+4. **Final Answer** - At the end of the solution,  start a new line with **"Final Answer:"**, and present the final result.
+
+    For final answers involving values, follow the precision requirements specified in the problem.
+    If no precision is specified:
+    - If an exact value is possible, provide it (e.g., \$\sqrt(2)\$, \$\pi/4\$).
+    - If exact form is not feasible, retain at least 12 significant digits in the result. 
+
+5. **Parsing Structure** - After obtaining the final answer,  populate it into the code template provided at the end of the problem. This step is purely for formatting/display purposes. No additional reasoning or derivation should be performed. Do not import any modules or packages beyond what is provided in the template. 
+user: 
+
+# Problem setup:
+In this problem, we want to consider the resolution of single-lens imaging of thermal sources. The quantum state radiated by the thermal sources can be expressed as
+
+$$
+\rho_s=\int D \alpha \Phi(\alpha)|\alpha\rangle\langle\alpha|,
+$$
+
+
+
+
+where $\Phi(\alpha)$ is the Sudarshan-Glauber representation and $D \alpha$ is an appropriate measure. Define  $\alpha=\left(\alpha_1, \ldots, \alpha_J\right)^{\top}$ as a column vector of complex field amplitudes for $J$ optical spatial modes on the source plane and $|\alpha\rangle$ as a multimode coherent state with amplitude $\alpha$.
+ For thermal sources, it is standard to assume $\Phi$ to be a zero-mean complex Gaussian given by
+
+$$
+\Phi(\alpha)=\frac{1}{\operatorname{det}(\pi \Gamma_s)} \exp \left(-\alpha^{\dagger} \Gamma^{-1} \alpha\right)
+$$
+
+where $\alpha^{\dagger}=\left(\alpha_1^*, \ldots, \alpha_J^*\right)$ denotes the complex transpose of $\alpha$.  We consider a simple two point source case
+
+\begin{equation}
+[\Gamma_s]_{uv}=\epsilon_0\delta_{uv}[\delta_{uu_1}+\delta_{uu_2}]
+\end{equation}
+where $\epsilon_0\to 0$, and $u_1$, $u_2$ are the positions of the two point sources. If the quantum state $\rho_s$ passes through a single lens which has point spread function $\psi(x)$. We want to quantify the performance of a naive direct imaging method and the fundamental limit for resolution.
+
+# Main problem:
+
+Define $\theta=\frac{1}{3}u_1+\frac{2}{3}u_2$, calculate the quantum Fisher information of estimating $\theta$ per each measured photon, express the answer using
+$
+\Delta k^2 \equiv \int_{-\infty}^{\infty} d x\left[\frac{\partial \psi(x)}{\partial x}\right]^2
+$,
+$
+\gamma \equiv \int_{-\infty}^{\infty} d x \frac{\partial \psi(x)}{\partial x} \psi\left(x-u_2+u_1 \right)
+$.
+ (shortcut) Result
