@@ -109,8 +109,12 @@ class Physics_Modelling_Assistant:
         """
         this method allows for another programm to access and run the crew. Necessary for evaluation
         """
-        outputDir = outputDir + f"{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}/"
-        pdfSaveDir = pdfSaveDir + f"_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
+        now = datetime.now()
+        ms = int(now.microsecond / 1000)
+        formatted = now.strftime(f"%Y-%m-%d %H:%M:%S.{ms:03d}")
+
+        outputDir = outputDir + f"{formatted}/"
+        pdfSaveDir = pdfSaveDir + f"_{formatted}"
         print("Finding papers")
         # paper finder uses no reasoning, because it is not necessary to reason about the papers, but only to find them
 
