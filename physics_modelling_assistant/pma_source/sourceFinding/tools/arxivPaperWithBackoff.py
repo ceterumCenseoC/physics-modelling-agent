@@ -71,8 +71,9 @@ class ArxivPaperTool(BaseTool):
                         filename = f"{filename_base[:100]}.pdf" # Truncate to 100 chars to avoid filesystem issues (max path length)
                         save_path = Path(save_dir) / filename
 
-                        self.download_pdf(paper["pdf_url"], save_path)  # type: ignore[arg-type]
-                        downloaded_pdfs += 1
+                        success = self.download_pdf(paper["pdf_url"], save_path)  # type: ignore[arg-type]
+                        if success:
+                            downloaded_pdfs += 1
                         if downloaded_pdfs >= args.max_results: # if max_results is reached, stop downloading; due to the arxivAPI return, more than max_results papers can be returned
                             # this will probably cause context window exceeding issues, so we stop downloading after max_results
                             results = [self._format_paper_result(p) for p in papers]
@@ -204,14 +205,21 @@ class ArxivPaperTool(BaseTool):
         save_path.mkdir(parents=True, exist_ok=True)
         return save_path
 
-    def download_pdf(self, pdf_url: str, save_path: str) -> None:
+    def download_pdf(self, pdf_url: str, save_path: str) -> bool:
         try:
             logger.info(f"Downloading PDF from {pdf_url} to {save_path}")
             urllib.request.urlretrieve(pdf_url, str(save_path))  # noqa: S310
             logger.info(f"PDF saved: {save_path}")
+            return True
         except urllib.error.URLError as e:
             logger.error(f"Network error occurred while downloading {pdf_url}: {e}")
-            raise
+            return False
         except OSError as e:
             logger.error(f"File save error for {save_path}: {e}")
-            raise
+            return False
+        except urllib.error.HTTPError as e:
+            logger.error(f"HTTP error occurred while downloading {pdf_url}: {e.code} {e.reason}")
+            return False
+        except Exception as e:
+            logger.error(f"Unexpected error occurred while downloading {pdf_url}: {e}")
+            return False
