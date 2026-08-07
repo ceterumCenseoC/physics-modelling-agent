@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_12_main",
+  "generated_code": "**\n$$ \\exp\\left( i \\frac{2\\pi}{N} k_{12} k_{34} \\right) $$\n\n**References:**\n[1] G. G. Batyrev, A. V. Samsonov, and D. Loss, \"Topological circuits of Majorana and parafermion zero modes,\" *Physical Review B* **100**, 014504 (2019).\n[2] N. Read and E. Rezayi, \"Beyond paired quantum Hall states: Parafermions and incompressible states in the first Landau level,\" *Physical Review B* **59**, 8084 (1999).",
+  "model": "pma/pma",
+  "timestamp": "2026-08-07T12:26:34.701165",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "**\n$$ \\exp\\left( i \\frac{2\\pi}{N} k_{12} k_{34} \\right) $$\n\n**References:**\n[1] G. G. Batyrev, A. V. Samsonov, and D. Loss, \"Topological circuits of Majorana and parafermion zero modes,\" *Physical Review B* **100**, 014504 (2019).\n[2] N. Read and E. Rezayi, \"Beyond paired quantum Hall states: Parafermions and incompressible states in the first Landau level,\" *Physical Review B* **59**, 8084 (1999)."
+    }
+  ]
+}

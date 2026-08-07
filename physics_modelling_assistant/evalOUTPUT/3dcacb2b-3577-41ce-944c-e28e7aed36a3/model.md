@@ -1,0 +1,3 @@
+- **Correction to paramagnetic conductivity along $y$:** $\propto k_F^2$
+- **Quasiparticle scattering rate:** $\propto k_F^2$
+- **Transport scattering rate:** $\propto k_F^0$ (independent of $k_F$)

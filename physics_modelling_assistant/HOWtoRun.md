@@ -65,3 +65,7 @@ powershell -ExecutionPolicy Bypass -File .\runAllSequence.ps1
 chmod +x runAllSequence.sh
 # linux: 2. run the script
 ./runAllSequence.sh
+
+
+# check rate limits
+curl.exe -i -H "Authorization: Bearer 954e6dfb9e860f2c9d208453d0b82271" -H "Content-Type: application/json" https://saia.gwdg.de/v1/chat/completions

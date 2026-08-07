@@ -1,0 +1,1 @@
+$$ \delta_{\min}^{2+2\beta} = \left[ \frac{8\pi t_v E_s^2 L_{X,\mathrm{lim}} (1+z)^{1+\beta}}{f_x \bar{\Delta} (E_p L_{E_p}) m_p \bar{\epsilon}_\Delta \hat{\sigma}_{p\pi} L_s f(\beta)} \right]^{1 + \frac{2}{\beta}} $$

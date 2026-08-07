@@ -1,0 +1,279 @@
+{
+  "artifact_type": "step",
+  "version": 2,
+  "step": "main",
+  "created_at": "2026-08-07T14:09:13.228115+00:00",
+  "prompt": "# Problem setup:\n\nOptimize the Holevo information over cq states $\\chi=\\sum_x p_x|x\\rangle\\langle x|\\otimes\\rho_x$, where\n\\begin{equation}\n\\rho_x=\\left(\\begin{array}{ccc}\n\\gamma_x \\cos ^2 \\theta & 0 & 0 \\\\\n0 & \\left(1-\\gamma_x\\right) \\cos ^2 \\theta & \\sqrt{1-\\gamma_x} \\cos \\theta \\sin \\theta e^{i \\phi_x} \\\\\n0 & \\sqrt{1-\\gamma_x} \\cos \\theta \\sin \\theta e^{-i \\phi_x} & \\sin ^2 \\theta\n\\end{array}\\right),\n\\end{equation}\n$\\{p_x\\}$ is a probability distribution over $x$, and $\\gamma_x$ are all real numbers in $[0,1]$. Assume that $\\cos\\theta\\neq1$.\n\n\n# Main problem:\n\nWrite the maximal value in terms of an optimization $\\max_{x\\in[0,1]} f(x)$, where $f(x)$ depends only on $x$ and nothing else. Find the function form of $f(x)$ explicitly.\n",
+  "chat": [
+    {
+      "role": "system",
+      "contents": [
+        {
+          "content_type": "content",
+          "content_text": "You are a physics research assistant specializing in solving complex, research-level problems using precise, step-by-step reasoning.\n\n**Input**\nProblems will be provided in Markdown format.\n\n**Output (Markdown format)**\n\n1. **Step-by-Step Derivation** - Show every non-trivial step in the solution.  Justify steps using relevant physical laws, theorems, or mathematical identities.\n2. **Mathematical Typesetting** - Use LaTeX for all mathematics:  `$...$` for inline expressions, `$$...$$` for display equations.\n3. **Conventions and Units** - Follow the unit system and conventions specified in the problem.\n4. **Final Answer** - At the end of the solution,  start a new line with **\"Final Answer:\"**, and present the final result.\n\n    For final answers involving values, follow the precision requirements specified in the problem.\n    If no precision is specified:\n    - If an exact value is possible, provide it (e.g., \\$\\sqrt(2)\\$, \\$\\pi/4\\$).\n    - If exact form is not feasible, retain at least 12 significant digits in the result. \n\n5. **Parsing Structure** - After obtaining the final answer,  populate it into the code template provided at the end of the problem. This step is purely for formatting/display purposes. No additional reasoning or derivation should be performed. Do not import any modules or packages beyond what is provided in the template. "
+        }
+      ],
+      "raw": {
+        "id": "DpQE6kAuwwLdBbryEmYVPN",
+        "source": null,
+        "metadata": null
+      }
+    },
+    {
+      "role": "user",
+      "contents": [
+        {
+          "content_type": "content",
+          "content_text": "# Problem setup:\n\nOptimize the Holevo information over cq states $\\chi=\\sum_x p_x|x\\rangle\\langle x|\\otimes\\rho_x$, where\n\\begin{equation}\n\\rho_x=\\left(\\begin{array}{ccc}\n\\gamma_x \\cos ^2 \\theta & 0 & 0 \\\\\n0 & \\left(1-\\gamma_x\\right) \\cos ^2 \\theta & \\sqrt{1-\\gamma_x} \\cos \\theta \\sin \\theta e^{i \\phi_x} \\\\\n0 & \\sqrt{1-\\gamma_x} \\cos \\theta \\sin \\theta e^{-i \\phi_x} & \\sin ^2 \\theta\n\\end{array}\\right),\n\\end{equation}\n$\\{p_x\\}$ is a probability distribution over $x$, and $\\gamma_x$ are all real numbers in $[0,1]$. Assume that $\\cos\\theta\\neq1$.\n\n\n# Main problem:\n\nWrite the maximal value in terms of an optimization $\\max_{x\\in[0,1]} f(x)$, where $f(x)$ depends only on $x$ and nothing else. Find the function form of $f(x)$ explicitly.\n"
+        }
+      ],
+      "raw": {
+        "id": "K6tbqWqMWjvK3SbMsctcpd",
+        "source": null,
+        "metadata": null,
+        "tool_call_id": null
+      }
+    },
+    {
+      "role": "assistant",
+      "contents": [
+        {
+          "content_type": "content",
+          "content_text": "**\n\nThe maximal value is given by the optimization $\\max_{x\\in[0,1]} f(x)$, where the function form of $f(x)$ is:\n$$ f(x) = h(x) - h(x \\cos^2 \\theta) $$\nand $h(u) = -u \\log_2 u - (1-u) \\log_2 (1-u)$ is the binary entropy function.\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.optimize import minimize_scalar\n\ndef binary_entropy(p):\n    \"\"\"\n    Computes the binary entropy h(p) = -p log2(p) - (1-p) log2(1-p).\n    \"\"\"\n    eps = np.finfo(float).eps\n    is_scalar = np.isscalar(p)\n    p_arr = np.array(p) if not is_scalar else p\n    mask = (p_arr > eps) & (p_arr < 1 - eps)\n    h = np.zeros_like(p_arr, dtype=float)\n    p_valid = p_arr[mask]\n    h[mask] = -p_valid * np.log2(p_valid) - (1 - p_valid) * np.log2(1 - p_valid)\n    return h.item() if is_scalar else h\n\ndef objective_function(x, theta):\n    \"\"\"\n    The function f(x) = h(x) - h(x * cos^2(theta)) to be maximized.\n    Negative value returned for minimization.\n    \"\"\"\n    term1 = binary_entropy(x)\n    term2 = binary_entropy(x * np.cos(theta)**2)\n    return -(term1 - term2)\n\ndef solve_holevo_optimization():\n    theta_vals = np.linspace(0, np.pi/4, 200)\n    optimal_x_values = []\n    max_chi_values = []\n    \n    print(f\"{'Theta (rad)':<15} | {'Optimal x':<15} | {'Max Holevo Chi':<15}\")\n    print(\"-\" * 50)\n\n    bounds = (np.finfo(float).eps, 1 - np.finfo(float).eps)\n    \n    for theta in theta_vals:\n        res = minimize_scalar(\n            objective_function, \n            args=(theta,), \n            bounds=bounds, \n            method='bounded'\n        )\n        \n        if res.success:\n            optimal_x = res.x\n            max_chi = -res.fun \n            optimal_x_values.append(optimal_x)\n            max_chi_values.append(max_chi)\n        else:\n            optimal_x_values.append(np.nan)\n            max_chi_values.append(np.nan)\n\n    for i in [0, len(theta_vals)//2, len(theta_vals)-1]:\n        print(f\"{theta_vals[i]:<15.4f} | {optimal_x_values[i]:<15.4f} | {max_chi_values[i]:<15.4f}\")\n\n    plt.figure(figsize=(10, 6))\n    plt.subplot(1, 2, 1)\n    plt.plot(theta_vals, max_chi_values, 'b-', linewidth=2, label=r'$\\chi_{max}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Holevo Information (bits)')\n    plt.title(r'Maximal Holevo Information ($\\theta$)')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.subplot(1, 2, 2)\n    plt.plot(theta_vals, optimal_x_values, 'r-', linewidth=2, label=r'$x_{opt}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Optimal probability $x$')\n    plt.title(r'Optimal $x$ vs $\\theta$')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.tight_layout()\n    plt.savefig('holevo_optimization_results.png')\n    plt.show()\n\n    return theta_vals, optimal_x_values, max_chi_values\n\nif __name__ == \"__main__\":\n    # The model implements the function f(x) = h(x) - h(x * cos^2(theta)).\n    try:\n        thetas, xs, chis = solve_holevo_optimization()\n        print(\"\\nExecution successful. Results plotted.\")\n    except Exception as e:\n        print(f\"\\nAn error occurred during execution: {e}\")\n```"
+        }
+      ],
+      "raw": {
+        "id": "J3zYJbFLfxV4j7pC6sJK5P",
+        "source": "generate",
+        "metadata": null,
+        "tool_calls": null,
+        "model": "pma-model"
+      }
+    }
+  ],
+  "summary": {
+    "completion": "**\n\nThe maximal value is given by the optimization $\\max_{x\\in[0,1]} f(x)$, where the function form of $f(x)$ is:\n$$ f(x) = h(x) - h(x \\cos^2 \\theta) $$\nand $h(u) = -u \\log_2 u - (1-u) \\log_2 (1-u)$ is the binary entropy function.\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.optimize import minimize_scalar\n\ndef binary_entropy(p):\n    \"\"\"\n    Computes the binary entropy h(p) = -p log2(p) - (1-p) log2(1-p).\n    \"\"\"\n    eps = np.finfo(float).eps\n    is_scalar = np.isscalar(p)\n    p_arr = np.array(p) if not is_scalar else p\n    mask = (p_arr > eps) & (p_arr < 1 - eps)\n    h = np.zeros_like(p_arr, dtype=float)\n    p_valid = p_arr[mask]\n    h[mask] = -p_valid * np.log2(p_valid) - (1 - p_valid) * np.log2(1 - p_valid)\n    return h.item() if is_scalar else h\n\ndef objective_function(x, theta):\n    \"\"\"\n    The function f(x) = h(x) - h(x * cos^2(theta)) to be maximized.\n    Negative value returned for minimization.\n    \"\"\"\n    term1 = binary_entropy(x)\n    term2 = binary_entropy(x * np.cos(theta)**2)\n    return -(term1 - term2)\n\ndef solve_holevo_optimization():\n    theta_vals = np.linspace(0, np.pi/4, 200)\n    optimal_x_values = []\n    max_chi_values = []\n    \n    print(f\"{'Theta (rad)':<15} | {'Optimal x':<15} | {'Max Holevo Chi':<15}\")\n    print(\"-\" * 50)\n\n    bounds = (np.finfo(float).eps, 1 - np.finfo(float).eps)\n    \n    for theta in theta_vals:\n        res = minimize_scalar(\n            objective_function, \n            args=(theta,), \n            bounds=bounds, \n            method='bounded'\n        )\n        \n        if res.success:\n            optimal_x = res.x\n            max_chi = -res.fun \n            optimal_x_values.append(optimal_x)\n            max_chi_values.append(max_chi)\n        else:\n            optimal_x_values.append(np.nan)\n            max_chi_values.append(np.nan)\n\n    for i in [0, len(theta_vals)//2, len(theta_vals)-1]:\n        print(f\"{theta_vals[i]:<15.4f} | {optimal_x_values[i]:<15.4f} | {max_chi_values[i]:<15.4f}\")\n\n    plt.figure(figsize=(10, 6))\n    plt.subplot(1, 2, 1)\n    plt.plot(theta_vals, max_chi_values, 'b-', linewidth=2, label=r'$\\chi_{max}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Holevo Information (bits)')\n    plt.title(r'Maximal Holevo Information ($\\theta$)')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.subplot(1, 2, 2)\n    plt.plot(theta_vals, optimal_x_values, 'r-', linewidth=2, label=r'$x_{opt}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Optimal probability $x$')\n    plt.title(r'Optimal $x$ vs $\\theta$')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.tight_layout()\n    plt.savefig('holevo_optimization_results.png')\n    plt.show()\n\n    return theta_vals, optimal_x_values, max_chi_values\n\nif __name__ == \"__main__\":\n    # The model implements the function f(x) = h(x) - h(x * cos^2(theta)).\n    try:\n        thetas, xs, chis = solve_holevo_optimization()\n        print(\"\\nExecution successful. Results plotted.\")\n    except Exception as e:\n        print(f\"\\nAn error occurred during execution: {e}\")\n```"
+  },
+  "inspect": {
+    "processed_state": {
+      "messages": [
+        {
+          "role": "system",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "You are a physics research assistant specializing in solving complex, research-level problems using precise, step-by-step reasoning.\n\n**Input**\nProblems will be provided in Markdown format.\n\n**Output (Markdown format)**\n\n1. **Step-by-Step Derivation** - Show every non-trivial step in the solution.  Justify steps using relevant physical laws, theorems, or mathematical identities.\n2. **Mathematical Typesetting** - Use LaTeX for all mathematics:  `$...$` for inline expressions, `$$...$$` for display equations.\n3. **Conventions and Units** - Follow the unit system and conventions specified in the problem.\n4. **Final Answer** - At the end of the solution,  start a new line with **\"Final Answer:\"**, and present the final result.\n\n    For final answers involving values, follow the precision requirements specified in the problem.\n    If no precision is specified:\n    - If an exact value is possible, provide it (e.g., \\$\\sqrt(2)\\$, \\$\\pi/4\\$).\n    - If exact form is not feasible, retain at least 12 significant digits in the result. \n\n5. **Parsing Structure** - After obtaining the final answer,  populate it into the code template provided at the end of the problem. This step is purely for formatting/display purposes. No additional reasoning or derivation should be performed. Do not import any modules or packages beyond what is provided in the template. "
+            }
+          ],
+          "raw": {
+            "id": "DpQE6kAuwwLdBbryEmYVPN",
+            "source": null,
+            "metadata": null
+          }
+        },
+        {
+          "role": "user",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "# Problem setup:\n\nOptimize the Holevo information over cq states $\\chi=\\sum_x p_x|x\\rangle\\langle x|\\otimes\\rho_x$, where\n\\begin{equation}\n\\rho_x=\\left(\\begin{array}{ccc}\n\\gamma_x \\cos ^2 \\theta & 0 & 0 \\\\\n0 & \\left(1-\\gamma_x\\right) \\cos ^2 \\theta & \\sqrt{1-\\gamma_x} \\cos \\theta \\sin \\theta e^{i \\phi_x} \\\\\n0 & \\sqrt{1-\\gamma_x} \\cos \\theta \\sin \\theta e^{-i \\phi_x} & \\sin ^2 \\theta\n\\end{array}\\right),\n\\end{equation}\n$\\{p_x\\}$ is a probability distribution over $x$, and $\\gamma_x$ are all real numbers in $[0,1]$. Assume that $\\cos\\theta\\neq1$.\n\n\n# Main problem:\n\nWrite the maximal value in terms of an optimization $\\max_{x\\in[0,1]} f(x)$, where $f(x)$ depends only on $x$ and nothing else. Find the function form of $f(x)$ explicitly.\n"
+            }
+          ],
+          "raw": {
+            "id": "K6tbqWqMWjvK3SbMsctcpd",
+            "source": null,
+            "metadata": null,
+            "tool_call_id": null
+          }
+        },
+        {
+          "role": "assistant",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "**\n\nThe maximal value is given by the optimization $\\max_{x\\in[0,1]} f(x)$, where the function form of $f(x)$ is:\n$$ f(x) = h(x) - h(x \\cos^2 \\theta) $$\nand $h(u) = -u \\log_2 u - (1-u) \\log_2 (1-u)$ is the binary entropy function.\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.optimize import minimize_scalar\n\ndef binary_entropy(p):\n    \"\"\"\n    Computes the binary entropy h(p) = -p log2(p) - (1-p) log2(1-p).\n    \"\"\"\n    eps = np.finfo(float).eps\n    is_scalar = np.isscalar(p)\n    p_arr = np.array(p) if not is_scalar else p\n    mask = (p_arr > eps) & (p_arr < 1 - eps)\n    h = np.zeros_like(p_arr, dtype=float)\n    p_valid = p_arr[mask]\n    h[mask] = -p_valid * np.log2(p_valid) - (1 - p_valid) * np.log2(1 - p_valid)\n    return h.item() if is_scalar else h\n\ndef objective_function(x, theta):\n    \"\"\"\n    The function f(x) = h(x) - h(x * cos^2(theta)) to be maximized.\n    Negative value returned for minimization.\n    \"\"\"\n    term1 = binary_entropy(x)\n    term2 = binary_entropy(x * np.cos(theta)**2)\n    return -(term1 - term2)\n\ndef solve_holevo_optimization():\n    theta_vals = np.linspace(0, np.pi/4, 200)\n    optimal_x_values = []\n    max_chi_values = []\n    \n    print(f\"{'Theta (rad)':<15} | {'Optimal x':<15} | {'Max Holevo Chi':<15}\")\n    print(\"-\" * 50)\n\n    bounds = (np.finfo(float).eps, 1 - np.finfo(float).eps)\n    \n    for theta in theta_vals:\n        res = minimize_scalar(\n            objective_function, \n            args=(theta,), \n            bounds=bounds, \n            method='bounded'\n        )\n        \n        if res.success:\n            optimal_x = res.x\n            max_chi = -res.fun \n            optimal_x_values.append(optimal_x)\n            max_chi_values.append(max_chi)\n        else:\n            optimal_x_values.append(np.nan)\n            max_chi_values.append(np.nan)\n\n    for i in [0, len(theta_vals)//2, len(theta_vals)-1]:\n        print(f\"{theta_vals[i]:<15.4f} | {optimal_x_values[i]:<15.4f} | {max_chi_values[i]:<15.4f}\")\n\n    plt.figure(figsize=(10, 6))\n    plt.subplot(1, 2, 1)\n    plt.plot(theta_vals, max_chi_values, 'b-', linewidth=2, label=r'$\\chi_{max}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Holevo Information (bits)')\n    plt.title(r'Maximal Holevo Information ($\\theta$)')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.subplot(1, 2, 2)\n    plt.plot(theta_vals, optimal_x_values, 'r-', linewidth=2, label=r'$x_{opt}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Optimal probability $x$')\n    plt.title(r'Optimal $x$ vs $\\theta$')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.tight_layout()\n    plt.savefig('holevo_optimization_results.png')\n    plt.show()\n\n    return theta_vals, optimal_x_values, max_chi_values\n\nif __name__ == \"__main__\":\n    # The model implements the function f(x) = h(x) - h(x * cos^2(theta)).\n    try:\n        thetas, xs, chis = solve_holevo_optimization()\n        print(\"\\nExecution successful. Results plotted.\")\n    except Exception as e:\n        print(f\"\\nAn error occurred during execution: {e}\")\n```"
+            }
+          ],
+          "raw": {
+            "id": "J3zYJbFLfxV4j7pC6sJK5P",
+            "source": "generate",
+            "metadata": null,
+            "tool_calls": null,
+            "model": "pma-model"
+          }
+        }
+      ],
+      "output": {
+        "model": "pma-model",
+        "choices": [
+          {
+            "message": {
+              "id": "J3zYJbFLfxV4j7pC6sJK5P",
+              "content": "**\n\nThe maximal value is given by the optimization $\\max_{x\\in[0,1]} f(x)$, where the function form of $f(x)$ is:\n$$ f(x) = h(x) - h(x \\cos^2 \\theta) $$\nand $h(u) = -u \\log_2 u - (1-u) \\log_2 (1-u)$ is the binary entropy function.\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.optimize import minimize_scalar\n\ndef binary_entropy(p):\n    \"\"\"\n    Computes the binary entropy h(p) = -p log2(p) - (1-p) log2(1-p).\n    \"\"\"\n    eps = np.finfo(float).eps\n    is_scalar = np.isscalar(p)\n    p_arr = np.array(p) if not is_scalar else p\n    mask = (p_arr > eps) & (p_arr < 1 - eps)\n    h = np.zeros_like(p_arr, dtype=float)\n    p_valid = p_arr[mask]\n    h[mask] = -p_valid * np.log2(p_valid) - (1 - p_valid) * np.log2(1 - p_valid)\n    return h.item() if is_scalar else h\n\ndef objective_function(x, theta):\n    \"\"\"\n    The function f(x) = h(x) - h(x * cos^2(theta)) to be maximized.\n    Negative value returned for minimization.\n    \"\"\"\n    term1 = binary_entropy(x)\n    term2 = binary_entropy(x * np.cos(theta)**2)\n    return -(term1 - term2)\n\ndef solve_holevo_optimization():\n    theta_vals = np.linspace(0, np.pi/4, 200)\n    optimal_x_values = []\n    max_chi_values = []\n    \n    print(f\"{'Theta (rad)':<15} | {'Optimal x':<15} | {'Max Holevo Chi':<15}\")\n    print(\"-\" * 50)\n\n    bounds = (np.finfo(float).eps, 1 - np.finfo(float).eps)\n    \n    for theta in theta_vals:\n        res = minimize_scalar(\n            objective_function, \n            args=(theta,), \n            bounds=bounds, \n            method='bounded'\n        )\n        \n        if res.success:\n            optimal_x = res.x\n            max_chi = -res.fun \n            optimal_x_values.append(optimal_x)\n            max_chi_values.append(max_chi)\n        else:\n            optimal_x_values.append(np.nan)\n            max_chi_values.append(np.nan)\n\n    for i in [0, len(theta_vals)//2, len(theta_vals)-1]:\n        print(f\"{theta_vals[i]:<15.4f} | {optimal_x_values[i]:<15.4f} | {max_chi_values[i]:<15.4f}\")\n\n    plt.figure(figsize=(10, 6))\n    plt.subplot(1, 2, 1)\n    plt.plot(theta_vals, max_chi_values, 'b-', linewidth=2, label=r'$\\chi_{max}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Holevo Information (bits)')\n    plt.title(r'Maximal Holevo Information ($\\theta$)')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.subplot(1, 2, 2)\n    plt.plot(theta_vals, optimal_x_values, 'r-', linewidth=2, label=r'$x_{opt}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Optimal probability $x$')\n    plt.title(r'Optimal $x$ vs $\\theta$')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.tight_layout()\n    plt.savefig('holevo_optimization_results.png')\n    plt.show()\n\n    return theta_vals, optimal_x_values, max_chi_values\n\nif __name__ == \"__main__\":\n    # The model implements the function f(x) = h(x) - h(x * cos^2(theta)).\n    try:\n        thetas, xs, chis = solve_holevo_optimization()\n        print(\"\\nExecution successful. Results plotted.\")\n    except Exception as e:\n        print(f\"\\nAn error occurred during execution: {e}\")\n```",
+              "source": "generate",
+              "metadata": null,
+              "role": "assistant",
+              "tool_calls": null,
+              "model": "pma-model"
+            },
+            "stop_reason": "stop",
+            "stop_details": null,
+            "logprobs": null,
+            "prompt_logprobs": null
+          }
+        ],
+        "completion": "**\n\nThe maximal value is given by the optimization $\\max_{x\\in[0,1]} f(x)$, where the function form of $f(x)$ is:\n$$ f(x) = h(x) - h(x \\cos^2 \\theta) $$\nand $h(u) = -u \\log_2 u - (1-u) \\log_2 (1-u)$ is the binary entropy function.\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.optimize import minimize_scalar\n\ndef binary_entropy(p):\n    \"\"\"\n    Computes the binary entropy h(p) = -p log2(p) - (1-p) log2(1-p).\n    \"\"\"\n    eps = np.finfo(float).eps\n    is_scalar = np.isscalar(p)\n    p_arr = np.array(p) if not is_scalar else p\n    mask = (p_arr > eps) & (p_arr < 1 - eps)\n    h = np.zeros_like(p_arr, dtype=float)\n    p_valid = p_arr[mask]\n    h[mask] = -p_valid * np.log2(p_valid) - (1 - p_valid) * np.log2(1 - p_valid)\n    return h.item() if is_scalar else h\n\ndef objective_function(x, theta):\n    \"\"\"\n    The function f(x) = h(x) - h(x * cos^2(theta)) to be maximized.\n    Negative value returned for minimization.\n    \"\"\"\n    term1 = binary_entropy(x)\n    term2 = binary_entropy(x * np.cos(theta)**2)\n    return -(term1 - term2)\n\ndef solve_holevo_optimization():\n    theta_vals = np.linspace(0, np.pi/4, 200)\n    optimal_x_values = []\n    max_chi_values = []\n    \n    print(f\"{'Theta (rad)':<15} | {'Optimal x':<15} | {'Max Holevo Chi':<15}\")\n    print(\"-\" * 50)\n\n    bounds = (np.finfo(float).eps, 1 - np.finfo(float).eps)\n    \n    for theta in theta_vals:\n        res = minimize_scalar(\n            objective_function, \n            args=(theta,), \n            bounds=bounds, \n            method='bounded'\n        )\n        \n        if res.success:\n            optimal_x = res.x\n            max_chi = -res.fun \n            optimal_x_values.append(optimal_x)\n            max_chi_values.append(max_chi)\n        else:\n            optimal_x_values.append(np.nan)\n            max_chi_values.append(np.nan)\n\n    for i in [0, len(theta_vals)//2, len(theta_vals)-1]:\n        print(f\"{theta_vals[i]:<15.4f} | {optimal_x_values[i]:<15.4f} | {max_chi_values[i]:<15.4f}\")\n\n    plt.figure(figsize=(10, 6))\n    plt.subplot(1, 2, 1)\n    plt.plot(theta_vals, max_chi_values, 'b-', linewidth=2, label=r'$\\chi_{max}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Holevo Information (bits)')\n    plt.title(r'Maximal Holevo Information ($\\theta$)')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.subplot(1, 2, 2)\n    plt.plot(theta_vals, optimal_x_values, 'r-', linewidth=2, label=r'$x_{opt}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Optimal probability $x$')\n    plt.title(r'Optimal $x$ vs $\\theta$')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.tight_layout()\n    plt.savefig('holevo_optimization_results.png')\n    plt.show()\n\n    return theta_vals, optimal_x_values, max_chi_values\n\nif __name__ == \"__main__\":\n    # The model implements the function f(x) = h(x) - h(x * cos^2(theta)).\n    try:\n        thetas, xs, chis = solve_holevo_optimization()\n        print(\"\\nExecution successful. Results plotted.\")\n    except Exception as e:\n        print(f\"\\nAn error occurred during execution: {e}\")\n```",
+        "usage": null,
+        "fallback": null,
+        "time": 2291.5149999999994,
+        "metadata": null,
+        "error": null
+      },
+      "metadata": {
+        "reader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x000001972FA32720>",
+        "loader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x000001972FA32720>",
+        "problem_ids": [
+          "Challenge_22_main"
+        ],
+        "skip_if_exists": false,
+        "skip_if_not_exists": false,
+        "config": {
+          "use_golden_for_prev_steps": false,
+          "parsing": "json",
+          "multiturn_with_answer": false
+        },
+        "output_dir": "C:\\Users\\Janis\\work\\university\\bachelorThesis\\physics-modelling-agent\\physics_modelling_assistant\\CritPt\\results\\generations\\Challenge_22\\use_golden_for_prev_steps_False\\parsing_json\\multiturn_with_answer_False",
+        "model_label": "p_m_a",
+        "tool_label": null,
+        "multiturn_with_answer": false,
+        "use_python": false,
+        "use_web_search": false,
+        "run_main": true,
+        "run_sub": false
+      }
+    },
+    "parsing_state": {
+      "messages": [
+        {
+          "role": "system",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "You are a physics research assistant specializing in solving complex, research-level problems using precise, step-by-step reasoning.\n\n**Input**\nProblems will be provided in Markdown format.\n\n**Output (Markdown format)**\n\n1. **Step-by-Step Derivation** - Show every non-trivial step in the solution.  Justify steps using relevant physical laws, theorems, or mathematical identities.\n2. **Mathematical Typesetting** - Use LaTeX for all mathematics:  `$...$` for inline expressions, `$$...$$` for display equations.\n3. **Conventions and Units** - Follow the unit system and conventions specified in the problem.\n4. **Final Answer** - At the end of the solution,  start a new line with **\"Final Answer:\"**, and present the final result.\n\n    For final answers involving values, follow the precision requirements specified in the problem.\n    If no precision is specified:\n    - If an exact value is possible, provide it (e.g., \\$\\sqrt(2)\\$, \\$\\pi/4\\$).\n    - If exact form is not feasible, retain at least 12 significant digits in the result. \n\n5. **Parsing Structure** - After obtaining the final answer,  populate it into the code template provided at the end of the problem. This step is purely for formatting/display purposes. No additional reasoning or derivation should be performed. Do not import any modules or packages beyond what is provided in the template. "
+            }
+          ],
+          "raw": {
+            "id": "DpQE6kAuwwLdBbryEmYVPN",
+            "source": null,
+            "metadata": null
+          }
+        },
+        {
+          "role": "user",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "# Problem setup:\n\nOptimize the Holevo information over cq states $\\chi=\\sum_x p_x|x\\rangle\\langle x|\\otimes\\rho_x$, where\n\\begin{equation}\n\\rho_x=\\left(\\begin{array}{ccc}\n\\gamma_x \\cos ^2 \\theta & 0 & 0 \\\\\n0 & \\left(1-\\gamma_x\\right) \\cos ^2 \\theta & \\sqrt{1-\\gamma_x} \\cos \\theta \\sin \\theta e^{i \\phi_x} \\\\\n0 & \\sqrt{1-\\gamma_x} \\cos \\theta \\sin \\theta e^{-i \\phi_x} & \\sin ^2 \\theta\n\\end{array}\\right),\n\\end{equation}\n$\\{p_x\\}$ is a probability distribution over $x$, and $\\gamma_x$ are all real numbers in $[0,1]$. Assume that $\\cos\\theta\\neq1$.\n\n\n# Main problem:\n\nWrite the maximal value in terms of an optimization $\\max_{x\\in[0,1]} f(x)$, where $f(x)$ depends only on $x$ and nothing else. Find the function form of $f(x)$ explicitly.\n"
+            }
+          ],
+          "raw": {
+            "id": "K6tbqWqMWjvK3SbMsctcpd",
+            "source": null,
+            "metadata": null,
+            "tool_call_id": null
+          }
+        },
+        {
+          "role": "assistant",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "**\n\nThe maximal value is given by the optimization $\\max_{x\\in[0,1]} f(x)$, where the function form of $f(x)$ is:\n$$ f(x) = h(x) - h(x \\cos^2 \\theta) $$\nand $h(u) = -u \\log_2 u - (1-u) \\log_2 (1-u)$ is the binary entropy function.\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.optimize import minimize_scalar\n\ndef binary_entropy(p):\n    \"\"\"\n    Computes the binary entropy h(p) = -p log2(p) - (1-p) log2(1-p).\n    \"\"\"\n    eps = np.finfo(float).eps\n    is_scalar = np.isscalar(p)\n    p_arr = np.array(p) if not is_scalar else p\n    mask = (p_arr > eps) & (p_arr < 1 - eps)\n    h = np.zeros_like(p_arr, dtype=float)\n    p_valid = p_arr[mask]\n    h[mask] = -p_valid * np.log2(p_valid) - (1 - p_valid) * np.log2(1 - p_valid)\n    return h.item() if is_scalar else h\n\ndef objective_function(x, theta):\n    \"\"\"\n    The function f(x) = h(x) - h(x * cos^2(theta)) to be maximized.\n    Negative value returned for minimization.\n    \"\"\"\n    term1 = binary_entropy(x)\n    term2 = binary_entropy(x * np.cos(theta)**2)\n    return -(term1 - term2)\n\ndef solve_holevo_optimization():\n    theta_vals = np.linspace(0, np.pi/4, 200)\n    optimal_x_values = []\n    max_chi_values = []\n    \n    print(f\"{'Theta (rad)':<15} | {'Optimal x':<15} | {'Max Holevo Chi':<15}\")\n    print(\"-\" * 50)\n\n    bounds = (np.finfo(float).eps, 1 - np.finfo(float).eps)\n    \n    for theta in theta_vals:\n        res = minimize_scalar(\n            objective_function, \n            args=(theta,), \n            bounds=bounds, \n            method='bounded'\n        )\n        \n        if res.success:\n            optimal_x = res.x\n            max_chi = -res.fun \n            optimal_x_values.append(optimal_x)\n            max_chi_values.append(max_chi)\n        else:\n            optimal_x_values.append(np.nan)\n            max_chi_values.append(np.nan)\n\n    for i in [0, len(theta_vals)//2, len(theta_vals)-1]:\n        print(f\"{theta_vals[i]:<15.4f} | {optimal_x_values[i]:<15.4f} | {max_chi_values[i]:<15.4f}\")\n\n    plt.figure(figsize=(10, 6))\n    plt.subplot(1, 2, 1)\n    plt.plot(theta_vals, max_chi_values, 'b-', linewidth=2, label=r'$\\chi_{max}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Holevo Information (bits)')\n    plt.title(r'Maximal Holevo Information ($\\theta$)')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.subplot(1, 2, 2)\n    plt.plot(theta_vals, optimal_x_values, 'r-', linewidth=2, label=r'$x_{opt}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Optimal probability $x$')\n    plt.title(r'Optimal $x$ vs $\\theta$')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.tight_layout()\n    plt.savefig('holevo_optimization_results.png')\n    plt.show()\n\n    return theta_vals, optimal_x_values, max_chi_values\n\nif __name__ == \"__main__\":\n    # The model implements the function f(x) = h(x) - h(x * cos^2(theta)).\n    try:\n        thetas, xs, chis = solve_holevo_optimization()\n        print(\"\\nExecution successful. Results plotted.\")\n    except Exception as e:\n        print(f\"\\nAn error occurred during execution: {e}\")\n```"
+            }
+          ],
+          "raw": {
+            "id": "J3zYJbFLfxV4j7pC6sJK5P",
+            "source": "generate",
+            "metadata": null,
+            "tool_calls": null,
+            "model": "pma-model"
+          }
+        }
+      ],
+      "output": {
+        "model": "pma-model",
+        "choices": [
+          {
+            "message": {
+              "id": "J3zYJbFLfxV4j7pC6sJK5P",
+              "content": "**\n\nThe maximal value is given by the optimization $\\max_{x\\in[0,1]} f(x)$, where the function form of $f(x)$ is:\n$$ f(x) = h(x) - h(x \\cos^2 \\theta) $$\nand $h(u) = -u \\log_2 u - (1-u) \\log_2 (1-u)$ is the binary entropy function.\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.optimize import minimize_scalar\n\ndef binary_entropy(p):\n    \"\"\"\n    Computes the binary entropy h(p) = -p log2(p) - (1-p) log2(1-p).\n    \"\"\"\n    eps = np.finfo(float).eps\n    is_scalar = np.isscalar(p)\n    p_arr = np.array(p) if not is_scalar else p\n    mask = (p_arr > eps) & (p_arr < 1 - eps)\n    h = np.zeros_like(p_arr, dtype=float)\n    p_valid = p_arr[mask]\n    h[mask] = -p_valid * np.log2(p_valid) - (1 - p_valid) * np.log2(1 - p_valid)\n    return h.item() if is_scalar else h\n\ndef objective_function(x, theta):\n    \"\"\"\n    The function f(x) = h(x) - h(x * cos^2(theta)) to be maximized.\n    Negative value returned for minimization.\n    \"\"\"\n    term1 = binary_entropy(x)\n    term2 = binary_entropy(x * np.cos(theta)**2)\n    return -(term1 - term2)\n\ndef solve_holevo_optimization():\n    theta_vals = np.linspace(0, np.pi/4, 200)\n    optimal_x_values = []\n    max_chi_values = []\n    \n    print(f\"{'Theta (rad)':<15} | {'Optimal x':<15} | {'Max Holevo Chi':<15}\")\n    print(\"-\" * 50)\n\n    bounds = (np.finfo(float).eps, 1 - np.finfo(float).eps)\n    \n    for theta in theta_vals:\n        res = minimize_scalar(\n            objective_function, \n            args=(theta,), \n            bounds=bounds, \n            method='bounded'\n        )\n        \n        if res.success:\n            optimal_x = res.x\n            max_chi = -res.fun \n            optimal_x_values.append(optimal_x)\n            max_chi_values.append(max_chi)\n        else:\n            optimal_x_values.append(np.nan)\n            max_chi_values.append(np.nan)\n\n    for i in [0, len(theta_vals)//2, len(theta_vals)-1]:\n        print(f\"{theta_vals[i]:<15.4f} | {optimal_x_values[i]:<15.4f} | {max_chi_values[i]:<15.4f}\")\n\n    plt.figure(figsize=(10, 6))\n    plt.subplot(1, 2, 1)\n    plt.plot(theta_vals, max_chi_values, 'b-', linewidth=2, label=r'$\\chi_{max}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Holevo Information (bits)')\n    plt.title(r'Maximal Holevo Information ($\\theta$)')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.subplot(1, 2, 2)\n    plt.plot(theta_vals, optimal_x_values, 'r-', linewidth=2, label=r'$x_{opt}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Optimal probability $x$')\n    plt.title(r'Optimal $x$ vs $\\theta$')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.tight_layout()\n    plt.savefig('holevo_optimization_results.png')\n    plt.show()\n\n    return theta_vals, optimal_x_values, max_chi_values\n\nif __name__ == \"__main__\":\n    # The model implements the function f(x) = h(x) - h(x * cos^2(theta)).\n    try:\n        thetas, xs, chis = solve_holevo_optimization()\n        print(\"\\nExecution successful. Results plotted.\")\n    except Exception as e:\n        print(f\"\\nAn error occurred during execution: {e}\")\n```",
+              "source": "generate",
+              "metadata": null,
+              "role": "assistant",
+              "tool_calls": null,
+              "model": "pma-model"
+            },
+            "stop_reason": "stop",
+            "stop_details": null,
+            "logprobs": null,
+            "prompt_logprobs": null
+          }
+        ],
+        "completion": "**\n\nThe maximal value is given by the optimization $\\max_{x\\in[0,1]} f(x)$, where the function form of $f(x)$ is:\n$$ f(x) = h(x) - h(x \\cos^2 \\theta) $$\nand $h(u) = -u \\log_2 u - (1-u) \\log_2 (1-u)$ is the binary entropy function.\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.optimize import minimize_scalar\n\ndef binary_entropy(p):\n    \"\"\"\n    Computes the binary entropy h(p) = -p log2(p) - (1-p) log2(1-p).\n    \"\"\"\n    eps = np.finfo(float).eps\n    is_scalar = np.isscalar(p)\n    p_arr = np.array(p) if not is_scalar else p\n    mask = (p_arr > eps) & (p_arr < 1 - eps)\n    h = np.zeros_like(p_arr, dtype=float)\n    p_valid = p_arr[mask]\n    h[mask] = -p_valid * np.log2(p_valid) - (1 - p_valid) * np.log2(1 - p_valid)\n    return h.item() if is_scalar else h\n\ndef objective_function(x, theta):\n    \"\"\"\n    The function f(x) = h(x) - h(x * cos^2(theta)) to be maximized.\n    Negative value returned for minimization.\n    \"\"\"\n    term1 = binary_entropy(x)\n    term2 = binary_entropy(x * np.cos(theta)**2)\n    return -(term1 - term2)\n\ndef solve_holevo_optimization():\n    theta_vals = np.linspace(0, np.pi/4, 200)\n    optimal_x_values = []\n    max_chi_values = []\n    \n    print(f\"{'Theta (rad)':<15} | {'Optimal x':<15} | {'Max Holevo Chi':<15}\")\n    print(\"-\" * 50)\n\n    bounds = (np.finfo(float).eps, 1 - np.finfo(float).eps)\n    \n    for theta in theta_vals:\n        res = minimize_scalar(\n            objective_function, \n            args=(theta,), \n            bounds=bounds, \n            method='bounded'\n        )\n        \n        if res.success:\n            optimal_x = res.x\n            max_chi = -res.fun \n            optimal_x_values.append(optimal_x)\n            max_chi_values.append(max_chi)\n        else:\n            optimal_x_values.append(np.nan)\n            max_chi_values.append(np.nan)\n\n    for i in [0, len(theta_vals)//2, len(theta_vals)-1]:\n        print(f\"{theta_vals[i]:<15.4f} | {optimal_x_values[i]:<15.4f} | {max_chi_values[i]:<15.4f}\")\n\n    plt.figure(figsize=(10, 6))\n    plt.subplot(1, 2, 1)\n    plt.plot(theta_vals, max_chi_values, 'b-', linewidth=2, label=r'$\\chi_{max}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Holevo Information (bits)')\n    plt.title(r'Maximal Holevo Information ($\\theta$)')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.subplot(1, 2, 2)\n    plt.plot(theta_vals, optimal_x_values, 'r-', linewidth=2, label=r'$x_{opt}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Optimal probability $x$')\n    plt.title(r'Optimal $x$ vs $\\theta$')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.tight_layout()\n    plt.savefig('holevo_optimization_results.png')\n    plt.show()\n\n    return theta_vals, optimal_x_values, max_chi_values\n\nif __name__ == \"__main__\":\n    # The model implements the function f(x) = h(x) - h(x * cos^2(theta)).\n    try:\n        thetas, xs, chis = solve_holevo_optimization()\n        print(\"\\nExecution successful. Results plotted.\")\n    except Exception as e:\n        print(f\"\\nAn error occurred during execution: {e}\")\n```",
+        "usage": null,
+        "fallback": null,
+        "time": 2291.5149999999994,
+        "metadata": null,
+        "error": null
+      },
+      "metadata": {
+        "reader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x000001972EE318B0>",
+        "loader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x000001972EE318B0>",
+        "problem_ids": [
+          "Challenge_22_main"
+        ],
+        "skip_if_exists": false,
+        "skip_if_not_exists": false,
+        "config": {
+          "use_golden_for_prev_steps": false,
+          "parsing": "json",
+          "multiturn_with_answer": false
+        },
+        "output_dir": "C:\\Users\\Janis\\work\\university\\bachelorThesis\\physics-modelling-agent\\physics_modelling_assistant\\CritPt\\results\\generations\\Challenge_22\\use_golden_for_prev_steps_False\\parsing_json\\multiturn_with_answer_False",
+        "model_label": "p_m_a",
+        "tool_label": null,
+        "multiturn_with_answer": false,
+        "use_python": false,
+        "use_web_search": false,
+        "run_main": true,
+        "run_sub": false
+      }
+    },
+    "output": {
+      "model": "pma-model",
+      "choices": [
+        {
+          "message": {
+            "id": "J3zYJbFLfxV4j7pC6sJK5P",
+            "content": "**\n\nThe maximal value is given by the optimization $\\max_{x\\in[0,1]} f(x)$, where the function form of $f(x)$ is:\n$$ f(x) = h(x) - h(x \\cos^2 \\theta) $$\nand $h(u) = -u \\log_2 u - (1-u) \\log_2 (1-u)$ is the binary entropy function.\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.optimize import minimize_scalar\n\ndef binary_entropy(p):\n    \"\"\"\n    Computes the binary entropy h(p) = -p log2(p) - (1-p) log2(1-p).\n    \"\"\"\n    eps = np.finfo(float).eps\n    is_scalar = np.isscalar(p)\n    p_arr = np.array(p) if not is_scalar else p\n    mask = (p_arr > eps) & (p_arr < 1 - eps)\n    h = np.zeros_like(p_arr, dtype=float)\n    p_valid = p_arr[mask]\n    h[mask] = -p_valid * np.log2(p_valid) - (1 - p_valid) * np.log2(1 - p_valid)\n    return h.item() if is_scalar else h\n\ndef objective_function(x, theta):\n    \"\"\"\n    The function f(x) = h(x) - h(x * cos^2(theta)) to be maximized.\n    Negative value returned for minimization.\n    \"\"\"\n    term1 = binary_entropy(x)\n    term2 = binary_entropy(x * np.cos(theta)**2)\n    return -(term1 - term2)\n\ndef solve_holevo_optimization():\n    theta_vals = np.linspace(0, np.pi/4, 200)\n    optimal_x_values = []\n    max_chi_values = []\n    \n    print(f\"{'Theta (rad)':<15} | {'Optimal x':<15} | {'Max Holevo Chi':<15}\")\n    print(\"-\" * 50)\n\n    bounds = (np.finfo(float).eps, 1 - np.finfo(float).eps)\n    \n    for theta in theta_vals:\n        res = minimize_scalar(\n            objective_function, \n            args=(theta,), \n            bounds=bounds, \n            method='bounded'\n        )\n        \n        if res.success:\n            optimal_x = res.x\n            max_chi = -res.fun \n            optimal_x_values.append(optimal_x)\n            max_chi_values.append(max_chi)\n        else:\n            optimal_x_values.append(np.nan)\n            max_chi_values.append(np.nan)\n\n    for i in [0, len(theta_vals)//2, len(theta_vals)-1]:\n        print(f\"{theta_vals[i]:<15.4f} | {optimal_x_values[i]:<15.4f} | {max_chi_values[i]:<15.4f}\")\n\n    plt.figure(figsize=(10, 6))\n    plt.subplot(1, 2, 1)\n    plt.plot(theta_vals, max_chi_values, 'b-', linewidth=2, label=r'$\\chi_{max}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Holevo Information (bits)')\n    plt.title(r'Maximal Holevo Information ($\\theta$)')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.subplot(1, 2, 2)\n    plt.plot(theta_vals, optimal_x_values, 'r-', linewidth=2, label=r'$x_{opt}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Optimal probability $x$')\n    plt.title(r'Optimal $x$ vs $\\theta$')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.tight_layout()\n    plt.savefig('holevo_optimization_results.png')\n    plt.show()\n\n    return theta_vals, optimal_x_values, max_chi_values\n\nif __name__ == \"__main__\":\n    # The model implements the function f(x) = h(x) - h(x * cos^2(theta)).\n    try:\n        thetas, xs, chis = solve_holevo_optimization()\n        print(\"\\nExecution successful. Results plotted.\")\n    except Exception as e:\n        print(f\"\\nAn error occurred during execution: {e}\")\n```",
+            "source": "generate",
+            "metadata": null,
+            "role": "assistant",
+            "tool_calls": null,
+            "model": "pma-model"
+          },
+          "stop_reason": "stop",
+          "stop_details": null,
+          "logprobs": null,
+          "prompt_logprobs": null
+        }
+      ],
+      "completion": "**\n\nThe maximal value is given by the optimization $\\max_{x\\in[0,1]} f(x)$, where the function form of $f(x)$ is:\n$$ f(x) = h(x) - h(x \\cos^2 \\theta) $$\nand $h(u) = -u \\log_2 u - (1-u) \\log_2 (1-u)$ is the binary entropy function.\n\n```python\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy.optimize import minimize_scalar\n\ndef binary_entropy(p):\n    \"\"\"\n    Computes the binary entropy h(p) = -p log2(p) - (1-p) log2(1-p).\n    \"\"\"\n    eps = np.finfo(float).eps\n    is_scalar = np.isscalar(p)\n    p_arr = np.array(p) if not is_scalar else p\n    mask = (p_arr > eps) & (p_arr < 1 - eps)\n    h = np.zeros_like(p_arr, dtype=float)\n    p_valid = p_arr[mask]\n    h[mask] = -p_valid * np.log2(p_valid) - (1 - p_valid) * np.log2(1 - p_valid)\n    return h.item() if is_scalar else h\n\ndef objective_function(x, theta):\n    \"\"\"\n    The function f(x) = h(x) - h(x * cos^2(theta)) to be maximized.\n    Negative value returned for minimization.\n    \"\"\"\n    term1 = binary_entropy(x)\n    term2 = binary_entropy(x * np.cos(theta)**2)\n    return -(term1 - term2)\n\ndef solve_holevo_optimization():\n    theta_vals = np.linspace(0, np.pi/4, 200)\n    optimal_x_values = []\n    max_chi_values = []\n    \n    print(f\"{'Theta (rad)':<15} | {'Optimal x':<15} | {'Max Holevo Chi':<15}\")\n    print(\"-\" * 50)\n\n    bounds = (np.finfo(float).eps, 1 - np.finfo(float).eps)\n    \n    for theta in theta_vals:\n        res = minimize_scalar(\n            objective_function, \n            args=(theta,), \n            bounds=bounds, \n            method='bounded'\n        )\n        \n        if res.success:\n            optimal_x = res.x\n            max_chi = -res.fun \n            optimal_x_values.append(optimal_x)\n            max_chi_values.append(max_chi)\n        else:\n            optimal_x_values.append(np.nan)\n            max_chi_values.append(np.nan)\n\n    for i in [0, len(theta_vals)//2, len(theta_vals)-1]:\n        print(f\"{theta_vals[i]:<15.4f} | {optimal_x_values[i]:<15.4f} | {max_chi_values[i]:<15.4f}\")\n\n    plt.figure(figsize=(10, 6))\n    plt.subplot(1, 2, 1)\n    plt.plot(theta_vals, max_chi_values, 'b-', linewidth=2, label=r'$\\chi_{max}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Holevo Information (bits)')\n    plt.title(r'Maximal Holevo Information ($\\theta$)')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.subplot(1, 2, 2)\n    plt.plot(theta_vals, optimal_x_values, 'r-', linewidth=2, label=r'$x_{opt}$')\n    plt.xlabel(r'$\\theta$ (radians)')\n    plt.ylabel(r'Optimal probability $x$')\n    plt.title(r'Optimal $x$ vs $\\theta$')\n    plt.grid(True, linestyle='--', alpha=0.7)\n    plt.legend()\n    \n    plt.tight_layout()\n    plt.savefig('holevo_optimization_results.png')\n    plt.show()\n\n    return theta_vals, optimal_x_values, max_chi_values\n\nif __name__ == \"__main__\":\n    # The model implements the function f(x) = h(x) - h(x * cos^2(theta)).\n    try:\n        thetas, xs, chis = solve_holevo_optimization()\n        print(\"\\nExecution successful. Results plotted.\")\n    except Exception as e:\n        print(f\"\\nAn error occurred during execution: {e}\")\n```",
+      "usage": null,
+      "fallback": null,
+      "time": 2291.5149999999994,
+      "metadata": null,
+      "error": null
+    }
+  }
+}

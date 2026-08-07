@@ -1,0 +1,20 @@
+
+
+**Step-by-Step Derivation and Analysis**
+
+1. **Source Analysis & Nieh-Yan Term Properties**
+   - The provided documents thoroughly examine the Nieh-Yan term within the frameworks of chiral anomalies, topological invariants, and classical gravity with torsion. 
+   - *Banerjee [5]* establishes that the Nieh-Yan term is intrinsically linked to the Holst term but remains non-trivial only in the presence of torsion. It acts as a total derivative that contributes a torsion charge on spacetime boundaries but vanishes at horizons, preserving black hole entropy [5].
+   - *Rasulian & Torabian [4]* and *Valle & Vázquez-Mozo [3]* detail the Nieh-Yan contribution to the axial anomaly. They resolve the UV-divergence debate by demonstrating that the anomaly coefficient depends quadratically on an infrared (IR) scale, such as the temperature $T^2$ or the cosmological constant/Hubble scale $H^2$ (de Sitter length $l_0^{-2}$) [3, 4].
+   - *Fiziev [6]* explores torsion-dilaton systems and minimal coupling principles, briefly mentioning potential applications to inflationary scenarios, but does not derive the specific cosmological perturbation equations or power spectrum formulas requested.
+
+2. **Evaluation of Requested Ratios & Model Parameters**
+   - The problem specifies a Nieh-Yan inflationary model featuring an axion-like potential $V(\vartheta) = \Lambda^4[1-\cos(\vartheta/f)]$, specific initial conditions ($a[0]=10, \vartheta[0]=5, \dot{\vartheta}[0]=0$), and a particular torsion ansatz $T^i = h(t)e^0\wedge e^i - \phi(t)\epsilon^i_{jk} e^j \wedge e^k$.
+   - **Information Gap:** The exact gravitational-matter action, the modified Friedmann equations, and the scalar perturbation relations for this specific Nieh-Yan inflationary cosmology are **not present in the provided PDFs**. The sources focus on anomaly structures, topological charges, and constitutive relations in hydrodynamics/classical GR, rather than inflationary perturbation theory or the evolution of the specified axion potential.
+   - Without the explicit modified relations from the target literature, the numerical evaluation of the curvature power spectrum ratio at 60 e-folds cannot be performed. Similarly, the algebraic forms for $\frac{\delta\phi}{\delta\dot{\vartheta} - \dot{\vartheta}A}$ and $\frac{2AH}{\dot{\vartheta}\delta\vartheta}$ depend on the specific gauge conditions and torsion-field coupling derived in the missing source. (In standard torsionless single-field inflation, $\delta\vartheta \approx -\frac{\dot{\vartheta}}{H}A$ would yield $\frac{2AH}{\dot{\vartheta}\delta\vartheta} = -2$, but this cannot be verified for the Nieh-Yan torsion model without the source equations).
+
+3. **Conclusion on Data Extraction**
+   - The necessary information to compute the specific numerical value for the complex power spectrum expression and the exact perturbation ratios is absent from the provided dataset. The documents confirm the topological nature of the Nieh-Yan term [5], its IR-dependent anomaly coefficient [4], and its role in torsional transport [3], but they do not cover the requested inflationary perturbation framework or parameter evolution.
+
+**Final Answer:**
+Based strictly on the provided source materials, the specific Nieh-Yan inflationary model, the axion-like potential $V=\Lambda^{4}[1-\cos(\vartheta/f)]$, and the perturbation relations required to evaluate the curvature power spectrum ratio, $\frac{\delta\phi}{\delta\dot{\vartheta} - \dot{\vartheta}A}$, and $\frac{2AH}{\dot{\vartheta}\delta\vartheta}$ are not contained in the text. The provided documents establish that the Nieh-Yan term is a torsion-dependent topological invariant [5] with an anomaly coefficient tied to infrared scales (like the Hubble rate or temperature) [3, 4], but they do not provide the cosmological perturbation equations, gauge conditions, or initial value evolution needed to compute the requested numerical values. Therefore, the exact values for the specified ratios cannot be extracted or calculated from the given sources.
