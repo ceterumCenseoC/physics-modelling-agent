@@ -23,16 +23,16 @@ class PMAModelAPI(ModelAPI):
         pma_root = repo_root
 
         if sys.platform == "win32":
-            python_exe = pma_root / ".venv" / "Scripts" / "python.exe"
+            python_exe = pma_root / "pma_source" / ".venv" / "Scripts" / "python.exe"
         else:
-            python_exe = pma_root / ".venv" / "bin" / "python"
+            python_exe = pma_root / "pma_source" / ".venv" / "bin" / "python"
 
         cli_script = "pma_source.cli"
         return python_exe, cli_script, pma_root
 
     async def generate(self, input, tools, tool_choice, config):
         
-        problem_id = getattr(config, "problem_id", str(uuid.uuid4()))  # Generate a unique problem_id if not provided
+        problem_id = getattr(config, "problem_id", + str(uuid.uuid4()))  # Generate a unique problem_id if not provided
         aim = self.convert_messages_to_prompt(input)
         versionNr = getattr(config, "versionNr", 1)
         outputDir = getattr(config, "outputDir", "./evalOUTPUT/")
@@ -42,11 +42,11 @@ class PMAModelAPI(ModelAPI):
         max_iter = getattr(config, "max_iter", 3)
         reasoning = getattr(config, "reasoning", True)
         max_reasoning_attempts = getattr(config, "max_reasoning_attempts", 3)
-
+        
         os.makedirs("." + outputDir, exist_ok=True)
         with open("." + outputDir + f"AIM{problem_id}.txt", "w", encoding="utf-8") as f:
             f.write(str(input) + "\n\n" + str(config)) # write the input messages and the converted aim to a file for debugging
-        
+
         payload = json.dumps(
                                 {
                                     "problem_id": problem_id,
@@ -80,6 +80,7 @@ class PMAModelAPI(ModelAPI):
         stdout, stderr = await proc.communicate((payload + "\n").encode())
 
         text = ""
+
         os.makedirs("." + outputDir, exist_ok=True)
         with open("." + outputDir + f"output{problem_id}.txt", "r", encoding="utf-8") as f:
             text = f.read()

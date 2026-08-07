@@ -105,13 +105,11 @@ class Physics_Modelling_Assistant:
         """
         return json.loads(inStr)    
 
-    def executeInterface(self, aim : str, outputDir : str, pdfSaveDir : str, versionNr : int, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning: bool, max_reasoning_attempts: int) -> str:
+    def executeInterface(self, id : str, aim : str, outputDir : str, pdfSaveDir : str, versionNr : int, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning: bool, max_reasoning_attempts: int) -> str:
         """
         this method allows for another programm to access and run the crew. Necessary for evaluation
         """
-        now = datetime.now()
-        ms = int(now.microsecond / 1000)
-        formatted = now.strftime(f"%Y-%m-%d %H:%M:%S.{ms:03d}")
+        formatted = id
 
         outputDir = outputDir + f"{formatted}/"
         pdfSaveDir = pdfSaveDir + f"_{formatted}"
@@ -130,7 +128,7 @@ class Physics_Modelling_Assistant:
         print(resultModel.raw) # only a string
         return resultModel.raw # only a string 
 
-    def executeInterfaceShortcut(self, aim : str, outputDir : str, pdfSaveDir : str, versionNr : int, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning: bool, max_reasoning_attempts: int) -> str:
+    def executeInterfaceShortcut(self, id : str, aim : str, outputDir : str, pdfSaveDir : str, versionNr : int, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning: bool, max_reasoning_attempts: int) -> str:
         """
         this method allows for another programm to access and run the crew. Necessary for evaluation
         """

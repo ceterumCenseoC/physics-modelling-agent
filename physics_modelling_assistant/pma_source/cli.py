@@ -20,7 +20,8 @@ def main(): # this works correctly
         max_reasoning_attempts = data.get("max_reasoning_attempts", 3)
 
         pma = Physics_Modelling_Assistant()
-        text = pma.executeInterface(# for test purposes: pma.executeInterfaceShortcut(; otherwise: pma.executeInterface(
+        text = pma.executeInterfaceShortcut(# for test purposes: pma.executeInterfaceShortcut(; otherwise: pma.executeInterface(
+            id = problem_id,
             aim=aim,
             outputDir=outputDir,
             pdfSaveDir=outputDir + "pdfs",
@@ -32,16 +33,18 @@ def main(): # this works correctly
             reasoning=reasoning,
             max_reasoning_attempts=max_reasoning_attempts
         )
+               
         import os
         os.makedirs(outputDir, exist_ok=True)
-        with open(outputDir + f"output{problem_id}.txt", "w", encoding="utf-8") as f:
+        with open( outputDir + f"output{problem_id}.txt", "w", encoding="utf-8") as f:
             f.write(text)
         sys.stdout.flush() # signals to superprocess that output is complete and can be read
     except Exception as e:
         # Log human-readable error to stderr
         print("ERROR:" + str(e), file=sys.stderr)
-
-        with open(outputDir + f"output{problem_id}.txt", "w", encoding="utf-8") as f:
+        import os
+        os.makedirs( outputDir, exist_ok=True)
+        with open( outputDir + f"output{problem_id}.txt", "w", encoding="utf-8") as f:
                     f.write(text)
         sys.stdout.flush()
 
