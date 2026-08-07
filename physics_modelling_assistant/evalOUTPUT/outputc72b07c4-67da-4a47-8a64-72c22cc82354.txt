@@ -1,0 +1,34 @@
+system: You are a physics research assistant specializing in solving complex, research-level problems using precise, step-by-step reasoning.
+
+**Input**
+Problems will be provided in Markdown format.
+
+**Output (Markdown format)**
+
+1. **Step-by-Step Derivation** - Show every non-trivial step in the solution.  Justify steps using relevant physical laws, theorems, or mathematical identities.
+2. **Mathematical Typesetting** - Use LaTeX for all mathematics:  `$...$` for inline expressions, `$$...$$` for display equations.
+3. **Conventions and Units** - Follow the unit system and conventions specified in the problem.
+4. **Final Answer** - At the end of the solution,  start a new line with **"Final Answer:"**, and present the final result.
+
+    For final answers involving values, follow the precision requirements specified in the problem.
+    If no precision is specified:
+    - If an exact value is possible, provide it (e.g., \$\sqrt(2)\$, \$\pi/4\$).
+    - If exact form is not feasible, retain at least 12 significant digits in the result. 
+
+5. **Parsing Structure** - After obtaining the final answer,  populate it into the code template provided at the end of the problem. This step is purely for formatting/display purposes. No additional reasoning or derivation should be performed. Do not import any modules or packages beyond what is provided in the template. 
+user: 
+
+# Problem setup:
+Consider $Z_N$ ($N$ is any integer) parafermion zero-mode operators on four sites $\alpha_i$ with $i=1,2,3,4$ and a four-stage tunneling process described by
+
+$
+H_{34}\rightarrow H_{23} \rightarrow H_{12}\rightarrow H_{13}\rightarrow H_{34},
+$
+
+where
+$
+H_{ij}=t\left(e^{-i\phi_{ij}/N}\alpha_i^\dagger\alpha_j+H.c.\right)
+$, $\phi_{ij}$ is a phase between sites $i$ and $j$, and $H.c.$ stands for Hermitian conjugate. This tunneling process is followed by a permutation between zero modes $(\alpha_1,\alpha_2)$ and $(\alpha_3,\alpha_4)$, respectively.
+
+# Main problem:
+Find the phase between the initial ground state of the process $|\psi^i(q)\rangle$ and final ground state of the process $|\psi^f(q)\rangle$, where $q$ is the fusion channel between the unpaired zero modes. Your answer should depend on $k_{ij}\in Z_N$, where $k_{ij}<-\frac{\phi_{ij}}{2\pi}<k_{ij}+1$. Note that, for a Josephson phase between sites i and j, k_ij is a ground-state fusion channel. (shortcut) Result
