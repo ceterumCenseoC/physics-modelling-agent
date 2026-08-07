@@ -32,7 +32,7 @@ class PMAModelAPI(ModelAPI):
 
     async def generate(self, input, tools, tool_choice, config):
         
-        problem_id = getattr(config, "problem_id", + str(uuid.uuid4()))  # Generate a unique problem_id if not provided
+        problem_id = getattr(config, "problem_id", str(uuid.uuid4()))  # Generate a unique problem_id if not provided
         aim = self.convert_messages_to_prompt(input)
         versionNr = getattr(config, "versionNr", 1)
         outputDir = getattr(config, "outputDir", "./evalOUTPUT/")
