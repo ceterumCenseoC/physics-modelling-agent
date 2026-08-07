@@ -1,5 +1,0 @@
-$$ \Lambda = \frac{k_- \lambda^+ + k_+ \lambda^-}{k_+ + k_-} + \mathcal{O}\left(\frac{\sigma^4}{\bar v_b^4}\right) $$
-
-**Explanation of Parameter Effects:**
-*   **$\beta$**: This parameter determines the strength of cell-size control. It governs the correlation between a cell's birth size and its division size. However, for the population growth rate $\Lambda$, the effects of $\beta$ cancel out to first order in the noise. Whether the population follows a "timer", "adder", or "sizer" strategy ($\beta$ variation), the population expands at the same rate $\Lambda_0$.
-*   **$\sigma^2$**: This parameter represents the division noise (extrinsic noise in the division threshold). While $\sigma^2$ increases the variance of cell sizes and inter-division times, the specific structure of the growth-division model (where division output feeds back into the input of the next cycle) renders the exponential growth rate robust to this noise. The first-order correction to $\Lambda$ due to $\sigma^2$ is zero.

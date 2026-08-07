@@ -1,1 +1,0 @@
-$$g(\alpha) = \frac{2}{\alpha} \ln\left(\frac{1+\alpha}{2}\right) + \frac{2\alpha}{1+\alpha} - \ln(1+\alpha)$$
