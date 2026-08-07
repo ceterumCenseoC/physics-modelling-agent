@@ -55,3 +55,13 @@ python -X utf8 -m pma_source.execute
 # then run critpt (the __main__.py file in CritPt/src/critpt)
 # from an active venv
 python -m critpt generate generate model=pma/pma task_config=.config/pma.json
+python -X utf8 -m critpt generate generate model=pma/pma task_config=.config/pmaAllChallanges.json
+
+# run all generation challanges in sequence
+# inside CritPt directory on an active venv
+# windows
+powershell -ExecutionPolicy Bypass -File .\runAllSequence.ps1
+# linux: 1. make file executable: chmod +x runAllSequence.sh
+chmod +x runAllSequence.sh
+# linux: 2. run the script
+./runAllSequence.sh
