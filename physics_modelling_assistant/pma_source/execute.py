@@ -109,6 +109,15 @@ class Physics_Modelling_Assistant:
         """
         this method allows for another programm to access and run the crew. Necessary for evaluation
         """
+        ####TEST
+        import logging, traceback, inspect, sys
+
+        logger = logging.getLogger("llm-debug")
+        logger.setLevel(logging.DEBUG)
+        handler = logging.StreamHandler(sys.stderr)
+        handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
+        logger.addHandler(handler)
+        ####TEST
         formatted = id
 
         outputDir = outputDir + f"{formatted}/"
@@ -116,17 +125,30 @@ class Physics_Modelling_Assistant:
         print("Finding papers")
         # paper finder uses no reasoning, because it is not necessary to reason about the papers, but only to find them
 
-        resultPapers = self.findPapers(aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = 1, reasoning = False, max_reasoning_attempts = 1)
-        """ with open(f"{outputDir}/result_papers.txt", "w") as f:
-            f.write(resultPapers.raw)
-        """
-        """ if previous_output is None:
-            previous_output = resultPapers.raw"""
-        previous_output = None
-        print("Building model")
-        resultModel = self.buildModel(aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir, previous_output = previous_output, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = reasoning, max_reasoning_attempts = max_reasoning_attempts)
-        print(resultModel.raw) # only a string
-        return resultModel.raw # only a string 
+        try:
+            resultPapers = self.findPapers(aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = 1, reasoning = False, max_reasoning_attempts = 1)
+            """ with open(f"{outputDir}/result_papers.txt", "w") as f:
+                f.write(resultPapers.raw)
+            """
+            """ if previous_output is None:
+                previous_output = resultPapers.raw"""
+            previous_output = None
+            print("Building model")
+            resultModel = self.buildModel(aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir, previous_output = previous_output, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = reasoning, max_reasoning_attempts = max_reasoning_attempts)
+            print(resultModel.raw) # only a string
+            return resultModel.raw # only a string 
+
+        except Exception as e:
+            logger.error("Exception repr: %r", e)
+            logger.error("Exception type: %s", type(e))
+            logger.error("Exception module: %s", getattr(type(e), '__module__', None))
+            logger.error("Traceback:\n%s", traceback.format_exc())
+            print("TRY STH NEW")
+            try:
+                logger.error("Exception class source: %s", inspect.getsourcefile(type(e)))
+            except Exception:
+                logger.error("Could not determine source file for exception class")
+            raise
 
     def executeInterfaceShortcut(self, id : str, aim : str, outputDir : str, pdfSaveDir : str, versionNr : int, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning: bool, max_reasoning_attempts: int) -> str:
         """

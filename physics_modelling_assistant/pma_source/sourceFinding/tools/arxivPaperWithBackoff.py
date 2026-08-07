@@ -213,13 +213,17 @@ class ArxivPaperTool(BaseTool):
             return True
         except urllib.error.URLError as e:
             logger.error(f"Network error occurred while downloading {pdf_url}: {e}")
+            raise
             return False
         except OSError as e:
             logger.error(f"File save error for {save_path}: {e}")
+            raise
             return False
         except urllib.error.HTTPError as e:
             logger.error(f"HTTP error occurred while downloading {pdf_url}: {e.code} {e.reason}")
+            raise
             return False
         except Exception as e:
             logger.error(f"Unexpected error occurred while downloading {pdf_url}: {e}")
+            raise
             return False

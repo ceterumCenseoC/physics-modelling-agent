@@ -81,9 +81,12 @@ class PMAModelAPI(ModelAPI):
 
         text = ""
 
-        os.makedirs("." + outputDir, exist_ok=True)
-        with open("." + outputDir + f"output{problem_id}.txt", "r", encoding="utf-8") as f:
-            text = f.read()
+        try:
+            os.makedirs("." + outputDir, exist_ok=True)
+            with open("." + outputDir + f"output{problem_id}.txt", "r", encoding="utf-8") as f:
+                text = f.read()
+        except FileNotFoundError:
+            text = f"Output file not found for problem_id {problem_id}. Check if the subprocess executed correctly."
         
         if proc.returncode != 0:
             return ModelOutput.from_content( # see inspect_ai/model/_model_output.py for class definition of ModelOutput

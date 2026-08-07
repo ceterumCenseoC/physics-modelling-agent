@@ -35,6 +35,7 @@ def main(): # this works correctly
         )
                
         import os
+        print(outputDir)
         os.makedirs(outputDir, exist_ok=True)
         with open( outputDir + f"output{problem_id}.txt", "w", encoding="utf-8") as f:
             f.write(text)
@@ -43,6 +44,9 @@ def main(): # this works correctly
         # Log human-readable error to stderr
         print("ERROR:" + str(e), file=sys.stderr)
         import os
+        outputDir = "error_output/"
+        if outputDir is not None:
+            outputDir = "error_output/"
         os.makedirs( outputDir, exist_ok=True)
         with open( outputDir + f"output{problem_id}.txt", "w", encoding="utf-8") as f:
                     f.write(text)
