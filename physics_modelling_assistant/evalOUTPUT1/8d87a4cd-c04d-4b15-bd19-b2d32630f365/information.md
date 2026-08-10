@@ -1,0 +1,2 @@
+For an observation time of $1000\,\text{s}$, the smallest probed coupling strength is $\Lambda_\gamma^{-1} \approx 5.73 \times 10^{-64}\,\text{GeV}^{-1}$.
+For an observation time of $0.7\,\text{yrs}$, the smallest probed coupling strength is $\Lambda_\gamma^{-1} \approx 3.85 \times 10^{-66}\,\text{GeV}^{-1}$.

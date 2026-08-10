@@ -1,0 +1,7 @@
+")
+    print(f"alpha = {results['alpha']}")
+    print(f"beta = {results['beta']}")
+    print(f"Plateau in 3D TI: {results['plateau_3d_ti']}")
+    print(f"Charged Impurities Important: {results['charged_impurities_important']}")
+    print(f"Scattering Range: {results['scattering_range']}")
+    print(f"Longer MFP (Long vs Short range): {results['longer_mfp_long_range']}")

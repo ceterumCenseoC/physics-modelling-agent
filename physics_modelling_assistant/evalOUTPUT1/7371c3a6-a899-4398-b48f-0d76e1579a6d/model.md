@@ -1,0 +1,1 @@
+$\varphi(z) = z - \log_2 z$

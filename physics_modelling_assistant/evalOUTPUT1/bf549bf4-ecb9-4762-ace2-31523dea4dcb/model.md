@@ -1,0 +1,3 @@
+-   **Critical Rayleigh Number:** $27.10$
+-   **Critical Horizontal Wavenumber:** $2.09$
+-   **Eigenfunction Ratio at $z=0.67365$:** $-3.47$

@@ -1,0 +1,1 @@
+$$ \omega(k) = \pm \sqrt{\frac{\kappa}{\chi}} k^2 - i \frac{\sigma}{2\chi} k^4 $$

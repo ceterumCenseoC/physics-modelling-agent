@@ -30,7 +30,7 @@ class PMAModelAPI(ModelAPI):
         cli_script = "pma_source.cli"
         return python_exe, cli_script, pma_root
 
-    async def generate(self, input, tools, tool_choice, config):
+    async def generate(self, input, tools, tool_choice, config, **kwargs) -> ModelOutput:
         
         problem_id = getattr(config, "problem_id", str(uuid.uuid4()))  # Generate a unique problem_id if not provided
         aim = self.convert_messages_to_prompt(input)
@@ -45,7 +45,7 @@ class PMAModelAPI(ModelAPI):
         
         os.makedirs("." + outputDir, exist_ok=True)
         with open("." + outputDir + f"AIM{problem_id}.txt", "w", encoding="utf-8") as f:
-            f.write(str(input) + "\n\n" + str(config)) # write the input messages and the converted aim to a file for debugging
+            f.write(str(input) + "\n\n" + str(config) + "\n\n" + str(type(input)) + "\n\n") # write the input messages and the converted aim to a file for debugging
 
         payload = json.dumps(
                                 {

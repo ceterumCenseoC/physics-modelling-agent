@@ -1,0 +1,1 @@
+$\frac{5}{9}\Delta k^2 + \frac{4}{9}\gamma$

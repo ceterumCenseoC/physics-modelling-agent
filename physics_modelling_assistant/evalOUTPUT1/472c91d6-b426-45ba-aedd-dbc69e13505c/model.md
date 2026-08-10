@@ -1,0 +1,1 @@
+The nonvanishing condition is $n_y = 0, n_z = 0$ (satellites along the strain direction). The structure factor is $S_{\pm} = \mp \frac{\pi f N \varepsilon}{a} \left( n_x \pm \frac{1}{M} \right)$.

@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_11_main",
+  "generated_code": "**\n$$ \\beta_\\Delta = x \\Delta - \\frac{1}{2} \\Delta^2 $$\n$$ \\beta_x = -\\frac{1}{2} \\Delta^2 $$\n\n```python\n# Code Template\nbeta_Delta = x * Delta - 0.5 * Delta**2\nbeta_x = -0.5 * Delta**2\n```",
+  "model": "pma/pma",
+  "timestamp": "2026-08-07T12:06:28.694928",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "**\n$$ \\beta_\\Delta = x \\Delta - \\frac{1}{2} \\Delta^2 $$\n$$ \\beta_x = -\\frac{1}{2} \\Delta^2 $$\n\n```python\n# Code Template\nbeta_Delta = x * Delta - 0.5 * Delta**2\nbeta_x = -0.5 * Delta**2\n```"
+    }
+  ]
+}

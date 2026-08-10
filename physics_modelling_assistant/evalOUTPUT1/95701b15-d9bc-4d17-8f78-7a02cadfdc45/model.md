@@ -1,0 +1,3 @@
+**
+
+The scaling exponents are $\alpha = -1/3$ and $\beta = 2/3$. A conductivity plateau due to electron-hole puddles generally **does not** appear (or is strongly suppressed) in 3D topological insulators because residual 3D bulk carriers provide efficient Thomas-Fermi screening that neutralizes potential fluctuations. Charged impurities remain **important** as they are the dominant source of scattering limiting mobility in these systems. They produce **long-range** Coulomb scattering. Because long-range scattering allows for frequent small-angle deflections which are inefficient at momentum relaxation, it results in a **longer** transport mean free path compared to short-range scattering in both graphene and 3D topological insulators.

@@ -1,0 +1,2 @@
+The sytem exhibits goniopolarity if the effective mass tensors satisfy the condition: $$ \left(\frac{m_{c,x}}{m_{v,x}} - 1\right)\left(\frac{m_{c,y}}{m_{v,y}} - 1\right) < 0 $$
+Based on the implemented model with the suggested parameters ($m_{c,x}=1.2 m_0, m_{v,x}=0.8 m_0, m_{c,y}=0.6 m_0, m_{v,y}=1.0 m_0$), the Seebeck coefficients are calculated to be approximately $S_x \approx 160 \mu V/K$ (p-type) and $S_y \approx -40 \mu V/K$ (n-type). The product $S_x S_y < 0$, confirming the goniopolarity condition is met.

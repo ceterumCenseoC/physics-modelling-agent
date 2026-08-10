@@ -1,0 +1,1 @@
+$$ \varphi \approx \frac{z^2}{4} - \frac{1}{4} z \log_2 z $$
