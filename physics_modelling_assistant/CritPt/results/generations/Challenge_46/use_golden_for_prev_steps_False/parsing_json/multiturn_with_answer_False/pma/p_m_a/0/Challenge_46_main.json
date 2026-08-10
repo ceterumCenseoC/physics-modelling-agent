@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_46_main",
+  "generated_code": "Energies of scar states: $0.0000$\n$\\log_{10}|\\langle Z_2|\\psi\\rangle|^2$: $-0.5000$",
+  "model": "pma/pma",
+  "timestamp": "2026-08-08T19:46:03.896223",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Energies of scar states: $0.0000$\n$\\log_{10}|\\langle Z_2|\\psi\\rangle|^2$: $-0.5000$"
+    }
+  ]
+}
