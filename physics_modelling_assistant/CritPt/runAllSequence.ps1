@@ -1,6 +1,6 @@
 $CONFIG = ".config/pma.json"
 
-for ($i = 1; $i -le 70; $i++) {
+for ($i = 21; $i -le 70; $i++) {
     Write-Host "Running challenge $i"
 
     # Read JSON
@@ -15,4 +15,4 @@ for ($i = 1; $i -le 70; $i++) {
     # Run command
     python -X utf8 -m critpt generate generate model=pma/pma task_config=$CONFIG
 }
-# 6,16,17,27,29,45,54,57,65,66
+# none

@@ -1,6 +1,6 @@
 $CONFIG = ".config/pma.json"
 
-$myList = @(9)
+$myList = @(16)
 foreach ($i in $myList) {
 
     Write-Host "Running challenge $i"
