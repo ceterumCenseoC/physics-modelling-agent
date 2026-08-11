@@ -10,6 +10,7 @@ def main(): # this works correctly
 
         problem_id = data.get("problem_id", "0")
         aim = data.get("aim", "no aim provided")
+        answer_code = data.get("answer_code", "no answer code provided")
         versionNr = data.get("versionNr", 1)
         outputDir = data.get("outputDir", "./evalOUTPUT/")
         temperature = data.get("temperature", 1.0)
@@ -20,9 +21,10 @@ def main(): # this works correctly
         max_reasoning_attempts = data.get("max_reasoning_attempts", 3)
 
         pma = Physics_Modelling_Assistant()
-        text = pma.executeInterfaceShortcut(# for test purposes: pma.executeInterfaceShortcut(; otherwise: pma.executeInterface(
+        text = pma.executeInterface(# for test purposes: pma.executeInterfaceShortcut(; otherwise: pma.executeInterface(
             id = problem_id,
             aim=aim,
+            answer_code=answer_code,
             outputDir=outputDir,
             pdfSaveDir=outputDir + "pdfs",
             versionNr=versionNr,

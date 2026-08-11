@@ -1,8 +1,8 @@
 {
   "problem_id": "Challenge_7_main",
-  "generated_code": "$\\frac{1}{4} d n^2 F^2 k^{2(n-1)} (2q - 1)^{nd}$",
+  "generated_code": "import sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = 4 * d * n**2 * F**2 * k**(2*n - 2) * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI\n",
   "model": "pma/pma",
-  "timestamp": "2026-08-07T10:06:29.390650",
+  "timestamp": "2026-08-11T08:50:12.618027",
   "generation_config": {
     "use_golden_for_prev_steps": false,
     "parsing": "json",
@@ -13,7 +13,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "$\\frac{1}{4} d n^2 F^2 k^{2(n-1)} (2q - 1)^{nd}$"
+      "content": "import sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = 4 * d * n**2 * F**2 * k**(2*n - 2) * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI\n"
     }
   ]
 }

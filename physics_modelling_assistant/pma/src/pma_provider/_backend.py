@@ -30,10 +30,22 @@ class PMAModelAPI(ModelAPI):
         cli_script = "pma_source.cli"
         return python_exe, cli_script, pma_root
 
+    def which_challange(self, identifier: str, directory: Path) -> tuple[str, str]:
+        for file in directory.rglob("*.json"):
+            data = json.loads(file.read_text())
+            # Ensure the structure exists
+            if "problems" in data and len(data["problems"]) > 0:
+                problem = data["problems"][0]
+                # Check if the key exists
+                if "problem_description" in problem:
+                    if problem["problem_description"].strip() in identifier.strip():
+                        return problem["problem_id"], problem["answer_code"]
+        return "not_found", "not_found"
+
     async def generate(self, input, tools, tool_choice, config, **kwargs) -> ModelOutput:
         
         problem_id = getattr(config, "problem_id", str(uuid.uuid4()))  # Generate a unique problem_id if not provided
-        aim = self.convert_messages_to_prompt(input)
+        aim = input[1].content #self.convert_messages_to_prompt(input)
         versionNr = getattr(config, "versionNr", 1)
         outputDir = getattr(config, "outputDir", "./evalOUTPUT/")
         temperature = getattr(config, "temperature", 1.0) # default values that don't modify anything
@@ -42,15 +54,21 @@ class PMAModelAPI(ModelAPI):
         max_iter = getattr(config, "max_iter", 3)
         reasoning = getattr(config, "reasoning", True)
         max_reasoning_attempts = getattr(config, "max_reasoning_attempts", 3)
+
+        #for finding the correct problem_id and answer_code, we can use the first message's content as a reference
+        val1, answer_code = self.which_challange(identifier = input[1].content, directory = Path("./data/public_test_challenges/json")) #path relies on this file to be run from a venv inside CriPt root
+        if val1 != "not_found": # use human readable name if found
+            problem_id = val1 + problem_id # append the unique id to the human readable name for uniqueness
         
         os.makedirs("." + outputDir, exist_ok=True)
         with open("." + outputDir + f"AIM{problem_id}.txt", "w", encoding="utf-8") as f:
-            f.write(str(input) + "\n\n" + str(config) + "\n\n" + str(type(input)) + "\n\n") # write the input messages and the converted aim to a file for debugging
+            f.write(str(input) + "\n\n" + str(aim) + "\n\n" + str(config) + "\n\n" + str(answer_code)) # write the input messages and the converted aim to a file for debugging
 
         payload = json.dumps(
                                 {
                                     "problem_id": problem_id,
                                     "aim": aim,
+                                    "answer_code": answer_code,
                                     "versionNr": versionNr,
                                     "outputDir": outputDir,
                                     "temperature": temperature,

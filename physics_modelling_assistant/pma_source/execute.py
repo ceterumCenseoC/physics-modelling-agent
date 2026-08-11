@@ -36,28 +36,30 @@ class Physics_Modelling_Assistant:
         result = run_crew_paperFinder(inputs = inputs, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = reasoning, max_reasoning_attempts = max_reasoning_attempts)
         return result
 
-    def buildModel(self, aim : str, outputDir : str, pdfSaveDir : str, previous_output : str, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning : bool, max_reasoning_attempts: int):
+    def buildModel(self, aim : str, answer_code : str, outputDir : str, pdfSaveDir : str, previous_output : str, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning : bool, max_reasoning_attempts: int):
         inputs = { # this style allows to pass future key-value parirs like previous_output or othe additional information
             'aim': aim,
+            'answer_code': answer_code,
             'previous_output': previous_output
         }
         result = run_crew_modelling(inputs = inputs, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = reasoning, max_reasoning_attempts = max_reasoning_attempts)
         return result
 
-    def findAndBuild(self, aim : str, outputDir : str, pdfSaveDir : str, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning: bool, max_reasoning_attempts: int):
+    def findAndBuild(self, aim : str, answer_code : str, outputDir : str, pdfSaveDir : str, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning: bool, max_reasoning_attempts: int):
         inputs = { # this style allows to pass future key-value parirs like previous_output or othe additional information
-            'aim': aim
+            'aim': aim,
         }
         result = run_crew_paperFinder(inputs = inputs, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = False, max_reasoning_attempts = 1)
         inputs2 = { # this style allows to pass future key-value parirs like previous_output or othe additional information
             'aim': aim,
+            'answer_code': answer_code,
             'previous_output': result.raw
         }
         outputDir = outputDir +  f"/version_1/"
         result2 = run_crew_modelling(inputs = inputs2, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = reasoning, max_reasoning_attempts = max_reasoning_attempts)
         return result, result2
 
-    def execute(self):
+    def execute(self): ##is broken
         """
         this method runs the acctual crew
         change
@@ -65,6 +67,8 @@ class Physics_Modelling_Assistant:
         aim = 'Calculate the Edelstein effect for a Rashba fermion (at the Gamma point of the Brillouin zone). ' \
             'Compute the magnitization magnitude and direction of different directions and magnitudes of the applied electric field. '\
             'Consider how the result depends on relevant parameters of the model (e.g. chirality, fermi velocity, spin-orbit coupling strength) and make explicit graphics.'
+
+        answer_code = 'simple markdown format'
         
         outputNr = 1 # CHANGE THIS NUMBER WHEN YOU START A NEW RUN WITH NEW PAPER SEARCH
         versionNr = 1 # CHANGE THIS NUMBER WHEN YOU WANT TO KEEP THE PDF'S AND CHANGE THE MODELLING CREW
@@ -87,7 +91,7 @@ class Physics_Modelling_Assistant:
         previous_output = resultPapers.raw """
         previous_output = None
 
-        resultModel = self.buildModel(aim = aim, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = reasoning, max_reasoning_attempts = max_reasoning_attempts)
+        resultModel = self.buildModel(aim = aim, answer_code = answer_code, outputDir = outputDir + f"/version_{versionNr}/", pdfSaveDir = pdfSaveDir, previous_output = previous_output, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = reasoning, max_reasoning_attempts = max_reasoning_attempts)
         finalTime = datetime.now()
         with open(f"time.txt", "a") as f:
             f.write(f"Run Number {outputNr}, Final time: {finalTime}\n")
@@ -105,7 +109,7 @@ class Physics_Modelling_Assistant:
         """
         return json.loads(inStr)    
 
-    def executeInterface(self, id : str, aim : str, outputDir : str, pdfSaveDir : str, versionNr : int, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning: bool, max_reasoning_attempts: int) -> str:
+    def executeInterface(self, id : str, aim : str, answer_code : str, outputDir : str, pdfSaveDir : str, versionNr : int, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning: bool, max_reasoning_attempts: int) -> str:
         """
         this method allows for another programm to access and run the crew. Necessary for evaluation
         """
@@ -124,7 +128,6 @@ class Physics_Modelling_Assistant:
         pdfSaveDir = pdfSaveDir + f"_{formatted}"
         print("Finding papers")
         # paper finder uses no reasoning, because it is not necessary to reason about the papers, but only to find them
-
         try:
             resultPapers = self.findPapers(aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = 1, reasoning = False, max_reasoning_attempts = 1)
             """ with open(f"{outputDir}/result_papers.txt", "w") as f:
@@ -134,7 +137,7 @@ class Physics_Modelling_Assistant:
                 previous_output = resultPapers.raw"""
             previous_output = None
             print("Building model")
-            resultModel = self.buildModel(aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir, previous_output = previous_output, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = reasoning, max_reasoning_attempts = max_reasoning_attempts)
+            resultModel = self.buildModel(aim = aim, answer_code = answer_code, outputDir = outputDir, pdfSaveDir = pdfSaveDir, previous_output = previous_output, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = reasoning, max_reasoning_attempts = max_reasoning_attempts)
             print(resultModel.raw) # only a string
             return resultModel.raw # only a string 
 
@@ -143,14 +146,13 @@ class Physics_Modelling_Assistant:
             logger.error("Exception type: %s", type(e))
             logger.error("Exception module: %s", getattr(type(e), '__module__', None))
             logger.error("Traceback:\n%s", traceback.format_exc())
-            print("TRY STH NEW")
             try:
                 logger.error("Exception class source: %s", inspect.getsourcefile(type(e)))
             except Exception:
                 logger.error("Could not determine source file for exception class")
             raise
 
-    def executeInterfaceShortcut(self, id : str, aim : str, outputDir : str, pdfSaveDir : str, versionNr : int, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning: bool, max_reasoning_attempts: int) -> str:
+    def executeInterfaceShortcut(self, id : str, aim : str, answer_code : str, outputDir : str, pdfSaveDir : str, versionNr : int, temperature: float, top_p: float, max_tokens: int, max_iter: int, reasoning: bool, max_reasoning_attempts: int) -> str:
         """
         this method allows for another programm to access and run the crew. Necessary for evaluation
         """
@@ -160,7 +162,7 @@ class Physics_Modelling_Assistant:
         """ resultPapers = self.findPapers(aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = False, max_reasoning_attempts = 1)
         previous_output = None
         print("Building model")
-        resultModel = self.buildModel(aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir, previous_output = previous_output, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = reasoning, max_reasoning_attempts = max_reasoning_attempts)
+        resultModel = self.buildModel(aim = aim, answer_code = answer_code, outputDir = outputDir, pdfSaveDir = pdfSaveDir, previous_output = previous_output, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = reasoning, max_reasoning_attempts = max_reasoning_attempts)
         """
         return aim + " (shortcut) Result" # only a string 
 

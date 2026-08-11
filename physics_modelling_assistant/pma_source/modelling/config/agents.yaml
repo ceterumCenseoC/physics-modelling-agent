@@ -70,8 +70,7 @@ final_outputer:
   role: >
     provide a final answer
   goal: >
-    give a final answer to {aim}. It should include how you derive the result
-    Ensure to match the format specified by the task.
+    give a final answer to {aim}.
+    It must be fit inserted into the following format {answer_code}.
   backstory: >
-    Your answers will be graded which is why you must obey the format.
-    State all important steps on getting to the answer
+    Your answers will be graded which is why you must obey the format: {answer_code}.

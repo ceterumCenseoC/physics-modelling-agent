@@ -58,7 +58,7 @@ simulation_correction_task:
 final_output_task:
   description: >
    provide the final answer to: {aim}
-   Ensure the desired output format is matched.
+   Insert your answer in this format and return just this string: {answer_code}
   expected_output: >
-   a string containing the answer and the stept taken to get there. This will make the solution understandable.
+   a string in the format of {answer_code} with the systems solution included.
   agent: final_outputer
