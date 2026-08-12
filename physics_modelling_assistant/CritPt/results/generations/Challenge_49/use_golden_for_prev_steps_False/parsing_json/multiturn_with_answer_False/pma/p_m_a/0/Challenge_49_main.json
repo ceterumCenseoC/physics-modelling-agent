@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_49_main",
+  "generated_code": "```python\nimport sympy as sp\n\nz, K = sp.symbols('z K')\n\ndef answer(z, K):\n    r\"\"\"\n    Return the expression of $\\varphi$ in Sympy format.\n\n    Inputs\n    ----------\n    z: sympy.Symbol, defined as $\\log_2 t$\n    K: sympy.Symbol, constant from the self-consistent equation\n            $$\\frac{1}{\\ell^{\\mu}(t)} \\int_0^t \\ell(\\tau) \\ell(t - \\tau) d\\tau = K$$\n\n    Outputs\n    ----------\n    varphi: sympy.Expr, expansion of $\\varphi$ in terms of $z$ for large $t$\n        and retain terms up to constant order in $z$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    varphi = z/2 + sp.log(z)/sp.log(2)/2  # SymPy expression in terms of z (and possibly K),\n                  # retaining z, log_2(z), log_2(z)**2 terms; omit constants\n    # Note: sp.log(z)/sp.log(2) is log_2(z). The result is z/2 + (1/2)*log_2(z).\n    # The constant term is omitted.\n    # ---------------------------------------------------------------\n\n    return varphi\n```",
+  "model": "pma/pma",
+  "timestamp": "2026-08-12T04:45:26.851485",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "```python\nimport sympy as sp\n\nz, K = sp.symbols('z K')\n\ndef answer(z, K):\n    r\"\"\"\n    Return the expression of $\\varphi$ in Sympy format.\n\n    Inputs\n    ----------\n    z: sympy.Symbol, defined as $\\log_2 t$\n    K: sympy.Symbol, constant from the self-consistent equation\n            $$\\frac{1}{\\ell^{\\mu}(t)} \\int_0^t \\ell(\\tau) \\ell(t - \\tau) d\\tau = K$$\n\n    Outputs\n    ----------\n    varphi: sympy.Expr, expansion of $\\varphi$ in terms of $z$ for large $t$\n        and retain terms up to constant order in $z$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    varphi = z/2 + sp.log(z)/sp.log(2)/2  # SymPy expression in terms of z (and possibly K),\n                  # retaining z, log_2(z), log_2(z)**2 terms; omit constants\n    # Note: sp.log(z)/sp.log(2) is log_2(z). The result is z/2 + (1/2)*log_2(z).\n    # The constant term is omitted.\n    # ---------------------------------------------------------------\n\n    return varphi\n```"
+    }
+  ]
+}

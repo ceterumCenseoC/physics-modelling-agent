@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_39_main",
+  "generated_code": "import sympy as sp\n\nn, np = sp.symbols('n n_prime', integer=True, nonnegative=True)\ng, gamma = sp.symbols('g gamma', positive=True)\nalpha = sp.symbols('alpha')\n\ndef answer(n, np, g, gamma, alpha):\n    r\"\"\"\n    Return the expression of the steady-state cavity coherence in SymPy format.\n\n    Inputs\n    ----------\n    n : sympy.Symbol\n        Photon number in state $|n\\rangle$.\n    np : sympy.Symbol\n        Photon number in state $|n'\\rangle$.\n    g : sympy.Symbol\n        Atom-cavity coupling constant $g$.\n    gamma : sympy.Symbol\n        Spontaneous-emission rate from $|e\\rangle$ to $|d\\rangle$, $\\gamma$.\n    alpha : sympy.Symbol\n        Complex amplitude of the initial coherent state $|\\alpha\\rangle$.\n\n    Outputs\n    ----------\n    coherence : sympy.Expr\n        Symbolic expression for the steady-state cavity coherence $\\langle n'| \\hat \\rho_{c,ss}|n\\rangle$.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # Derivation: The cavity state remains in the coherent state |alpha><alpha|\n    # because the jump operator |d><e| acts only on the atom, leaving the \n    # cavity state unchanged, and the initial coherent state is an eigenstate\n    # of the interaction term.\n    # The expression for the Fock basis coherences of a coherent state is:\n    # <n'|rho|n> = exp(-|alpha|^2) * alpha^n * (alpha*)^n' / sqrt(n! n'!)\n    \n    coherence = sp.exp(-sp.Abs(alpha)**2) * alpha**n * sp.conjugate(alpha)**np / (sp.sqrt(sp.factorial(n) * sp.factorial(np)))\n    # ---------------------------------------------------------------\n\n    return coherence",
+  "model": "pma/pma",
+  "timestamp": "2026-08-12T01:58:27.768382",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "import sympy as sp\n\nn, np = sp.symbols('n n_prime', integer=True, nonnegative=True)\ng, gamma = sp.symbols('g gamma', positive=True)\nalpha = sp.symbols('alpha')\n\ndef answer(n, np, g, gamma, alpha):\n    r\"\"\"\n    Return the expression of the steady-state cavity coherence in SymPy format.\n\n    Inputs\n    ----------\n    n : sympy.Symbol\n        Photon number in state $|n\\rangle$.\n    np : sympy.Symbol\n        Photon number in state $|n'\\rangle$.\n    g : sympy.Symbol\n        Atom-cavity coupling constant $g$.\n    gamma : sympy.Symbol\n        Spontaneous-emission rate from $|e\\rangle$ to $|d\\rangle$, $\\gamma$.\n    alpha : sympy.Symbol\n        Complex amplitude of the initial coherent state $|\\alpha\\rangle$.\n\n    Outputs\n    ----------\n    coherence : sympy.Expr\n        Symbolic expression for the steady-state cavity coherence $\\langle n'| \\hat \\rho_{c,ss}|n\\rangle$.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # Derivation: The cavity state remains in the coherent state |alpha><alpha|\n    # because the jump operator |d><e| acts only on the atom, leaving the \n    # cavity state unchanged, and the initial coherent state is an eigenstate\n    # of the interaction term.\n    # The expression for the Fock basis coherences of a coherent state is:\n    # <n'|rho|n> = exp(-|alpha|^2) * alpha^n * (alpha*)^n' / sqrt(n! n'!)\n    \n    coherence = sp.exp(-sp.Abs(alpha)**2) * alpha**n * sp.conjugate(alpha)**np / (sp.sqrt(sp.factorial(n) * sp.factorial(np)))\n    # ---------------------------------------------------------------\n\n    return coherence"
+    }
+  ]
+}
