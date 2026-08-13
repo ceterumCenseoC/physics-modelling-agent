@@ -172,7 +172,7 @@ class Physics_Modelling_Assistant:
 
 if __name__ == "__main__":
     print("Available models: ", listModels())
-    pma = Physics_Modelling_Assistant()
-    pma.execute()
+    #pma = Physics_Modelling_Assistant()
+    #pma.execute()
     #inStr = '{\n"choices": [\n {\n "message": {\n "content": "50.7 atm"\n }\n }\n ]\n }\n'
     #convertToDict(inStr)

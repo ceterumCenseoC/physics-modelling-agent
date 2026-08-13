@@ -1,6 +1,6 @@
 {
   "problem_id": "Challenge_61_main",
-  "generated_code": "```python\ndef answer():\n    r\"\"\"\n    Return the values of T and P.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    T: int, evolution time T (rounded to the nearest integer)\n    P: float, achievable probability P (with two decimal places) of getting basis $\\left|a\\right\\rangle$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    T = 176\n    P = 0.80\n    # ---------------------------------------------------------------\n\n    return T, P\n```",
+  "generated_code": "def answer():\n    r\"\"\"\n    Return the values of T and P.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    T: int, evolution time T (rounded to the nearest integer)\n    P: float, achievable probability P (with two decimal places) of getting basis $\\left|a\\right\\rangle$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    T = 176\n    P = 0.80\n    # ---------------------------------------------------------------\n\n    return T, P\n",
   "model": "pma/pma",
   "timestamp": "2026-08-12T09:43:23.759380",
   "generation_config": {
@@ -13,7 +13,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "```python\ndef answer():\n    r\"\"\"\n    Return the values of T and P.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    T: int, evolution time T (rounded to the nearest integer)\n    P: float, achievable probability P (with two decimal places) of getting basis $\\left|a\\right\\rangle$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    T = 176\n    P = 0.80\n    # ---------------------------------------------------------------\n\n    return T, P\n```"
+      "content": "def answer():\n    r\"\"\"\n    Return the values of T and P.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    T: int, evolution time T (rounded to the nearest integer)\n    P: float, achievable probability P (with two decimal places) of getting basis $\\left|a\\right\\rangle$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    T = 176\n    P = 0.80\n    # ---------------------------------------------------------------\n\n    return T, P\n"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "problem_id": "Challenge_38_main",
-  "generated_code": "```python\nimport sympy as sp\n\nT, U = sp.symbols('T U')\n\ndef answer(T):\n    \"\"\"\n    Return the temperature dependence of the energy phase space integral in SymPy format.\n\n    Inputs\n    ----------\n    T: sympy.Symbol, temperature $T$\n    U: sympy.Symbol, on-site interaction strength $U$\n\n    Outputs\n    ----------\n    I: sympy.Expr, the energy phase space integral, $I(T)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The temperature dependence is quadratic: I(T) = A * (k_B * T)^2 + C\n    # where A = pi^2/3. In units where k_B=1, we have:\n    I = (sp.pi**2 / 3) * T**2\n    # ---------------------------------------------------------------\n\n    return I\n```",
+  "generated_code": "import sympy as sp\n\nT, U = sp.symbols('T U')\n\ndef answer(T):\n    \"\"\"\n    Return the temperature dependence of the energy phase space integral in SymPy format.\n\n    Inputs\n    ----------\n    T: sympy.Symbol, temperature $T$\n    U: sympy.Symbol, on-site interaction strength $U$\n\n    Outputs\n    ----------\n    I: sympy.Expr, the energy phase space integral, $I(T)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The temperature dependence is quadratic: I(T) = A * (k_B * T)^2 + C\n    # where A = pi^2/3. In units where k_B=1, we have:\n    I = (sp.pi**2 / 3) * T**2\n    # ---------------------------------------------------------------\n\n    return I\n",
   "model": "pma/pma",
   "timestamp": "2026-08-12T01:47:57.530996",
   "generation_config": {
@@ -13,7 +13,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "```python\nimport sympy as sp\n\nT, U = sp.symbols('T U')\n\ndef answer(T):\n    \"\"\"\n    Return the temperature dependence of the energy phase space integral in SymPy format.\n\n    Inputs\n    ----------\n    T: sympy.Symbol, temperature $T$\n    U: sympy.Symbol, on-site interaction strength $U$\n\n    Outputs\n    ----------\n    I: sympy.Expr, the energy phase space integral, $I(T)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The temperature dependence is quadratic: I(T) = A * (k_B * T)^2 + C\n    # where A = pi^2/3. In units where k_B=1, we have:\n    I = (sp.pi**2 / 3) * T**2\n    # ---------------------------------------------------------------\n\n    return I\n```"
+      "content": "import sympy as sp\n\nT, U = sp.symbols('T U')\n\ndef answer(T):\n    \"\"\"\n    Return the temperature dependence of the energy phase space integral in SymPy format.\n\n    Inputs\n    ----------\n    T: sympy.Symbol, temperature $T$\n    U: sympy.Symbol, on-site interaction strength $U$\n\n    Outputs\n    ----------\n    I: sympy.Expr, the energy phase space integral, $I(T)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The temperature dependence is quadratic: I(T) = A * (k_B * T)^2 + C\n    # where A = pi^2/3. In units where k_B=1, we have:\n    I = (sp.pi**2 / 3) * T**2\n    # ---------------------------------------------------------------\n\n    return I\n"
     }
   ]
 }

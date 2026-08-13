@@ -55,7 +55,7 @@ class ModellerCrew():
             max_reasoning_attempts=self.max_reasoning_attempts, # since reasoning is disabled, this parameter is not used
 
             llm=LLM(
-                model = "qwen3.6-27b",
+                model = "deepseek-v4-flash",#"qwen3.6-27b",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature,

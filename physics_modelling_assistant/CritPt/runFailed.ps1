@@ -1,6 +1,6 @@
 $CONFIG = ".config/pma.json"
 
-$myList = @(44)
+$myList = @(9,10,11,13,22)
 foreach ($i in $myList) {
 
     Write-Host "Running challenge $i"
@@ -17,6 +17,3 @@ foreach ($i in $myList) {
     # Run command
     python -X utf8 -m critpt generate generate model=pma/pma task_config=$CONFIG
 }
-# 50,52,68,69,70 worked on the second run
-# 30,56 worked on the third run
-# 44 failed again on the fifth try
