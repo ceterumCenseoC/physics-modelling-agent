@@ -2,7 +2,7 @@
   "artifact_type": "step",
   "version": 2,
   "step": "main",
-  "created_at": "2026-08-11T17:27:22.088597+00:00",
+  "created_at": "2026-08-15T16:51:27.530535+00:00",
   "prompt": "# Problem setup:\n\nOptimize the Holevo information over cq states $\\chi=\\sum_x p_x|x\\rangle\\langle x|\\otimes\\rho_x$, where\n\\begin{equation}\n\\rho_x=\\left(\\begin{array}{ccc}\n\\gamma_x \\cos ^2 \\theta & 0 & 0 \\\\\n0 & \\left(1-\\gamma_x\\right) \\cos ^2 \\theta & \\sqrt{1-\\gamma_x} \\cos \\theta \\sin \\theta e^{i \\phi_x} \\\\\n0 & \\sqrt{1-\\gamma_x} \\cos \\theta \\sin \\theta e^{-i \\phi_x} & \\sin ^2 \\theta\n\\end{array}\\right),\n\\end{equation}\n$\\{p_x\\}$ is a probability distribution over $x$, and $\\gamma_x$ are all real numbers in $[0,1]$. Assume that $\\cos\\theta\\neq1$.\n\n\n# Main problem:\n\nWrite the maximal value in terms of an optimization $\\max_{x\\in[0,1]} f(x)$, where $f(x)$ depends only on $x$ and nothing else. Find the function form of $f(x)$ explicitly.\n",
   "chat": [
     {
@@ -14,7 +14,7 @@
         }
       ],
       "raw": {
-        "id": "Sa2ZaGyYYd3bQsyy7jJEub",
+        "id": "7anyaxx74jYWUaH2eZU5ad",
         "source": null,
         "metadata": null
       }
@@ -28,7 +28,7 @@
         }
       ],
       "raw": {
-        "id": "Zibv3EW5MxFbjxAfu2WccM",
+        "id": "G9K6wEaxdXgnZUHwcGuBFU",
         "source": null,
         "metadata": null,
         "tool_call_id": null
@@ -39,11 +39,11 @@
       "contents": [
         {
           "content_type": "content",
-          "content_text": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # Define theta as a symbol with the assumption cos(theta) != 1 to match\n    # the general problem description, though it acts as a constant parameter here.\n    # Alternatively, we can treat cos(theta) as 'c' where c in [0, 1).\n    # The problem asks for f(x) explicitly. Based on the derivation,\n    # f(x) = cos^2(theta) * h(x), where h(x) is the binary entropy.\n    # In Sympy, we use log for natural logarithm (nats).\n    \n    theta = sp.symbols('theta')\n    \n    # Binary entropy function h(x) = -x*log(x) - (1-x)*log(1-x)\n    h_x = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    \n    # The maximal Holevo information scales by cos^2(theta)\n    f = sp.cos(theta)**2 * h_x\n    # ---------------------------------------------------------------\n\n    return f"
+          "content_text": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    f = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    # ---------------------------------------------------------------\n\n    return f"
         }
       ],
       "raw": {
-        "id": "R7hAkGUAdEmewPCjw8iZaa",
+        "id": "8Hbnd4JBsXt629k4pRYa58",
         "source": "generate",
         "metadata": null,
         "tool_calls": null,
@@ -52,7 +52,7 @@
     }
   ],
   "summary": {
-    "completion": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # Define theta as a symbol with the assumption cos(theta) != 1 to match\n    # the general problem description, though it acts as a constant parameter here.\n    # Alternatively, we can treat cos(theta) as 'c' where c in [0, 1).\n    # The problem asks for f(x) explicitly. Based on the derivation,\n    # f(x) = cos^2(theta) * h(x), where h(x) is the binary entropy.\n    # In Sympy, we use log for natural logarithm (nats).\n    \n    theta = sp.symbols('theta')\n    \n    # Binary entropy function h(x) = -x*log(x) - (1-x)*log(1-x)\n    h_x = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    \n    # The maximal Holevo information scales by cos^2(theta)\n    f = sp.cos(theta)**2 * h_x\n    # ---------------------------------------------------------------\n\n    return f"
+    "completion": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    f = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    # ---------------------------------------------------------------\n\n    return f"
   },
   "inspect": {
     "processed_state": {
@@ -66,7 +66,7 @@
             }
           ],
           "raw": {
-            "id": "Sa2ZaGyYYd3bQsyy7jJEub",
+            "id": "7anyaxx74jYWUaH2eZU5ad",
             "source": null,
             "metadata": null
           }
@@ -80,7 +80,7 @@
             }
           ],
           "raw": {
-            "id": "Zibv3EW5MxFbjxAfu2WccM",
+            "id": "G9K6wEaxdXgnZUHwcGuBFU",
             "source": null,
             "metadata": null,
             "tool_call_id": null
@@ -91,11 +91,11 @@
           "contents": [
             {
               "content_type": "content",
-              "content_text": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # Define theta as a symbol with the assumption cos(theta) != 1 to match\n    # the general problem description, though it acts as a constant parameter here.\n    # Alternatively, we can treat cos(theta) as 'c' where c in [0, 1).\n    # The problem asks for f(x) explicitly. Based on the derivation,\n    # f(x) = cos^2(theta) * h(x), where h(x) is the binary entropy.\n    # In Sympy, we use log for natural logarithm (nats).\n    \n    theta = sp.symbols('theta')\n    \n    # Binary entropy function h(x) = -x*log(x) - (1-x)*log(1-x)\n    h_x = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    \n    # The maximal Holevo information scales by cos^2(theta)\n    f = sp.cos(theta)**2 * h_x\n    # ---------------------------------------------------------------\n\n    return f"
+              "content_text": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    f = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    # ---------------------------------------------------------------\n\n    return f"
             }
           ],
           "raw": {
-            "id": "R7hAkGUAdEmewPCjw8iZaa",
+            "id": "8Hbnd4JBsXt629k4pRYa58",
             "source": "generate",
             "metadata": null,
             "tool_calls": null,
@@ -108,8 +108,8 @@
         "choices": [
           {
             "message": {
-              "id": "R7hAkGUAdEmewPCjw8iZaa",
-              "content": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # Define theta as a symbol with the assumption cos(theta) != 1 to match\n    # the general problem description, though it acts as a constant parameter here.\n    # Alternatively, we can treat cos(theta) as 'c' where c in [0, 1).\n    # The problem asks for f(x) explicitly. Based on the derivation,\n    # f(x) = cos^2(theta) * h(x), where h(x) is the binary entropy.\n    # In Sympy, we use log for natural logarithm (nats).\n    \n    theta = sp.symbols('theta')\n    \n    # Binary entropy function h(x) = -x*log(x) - (1-x)*log(1-x)\n    h_x = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    \n    # The maximal Holevo information scales by cos^2(theta)\n    f = sp.cos(theta)**2 * h_x\n    # ---------------------------------------------------------------\n\n    return f",
+              "id": "8Hbnd4JBsXt629k4pRYa58",
+              "content": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    f = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    # ---------------------------------------------------------------\n\n    return f",
               "source": "generate",
               "metadata": null,
               "role": "assistant",
@@ -122,16 +122,16 @@
             "prompt_logprobs": null
           }
         ],
-        "completion": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # Define theta as a symbol with the assumption cos(theta) != 1 to match\n    # the general problem description, though it acts as a constant parameter here.\n    # Alternatively, we can treat cos(theta) as 'c' where c in [0, 1).\n    # The problem asks for f(x) explicitly. Based on the derivation,\n    # f(x) = cos^2(theta) * h(x), where h(x) is the binary entropy.\n    # In Sympy, we use log for natural logarithm (nats).\n    \n    theta = sp.symbols('theta')\n    \n    # Binary entropy function h(x) = -x*log(x) - (1-x)*log(1-x)\n    h_x = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    \n    # The maximal Holevo information scales by cos^2(theta)\n    f = sp.cos(theta)**2 * h_x\n    # ---------------------------------------------------------------\n\n    return f",
+        "completion": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    f = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    # ---------------------------------------------------------------\n\n    return f",
         "usage": null,
         "fallback": null,
-        "time": 1216.281999999992,
+        "time": 637.7810000000027,
         "metadata": null,
         "error": null
       },
       "metadata": {
-        "reader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x00000276CD119A00>",
-        "loader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x00000276CD119A00>",
+        "reader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x000001D44B2B83B0>",
+        "loader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x000001D44B2B83B0>",
         "problem_ids": [
           "Challenge_22_main"
         ],
@@ -163,7 +163,7 @@
             }
           ],
           "raw": {
-            "id": "Sa2ZaGyYYd3bQsyy7jJEub",
+            "id": "7anyaxx74jYWUaH2eZU5ad",
             "source": null,
             "metadata": null
           }
@@ -177,7 +177,7 @@
             }
           ],
           "raw": {
-            "id": "Zibv3EW5MxFbjxAfu2WccM",
+            "id": "G9K6wEaxdXgnZUHwcGuBFU",
             "source": null,
             "metadata": null,
             "tool_call_id": null
@@ -188,11 +188,11 @@
           "contents": [
             {
               "content_type": "content",
-              "content_text": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # Define theta as a symbol with the assumption cos(theta) != 1 to match\n    # the general problem description, though it acts as a constant parameter here.\n    # Alternatively, we can treat cos(theta) as 'c' where c in [0, 1).\n    # The problem asks for f(x) explicitly. Based on the derivation,\n    # f(x) = cos^2(theta) * h(x), where h(x) is the binary entropy.\n    # In Sympy, we use log for natural logarithm (nats).\n    \n    theta = sp.symbols('theta')\n    \n    # Binary entropy function h(x) = -x*log(x) - (1-x)*log(1-x)\n    h_x = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    \n    # The maximal Holevo information scales by cos^2(theta)\n    f = sp.cos(theta)**2 * h_x\n    # ---------------------------------------------------------------\n\n    return f"
+              "content_text": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    f = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    # ---------------------------------------------------------------\n\n    return f"
             }
           ],
           "raw": {
-            "id": "R7hAkGUAdEmewPCjw8iZaa",
+            "id": "8Hbnd4JBsXt629k4pRYa58",
             "source": "generate",
             "metadata": null,
             "tool_calls": null,
@@ -205,8 +205,8 @@
         "choices": [
           {
             "message": {
-              "id": "R7hAkGUAdEmewPCjw8iZaa",
-              "content": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # Define theta as a symbol with the assumption cos(theta) != 1 to match\n    # the general problem description, though it acts as a constant parameter here.\n    # Alternatively, we can treat cos(theta) as 'c' where c in [0, 1).\n    # The problem asks for f(x) explicitly. Based on the derivation,\n    # f(x) = cos^2(theta) * h(x), where h(x) is the binary entropy.\n    # In Sympy, we use log for natural logarithm (nats).\n    \n    theta = sp.symbols('theta')\n    \n    # Binary entropy function h(x) = -x*log(x) - (1-x)*log(1-x)\n    h_x = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    \n    # The maximal Holevo information scales by cos^2(theta)\n    f = sp.cos(theta)**2 * h_x\n    # ---------------------------------------------------------------\n\n    return f",
+              "id": "8Hbnd4JBsXt629k4pRYa58",
+              "content": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    f = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    # ---------------------------------------------------------------\n\n    return f",
               "source": "generate",
               "metadata": null,
               "role": "assistant",
@@ -219,16 +219,16 @@
             "prompt_logprobs": null
           }
         ],
-        "completion": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # Define theta as a symbol with the assumption cos(theta) != 1 to match\n    # the general problem description, though it acts as a constant parameter here.\n    # Alternatively, we can treat cos(theta) as 'c' where c in [0, 1).\n    # The problem asks for f(x) explicitly. Based on the derivation,\n    # f(x) = cos^2(theta) * h(x), where h(x) is the binary entropy.\n    # In Sympy, we use log for natural logarithm (nats).\n    \n    theta = sp.symbols('theta')\n    \n    # Binary entropy function h(x) = -x*log(x) - (1-x)*log(1-x)\n    h_x = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    \n    # The maximal Holevo information scales by cos^2(theta)\n    f = sp.cos(theta)**2 * h_x\n    # ---------------------------------------------------------------\n\n    return f",
+        "completion": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    f = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    # ---------------------------------------------------------------\n\n    return f",
         "usage": null,
         "fallback": null,
-        "time": 1216.281999999992,
+        "time": 637.7810000000027,
         "metadata": null,
         "error": null
       },
       "metadata": {
-        "reader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x00000276CD22E7E0>",
-        "loader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x00000276CD22E7E0>",
+        "reader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x000001D44B008B60>",
+        "loader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x000001D44B008B60>",
         "problem_ids": [
           "Challenge_22_main"
         ],
@@ -254,8 +254,8 @@
       "choices": [
         {
           "message": {
-            "id": "R7hAkGUAdEmewPCjw8iZaa",
-            "content": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # Define theta as a symbol with the assumption cos(theta) != 1 to match\n    # the general problem description, though it acts as a constant parameter here.\n    # Alternatively, we can treat cos(theta) as 'c' where c in [0, 1).\n    # The problem asks for f(x) explicitly. Based on the derivation,\n    # f(x) = cos^2(theta) * h(x), where h(x) is the binary entropy.\n    # In Sympy, we use log for natural logarithm (nats).\n    \n    theta = sp.symbols('theta')\n    \n    # Binary entropy function h(x) = -x*log(x) - (1-x)*log(1-x)\n    h_x = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    \n    # The maximal Holevo information scales by cos^2(theta)\n    f = sp.cos(theta)**2 * h_x\n    # ---------------------------------------------------------------\n\n    return f",
+            "id": "8Hbnd4JBsXt629k4pRYa58",
+            "content": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    f = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    # ---------------------------------------------------------------\n\n    return f",
             "source": "generate",
             "metadata": null,
             "role": "assistant",
@@ -268,10 +268,10 @@
           "prompt_logprobs": null
         }
       ],
-      "completion": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # Define theta as a symbol with the assumption cos(theta) != 1 to match\n    # the general problem description, though it acts as a constant parameter here.\n    # Alternatively, we can treat cos(theta) as 'c' where c in [0, 1).\n    # The problem asks for f(x) explicitly. Based on the derivation,\n    # f(x) = cos^2(theta) * h(x), where h(x) is the binary entropy.\n    # In Sympy, we use log for natural logarithm (nats).\n    \n    theta = sp.symbols('theta')\n    \n    # Binary entropy function h(x) = -x*log(x) - (1-x)*log(1-x)\n    h_x = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    \n    # The maximal Holevo information scales by cos^2(theta)\n    f = sp.cos(theta)**2 * h_x\n    # ---------------------------------------------------------------\n\n    return f",
+      "completion": "import sympy as sp\n\nx = sp.symbols('x')\n\ndef answer(x):\n    r\"\"\"\n    Return the expression of $f(x)$ in Sympy format.\n\n    Inputs\n    ----------\n    x : sympy.Symbol, optimization variable $x\\in[0,1]$\n\n    Outputs\n    ----------\n    f : sympy.Expr, the explicit function form of $f(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    f = -x * sp.log(x) - (1 - x) * sp.log(1 - x)\n    # ---------------------------------------------------------------\n\n    return f",
       "usage": null,
       "fallback": null,
-      "time": 1216.281999999992,
+      "time": 637.7810000000027,
       "metadata": null,
       "error": null
     }

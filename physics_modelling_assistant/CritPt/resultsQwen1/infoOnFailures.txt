@@ -1,0 +1,5 @@
+# 50,52,68,69,70 worked on the second run
+# 30,56 worked on the third run
+# 44 worked on sixth try
+# 35,37,54 did not adopt the correct format on their first successfull run, but on the second
+- generally where formats corrected with a script

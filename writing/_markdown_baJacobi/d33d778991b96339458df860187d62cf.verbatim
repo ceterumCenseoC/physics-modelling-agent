@@ -1,0 +1,12 @@
+	The **Rashba Hamiltonian** for a 2DEG at the $\Gamma$ point is [Bychkov \& Rashba, *JETP Lett.* 39, 78 (1984)]:
+	
+	$$
+	\boxed{\hat{H} = \frac{p^2}{2m} + \alpha\,\hat{z}\cdot(\mathbf{p}\times\boldsymbol{\sigma})}
+	$$
+	
+	where:
+	- $m$ is the effective carrier mass,
+	- $\alpha$ is the Rashba spin–orbit coupling (SOC) strength,
+	- $\mathbf{p} = \hbar\mathbf{k}$ is the momentum,
+	- $\boldsymbol{\sigma}=(\sigma_x,\sigma_y,\sigma_z)$ are the Pauli matrices,
+	- $\hat{z}$ is the direction perpendicular to the 2D plane.

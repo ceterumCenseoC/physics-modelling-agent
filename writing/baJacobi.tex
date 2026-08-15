@@ -241,6 +241,12 @@
 	\end{figure}
 }
 
+
+% MAKE BOX AROUND SPECIAL CONTENT
+\usepackage[most]{tcolorbox}
+
+
+% USE PDFS
 \usepackage{pdfpages}   % include external PDFs
 \usepackage{standalone} % standalone TikZ or sub-documents
 %tikz drawings
@@ -845,11 +851,13 @@ listname=Table Index
 	The generated results are stored in JSON-files and can be send to the evaluation server via a script provided by CritPt. Since Artificial Analysis \autocite{artifAna} has integrated CritPt, a valid \gls{API key} from Artificial Analysis \autocite{artifAna} is needed for the evaluation server. It can be obtained via Artificial Analysis and is free of charge. For the evaluation requests to be approved, the account connected to the submitting \gls{API key} needs to be marked as a trusted research account by Artificial Analysis \autocite{artAnaTrusted}.
 	
 	\subsection{Investigating the Physics Modelling Assistant's Performance}
-	\subsubsection{An Example Run}
+	\subsubsection{An Example Run} \label{subsub:exRun}
 	To provide inside into the Physics Modelling Assistant's work, the system is given an example modelling request. It is not taken from the CritPt benchmark, since no solutions are attempts of them should be published (see \autoref{sub:eval}). The following aim is chosen:
+	
 	{ \centering
 	\enquote{Calculate the Edelstein effect for a Rashba fermion (at the Gamma point of the Brillouin zone). Compute the magnetization magnitude and direction of different directions and magnitudes of the applied electric field. Consider how the result depends on relevant parameters of the model (e.g. chirality, Fermi velocity, spin-orbit coupling strength) and make explicit graphics.}
 	The Physics Modelling Assistant's work is presented for a selected challenge from the benchmark. It is meant to provide insight into the system and the outputs it produces, which are meant to assist in physics modelling.}
+	
 	The final output is specified to be \enquote{simple markdown format}.
 	The parameters are the defaults described in \autoref{subsub:paramCh}.
 	
@@ -877,32 +885,229 @@ listname=Table Index
 	
 	\subsubsection{Results of the Example Run} %3,5 are missing
 	\paragraph{Found Sources} A total of six papers are downloaded from arXiv. These are:
-	\begin{enumerate}
+	\begin{enumerate} \label{enum:papers}
 		\item \citetitle{paper1_Gaiardoni_2025} \autocite{paper1_Gaiardoni_2025}
 		\item \citetitle{paper2_Ezawa_2025} \autocite{paper2_Ezawa_2025}
 		\item \citetitle{paper3_Funato_2021} \autocite{paper3_Funato_2021}
 		\item \citetitle{paper4_Auvray_2018} \autocite{paper4_Auvray_2018}
 		\item \citetitle{paper5_rashba2018electricdipolespinresonances} \autocite{paper5_rashba2018electricdipolespinresonances}
 		\item \citetitle{paper6_Engel_2007} \autocite{paper6_Engel_2007}
-		\autocite{paper}
 	\end{enumerate}
 	The markdown report includes the following information for each paper: arXiv ID, authors, date, URL to the paper on arXiv, and a short summary. For the full report visit \autocite{gitSources}.
 	
-	The Task works as expected, providing all the requested information and staying within the limit of downloading a maximum of six papers.
+	The Task works as expected, providing all the requested information and staying within the limit of downloading a maximum of six papers. All sources directly relate to the Edelstein effect and discuss aspects of it, which are relevant to the modelling request (see \autoref{subsub:exRun})
 	
-	\paragraph{Extracted Information}
+	\paragraph{Extracted Information} \label{pma:extrInfo}
 	The report on this Task lists all of the downloaded papers along the following additions, which were not downloaded:
 	\begin{itemize}
 		\item[7.] \citetitle{paper7_PismaZhETF.39.66} \autocite{paper7_PismaZhETF.39.66}
 		\item[8.] \citetitle{paper8_Edelstein1990SpinPO} \autocite{paper8_Edelstein1990SpinPO}
 		\item[9.] \citetitle{paper9} \autocite{paper9}
 	\end{itemize}
-	
-	The full report (see \autocite{gitInfo}) lists a variety of formulas, notably the Rashba hamiltonian and analytical results for the magnetization density from \autocite{paper1_Gaiardoni_2025}:
-	\begin{align}
+	The full report (see \autocite{gitInfo}) lists and explains a variety of formulas, starting with the Rashba Hamiltonian:
+	\begin{tcolorbox}[enhanced, breakable, title=Hamiltonian found,colback=blue!5!white, colframe=blue!75!black] \label{pma:hamilton}
+		The \textbf{Rashba Hamiltonian} for a 2DEG at the $\Gamma$ point is [Bychkov \& Rashba, \textit{JETP Lett.} 39, 78 (1984)]:
 		
-	\end{align}
+		$$
+		\boxed{\hat{H} = \frac{p^2}{2m} + \alpha\,\hat{z}\cdot(\mathbf{p}\times\boldsymbol{\sigma})}
+		$$
+		
+		where:\begin{itemize}
+		\item[-] $m$ is the effective carrier mass,
+		\item[-] $\alpha$ is the Rashba spin–orbit coupling (SOC) strength,
+		\item[-] $\mathbf{p} = \hbar\mathbf{k}$ is the momentum,
+		\item[-] $\boldsymbol{\sigma}=(\sigma_x,\sigma_y,\sigma_z)$ are the Pauli matrices,
+		\item[-] $\hat{z}$ is the direction perpendicular to the 2D plane.
+		\end{itemize}
+	\end{tcolorbox}
+	Most contents are used from and attributed to the work of \citeauthor{paper1_Gaiardoni_2025} \autocite{paper1_Gaiardoni_2025}, these include the \textit{energy dispersion}, the \textit{spin eigenstates}, and the \textit{Fermi wavenumbers} split into high density regime (HDR) and low density regime (LDR). The formula for the magnetization (\textbf{total spin density}) is stated from \autocite{paper1_Gaiardoni_2025} and \autocite{paper2_Ezawa_2025}.
+	For the Magnetization, the following analytical results for the isotropic model are provided:
+	\begin{tcolorbox}[enhanced, breakable, title=Analytical magnetization, colback=blue!5!white, colframe=blue!75!black] \label{pma:magn}
+		\textbf{\Large4.1 Magnetization in the High-Density Regime (HDR)}
+		
+		For an electric field $\mathbf{E} = E_x\hat{x}$, the spin density along $\hat{y}$ in the HDR (both bands occupied) is [Gaiardoni et al., arXiv:2503.20712 (2025)]:
+		
+		$$
+		\boxed{M_y = \frac{\mu_B |e|\tau}{2\pi}\,m\alpha\,[\hat{z}\times\mathbf{E}]_y}
+		$$
+		
+		\textbf{Key result:} In the HDR, the magnetization is \textbf{constant, independent of the Fermi energy} $E_F$, and proportional to the Rashba SOC parameter $\alpha$ and the effective mass $m$.
+		
+		\textbf{\Large4.2 Magnetization in the Low-Density Regime (LDR)}
+		
+		In the LDR (only the lower band occupied) [Gaiardoni et al., arXiv:2503.20712 (2025)]:
+		
+		$$
+		\boxed{M_y = \frac{\mu_B |e|\tau}{2\pi}\,\sqrt{m^2\alpha^2 + 2mE_F}\,[\hat{z}\times\mathbf{E}]_y}
+		$$
+		
+		For small $E_F$ near the band crossing, this can be expanded as:
+		
+		$$
+		M_y \approx \frac{\mu_B |e|\tau}{2\pi}\left(\alpha m + \frac{1}{2}\frac{E_F}{\alpha}\right)[\hat{z}\times\mathbf{E}]_y
+		$$
+		
+		The spin density \textbf{increases linearly with the Fermi energy}. In the limit $\alpha \to 0$, the second term vanishes because $E_F$ has a quadratic dependence on $\alpha$.
+	\end{tcolorbox}
+	Further information include the \textbf{Anisotropic Rashba Model}, the \textbf{Out-of-Plane Edelstein Effect}, the \textbf{Acoustic Edelstein Effect}, and the \textbf{Effect of a Magnetic Field}. The dependencies on the model's parameters is discussed with the following takeaways:
+	\begin{align*}
+		\text{Edelstein susceptibility } \chi_{xy} &\propto \alpha \text{ in HDR}\\
+		\chi_{xy}(E_F)& = const. \text{ in HDR}\\
+		\chi_{xy}(E_F)& \propto E_F \text{ linear increase with $E_F$ in LDR}\\
+		\text{sign of } \alpha & \text{ determines spin orientation on the Fermi surface}
+	\end{align*}
+	Lastly, Task provides guidelines for a numerical implementation along with code snippets and the expected graphics.
 	
+	The output draws is information from the papers downloaded from arXiv (see \autoref{enum:papers}) and also provides proper citation for its statements. As shown in \autoref{pma:hamilton} and \autoref{pma:magn}, the provided information are relevant to the problem at hand, even providing formulas that can be implemented. The sections about the Out-of-Plane Edelstein Effect and the Acoustic Edelstein Effect discuss more specialized cases not integral to the Edelstein Effect the input asks for. It appears that the inclusion of these information is heavily influenced by the downloaded papers \autocite{paper2_Ezawa_2025}, \autocite{paper3_Funato_2021}, and \autocite{paper6_Engel_2007}, which discuss these particular systems. The inclusion of implementation instructions is not expected. It could be problematic since the formulas not checked for dimensional consistency at this stage. Therefore, possibly incorrect implementation ideas are listed and can influence later Tasks to adopt them.
+	
+	\paragraph{The Model}
+	Since the modelling Task reiterates the extracted information as stated in \autoref{pma:extrInfo}, the output is omitted here, but can be accessed via GitHub \autocite{gitModel}. If the file appears not to be displayed correctly on GitHub, it might be due to the Markdown viewer. During the work on this Thesis, \citetitle{mdView} \autocite{mdView} was used, providing a clean human readable look amid incorrect Markdown code.
+	
+	The modelling step is generally expected to use the information as a foundations and derive new formulas needed to provide an answer to the input. Contrary to the expectation, source code for the implementation was stated, matching the one from the information extraction \autoref{pma:extrInfo}. The provided information being restated point to the Task and its \gls{Agent} either relying too much on the papers found, or deeming the information as sufficient for the modelling request. Furthermore, the request is comparably broad, not asking for a specific properties but general parameter dependencies. For the CritPt challenges the modelling step shows the intended behaviour, deriving new formulas not stated in the extracted information and integrating the explicit problem from the challenge description.
+	
+	\paragraph{Unit Check}
+	Key formulas are checked for dimensional consistency regarding their units. The first step analysis the Rashba Hamiltonian as it is stated in \autoref{pma:hamilton}:
+	\begin{tcolorbox}[enhanced, breakable, title=Unit analysis of the Rashba Hamiltonian, colback=blue!5!white, colframe=blue!75!black] \label{pma:unitHam}
+		\textbf{\Large Formula}
+		$$
+		\hat{H} = \frac{p^2}{2m} + \alpha\,\hat{z}\cdot(\mathbf{p}\times\boldsymbol{\sigma})
+		$$
+		
+		\textbf{\large Quantities and Units}
+		- $H$ (Hamiltonian): Energy $\rightarrow [E]$ (Joules)
+		- $p$ (Momentum): $[p] = [M][L][T]^{-1}$
+		- $m$ (Mass): $[m] = [M]$
+		- $\alpha$ (Rashba parameter): $[\alpha] = ?$
+		- $\boldsymbol{\sigma}$ (Pauli matrices): Dimensionless
+		
+		\textbf{\large Tool Input}
+		\begin{tcolorbox}[colback=gray!10!white]
+			equation: H = p**2 / (2*m) + alpha * (p)
+			dimensions: {"H": "energy", "p": "momentum", "m": "mass", "alpha": "alpha\_dimension"}
+			unitList: energy, momentum, mass, alpha\_dimension
+		\end{tcolorbox}
+		
+		
+		\textbf{\large Tool Output}
+		\begin{tcolorbox}[colback=gray!10!white]
+			2*energy*mass/(momentum*(2*alpha\_dimension*mass + momentum))
+		\end{tcolorbox}
+		
+		\textbf{\large Analysis}
+		The first term $\frac{p^2}{2m}$ has units $\frac{([M][L][T]^{-1})^2}{[M]} = [M][L]^2[T]^{-2} = [E]$.
+		The tool output shows that for consistency, \textit{alpha\_dimension} must satisfy \textit{energy = momentum * alpha\_dimension}.
+		Since $[E] = [M][L]^2[T]^{-2}$ and $[p] = [M][L][T]^{-1}$, we must have:
+		$$
+		[\alpha] = \frac{[E]}{[p]} = \frac{[M][L]^2[T]^{-2}}{[M][L][T]^{-1}} = [L][T]^{-1}
+		$$
+		\textbf{Conclusion:} The Rashba parameter $\alpha$ has units of \textbf{velocity} ($m/s$)
+	\end{tcolorbox}
+	The energy dispersion is deemed dimensionally consistent by the tool output and no correction is applied.
+	\begin{tcolorbox}[enhanced, breakable, title=Unit correction for the HDR magnetization, colback=blue!5!white, colframe=blue!75!black] \label{pma:unitHDR}
+		\textbf{\large Formula}
+		$$
+		M_y = \frac{\mu_B |e|\tau}{2\pi}\,m\alpha\,[\hat{z}\times\mathbf{E}]_y
+		$$
+		For dimensional analysis, we examine the product $M_y \propto \mu_B e \tau m \alpha E$.
+		
+		\textbf{\large Quantities and Units}
+		\begin{itemize}
+			\item[-] $M_y$ (Magnetization/Spin Density): Magnetic moment per unit volume.
+			\item[-] In SI (Volume): $[M] = [I][L]^2$ (Am$^2$) / $[L]^3$ = $[I][L]^{-1}$ (A/m).
+			\item[-] In 2D (Area): $[M] = [I]$ (Amperes) / $[L]^2$ = $[I][L]^{-2}$ (A/m$^2$).
+			\item[-] In microscopic units (just density): $[M] \propto [\hbar]^{-1}[L]^{-2}$.
+			\item[-] $\mu_B$ (Bohr magneton): $[\mu_B] = [I][L]^2$ (Am$^2$ or J/T).
+			\item[-] $e$ (Elementary charge): $[e] = [I][T]$.
+			\item[-] $\tau$ (Relaxation time): $[\tau] = [T]$.
+			\item[-] $m$ (Mass): $[m] = [M]$.
+			\item[-] $\alpha$ (Velocity): $[\alpha] = [L][T]^{-1}$.
+			\item[-] $E$ (Electric field): $[E] = [M][L]^3[T]^{-3}[I]^{-1}$ (V/m).
+		\end{itemize}
+		
+		\textbf{\large Tool Input}
+		\begin{tcolorbox}[colback=gray!10!white]
+		equation: M\_y = mu\_B * e * tau * m * alpha * E
+		dimensions: {"M\_y": "magnetization", "mu\_B": "magnetic\_moment", "e": "charge", "tau": "time", "m": "mass", "alpha": "velocity", "E": "electric\_field"}
+		unitList: magnetization, magnetic\_moment, charge, time, mass, velocity, electric\_field
+		\end{tcolorbox}
+		
+		\textbf{\large Tool Output}
+		\begin{tcolorbox}[colback=gray!10!white]
+		magnetization*exp(-1)/(charge*magnetic\_moment*mass*time*velocity*electric\_field)
+		\end{tcolorbox}
+		...omitting a long analysis which is part of the original output...\\
+
+		\textbf{Conclusion on Formula Consistency:}
+		The formula is dimensionally consistent **if and only if** the system of units uses $\hbar=1$ (natural units) or the parameters $m$ and $\alpha$ are defined in units that include $\hbar$ (common in computational materials science, e.g., $\alpha$ in $eV\cdot\mathring{A}$ and $m$ in $eV^{-1}\mathring{A}^{-2}\cdot \hbar^2$).
+		However, in standard SI units, the formula is missing a factor of $\hbar^{-2}$.
+		
+		\textbf{Correction for Standard Units:}
+		$$
+		M_y = \frac{\mu_B |e|\tau}{2\pi\hbar^2}\,m\alpha\,[\hat{z}\times\mathbf{E}]_y
+		$$
+	\end{tcolorbox}
+	For the LDR magnetization the same correction is applied
+	Additionally, formulas for the anisotropic susceptibility and the Out-of-Plane susceptibility are analysed. The output does not include any tool calls and is unable to identify a unit system for both formulas. Lastly, the findings are summarised, restating the $\frac{1}{\hbar}$ correction for both HDR and LDR magnetization.
+	
+	This task correctly identified the units of the Rashba coupling strength $\alpha$ to be a velocity for the given Hamiltonian (see \autoref{pma:unitHam}). The corrections for the magnetization achieves unit consistency, as stated by the output. This is checked by hand to verify the result:
+	The used properties and their units are:
+	\begin{itemize}
+		\item $M_y$ is the magnetization. As stated in the extracted information in \autoref{pma:extrInfo}, it is the total spin density (\si{\ampere \meter^2}) per unit volume. Since \citeauthor{paper1_Gaiardoni_2025} \autocite{paper1_Gaiardoni_2025} discuss a 2D system, the unit volume is in units of \si{\meter^{-2}}
+		\item $\mu_B$ is the Bohr magneton. I can be expressed in \si{\joule \tesla^{-1}}
+		\item $e$ is the charge with the unit of \si{\ampere \second}
+		\item $\tau$ is the transport time expressed in \si{\second}
+		\item $m$ is the effective mass in \si{\kilogram}
+		\item $\alpha$ is the Rashba coupling strength. As stated in \autoref{pma:unitHam}, it is unit of velocity, \si{\meter\second^{-1}}
+		\item $\hat{z}$ is a dimensionless direction
+		\item $\mathbf{E}$ is the applied electric field. It can be expressed in \si{\volt\meter^{-1}}
+		\item $\hbar$ is the Planck constant with SI units of \si{\joule \second}
+	\end{itemize}
+	The relevant unit conversions are:
+	\begin{align}
+		1 \si{\tesla} &= 1 \frac{\si{\volt \second}}{\si{\meter^2}} \label{con:tesla} \\
+		1 \si{\joule} &= 1 \si{\kilogram} \frac{\si{\meter^2}}{\si{\second^2}} \label{con:joule}
+	\end{align}
+	Using these units lead to the following:
+	\begin{align*}
+		\left[M_y\right] &\overset{!}{\hat{=}} \left[\mu_B \left\|e\right\| \tau m \alpha \left(\hat{z} \times \mathbf{E}\right)_y\frac{1}{2 \pi \hbar^2}\right]\\
+		\si{\ampere} &\overset{!}{\hat{=}} \si{\frac{\joule}{\tesla} \cdot \ampere \second \cdot \second \cdot \kilogram \cdot \frac{\meter}{\second} \cdot \frac{\volt}{\meter} \cdot \frac{1}{\joule^2 \second^2}}\\
+		& \text{now use \autoref{con:tesla}:}\\
+		\si{\ampere} &\overset{!}{\hat{=}} \si{\frac{\joule \meter^2}{\volt \second} \cdot \ampere \second \cdot \second \cdot \kilogram \cdot \frac{\meter}{\second} \cdot \frac{\volt}{\meter} \cdot \frac{1}{\joule^2 \second^2}}\\
+		\si{\ampere} &\overset{!}{\hat{=}} \si{\frac{\joule \meter^2}{\volt \second} \cdot \ampere \second \cdot \second \cdot \kilogram \cdot \frac{\meter}{\second} \cdot \frac{\volt}{\meter} \cdot \frac{1}{\joule^2 \second^2}}\\
+		\si{\ampere} &\overset{!}{\hat{=}} \si{\ampere \frac{\kilogram \meter^3 \second^2}{\joule \second^4 \meter}}\\
+		\si{\ampere} &\overset{!}{\hat{=}} \si{\ampere \frac{1}{\joule} \cdot \kilogram \frac{\meter^2}{\second^2}}\\
+		& \text{now use \autoref{con:joule}:}\\
+		\si{\ampere} &\overset{!}{\hat{=}} \si{\ampere} \ \ \text{ verifies unit consistency}
+	\end{align*}
+	If $\left[\alpha\right] = \mathrm{eV}\si{\angstrom} \overset{!}{\hat{=}} \si{\joule \meter}$ as stated in \citetitle{paper1_Gaiardoni_2025} \autocite{paper1_Gaiardoni_2025}, and additional $\frac{1}{\hbar}$ correction is needed, resulting in $\left[\frac{\alpha}{\hbar}\right] \overset{!}{\hat{=}} \si{\frac{\joule \meter}{\joule \second}} \overset{!}{\hat{=}} \si{\frac{\meter}{\second}}$.
+	
+	The tool not being called for the LDR magnetization formula is likely due to the formula requiring the same correction factor as the HDR magnetization. For the anisotropic and Out-of-Plane susceptibility , the absence of the dimensional analysis tool being invoked might be due to the \gls{Agent}'s inability to come up with a proper unit system in the first place.
+	
+	\paragraph{Parameter Suggestions}
+	For each parameter the Task discusses, its range, a specific suggestion, and a justification for the range and suggestion are provided. The justification for the effective mass $m$ and the Rashba coupling strength $\alpha$ include a source backing the suggestion. There are two different unit suggestions for the effective mass, the first is to use $0.13 \frac{1}{\mathrm{eV} \si{\angstrom^2}}$, the second one to use \si{9,11 \cdot 10^{-31} \kilogram}. The final parameter suggestions is:
+	\begin{tcolorbox} [enhanced, breakable, title=Parameter suggestions for the implementation, colback=blue!5!white, colframe=blue!75!black] \label{pma:suggParams}
+		\begin{tabular}{c c c c c}
+		
+		| Parameter | Symbol | Value | Units | Physical Source |
+		| :--- | :--- | :--- | :--- | :--- |
+		| **Effective Mass** | $m$ | $0.5 \, m_e$ | kg | $m_e = 9.11 \times 10^{-31}$ kg. Effective masses in LAO/STO range from $0.5$ to $3 m_e$ [1]. |
+		| **Rashba Coupling** | $\alpha$ | $5.0 \times 10^{-11}$ | eV$\cdot$m | Corresponds to $\approx 50$ meV$\cdot\mathring{A}$. This is a "strong" SOC regime observed in Bi/Ag or gated interfaces [2, 3]. |
+		| **Fermi Energy** | $E_F$ | $60$ | meV | Typical carrier density $n \sim 10^{13}$ cm$^{-2}$. Places system in HDR ($E_F \gg E_R$). |
+		| **Relaxation Time** | $\tau$ | $1.0 \times 10^{-12}$ | s | $1$ picosecond. Corresponds to a mobility $\mu \approx 10$ cm$^2$/V$\cdot$s for $m \approx m_e$ [1]. |
+		| **Electric Field** | $E_x$ | $1000$ | V/m | Linear response regime. Small enough to avoid Joule heating, large enough for signal. |
+		| **g-factor** | $g$ | $2.0$ | - | Free electron value. |
+		| **Temperature** | $T$ | $4.2$ | K | Low temperature limit (often used in theoretical/comparison papers). |
+		
+		**Sources:**
+		1. **Caprara, S. et al.** *Rep. Prog. Phys.* **79**, 096501 (2016). (Review of LAO/STO parameters: masses, mobilities, densities).
+		2. **Ast, C. R. et al.** *Phys. Rev. Lett.* **98**, 186807 (2007). (Giant Rashba splitting on Bi/Ag surface, $\alpha \sim 3$ eV$\cdot\mathring{A}$).
+		3. **Ben Shalom, M. et al.** *Phys. Rev. Lett.* **105**, 206801 (2010). (Tunable $\alpha$ and $E_F$ in LAO/STO).
+	\end{tcolorbox}
+	
+	\begin{tcolorbox}[enhanced, breakable, title=Analytical Magnetization, colback=blue!5!white, colframe=blue!75!black] \label{pma:suscept}
+		Inhalt...
+	\end{tcolorbox}
+		
 	\subsubsection{The Physics Modelling Assistant's Default Setup Performance}
 	During the generation phase, the Physics Modelling Assistant did not produce a proper output for 11 of the 70 challenges. Most failures where due to the API rate limit of SAIA \autocite{saiaModels} being exceeded, causing the system to fail and report a 429 error code. The \gls{context-window} being exceeded was another common reason for challenges to being answered. Failed attempts where manually rerun, resulting in the challenges 50, 52, 68, 69, and 70 to be answered on the second attempt. The third try resulted in the challenges 30 and 56 being answered, leaving only the 44th challenge unanswered after five attempts.
 	
@@ -911,7 +1116,7 @@ listname=Table Index
 	The Physics Modelling Assistant scores \si{2.86 \percent} on its first CritPt benchmarking. This does not 
 	
 	\paragraph{Comparison to the Used \gls{LLM}s}
-	The default setup of the Physics Modelling Assistant achieves an accuracy of \si{2.86 \percent} on the CritPt benchmark. Since the CritPt benchmark resul is an average over five evaluations (see \autoref{subsub:critPt}), this result on its own does not allow to definitively judge the Physics Modelling Assistants performance on CritPt. It provides the tendency of the system performing in the range of the individual models used, which achieve \si{1.7 \percent} (glm-4.7) and \si{1.1 \percent} (qwen3.6 27B) respectively \autocite{artAnaCritPt}. 
+	The default setup of the Physics Modelling Assistant achieves an accuracy of \si{2.86 \percent} on the CritPt benchmark. Since the CritPt benchmark result is an average over five evaluations (see \autoref{subsub:critPt}), this result on its own does not allow to definitively judge the Physics Modelling Assistants performance on CritPt. It provides the tendency of the system performing in the range of the individual models used, which achieve \si{1.7 \percent} (glm-4.7) and \si{1.1 \percent} (qwen3.6 27B) respectively \autocite{artAnaCritPt}. 
 	
 	\subsection{The Performance for Different Available Sources}
 	Compare performance for all different 
@@ -953,26 +1158,6 @@ listname=Table Index
 	\pagebreak
 	\section{Appendix}
 	\subsection{Physics Modelling Assistant Example}
-	\subsubsection{Sources} \label{app:sources}
-	\includepdf[width=\textwidth, page=-]{data/example/sources.pdf}
-	\FloatBarrier
-	\subsubsection{Extracted Information} \label{app:info}
-	\includepdf[width=\textwidth, page=-]{data/example/info.pdf}
-	\FloatBarrier
-	\subsubsection{Model} \label{app:model}
-	\includepdf[width=\textwidth, page=-]{data/example/model.pdf}
-	\FloatBarrier
-	\subsubsection{Unit Corrections} \label{app:unit}
-	\includepdf[width=\textwidth, page=-]{data/example/unit.pdf}
-	\FloatBarrier
-	\subsubsection{Starting Parameters} \label{app:param}
-	\includepdf[width=\textwidth, page=-]{data/example/params.pdf}
-	\FloatBarrier
-	\subsubsection{Model Implementation} \label{app:imp}
-	\lstinputlisting[language=Python]{data/example/imp.py}	
-	\FloatBarrier
-	\subsubsection{Implementation Correction} \label{app:cor}
-	\lstinputlisting[language=Python]{data/example/cor.py}
 	\pagebreak
 	\raggedbottom
 	\section{Declaration of authorship}

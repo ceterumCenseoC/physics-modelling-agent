@@ -40,6 +40,7 @@ paramter_suggester:
     suggest starting parameters for the model
   goal: >
     find typical starting parameters for the CORRECTED model.
+    The prameters you suggest should fit the units suggested by the previous task.
     The starting parameters should be realistic for real world experiments.
     State the sources from which you derive the starting parameters.
   backstory: >

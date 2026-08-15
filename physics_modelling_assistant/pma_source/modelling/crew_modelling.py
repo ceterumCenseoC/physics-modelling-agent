@@ -55,7 +55,7 @@ class ModellerCrew():
             max_reasoning_attempts=self.max_reasoning_attempts, # since reasoning is disabled, this parameter is not used
 
             llm=LLM(
-                model = "qwen3.6-27b",
+                model = "deepseek-v4-flash-0731",#"qwen3.6-27b",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature,
@@ -96,8 +96,8 @@ class ModellerCrew():
             config=self.agents_config['unit_checker'], # type: ignore[index]
             verbose= self.verbose,
             allow_delegation=self.allow_delegation,
-            max_iter=self.max_iter, # to allow the tool to be called on multiple formulas
-            reasoning=self.reasoning, # to allow the tool to be called on multiple formulas
+            max_iter=self.max_iter,
+            reasoning=self.reasoning,
             max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(

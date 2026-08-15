@@ -1,3 +1,0 @@
-# 50,52,68,69,70 worked on the second run
-# 30,56 worked on the third run
-# 44 failed again on the fifth try

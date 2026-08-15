@@ -1,0 +1,25 @@
+	\textbf{\Large 4.1 Magnetization in the High-Density Regime (HDR)}
+	
+	For an electric field $\mathbf{E} = E_x\hat{x}$, the spin density along $\hat{y}$ in the HDR (both bands occupied) is [Gaiardoni et al., arXiv:2503.20712 (2025)]:
+	
+	$$
+	\boxed{M_y = \frac{\mu_B |e|\tau}{2\pi}\,m\alpha\,[\hat{z}\times\mathbf{E}]_y}
+	$$
+	
+	**Key result:** In the HDR, the magnetization is **constant, independent of the Fermi energy** $E_F$, and proportional to the Rashba SOC parameter $\alpha$ and the effective mass $m$.
+	
+	### 4.2 Magnetization in the Low-Density Regime (LDR)
+	
+	In the LDR (only the lower band occupied) [Gaiardoni et al., arXiv:2503.20712 (2025)]:
+	
+	$$
+	\boxed{M_y = \frac{\mu_B |e|\tau}{2\pi}\,\sqrt{m^2\alpha^2 + 2mE_F}\,[\hat{z}\times\mathbf{E}]_y}
+	$$
+	
+	For small $E_F$ near the band crossing, this can be expanded as:
+	
+	$$
+	M_y \approx \frac{\mu_B |e|\tau}{2\pi}\left(\alpha m + \frac{1}{2}\frac{E_F}{\alpha}\right)[\hat{z}\times\mathbf{E}]_y
+	$$
+	
+	The spin density increases linearly with the Fermi energy**. In the limit $\alpha \to 0$, the second term vanishes because $E_F$ has a quadratic dependence on $\alpha$.

@@ -51,4 +51,4 @@ def remove_non_python(path : str) -> None:
 
 if __name__ == "__main__":
     # Example usage: remove non-Pythonic files from the 'results' directory
-    remove_non_python("./resultsDeepSeek1/generations/")
+    remove_non_python("./results/generations/")

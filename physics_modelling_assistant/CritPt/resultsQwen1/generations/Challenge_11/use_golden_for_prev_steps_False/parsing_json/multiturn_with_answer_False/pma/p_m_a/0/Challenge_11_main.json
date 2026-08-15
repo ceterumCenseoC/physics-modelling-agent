@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_11_main",
+  "generated_code": "import sympy as sp\n\nDelta, x, K, m = sp.symbols('Delta x K m')\n\ndef answer(Delta, x, K, m):\n    r\"\"\"\n    Return the expressions of the beta functions in Sympy format.\n\n    Inputs\n    ----------\n    Delta: sympy.Symbol, coupling constant $\\Delta$\n    x: sympy.Symbol, scaling dimension of $\\Delta$, $x\\equiv [\\Delta]$\n    K: sympy.Symbol, parameter $K$\n    m: sympy.Symbol, parameter $m$\n\n    Outputs\n    ----------\n    beta_Delta: sympy.Expr, beta function for coupling constant $\\Delta$, $\\beta(\\Delta)$\n    beta_x: sympy.Expr, beta function for $x$, $\\beta(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    beta_Delta = (2 - x) * Delta\n    beta_x = -Delta**2 / (4 * sp.pi)\n    # ---------------------------------------------------------------\n\n    return beta_Delta, beta_x\n",
+  "model": "pma/pma",
+  "timestamp": "2026-08-11T10:29:13.473695",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "import sympy as sp\n\nDelta, x, K, m = sp.symbols('Delta x K m')\n\ndef answer(Delta, x, K, m):\n    r\"\"\"\n    Return the expressions of the beta functions in Sympy format.\n\n    Inputs\n    ----------\n    Delta: sympy.Symbol, coupling constant $\\Delta$\n    x: sympy.Symbol, scaling dimension of $\\Delta$, $x\\equiv [\\Delta]$\n    K: sympy.Symbol, parameter $K$\n    m: sympy.Symbol, parameter $m$\n\n    Outputs\n    ----------\n    beta_Delta: sympy.Expr, beta function for coupling constant $\\Delta$, $\\beta(\\Delta)$\n    beta_x: sympy.Expr, beta function for $x$, $\\beta(x)$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    beta_Delta = (2 - x) * Delta\n    beta_x = -Delta**2 / (4 * sp.pi)\n    # ---------------------------------------------------------------\n\n    return beta_Delta, beta_x\n"
+    }
+  ]
+}
