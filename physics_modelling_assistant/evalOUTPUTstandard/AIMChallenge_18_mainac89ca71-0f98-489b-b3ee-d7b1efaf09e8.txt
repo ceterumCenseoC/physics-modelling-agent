@@ -1,0 +1,59 @@
+[ChatMessageSystem(id='YGV9meaHqTaedKZjnx8MBb', content='You are a physics research assistant specializing in solving complex, research-level problems using precise, step-by-step reasoning.\n\n**Input**\nProblems will be provided in Markdown format.\n\n**Output (Markdown format)**\n\n1. **Step-by-Step Derivation** - Show every non-trivial step in the solution.  Justify steps using relevant physical laws, theorems, or mathematical identities.\n2. **Mathematical Typesetting** - Use LaTeX for all mathematics:  `$...$` for inline expressions, `$$...$$` for display equations.\n3. **Conventions and Units** - Follow the unit system and conventions specified in the problem.\n4. **Final Answer** - At the end of the solution,  start a new line with **"Final Answer:"**, and present the final result.\n\n    For final answers involving values, follow the precision requirements specified in the problem.\n    If no precision is specified:\n    - If an exact value is possible, provide it (e.g., \\$\\sqrt(2)\\$, \\$\\pi/4\\$).\n    - If exact form is not feasible, retain at least 12 significant digits in the result. \n\n5. **Parsing Structure** - After obtaining the final answer,  populate it into the code template provided at the end of the problem. This step is purely for formatting/display purposes. No additional reasoning or derivation should be performed. Do not import any modules or packages beyond what is provided in the template. ', source=None, metadata=None, role='system'), ChatMessageUser(id='BsPWumaR3pymuPPwPwWgzw', content='# Problem Setup\n\nTwo dielectric nanoparticles are deeply trapped in two Gaussian optical traps that propagate along the $z$-axis, both characterized by the wave vector $k$ and the Rayleigh range $z_R$. Suppose the focal planes of these traps are located at $z=0$, and the nanoparticles are located at $z=z_1$ and $z=z_2$ respectively, where ${z_1},{z_2} \\ll {z_R}$. Let the distance between the two nanoparticles be $d$, satisfying the far-field condition $kd \\gg 1$. The polarizabilities of the two nanoparticles are $\\alpha_1$ and $\\alpha_2$, respectively. Both the tweezers have identical polarization, the electric field amplitudes are $E_1$ and $E_2$, and the phases at the focal planes are $\\phi_1$ and $\\phi_2$, respectively.\n\n# Main problem:\nAssume that, at equilibrium, the distance vector between the two spheres is $d_0 = (d_0,0,0)$. The angle between the laser polarization and the particle-connecting axis is $\\pi/2$. Derive $k_1$ and $k_2$ in the following equations of motion along the $z$-direction for the two nanospheres:\n\n$$\\begin{aligned}\nm{{\\ddot z}_1} =  - m\\Omega _1^2{z_1} - ({k_1} + {k_2}){z_1} + ({k_1} + {k_2}){z_2},\\\\\nm{{\\ddot z}_2} =  - m\\Omega _2^2{z_2} - ({k_1} - {k_2}){z_2} + ({k_1} - {k_2}){z_1}.\n\\end{aligned}$$\n\n', source=None, metadata=None, role='user', tool_call_id=None)]
+
+# Problem Setup
+
+Two dielectric nanoparticles are deeply trapped in two Gaussian optical traps that propagate along the $z$-axis, both characterized by the wave vector $k$ and the Rayleigh range $z_R$. Suppose the focal planes of these traps are located at $z=0$, and the nanoparticles are located at $z=z_1$ and $z=z_2$ respectively, where ${z_1},{z_2} \ll {z_R}$. Let the distance between the two nanoparticles be $d$, satisfying the far-field condition $kd \gg 1$. The polarizabilities of the two nanoparticles are $\alpha_1$ and $\alpha_2$, respectively. Both the tweezers have identical polarization, the electric field amplitudes are $E_1$ and $E_2$, and the phases at the focal planes are $\phi_1$ and $\phi_2$, respectively.
+
+# Main problem:
+Assume that, at equilibrium, the distance vector between the two spheres is $d_0 = (d_0,0,0)$. The angle between the laser polarization and the particle-connecting axis is $\pi/2$. Derive $k_1$ and $k_2$ in the following equations of motion along the $z$-direction for the two nanospheres:
+
+$$\begin{aligned}
+m{{\ddot z}_1} =  - m\Omega _1^2{z_1} - ({k_1} + {k_2}){z_1} + ({k_1} + {k_2}){z_2},\\
+m{{\ddot z}_2} =  - m\Omega _2^2{z_2} - ({k_1} - {k_2}){z_2} + ({k_1} - {k_2}){z_1}.
+\end{aligned}$$
+
+
+
+max_retries=None timeout=None attempt_timeout=None max_connections=None adaptive_connections=None system_message=None max_tokens=None top_p=None temperature=None stop_seqs=None best_of=None frequency_penalty=None presence_penalty=None logit_bias=None seed=None top_k=None num_choices=None logprobs=None top_logprobs=None prompt_logprobs=None parallel_tool_calls=None internal_tools=None max_tool_output=None cache_prompt=None fallback_models=None verbosity=None effort=None reasoning_effort=None reasoning_mode=None reasoning_tokens=None reasoning_summary=None reasoning_history=None response_schema=None extra_headers=None extra_body=None modalities=None cache=None batch=None
+
+import sympy as sp
+
+epsilon0 = sp.symbols('epsilon0', positive=True)   # vacuum permittivity
+k, z_R, d0 = sp.symbols('k z_R d0')
+alpha_1, alpha_2 = sp.symbols('alpha_1 alpha_2')
+E_1, E_2 = sp.symbols('E_1 E_2')
+phi_1, phi_2 = sp.symbols('phi_1 phi_2')
+m, Omega_1, Omega_2 = sp.symbols('m Omega_1 Omega_2')
+
+def answer(epsilon0, k, z_R, d0, alpha_1, alpha_2, E_1, E_2, phi_1, phi_2, m, Omega_1, Omega_2):
+    r"""
+    Return the expression of $k_1$ and $k_2$ in Sympy format.
+
+    Inputs
+    ----------
+    epsilon0:sympy.Symbol, vacuum permittivity $\varepsilon_0$
+    k:       sympy.Symbol, wave vector, $k$
+    z_R:     sympy.Symbol, Rayleigh range, $z_R$
+    d0:      sympy.Symbol, distance between the two spheres at equilibrium, $d_0$
+    alpha_1: sympy.Symbol, polarizability of nanoparticles 1, $\alpha_1$
+    alpha_2: sympy.Symbol, polarizability of nanoparticles 2, $\alpha_2$
+    E_1:     sympy.Symbol, electric-field amplitude of tweezer 1, $E_1$
+    E_2:     sympy.Symbol, electric-field amplitude of tweezer 2, $E_2$
+    phi_1:   sympy.Symbol, phase of tweezer 1 at the focal plane, $\phi_1$
+    phi_2:   sympy.Symbol, phase of tweezer 2 at the focal plane, $\phi_2$
+    m:       sympy.Symbol, nanoparticle mass, $m$
+    Omega_1: sympy.Symbol, frequency parameter of nanosphere 1, $\Omega_1$
+    Omega_2: sympy.Symbol, frequency parameter of nanosphere 2, $\Omega_2$
+
+    Outputs
+    ----------
+    k1: sympy.Expr, $k_1$ in the equations of motion
+    k2: sympy.Expr, $k_2$ in the equations of motion
+    """
+
+    # ------------------ FILL IN YOUR RESULTS BELOW ------------------
+    k1 = ...  # a SymPy expression of inputs
+    k2 = ...  # a SymPy expression of inputs
+    # ---------------------------------------------------------------
+
+    return k1, k2

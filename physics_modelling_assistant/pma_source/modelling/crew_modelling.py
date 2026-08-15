@@ -55,7 +55,7 @@ class ModellerCrew():
             max_reasoning_attempts=self.max_reasoning_attempts, # since reasoning is disabled, this parameter is not used
 
             llm=LLM(
-                model = "deepseek-v4-flash",#"qwen3.6-27b",
+                model = "qwen3.6-27b",
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature,
@@ -78,7 +78,7 @@ class ModellerCrew():
             max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
-                model = "glm-4.7", #qwen3.5-397b-a17b
+                model = "glm-4.7", # scored best on logic and critpt; qwen3.5-397b-a17b
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature= self.temperature, # allow for some creativity to perhaps correct inconsistencies in the extracted information,
@@ -101,7 +101,7 @@ class ModellerCrew():
             max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
-                model = "glm-4.7", # needed because we want to read pdf's 'qwen3.5-397b-a17b
+                model = "glm-4.7", #qwen3.5-397b-a17b
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature= self.temperature, # to make transition between si units and not si units
@@ -124,7 +124,7 @@ class ModellerCrew():
             max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
-                model = "glm-4.7", # needed because we want to read pdf's qwen3.5-397b-a17b
+                model = "glm-4.7", #qwen3.5-397b-a17b
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature,
@@ -146,7 +146,7 @@ class ModellerCrew():
             max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
-                model = "glm-4.7", # needed because we want to read pdf's
+                model = "glm-4.7", #qwen3.5-397b-a17b
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature, # just coding
@@ -169,7 +169,7 @@ class ModellerCrew():
             max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
-                model = "glm-4.7",
+                model = "glm-4.7", # scored best on logic and critpt; qwen3.5-397b-a17b
                 base_url="https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature,

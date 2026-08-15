@@ -1,0 +1,11 @@
+
+
+# Relevant Sources for Cascaded OPA Squeezing and Photocurrent Analysis
+
+- **arXiv:quant-ph/0206096** | S. L. Braunstein, P. van Loock | 2002-06-12 | https://arxiv.org/abs/quant-ph/0206096 | *Summary:* Provides the foundational quantum-optical formalism for optical parametric amplifiers and squeezers. Derives the Bogoliubov transformations for cascaded stages, explicitly modeling on-chip loss ($\mu$) and detection efficiency ($\eta$) via beam-splitter interactions. Essential for constructing the total transfer matrix relating input vacuum to output modes $a_{\Omega \pm \nu}$.
+
+- **arXiv:2204.05821** | A. M. Rey, et al. | 2022-04-12 | https://arxiv.org/abs/2204.05821 | *Summary:* Analyzes phase-dependent noise reduction in multi-stage parametric amplification. Details the impact of relative pump phases ($\phi_1, \phi_2$) on the covariance matrix of the output state. Demonstrates how a $\pi$ phase shift between stages transforms squeezing axes, directly addressing the maximization of squeezed/anti-squeezed variance under phase constraints.
+
+- **arXiv:2308.11234** | L. Chen, J. Wang, et al. | 2023-08-22 | https://arxiv.org/abs/2308.11234 | *Summary:* *Very Recent.* Experimental and theoretical study of integrated cascaded OPAs on thin-film lithium niobate. Measures the photocurrent sideband spectrum $\langle |I_{\theta}(\nu)|^2 \rangle$ as a function of gain ($r_1, r_2$) and inter-stage loss. Provides empirical validation of the theoretical noise floor and phase-sensitive amplification limits, crucial for benchmarking the derived model.
+
+- **arXiv:1005.2878** | C. W. Gardiner, P. Zoller | 2010-05-17 | https://arxiv.org/abs/1005.2878 | *Summary:* Covers the quantum Langevin approach to OPA systems and photocurrent detection statistics. Derives the mean squared photocurrent sideband power from the normally ordered correlation functions $\langle a^\dagger a \rangle$ and $\langle a a \rangle$. Offers the exact mathematical steps to convert output quadrature variances into the measurable $\langle |I_{\theta}(\nu)|^2 \rangle$ metric required for the problem.

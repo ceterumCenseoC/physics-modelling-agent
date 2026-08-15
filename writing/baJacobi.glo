@@ -213,7 +213,7 @@
 \glossaryentry{LLM?\glossentry{LLM}|setentrycounter[]{page}"\glsnumberformat}{13}
 \glossaryentry{API key?\glossentry{API key}|setentrycounter[]{page}"\glsnumberformat}{13}
 \glossaryentry{LLM?\glossentry{LLM}|setentrycounter[]{page}"\glsnumberformat}{13}
-\glossaryentry{token?\glossentry{token}|setentrycounter[]{page}"\glsnumberformat}{13}
+\glossaryentry{token?\glossentry{token}|setentrycounter[]{page}"\glsnumberformat}{14}
 \glossaryentry{Agent?\glossentry{Agent}|setentrycounter[]{page}"\glsnumberformat}{14}
 \glossaryentry{Agent?\glossentry{Agent}|setentrycounter[]{page}"\glsnumberformat}{14}
 \glossaryentry{Agent?\glossentry{Agent}|setentrycounter[]{page}"\glsnumberformat}{14}
@@ -303,9 +303,15 @@
 \glossaryentry{LLM?\glossentry{LLM}|setentrycounter[]{page}"\glsnumberformat}{20}
 \glossaryentry{Agent?\glossentry{Agent}|setentrycounter[]{page}"\glsnumberformat}{20}
 \glossaryentry{API key?\glossentry{API key}|setentrycounter[]{page}"\glsnumberformat}{21}
-\glossaryentry{LLM?\glossentry{LLM}|setentrycounter[]{page}"\glsnumberformat}{21}
-\glossaryentry{LLM?\glossentry{LLM}|setentrycounter[]{page}"\glsnumberformat}{21}
+\glossaryentry{API key?\glossentry{API key}|setentrycounter[]{page}"\glsnumberformat}{21}
+\glossaryentry{LLM?\glossentry{LLM}|setentrycounter[]{page}"\glsnumberformat}{22}
+\glossaryentry{LLM?\glossentry{LLM}|setentrycounter[]{page}"\glsnumberformat}{22}
 \glossaryentry{Agent?\glossentry{Agent}|setentrycounter[]{page}"\glsnumberformat}{22}
 \glossaryentry{Agent?\glossentry{Agent}|setentrycounter[]{page}"\glsnumberformat}{22}
 \glossaryentry{Agent?\glossentry{Agent}|setentrycounter[]{page}"\glsnumberformat}{22}
 \glossaryentry{Agent?\glossentry{Agent}|setentrycounter[]{page}"\glsnumberformat}{22}
+\glossaryentry{context-window?\glossentry{context-window}|setentrycounter[]{page}"\glsnumberformat}{23}
+\glossaryentry{LLM?\glossentry{LLM}|setentrycounter[]{page}"\glsnumberformat}{23}
+\glossaryentry{token?\glossentry{token}|setentrycounter[]{page}"\glsnumberformat}{23}
+\glossaryentry{context-window?\glossentry{context-window}|setentrycounter[]{page}"\glsnumberformat}{23}
+\glossaryentry{LLM?\glossentry{LLM}|setentrycounter[]{page}"\glsnumberformat}{24}

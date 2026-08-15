@@ -1,0 +1,6 @@
+# 13, 44 failed on first try
+# 66 failed due to context window; first try
+# 22 didn't finish after 75min
+# 9,10,11,30 did not adopt the correct output format, done by hand
+
+# 13 and 66 worked on second try

@@ -2,7 +2,7 @@
   "artifact_type": "step",
   "version": 2,
   "step": "main",
-  "created_at": "2026-08-13T05:42:54.998102+00:00",
+  "created_at": "2026-08-11T06:50:12.611322+00:00",
   "prompt": "# Problem setup:\n\nConsider a noisy distributed quantum sensing scenario as follows. The quantum sensor network contains $d$ sensor nodes, and each node contains $n$ sensor qubits. There is a potentially different parameter to be encoded on each sensor node locally. Our sensing objective is to estimate the scaled average of all $d$ local parameters, i.e., supposing that the parameters are $x_1, x_2, \\dots, x_d$, we want to estimate $\\theta_1 = (\\sum_{i=1}^d x_i) / \\sqrt{d}$. The quantum network will distribute a $d$-qubit Greenberger-Horne-Zeilinger (GHZ) state to the $d$ sensor nodes, while each sensor node will hold one qubit of the GHZ state. Then each sensor node further performs local entanglement generation between the qubit from the $d$-qubit GHZ state and the remaining $n-1$ sensor qubits. The final state is the initial probe state, which we assume to be an $nd$-qubit noisy GHZ state across the quantum sensor network. Suppose that the global GHZ state is in a depolarized form, with GHZ fidelity $F(n)=Fk^{n-1}$. Now assume that the noisy sensing dynamics can be described by independent single-qubit Lindblad equations for all $nd$ sensor qubits: $\\frac{d}{dt}\\rho = -i\\frac{\\omega^{(i)}}{2}\\left[\\sigma_z^{(i,k)},\\rho\\right] + \\frac{\\gamma}{2}\\left(\\sigma_z^{(i,k)}\\rho \\sigma_z^{(i,k)} - \\rho\\right)$ for the $k$-th qubit on the $i$-th node, where $\\omega^{(i)}$ is the precession frequency of each qubit sensor on node $i$, and $\\gamma$ is the single-qubit dephasing rate. In other words, we assume that the dephasing rate is homogeneous across the entire sensor network, while the angular frequency is the same for each qubit on one node but can be generally different between nodes.\n\n# Main problem:\n\nSuppose that the noisy sensing dynamics has duration $t$, and each local parameter is the accumulated phase, i.e. $x_i = \\omega^{(i)} t$. What is the quantum Fisher information for $\\theta_1$? Do not explicitly include $\\gamma$ and $t$ in the final expression. Instead, you may use another variable $q = (1 + e^{-\\gamma t}) / 2$.",
   "chat": [
     {
@@ -14,7 +14,7 @@
         }
       ],
       "raw": {
-        "id": "KDYG2iJcXFyjw9pb9kJCrT",
+        "id": "kxxXN6FXPQqvCz5LuniDtJ",
         "source": null,
         "metadata": null
       }
@@ -28,7 +28,7 @@
         }
       ],
       "raw": {
-        "id": "R2ZLXmKLmz9QKhecnQK83M",
+        "id": "V6KX4FKvZQVpc7PigekVKT",
         "source": null,
         "metadata": null,
         "tool_call_id": null
@@ -39,11 +39,11 @@
       "contents": [
         {
           "content_type": "content",
-          "content_text": "import sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = n**2 * d * (F * k**(n - 1))**2 * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI"
+          "content_text": "```python\nimport sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = 4 * d * n**2 * F**2 * k**(2*n - 2) * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI\n```"
         }
       ],
       "raw": {
-        "id": "TJykPRiNchtcfjYyY8Z5wt",
+        "id": "HeQWPM6vKLGv3VFBeoRb3s",
         "source": "generate",
         "metadata": null,
         "tool_calls": null,
@@ -52,7 +52,7 @@
     }
   ],
   "summary": {
-    "completion": "import sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = n**2 * d * (F * k**(n - 1))**2 * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI"
+    "completion": "```python\nimport sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = 4 * d * n**2 * F**2 * k**(2*n - 2) * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI\n```"
   },
   "inspect": {
     "processed_state": {
@@ -66,7 +66,7 @@
             }
           ],
           "raw": {
-            "id": "KDYG2iJcXFyjw9pb9kJCrT",
+            "id": "kxxXN6FXPQqvCz5LuniDtJ",
             "source": null,
             "metadata": null
           }
@@ -80,7 +80,7 @@
             }
           ],
           "raw": {
-            "id": "R2ZLXmKLmz9QKhecnQK83M",
+            "id": "V6KX4FKvZQVpc7PigekVKT",
             "source": null,
             "metadata": null,
             "tool_call_id": null
@@ -91,11 +91,11 @@
           "contents": [
             {
               "content_type": "content",
-              "content_text": "import sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = n**2 * d * (F * k**(n - 1))**2 * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI"
+              "content_text": "```python\nimport sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = 4 * d * n**2 * F**2 * k**(2*n - 2) * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI\n```"
             }
           ],
           "raw": {
-            "id": "TJykPRiNchtcfjYyY8Z5wt",
+            "id": "HeQWPM6vKLGv3VFBeoRb3s",
             "source": "generate",
             "metadata": null,
             "tool_calls": null,
@@ -108,8 +108,8 @@
         "choices": [
           {
             "message": {
-              "id": "TJykPRiNchtcfjYyY8Z5wt",
-              "content": "import sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = n**2 * d * (F * k**(n - 1))**2 * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI",
+              "id": "HeQWPM6vKLGv3VFBeoRb3s",
+              "content": "```python\nimport sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = 4 * d * n**2 * F**2 * k**(2*n - 2) * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI\n```",
               "source": "generate",
               "metadata": null,
               "role": "assistant",
@@ -122,16 +122,16 @@
             "prompt_logprobs": null
           }
         ],
-        "completion": "import sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = n**2 * d * (F * k**(n - 1))**2 * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI",
+        "completion": "```python\nimport sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = 4 * d * n**2 * F**2 * k**(2*n - 2) * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI\n```",
         "usage": null,
         "fallback": null,
-        "time": 511.65599999999995,
+        "time": 868.8899999999994,
         "metadata": null,
         "error": null
       },
       "metadata": {
-        "reader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x00000229C22BC9E0>",
-        "loader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x00000229C22BC9E0>",
+        "reader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x0000021A44C0FB90>",
+        "loader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x0000021A44C0FB90>",
         "problem_ids": [
           "Challenge_7_main"
         ],
@@ -163,7 +163,7 @@
             }
           ],
           "raw": {
-            "id": "KDYG2iJcXFyjw9pb9kJCrT",
+            "id": "kxxXN6FXPQqvCz5LuniDtJ",
             "source": null,
             "metadata": null
           }
@@ -177,7 +177,7 @@
             }
           ],
           "raw": {
-            "id": "R2ZLXmKLmz9QKhecnQK83M",
+            "id": "V6KX4FKvZQVpc7PigekVKT",
             "source": null,
             "metadata": null,
             "tool_call_id": null
@@ -188,11 +188,11 @@
           "contents": [
             {
               "content_type": "content",
-              "content_text": "import sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = n**2 * d * (F * k**(n - 1))**2 * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI"
+              "content_text": "```python\nimport sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = 4 * d * n**2 * F**2 * k**(2*n - 2) * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI\n```"
             }
           ],
           "raw": {
-            "id": "TJykPRiNchtcfjYyY8Z5wt",
+            "id": "HeQWPM6vKLGv3VFBeoRb3s",
             "source": "generate",
             "metadata": null,
             "tool_calls": null,
@@ -205,8 +205,8 @@
         "choices": [
           {
             "message": {
-              "id": "TJykPRiNchtcfjYyY8Z5wt",
-              "content": "import sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = n**2 * d * (F * k**(n - 1))**2 * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI",
+              "id": "HeQWPM6vKLGv3VFBeoRb3s",
+              "content": "```python\nimport sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = 4 * d * n**2 * F**2 * k**(2*n - 2) * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI\n```",
               "source": "generate",
               "metadata": null,
               "role": "assistant",
@@ -219,16 +219,16 @@
             "prompt_logprobs": null
           }
         ],
-        "completion": "import sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = n**2 * d * (F * k**(n - 1))**2 * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI",
+        "completion": "```python\nimport sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = 4 * d * n**2 * F**2 * k**(2*n - 2) * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI\n```",
         "usage": null,
         "fallback": null,
-        "time": 511.65599999999995,
+        "time": 868.8899999999994,
         "metadata": null,
         "error": null
       },
       "metadata": {
-        "reader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x00000229C21396D0>",
-        "loader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x00000229C21396D0>",
+        "reader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x0000021A44F7EBA0>",
+        "loader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x0000021A44F7EBA0>",
         "problem_ids": [
           "Challenge_7_main"
         ],
@@ -254,8 +254,8 @@
       "choices": [
         {
           "message": {
-            "id": "TJykPRiNchtcfjYyY8Z5wt",
-            "content": "import sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = n**2 * d * (F * k**(n - 1))**2 * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI",
+            "id": "HeQWPM6vKLGv3VFBeoRb3s",
+            "content": "```python\nimport sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = 4 * d * n**2 * F**2 * k**(2*n - 2) * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI\n```",
             "source": "generate",
             "metadata": null,
             "role": "assistant",
@@ -268,10 +268,10 @@
           "prompt_logprobs": null
         }
       ],
-      "completion": "import sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = n**2 * d * (F * k**(n - 1))**2 * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI",
+      "completion": "```python\nimport sympy as sp\n\nF, k, n, d, q = sp.symbols('F k n d q')\n\ndef answer(F, k, n, d, q):\n    r\"\"\"\n    Return the expression of the quantum Fisher information for $\\theta_1$ in Sympy format.\n\n    Inputs\n    ----------\n    F: sympy.Symbol, initialization fidelity, $F$\n    k: sympy.Symbol, entangling gate fidelity, $k$\n    n: sympy.Symbol, qubit number per node, $n$\n    d: sympy.Symbol, sensor node number, $d$\n    q: sympy.Symbol, defined by $q = (1 + e^{-\\gamma t}) / 2$\n\n    Outputs\n    ----------\n    QFI: sympy.Expr, quantum Fisher information for $\\theta_1$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    QFI = 4 * d * n**2 * F**2 * k**(2*n - 2) * (2*q - 1)**(2*n*d)\n    # ---------------------------------------------------------------\n\n    return QFI\n```",
       "usage": null,
       "fallback": null,
-      "time": 511.65599999999995,
+      "time": 868.8899999999994,
       "metadata": null,
       "error": null
     }

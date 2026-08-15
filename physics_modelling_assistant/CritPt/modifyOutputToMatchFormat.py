@@ -2,7 +2,7 @@ import json
 
 from anyio import Path
 
-def replace(generated_code : str) -> str:
+def replacing(generated_code : str) -> str:
     """
     Replaces occurrences of 'python' with 'Python' in the generated code.
 
@@ -13,6 +13,12 @@ def replace(generated_code : str) -> str:
         str: The modified generated code with 'python' replaced by 'Python'.
     """
     generated_code = generated_code.replace("```python\n", "").replace("```", "")
+    if "import sympy as sp" in generated_code:
+        generated_code = "import sympy as sp" + generated_code.split("import sympy as sp", 1)[1]
+    elif "def answer(" in generated_code:
+        generated_code = "def answer(" + generated_code.split("def answer(", 1)[1]
+    else:
+        pass
     return generated_code
 
 def remove_non_python(path : str) -> None:
@@ -33,16 +39,16 @@ def remove_non_python(path : str) -> None:
 
         # Check if the structure exists
         if "generated_code" in data and len(data["generated_code"]) > 0:
-            data["generated_code"] = replace(data["generated_code"])
+            data["generated_code"] = replacing(data["generated_code"])
 
         if "messages" in data and len(data["messages"]) > 0:
             messages = data["messages"]
             # Check if the first message is from the user
             if "content" in messages[0]:
-                messages[0]["content"] = replace(messages[0]["content"])  # If the content does not contain "python", remove the file
+                messages[0]["content"] = replacing(messages[0]["content"])  # If the content does not contain "python", remove the file
 
         json.dump(data, file.open("w"), indent=2)  # Write the modified JSON back to the file
 
 if __name__ == "__main__":
-    # Example usage: remove non-Python files from the 'output' directory
-    remove_non_python("./results/generations/")
+    # Example usage: remove non-Pythonic files from the 'results' directory
+    remove_non_python("./resultsDeepSeek1/generations/")

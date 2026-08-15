@@ -1,0 +1,3 @@
+"The coefficients of the terms in $X^{(4)}$ are:\n
+\n
+- $\\text{tr}(P^4)$: $-\\frac{1}{2}$\n- $\\text{tr}(P^3)$: $0$\n- $\\text{tr}(P^3)\\text{tr}(P)$: $-\\frac{1}{4}$\n- $\\text{tr}(BP)$: $0$\n- $\\text{tr}(BP^2)$: $-2$\n- $\\text{tr}(B^2)$: $1$\n- $\\text{tr}(B^2P)$: $0$\n- $\\text{tr}(OP)$: $-4$\n- $\\text{tr}(OP^2)$: $0$\n- $\\text{tr}(\\Omega)$: $2$\n- $\\text{tr}(\\Omega P)$: $-4$\n\n```python\nresult = {\n    \"coeff_P4\": -0.5,\n    \"coeff_P3\": 0.0,\n    \"coeff_P3_trP\": -0.25,\n    \"coeff_BP\": 0.0,\n    \"coeff_BP2\": -2.0,\n    \"coeff_B2\": 1.0,\n    \"coeff_B2P\": 0.0,\n    \"coeff_OP\": -4.0,\n    \"coeff_OP2\": 0.0,\n    \"coeff_Omega\": 2.0,\n    \"coeff_OmegaP\": -4.0\n}\n```",

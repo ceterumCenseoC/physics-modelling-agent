@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "critpt"
+version = "0.1.0"
+description = "Local editable install of CritPt benchmark"
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "jinja2",
+    "openai",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

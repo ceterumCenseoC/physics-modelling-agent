@@ -28,6 +28,7 @@ unit_checker:
   goal: >
     First, determine the units of the qunatities used int the formulas models.
     Use your tool for dimensional analysis to determine wheter the units of the formula are matching.
+    The tool expects you to write all units as base units
     Display the input and output of the tool!
     Correct the formulas based on the dimensional analysis.
   backstory: >
@@ -38,7 +39,7 @@ paramter_suggester:
   role: >
     suggest starting parameters for the model
   goal: >
-    find typical starting parameters for the model.
+    find typical starting parameters for the CORRECTED model.
     The starting parameters should be realistic for real world experiments.
     State the sources from which you derive the starting parameters.
   backstory: >
@@ -49,7 +50,7 @@ simulation_physician:
   role: >
     implement the model into working python code.
   goal: >
-    Implement the described model into working code.
+    Implement the CORRECTED model into working code.
     Focus on a precise implementation of the formulas and units.
   backstory: >
     You trust the build model and the derivied units and do not make any changes to both.

@@ -1,0 +1,99 @@
+Traceback (most recent call last):
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\sourceFinding\main.py", line 31, in run_crew_paperFinder
+    fullResult = paperFinder.crew().kickoff(inputs=inputs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\crew.py", line 934, in kickoff
+    result = self._run_sequential_process()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\crew.py", line 1377, in _run_sequential_process
+    return self._execute_tasks(self.tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\crew.py", line 1474, in _execute_tasks
+    task_output = task.execute_sync(
+                  ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\task.py", line 524, in execute_sync
+    return self._execute_core(agent, context, tools)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\task.py", line 821, in _execute_core
+    raise e  # Re-raise the exception after emitting the event
+    ^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\task.py", line 728, in _execute_core
+    result = agent.execute_task(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\agent\core.py", line 774, in execute_task
+    result = self._handle_execution_error(e, task, context, tools)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\agent\core.py", line 684, in _handle_execution_error
+    return self.execute_task(task, context, tools)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\agent\core.py", line 774, in execute_task
+    result = self._handle_execution_error(e, task, context, tools)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\agent\core.py", line 684, in _handle_execution_error
+    return self.execute_task(task, context, tools)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\agent\core.py", line 774, in execute_task
+    result = self._handle_execution_error(e, task, context, tools)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\agent\core.py", line 683, in _handle_execution_error
+    self._check_execution_error(e, task)
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\agent\core.py", line 663, in _check_execution_error
+    raise e
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\agent\core.py", line 761, in execute_task
+    result = self._execute_without_timeout(task_prompt, task)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\agent\core.py", line 828, in _execute_without_timeout
+    self.agent_executor.invoke(
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 212, in invoke
+    formatted_answer = self._invoke_loop()
+                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 307, in _invoke_loop
+    return self._invoke_loop_native_tools()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 553, in _invoke_loop_native_tools
+    raise e
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 467, in _invoke_loop_native_tools
+    formatted_answer = handle_max_iterations_exceeded(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\utilities\agent_utils.py", line 291, in handle_max_iterations_exceeded
+    answer = llm.call(
+             ^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\llms\providers\openai\completion.py", line 443, in call
+    return self._call_completions(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\llms\providers\openai\completion.py", line 483, in _call_completions
+    return self._handle_completion(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\llms\providers\openai\completion.py", line 1745, in _handle_completion
+    raise e from e
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\crewai\llms\providers\openai\completion.py", line 1636, in _handle_completion
+    response: ChatCompletion = self._get_sync_client().chat.completions.create(
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\openai\_utils\_utils.py", line 287, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\openai\resources\chat\completions\completions.py", line 1211, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\openai\_base_client.py", line 1314, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\.venv\Lib\site-packages\openai\_base_client.py", line 1087, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - {'message': 'API rate limit exceeded', 'request_id': '6018a23aaf4e8d5d1348f730b5cd8577'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\cli.py", line 24, in main
+    text = pma.executeInterface(# for test purposes: pma.executeInterfaceShortcut(; otherwise: pma.executeInterface(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\execute.py", line 132, in executeInterface
+    resultPapers = self.findPapers(aim = aim, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = 1, reasoning = False, max_reasoning_attempts = 1)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\execute.py", line 36, in findPapers
+    result = run_crew_paperFinder(inputs = inputs, outputDir = outputDir, pdfSaveDir = pdfSaveDir, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = reasoning, max_reasoning_attempts = max_reasoning_attempts)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Janis\work\university\bachelorThesis\physics-modelling-agent\physics_modelling_assistant\pma_source\sourceFinding\main.py", line 33, in run_crew_paperFinder
+    raise Exception(f"An error occurred while running the crew: {e}")
+Exception: An error occurred while running the crew: Error code: 429 - {'message': 'API rate limit exceeded', 'request_id': '6018a23aaf4e8d5d1348f730b5cd8577'}

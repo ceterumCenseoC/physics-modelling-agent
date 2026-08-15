@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_63_main",
+  "generated_code": "def answer():\n    r\"\"\"\n    Return the while noise robustness\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    eta_1: float, the white noise robustness for question 1, $\\eta$\n    eta_2: float, the white noise robustness for question 2, $\\eta$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The critical noise threshold eta is determined by the condition \n    # that the noisy quantum expectation value equals the noncontextual bound.\n    # Quantum expectation of the KCBS operator sum W^eta for the optimal state is:\n    # <W^eta>_QM = eta * <W>_QM + 5 * (1 - eta) / 3\n    # where <W>_QM = sqrt(5).\n    # The Noncontextual (NC) bound for the KCBS inequality is 2.\n    # Solving eta * sqrt(5) + 5 * (1 - eta) / 3 = 2 for eta gives:\n    # eta = 1 / (3 * sqrt(5) - 5)\n    \n    eta_1 = 1 / (3 * np.sqrt(5) - 5)\n    \n    # For the set of effects, the operational exclusivity constraints \n    # (outcome disjointness) preserve the noncontextual bound structure,\n    # leading to the same robustness threshold.\n    eta_2 = 1 / (3 * np.sqrt(5) - 5)\n    # ---------------------------------------------------------------\n\n    return eta_1, eta_2\n\n# Note: The code above uses sqrt(5) for precision. \n# The numerical values are approximately 0.586.\nimport numpy as np\n",
+  "model": "pma/pma",
+  "timestamp": "2026-08-14T19:04:03.284653",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "def answer():\n    r\"\"\"\n    Return the while noise robustness\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    eta_1: float, the white noise robustness for question 1, $\\eta$\n    eta_2: float, the white noise robustness for question 2, $\\eta$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The critical noise threshold eta is determined by the condition \n    # that the noisy quantum expectation value equals the noncontextual bound.\n    # Quantum expectation of the KCBS operator sum W^eta for the optimal state is:\n    # <W^eta>_QM = eta * <W>_QM + 5 * (1 - eta) / 3\n    # where <W>_QM = sqrt(5).\n    # The Noncontextual (NC) bound for the KCBS inequality is 2.\n    # Solving eta * sqrt(5) + 5 * (1 - eta) / 3 = 2 for eta gives:\n    # eta = 1 / (3 * sqrt(5) - 5)\n    \n    eta_1 = 1 / (3 * np.sqrt(5) - 5)\n    \n    # For the set of effects, the operational exclusivity constraints \n    # (outcome disjointness) preserve the noncontextual bound structure,\n    # leading to the same robustness threshold.\n    eta_2 = 1 / (3 * np.sqrt(5) - 5)\n    # ---------------------------------------------------------------\n\n    return eta_1, eta_2\n\n# Note: The code above uses sqrt(5) for precision. \n# The numerical values are approximately 0.586.\nimport numpy as np\n"
+    }
+  ]
+}

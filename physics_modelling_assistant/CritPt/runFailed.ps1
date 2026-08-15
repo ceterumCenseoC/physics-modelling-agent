@@ -1,6 +1,6 @@
 $CONFIG = ".config/pma.json"
 
-$myList = @(9,10,11,13,22)
+$myList = @(35,37,54)
 foreach ($i in $myList) {
 
     Write-Host "Running challenge $i"
@@ -17,3 +17,5 @@ foreach ($i in $myList) {
     # Run command
     python -X utf8 -m critpt generate generate model=pma/pma task_config=$CONFIG
 }
+# failed DeepSeek1: 14,17,20,21,37 format issues
+#failed standard: 35,37,54

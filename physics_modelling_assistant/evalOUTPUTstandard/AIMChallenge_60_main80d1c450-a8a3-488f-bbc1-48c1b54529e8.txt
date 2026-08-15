@@ -1,0 +1,65 @@
+[ChatMessageSystem(id='QwVNhB22Q4YGXNp8if4TLE', content='You are a physics research assistant specializing in solving complex, research-level problems using precise, step-by-step reasoning.\n\n**Input**\nProblems will be provided in Markdown format.\n\n**Output (Markdown format)**\n\n1. **Step-by-Step Derivation** - Show every non-trivial step in the solution.  Justify steps using relevant physical laws, theorems, or mathematical identities.\n2. **Mathematical Typesetting** - Use LaTeX for all mathematics:  `$...$` for inline expressions, `$$...$$` for display equations.\n3. **Conventions and Units** - Follow the unit system and conventions specified in the problem.\n4. **Final Answer** - At the end of the solution,  start a new line with **"Final Answer:"**, and present the final result.\n\n    For final answers involving values, follow the precision requirements specified in the problem.\n    If no precision is specified:\n    - If an exact value is possible, provide it (e.g., \\$\\sqrt(2)\\$, \\$\\pi/4\\$).\n    - If exact form is not feasible, retain at least 12 significant digits in the result. \n\n5. **Parsing Structure** - After obtaining the final answer,  populate it into the code template provided at the end of the problem. This step is purely for formatting/display purposes. No additional reasoning or derivation should be performed. Do not import any modules or packages beyond what is provided in the template. ', source=None, metadata=None, role='system'), ChatMessageUser(id='AmmVeXtMHXYD2aEggM4ohC', content='\n\n# Problem setup:\nIn this problem, we want to consider the resolution of single-lens imaging of thermal sources. The quantum state radiated by the thermal sources can be expressed as\n\n$$\n\\rho_s=\\int D \\alpha \\Phi(\\alpha)|\\alpha\\rangle\\langle\\alpha|,\n$$\n\n\n\n\nwhere $\\Phi(\\alpha)$ is the Sudarshan-Glauber representation and $D \\alpha$ is an appropriate measure. Define  $\\alpha=\\left(\\alpha_1, \\ldots, \\alpha_J\\right)^{\\top}$ as a column vector of complex field amplitudes for $J$ optical spatial modes on the source plane and $|\\alpha\\rangle$ as a multimode coherent state with amplitude $\\alpha$.\n For thermal sources, it is standard to assume $\\Phi$ to be a zero-mean complex Gaussian given by\n\n$$\n\\Phi(\\alpha)=\\frac{1}{\\operatorname{det}(\\pi \\Gamma_s)} \\exp \\left(-\\alpha^{\\dagger} \\Gamma^{-1} \\alpha\\right)\n$$\n\nwhere $\\alpha^{\\dagger}=\\left(\\alpha_1^*, \\ldots, \\alpha_J^*\\right)$ denotes the complex transpose of $\\alpha$.  We consider a simple two point source case\n\n\\begin{equation}\n[\\Gamma_s]_{uv}=\\epsilon_0\\delta_{uv}[\\delta_{uu_1}+\\delta_{uu_2}]\n\\end{equation}\nwhere $\\epsilon_0\\to 0$, and $u_1$, $u_2$ are the positions of the two point sources. If the quantum state $\\rho_s$ passes through a single lens which has point spread function $\\psi(x)$. We want to quantify the performance of a naive direct imaging method and the fundamental limit for resolution.\n\n# Main problem:\n\nDefine $\\theta=\\frac{1}{3}u_1+\\frac{2}{3}u_2$, calculate the quantum Fisher information of estimating $\\theta$ per each measured photon, express the answer using\n$\n\\Delta k^2 \\equiv \\int_{-\\infty}^{\\infty} d x\\left[\\frac{\\partial \\psi(x)}{\\partial x}\\right]^2\n$,\n$\n\\gamma \\equiv \\int_{-\\infty}^{\\infty} d x \\frac{\\partial \\psi(x)}{\\partial x} \\psi\\left(x-u_2+u_1 \\right)\n$.\n', source=None, metadata=None, role='user', tool_call_id=None)]
+
+
+
+# Problem setup:
+In this problem, we want to consider the resolution of single-lens imaging of thermal sources. The quantum state radiated by the thermal sources can be expressed as
+
+$$
+\rho_s=\int D \alpha \Phi(\alpha)|\alpha\rangle\langle\alpha|,
+$$
+
+
+
+
+where $\Phi(\alpha)$ is the Sudarshan-Glauber representation and $D \alpha$ is an appropriate measure. Define  $\alpha=\left(\alpha_1, \ldots, \alpha_J\right)^{\top}$ as a column vector of complex field amplitudes for $J$ optical spatial modes on the source plane and $|\alpha\rangle$ as a multimode coherent state with amplitude $\alpha$.
+ For thermal sources, it is standard to assume $\Phi$ to be a zero-mean complex Gaussian given by
+
+$$
+\Phi(\alpha)=\frac{1}{\operatorname{det}(\pi \Gamma_s)} \exp \left(-\alpha^{\dagger} \Gamma^{-1} \alpha\right)
+$$
+
+where $\alpha^{\dagger}=\left(\alpha_1^*, \ldots, \alpha_J^*\right)$ denotes the complex transpose of $\alpha$.  We consider a simple two point source case
+
+\begin{equation}
+[\Gamma_s]_{uv}=\epsilon_0\delta_{uv}[\delta_{uu_1}+\delta_{uu_2}]
+\end{equation}
+where $\epsilon_0\to 0$, and $u_1$, $u_2$ are the positions of the two point sources. If the quantum state $\rho_s$ passes through a single lens which has point spread function $\psi(x)$. We want to quantify the performance of a naive direct imaging method and the fundamental limit for resolution.
+
+# Main problem:
+
+Define $\theta=\frac{1}{3}u_1+\frac{2}{3}u_2$, calculate the quantum Fisher information of estimating $\theta$ per each measured photon, express the answer using
+$
+\Delta k^2 \equiv \int_{-\infty}^{\infty} d x\left[\frac{\partial \psi(x)}{\partial x}\right]^2
+$,
+$
+\gamma \equiv \int_{-\infty}^{\infty} d x \frac{\partial \psi(x)}{\partial x} \psi\left(x-u_2+u_1 \right)
+$.
+
+
+max_retries=None timeout=None attempt_timeout=None max_connections=None adaptive_connections=None system_message=None max_tokens=None top_p=None temperature=None stop_seqs=None best_of=None frequency_penalty=None presence_penalty=None logit_bias=None seed=None top_k=None num_choices=None logprobs=None top_logprobs=None prompt_logprobs=None parallel_tool_calls=None internal_tools=None max_tool_output=None cache_prompt=None fallback_models=None verbosity=None effort=None reasoning_effort=None reasoning_mode=None reasoning_tokens=None reasoning_summary=None reasoning_history=None response_schema=None extra_headers=None extra_body=None modalities=None cache=None batch=None
+
+import sympy as sp
+
+Delta_k_sq, gamma = sp.symbols('Delta_k_sq gamma')
+
+def answer(Delta_k_sq, gamma):
+    r"""
+    Return the expression of the quantum Fisher information in Sympy format.
+
+    Inputs
+    ----------
+    Delta_k_sq: sympy.Symbol, $\Delta k^2 \equiv \int_{-\infty}^{\infty} d x\left[\frac{\partial \psi(x)}{\partial x}\right]^2$
+    gamma: sympy.Symbol, $\gamma \equiv \int_{-\infty}^{\infty} d x \frac{\partial \psi(x)}{\partial x} \psi\left(x-u_2+u_1 \right)$
+
+    Outputs
+    ----------
+    QFI: sympy.Expr, quantum Fisher information of estimating $\theta=\frac{1}{3}u_1+\frac{2}{3}u_2$ per each measured photon,
+         $u_1$ and $u_2$ are the positions of the two point sources
+    """
+
+    # ------------------ FILL IN YOUR RESULTS BELOW ------------------
+    QFI = ...  # a SymPy expression of inputs
+    # ---------------------------------------------------------------
+
+    return QFI

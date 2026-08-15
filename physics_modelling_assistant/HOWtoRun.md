@@ -66,6 +66,14 @@ chmod +x runAllSequence.sh
 # linux: 2. run the script
 ./runAllSequence.sh
 
+# establish the required format for the CritPt generations; works on results/generation
+# run from the CritPt directory
+python .\modifyOutputToMatchFormat.py
+
+# run evaluation of the generated code
+# inside CritPt directory on an active venv
+python -m evaluate_all_results --api-key YOURAPIKEY --results-dir resultsNAME/generations
+
 
 # check rate limits
 curl.exe -i -H "Authorization: Bearer 954e6dfb9e860f2c9d208453d0b82271" -H "Content-Type: application/json" https://saia.gwdg.de/v1/chat/completions
