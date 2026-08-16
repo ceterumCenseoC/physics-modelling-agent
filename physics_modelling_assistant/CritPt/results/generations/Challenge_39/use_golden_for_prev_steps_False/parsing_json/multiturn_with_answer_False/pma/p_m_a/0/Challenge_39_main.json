@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_39_main",
+  "generated_code": "\nimport sympy as sp\n\nn, np = sp.symbols('n n_prime', integer=True, nonnegative=True)\ng, gamma = sp.symbols('g gamma', positive=True)\nalpha = sp.symbols('alpha')\n\ndef answer(n, np, g, gamma, alpha):\n    r\"\"\"\n    Return the expression of the steady-state cavity coherence in SymPy format.\n\n    Inputs\n    ----------\n    n : sympy.Symbol\n        Photon number in state $|n\\rangle$.\n    np : sympy.Symbol\n        Photon number in state $|n'\\rangle$.\n    g : sympy.Symbol\n        Atom-cavity coupling constant $g$.\n    gamma : sympy.Symbol\n        Spontaneous-emission rate from $|e\\rangle$ to $|d\\rangle$, $\\gamma$.\n    alpha : sympy.Symbol\n        Complex amplitude of the initial coherent state $|\\alpha\\rangle$.\n\n    Outputs\n    ----------\n    coherence : sympy.Expr\n        Symbolic expression for the steady-state cavity coherence $\\langle n'| \\hat \\rho_{c,ss}|n\\rangle$.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # Derived expression:\n    # <n'| rho_ss |n> = exp(-|alpha|^2) * ( alpha^(n+1) alpha*^(n'+1) / sqrt((n+1)!(n'+1)!) + delta_n0 delta_n'0 )\n    # Note: alpha is a complex symbol. Sympy treats alpha**2 as complex power.\n    # The term exp(-|alpha|^2) is exp(-alpha * conjugate(alpha)). \n    # However, 'alpha' is provided as a generic Symbol. Using abs(alpha)**2 is safer.\n    # Note: sp.factorial(n+1) is used.\n\n    coherence = sp.exp(-sp.Abs(alpha)**2) * (\n        (alpha**(n + 1) * sp.conjugate(alpha)**(np + 1)) / (sp.sqrt(sp.factorial(n + 1)) * sp.sqrt(sp.factorial(np + 1))) +\n        sp.KroneckerDelta(n, 0) * sp.KroneckerDelta(np, 0)\n    )\n    # ---------------------------------------------------------------\n\n    return coherence\n",
+  "model": "pma/pma",
+  "timestamp": "2026-08-16T08:31:58.697752",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "\nimport sympy as sp\n\nn, np = sp.symbols('n n_prime', integer=True, nonnegative=True)\ng, gamma = sp.symbols('g gamma', positive=True)\nalpha = sp.symbols('alpha')\n\ndef answer(n, np, g, gamma, alpha):\n    r\"\"\"\n    Return the expression of the steady-state cavity coherence in SymPy format.\n\n    Inputs\n    ----------\n    n : sympy.Symbol\n        Photon number in state $|n\\rangle$.\n    np : sympy.Symbol\n        Photon number in state $|n'\\rangle$.\n    g : sympy.Symbol\n        Atom-cavity coupling constant $g$.\n    gamma : sympy.Symbol\n        Spontaneous-emission rate from $|e\\rangle$ to $|d\\rangle$, $\\gamma$.\n    alpha : sympy.Symbol\n        Complex amplitude of the initial coherent state $|\\alpha\\rangle$.\n\n    Outputs\n    ----------\n    coherence : sympy.Expr\n        Symbolic expression for the steady-state cavity coherence $\\langle n'| \\hat \\rho_{c,ss}|n\\rangle$.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # Derived expression:\n    # <n'| rho_ss |n> = exp(-|alpha|^2) * ( alpha^(n+1) alpha*^(n'+1) / sqrt((n+1)!(n'+1)!) + delta_n0 delta_n'0 )\n    # Note: alpha is a complex symbol. Sympy treats alpha**2 as complex power.\n    # The term exp(-|alpha|^2) is exp(-alpha * conjugate(alpha)). \n    # However, 'alpha' is provided as a generic Symbol. Using abs(alpha)**2 is safer.\n    # Note: sp.factorial(n+1) is used.\n\n    coherence = sp.exp(-sp.Abs(alpha)**2) * (\n        (alpha**(n + 1) * sp.conjugate(alpha)**(np + 1)) / (sp.sqrt(sp.factorial(n + 1)) * sp.sqrt(sp.factorial(np + 1))) +\n        sp.KroneckerDelta(n, 0) * sp.KroneckerDelta(np, 0)\n    )\n    # ---------------------------------------------------------------\n\n    return coherence\n"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_63_main",
+  "generated_code": "def answer():\n    r\"\"\"\n    Return the while noise robustness\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    eta_1: float, the white noise robustness for question 1, $\\eta$\n    eta_2: float, the white noise robustness for question 2, $\\eta$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    eta_1 = 0.905\n    eta_2 = 0.851\n    # ---------------------------------------------------------------\n\n    return eta_1, eta_2",
+  "model": "pma/pma",
+  "timestamp": "2026-08-16T15:18:51.482969",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "def answer():\n    r\"\"\"\n    Return the while noise robustness\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    eta_1: float, the white noise robustness for question 1, $\\eta$\n    eta_2: float, the white noise robustness for question 2, $\\eta$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    eta_1 = 0.905\n    eta_2 = 0.851\n    # ---------------------------------------------------------------\n\n    return eta_1, eta_2"
+    }
+  ]
+}

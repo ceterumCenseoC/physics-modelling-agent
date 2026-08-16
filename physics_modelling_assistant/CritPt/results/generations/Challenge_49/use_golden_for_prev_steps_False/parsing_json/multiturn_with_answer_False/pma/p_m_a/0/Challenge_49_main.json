@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_49_main",
+  "generated_code": "import sympy as sp\n\nz, K = sp.symbols('z K')\n\ndef answer(z, K):\n    r\"\"\"\n    Return the expression of $\\varphi$ in Sympy format.\n\n    Inputs\n    ----------\n    z: sympy.Symbol, defined as $\\log_2 t$\n    K: sympy.Symbol, constant from the self-consistent equation\n            $$\\frac{1}{\\ell^{\\mu}(t)} \\int_0^t \\ell(\\tau) \\ell(t - \\tau) d\\tau = K$$\n\n    Outputs\n    ----------\n    varphi: sympy.Expr, expansion of $\\varphi$ in terms of $z$ for large $t$\n        and retain terms up to constant order in $z$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    varphi = (1/sp.Integer(2))*z + (1/sp.Integer(2))*sp.log(z, 2)\n    # ---------------------------------------------------------------\n\n    return varphi",
+  "model": "pma/pma",
+  "timestamp": "2026-08-16T10:57:54.122202",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "import sympy as sp\n\nz, K = sp.symbols('z K')\n\ndef answer(z, K):\n    r\"\"\"\n    Return the expression of $\\varphi$ in Sympy format.\n\n    Inputs\n    ----------\n    z: sympy.Symbol, defined as $\\log_2 t$\n    K: sympy.Symbol, constant from the self-consistent equation\n            $$\\frac{1}{\\ell^{\\mu}(t)} \\int_0^t \\ell(\\tau) \\ell(t - \\tau) d\\tau = K$$\n\n    Outputs\n    ----------\n    varphi: sympy.Expr, expansion of $\\varphi$ in terms of $z$ for large $t$\n        and retain terms up to constant order in $z$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    varphi = (1/sp.Integer(2))*z + (1/sp.Integer(2))*sp.log(z, 2)\n    # ---------------------------------------------------------------\n\n    return varphi"
+    }
+  ]
+}

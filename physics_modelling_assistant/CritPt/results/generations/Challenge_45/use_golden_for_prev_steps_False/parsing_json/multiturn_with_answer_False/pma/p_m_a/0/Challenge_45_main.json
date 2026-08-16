@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_45_main",
+  "generated_code": "def answer(mc_x, mc_y, mv_x, mv_y):\n    r\"\"\"\n    Return the value of the goniopolarity condition.\n\n    Inputs\n    ----------\n    mc_x, mc_y, mv_x, mv_y: float\n        Effective masses $m_{c/v,\\alpha}$ with $\\alpha = x,y$, in unit of a typical carrier mass $m_0$ that is five times of the electron mass.\n\n    Outputs\n    ----------\n    have_goniopolarity: bool\n        True if the material exhibits goniopolarity, otherwise False.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The Seebeck coefficient S_alpha for an intrinsic semiconductor with anisotropic\n    # effective masses and equal relaxation times for electrons and holes is proportional to\n    # (m_c_alpha - m_v_alpha). Goniopolarity (opposite signs of S_x and S_y) occurs\n    # if and only if (m_c,x - m_v,x) and (m_c,y - m_v,y) have opposite signs.\n    # This translates to the product of the differences being negative.\n    \n    diff_x = mc_x - mv_x\n    diff_y = mc_y - mv_y\n    \n    have_goniopolarity = (diff_x * diff_y) < 0\n    # ---------------------------------------------------------------\n\n    return have_goniopolarity",
+  "model": "pma/pma",
+  "timestamp": "2026-08-16T09:47:49.085081",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "def answer(mc_x, mc_y, mv_x, mv_y):\n    r\"\"\"\n    Return the value of the goniopolarity condition.\n\n    Inputs\n    ----------\n    mc_x, mc_y, mv_x, mv_y: float\n        Effective masses $m_{c/v,\\alpha}$ with $\\alpha = x,y$, in unit of a typical carrier mass $m_0$ that is five times of the electron mass.\n\n    Outputs\n    ----------\n    have_goniopolarity: bool\n        True if the material exhibits goniopolarity, otherwise False.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The Seebeck coefficient S_alpha for an intrinsic semiconductor with anisotropic\n    # effective masses and equal relaxation times for electrons and holes is proportional to\n    # (m_c_alpha - m_v_alpha). Goniopolarity (opposite signs of S_x and S_y) occurs\n    # if and only if (m_c,x - m_v,x) and (m_c,y - m_v,y) have opposite signs.\n    # This translates to the product of the differences being negative.\n    \n    diff_x = mc_x - mv_x\n    diff_y = mc_y - mv_y\n    \n    have_goniopolarity = (diff_x * diff_y) < 0\n    # ---------------------------------------------------------------\n\n    return have_goniopolarity"
+    }
+  ]
+}
