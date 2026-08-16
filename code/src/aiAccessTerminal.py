@@ -1,6 +1,6 @@
 from typing import Any
 
-from aiAccessInterface import AiAccessInterface
+from .aiAccessInterface import AiAccessInterface
 class AiAccessTerminal(AiAccessInterface):
     # This class provides an interface to access an AI service through a terminal-based approach. It uses the OpenAI API to send prompts and receive responses from the AI models.
     def __init__(self) -> None:
@@ -13,7 +13,7 @@ class AiAccessTerminal(AiAccessInterface):
         import openai
         self.client = openai.OpenAI(
             api_key=apiKey,
-            base_url="https://chat-ai.academiccloud.de/v1"
+            base_url="https://saia.gwdg.de/v1"#"https://chat-ai.academiccloud.de/v1"
         )
 
     def sayHello(self) -> None:
@@ -93,10 +93,10 @@ class AiAccessTerminal(AiAccessInterface):
                 }
             }
         )
-
-        answer = response.output #sould return json format
+        print(str(response))
+        #answer = response.output #sould return json format
         responseId = response.id
-        return answer, responseId
+        return responseId
     
     def disconnect(self)-> bool:
         # This method can be used to perform any cleanup tasks or close connections if necessary.
@@ -110,3 +110,4 @@ if __name__ == "__main__":
     ai_access.sayHello()
     models = ai_access.listModels()
     print("Available models:", models)
+    ai_access.ask(model="deepseek-v4-flash-0731", modelsGeneralPurpose="You are a helpful assistant.", questionTheModelShouldWorkOn="What is the capital of France?", previousModelsWork="")

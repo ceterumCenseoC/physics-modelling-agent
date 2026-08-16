@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_15_main",
+  "generated_code": "import sympy as sp\n\nN, l = sp.symbols('N l', positive=True, integer=True)\np = sp.symbols('p', real=True)\n\ndef answer(N, p, l):\n    r\"\"\"\n    Return the expression of $\\mathcal{S}_{0}$ in Sympy format.\n\n    Inputs\n    ----------\n    N: sympy.Symbol, site number, $N$\n    p: sympy.Symbol, noise rate, $p\\in[0,1]$\n    l: sympy.Symbol, string length, $l$\n\n    Outputs\n    ----------\n    S0: sympy.Expr, string order parameter, $\\mathcal{S}_{0}$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The string order parameter for the noisy AKLT model is given by the\n    # pure AKLT string order parameter (2/3) multiplied by the probability\n    # that the identity Kraus operator acts on all sites in the chain.\n    # The noise Kraus operators $K_{1,2,3} \\propto \\sqrt{p}$ introduce off-diagonal\n    # elements that destroy the long-range string order.\n    # Only the term with $K_0 = \\sqrt{1-p}\\mathbb{I}$ at every site contributes\n    # to the non-zero value of $\\mathcal{S}_0$ in the thermodynamic limit.\n    # The probability of selecting $K_0$ at all $N$ sites is $(1-p)^N$.\n    S0 = sp.Rational(2, 3) * (1 - p)**N\n    # ---------------------------------------------------------------\n\n    return S0",
+  "model": "pma/pma",
+  "timestamp": "2026-08-16T22:25:59.387531",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "import sympy as sp\n\nN, l = sp.symbols('N l', positive=True, integer=True)\np = sp.symbols('p', real=True)\n\ndef answer(N, p, l):\n    r\"\"\"\n    Return the expression of $\\mathcal{S}_{0}$ in Sympy format.\n\n    Inputs\n    ----------\n    N: sympy.Symbol, site number, $N$\n    p: sympy.Symbol, noise rate, $p\\in[0,1]$\n    l: sympy.Symbol, string length, $l$\n\n    Outputs\n    ----------\n    S0: sympy.Expr, string order parameter, $\\mathcal{S}_{0}$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The string order parameter for the noisy AKLT model is given by the\n    # pure AKLT string order parameter (2/3) multiplied by the probability\n    # that the identity Kraus operator acts on all sites in the chain.\n    # The noise Kraus operators $K_{1,2,3} \\propto \\sqrt{p}$ introduce off-diagonal\n    # elements that destroy the long-range string order.\n    # Only the term with $K_0 = \\sqrt{1-p}\\mathbb{I}$ at every site contributes\n    # to the non-zero value of $\\mathcal{S}_0$ in the thermodynamic limit.\n    # The probability of selecting $K_0$ at all $N$ sites is $(1-p)^N$.\n    S0 = sp.Rational(2, 3) * (1 - p)**N\n    # ---------------------------------------------------------------\n\n    return S0"
+    }
+  ]
+}

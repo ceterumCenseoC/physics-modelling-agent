@@ -552,9 +552,9 @@ listname=Table Index
 	
 	\paragraph{The Parallel Fan-Out with Merge} \autocite[p.~4]{orchStyles} \label{par:paral} differs from the Sequential Pipeline (\autoref{par:pipe}), by allowing certain \glspl{Agent} to run simultaneously. After the parallel \glspl{Agent} are done with their tasks, their results are merged by the next sequential \gls{Agent}. Introducing an \gls{Agent} before the parallelization allows for each parallel \gls{Agent} to only receive the information relevant to its task. Therefore, each parallel \gls{Agent} has to deal with less noise and receives less input \glspl{token}, which helps to stay within the \gls{LLM}'s \gls{context-window}. The \gls{Agent} responsible for merging resolves conflicts like contradicting information of parallel \glspl{Agent}. The parallel design allows for the highest throughput compared to the other architectures \autocite[p.~7]{orchStyles}.
 	
-	\paragraph{The Hierarchical Supervisor-Worker} \autocite[p.~4-5]{orchStyles} \label{par:hier} architecture introduces a supervisor \gls{Agent}. It dynamically decides which \glspl{Agent} (Subagents) to call and which tasks the Subagents should handle. Furthermore, the supervisor \gls{Agent} reviews the Subagents' results and reruns the respective tasks, if it has low confidence in the result being correct. This forms a feedback loop, which allows the \gls{Agentic AI} system to dynamically assign more difficult tasks to more powerful \glspl{Agent}. The hierarchical architecture produces better results than the Sequential Pipeline (\autoref{par:pipe}) and the parallel design (\autoref{par:paral}), but is also more costly regarding the execution time. \autocite[p.~7]{orchStyles}
+	\paragraph{The Hierarchical Supervisor-Worker} \label{par:hierSup} \autocite[p.~4-5]{orchStyles} \label{par:hier} architecture introduces a supervisor \gls{Agent}. It dynamically decides which \glspl{Agent} (Subagents) to call and which tasks the Subagents should handle. Furthermore, the supervisor \gls{Agent} reviews the Subagents' results and reruns the respective tasks, if it has low confidence in the result being correct. This forms a feedback loop, which allows the \gls{Agentic AI} system to dynamically assign more difficult tasks to more powerful \glspl{Agent}. The hierarchical architecture produces better results than the Sequential Pipeline (\autoref{par:pipe}) and the parallel design (\autoref{par:paral}), but is also more costly regarding the execution time. \autocite[p.~7]{orchStyles}
 	
-	\paragraph{The Reflexive Self-Correcting Loop} \autocite[p.~5]{orchStyles} \label{par:reflex} executes the \glspl{Agent} in a predefined order similar to the Sequential Pipeline (\autoref{par:pipe}), but adds a verification step. The verification is performed by an \gls{Agent}, which either deems the result to be correct (enough) and declares it to be the system's output, or sends it back for correction. Before the result is reintroduced into the system, it is critiqued by stating the problems encountered, which allows for targeted corrections on the next cycle. This architecture refines the output over time rather than simply rerunning the entire system. The Reflexive Self-Correction Loop \autocite[p.~5]{orchStyles} achieves the highest accuracy but also comes at the highest cost of all architectures discussed. \autocite[p.~7]{orchStyles}
+	\paragraph{The Reflexive Self-Correcting Loop} \label{par:RefLoop} \autocite[p.~5]{orchStyles} \label{par:reflex} executes the \glspl{Agent} in a predefined order similar to the Sequential Pipeline (\autoref{par:pipe}), but adds a verification step. The verification is performed by an \gls{Agent}, which either deems the result to be correct (enough) and declares it to be the system's output, or sends it back for correction. Before the result is reintroduced into the system, it is critiqued by stating the problems encountered, which allows for targeted corrections on the next cycle. This architecture refines the output over time rather than simply rerunning the entire system. The Reflexive Self-Correction Loop \autocite[p.~5]{orchStyles} achieves the highest accuracy but also comes at the highest cost of all architectures discussed. \autocite[p.~7]{orchStyles}
 	
 	When interpreting the performances of the architectures discussed, it should be taken into account that \citeauthor{orchStyles} \autocite[p.~14-15]{orchStyles} tested them on their extraction capabilities from financial documents.
 	Therefore, the performances could change in different domains and for different tasks. When designing \gls{Agentic AI} systems, the combination of multiple architectures is possible.
@@ -659,10 +659,34 @@ listname=Table Index
 		\figentry{CrewAI execution modes}
 	\end{figure}
 	
-	\subsection{\gls{LLM}s Used}
-	In order to use \gls{LLM}s effectively in an automated pipeline, a provider offering a program access to its \gls{LLM}s is needed. For this Thesis, the  \enquote{Scalable AI Accellarator (SAIA)} \autocite{saiaDoc} hosted by the \enquote{Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen} (GWDG) \autocite{gwdg} is used, offering limited but free access to a selection of open weight \gls{LLM}s. The models are accessed via an \gls{API key} issued by the GWDG. A list of the available \gls{LLM}s is provided on the SAIA webpage \autocite{saiaModels}, but can also be obtained via a request to the server hosting the models. To identify to most capable of the available models, individual benchmarks contributing to the \citetitle{artAnaLeaderboard} from \citeauthor{artAnaLeaderboard} are considered \autocite{artAnaLeaderboard}. The AA-LCR \autocite{aaAA} tests the long context reasoning, the GPQA Diamond \autocite{aaDiamond} tests for scientific reasoning capabilities, SciCode \autocite{aaSciCode} evaluates the models capabilities in science and coding, CritPt \autocite{aaCritPt} (see \autoref{subsub:critPt}) probes the physics based reasoning abilities of the \gls{LLM}s. The performances of all availabe models across the mentioned benchmarks are displayed in \autoref{saiaModelsBench}. They conclude qwen3.6 27B (27 billion parameters) to be the best model for long context reasoning, while qwen3.5 397B A17B (397 billion parameters in total, 17 billion active at a time) performs best in scientific reasoning tested by GPQA Diamond. glm-4.7 (358 billion parameters \autocite{glmParams}) achieves the highest score on the science and coding benchmark SciCode. For the CritPt benchmark both glm-4.7 and qwen3.5 397B A17B achieve the best results among the tested models, with both of them scoring at only \SI{1,7}{\percent}, indicating the difficulty of the CritPt benchmarking questions.
+	\subsection{\gls{LLM}s Used} \label{sub:LlmUsed}
+	In order to use \gls{LLM}s effectively in an automated pipeline, a provider offering a program access to its \gls{LLM}s is needed. For this Thesis, the \enquote{Scalable AI Accellarator (SAIA)} \autocite{saiaDoc} hosted by the \enquote{Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen} (GWDG) \autocite{gwdg} is used, offering limited but free access to a selection of open weight \gls{LLM}s. The models are accessed via an \gls{API key} issued by the GWDG, the applied rate limits are listed in \autoref{fig:rateLimit}. A list of the available \gls{LLM}s is provided on the GWDG's SAIA webpage \autocite{saiaModels}, but can also be obtained via a request to the server hosting the models.
 	
-	Therefore, qwen3.6 27B is the \gls{LLM} of choice for all Tasks dealing with large inputs, while glm-4.7 is best suited for work requiring coding. When scientific reasoning is necessary, both qwen3.5 397B A17B and glm-4.7 are viable options.
+	\begin{table}[ht]
+		\centering
+		\caption{Rate limits for the chat.ai.academiccloud.de, which provides the \gls{LLM}s used for the Physics Modelling Assistant. The information are obtained by making the request suggested at the GWDG's documentation page for SAIA \autocite[section: API Limits]{saiaModels}. For windows, the following request is suitable:\\
+		curl.exe -i `\\
+		>>   -H "Authorization: Bearer <API\_KEY>" `\\
+		>>   -H "Content-Type: application/json" `\\
+		>>  "https://chat-ai.academiccloud.de/v1/chat/completions"}
+		\label{fig:rateLimit}
+		\tabentry{Rate limits for the SAIA models}
+		\begin{tabular}{c 
+						S[table-format=4, round-mode=places, round-precision=0, output-decimal-marker={.}]}
+			\toprule[2pt]
+			timespan & {rate limit}\\
+			\midrule[1pt]
+			minute & 30\\
+			hour & 200\\
+			day & 1000\\
+			month & 3000\\
+			\bottomrule[1pt]
+		\end{tabular}
+	\end{table}
+	
+	To identify the most capable among the available models, individual benchmarks contributing to the \citetitle{artAnaLeaderboard} from \citeauthor{artAnaLeaderboard} are considered \autocite{artAnaLeaderboard}. The AA-LCR \autocite{aaAA} tests the long context reasoning; the GPQA Diamond \autocite{aaDiamond} tests for scientific reasoning capabilities; SciCode \autocite{aaSciCode} evaluates the models capabilities in science and coding; CritPt \autocite{aaCritPt} (see \autoref{subsub:critPt}) probes the physics based reasoning abilities of the \gls{LLM}s. The performances of all availabe models across the mentioned benchmarks are displayed in \autoref{saiaModelsBench}. They conclude Qwen3.6 27B (27 billion parameters) to be the best model for long context reasoning, while Qwen3.5 397B A17B (397 billion parameters in total, 17 billion active at a time) performs best in scientific reasoning tested by GPQA Diamond. GLM 4.7 (358 billion parameters \autocite{glmParams}) achieves the highest score on the science and coding benchmark SciCode. For the CritPt benchmark both GLM 4.7 and Qwen3.5 397B A17B achieve the best results among the tested models, with both of them scoring at only \SI{1,7}{\percent}, indicating the difficulty of the CritPt benchmarking questions.
+	
+	Therefore, Qwen3.6 27B is the \gls{LLM} of choice for all Tasks dealing with large inputs, while GLM 4.7 is best suited for work requiring coding. When scientific reasoning is necessary, both Qwen3.5 397B A17B and GLM 4.7 are viable options.
 	
 	\begin{table}[ht]
 		\centering
@@ -678,75 +702,90 @@ listname=Table Index
 			\toprule[2pt]
 			model & {AA-LCR in \si{\percent}} & {GPQA Diamond in \si{\percent}} & {SciCode in \si{\percent}} & {CritPt in \si{\percent}}\\
 			\midrule[1pt]
-			apertus 70B Instruct &0&27&6&0\\
-			deepSeek V4 Flash &33&72&37&0\\
-			devstral 2&30&53&29&0\\
-			gemma 4 31B&62&86&43&1\\
-			glm-4.7&64&86&{\color{red}45}&{\color{red}1.7}\\
-			llama 3.1 8B&16&26&13&0\\
-			mistral Medium 3.5&61&75&40&0\\
-			gpt-oss-120B (high)&51&78&39&1\\
-			qwen3 30B A3B 2507&59&71&33&0\\
-			qwen3 coder next&40&74&32&0\\
-			qwen3 omni 30B A3B&0&73&31&0\\
-			qwen3.5 122B A10B&67&86&42&1\\
-			qwen3.5 397B A17B&66&{\color{red}89}&42&{\color{red}1.7}\\
-			qwen3.6 27B&{\color{red}69}&84&40&1\\
-			qwen3.6 35B A3B&64&84&36&0\\
+			Apertus 70B Instruct &0&27&6&0\\
+			DeepSeek V4 Flash 0731 &33&72&37&0\\
+			Devstral 2&30&53&29&0\\
+			Gemma 4 31B&62&86&43&1\\
+			GLM 4.7&64&86&{\color{red}45}&{\color{red}1.7}\\
+			Llama 3.1 8B&16&26&13&0\\
+			Mistral Medium 3.5&61&75&40&0\\
+			GPT-OSS-120B (high)&51&78&39&1\\
+			Qwen3 30B A3B 2507&59&71&33&0\\
+			Qwen3 coder next&40&74&32&0\\
+			Qwen3 omni 30B A3B&0&73&31&0\\
+			Qwen3.5 122B A10B&67&86&42&1\\
+			Qwen3.5 397B A17B&66&{\color{red}89}&42&{\color{red}1.7}\\
+			Qwen3.6 27B&{\color{red}69}&84&40&1\\
+			Qwen3.6 35B A3B&64&84&36&0\\
 			\bottomrule[1pt]
 		\end{tabular}
 	\end{table}
 	
 	\subsection{Tools Used}
-	To enhance the Physics Modelling Assistant's capabilities, certain \glspl{Agent} are equipped with tools (see \autoref{subsub:tool}). Each tool provides an object specifying the expected input at its constraints, both are visible to the \gls{Agent} using the tool.
+	To enhance the Physics Modelling Assistant's capabilities, certain \glspl{Agent} are equipped with tools (see \autoref{subsub:tool}). Each tool provides an object specifying the expected input at its constraints to the \gls{Agent} using the tool.
 	
 	\subsubsection{arxiv\_paper\_tool with Exponential Backoff} \label{subsub:arxivPaperTool}
-	CrewAI already provides the \enquote{arxiv\_Paper\_Tool} \autocite{crewaiArxivPaperTool}, allowing \glspl{Agent} to access the arXiv-API \autocite{arxiv} for finding papers relevant to the question at hand. During the development process of the Physics Modelling Assistant, the CrewAI tool's requests repeatedly kept getting denied, resulting in no papers to be found and downloaded from arXiv. As listed in the arXiv-API's Terms of Use, rate limits are enforced, blocking clients from sending many requests in a short amount of time. Furthermore, web servers deny repeated request from the same client for the same service \autocite{rechnernetze}. Since the CrewAI arxiv\_paper\_tool \autocite{crewaiArxivPaperTool} does not implement any strategy for waiting, its requests are eventually blocked by the arXiv-API servers. As a consequence an extending to the arxiv\_paper\_tool was made by implementing an exponential back-off strategy, as it is common for modern server requests \autocite{rechnernetze}. Additionally to the exponential back-off, the modified tool, called arxiv\_paper\_tool\_exponential\_backoff, adds a small random wait, which is common to prevent two clients requesting the same service from waiting for the same amount of timeblocking each others requests repeatedly \autocite{rechnernetze}. The tool finds a specified number of papers and downloads them to a designated directory.
+	CrewAI already provides the \enquote{arxiv\_Paper\_Tool} \autocite{crewaiArxivPaperTool}, allowing \glspl{Agent} to access the arXiv-API \autocite{arxiv} for finding papers relevant to the question at hand. During the development process of the Physics Modelling Assistant, the CrewAI tool's requests repeatedly kept getting denied, resulting in no papers being found and downloaded from arXiv. As listed in the arXiv-API's Terms of Use, rate limits are enforced, blocking clients from sending many requests in a short amount of time. Furthermore, web servers deny repeated request from the same client for the same service \autocite{rechnernetze}. Since the CrewAI arxiv\_paper\_tool \autocite{crewaiArxivPaperTool} does not implement any strategy for waiting, its requests are eventually blocked by the arXiv-API servers. As a consequence the arxiv\_paper\_tool is extended by implementing an exponential back-off strategy, as it is common for modern server requests \autocite{rechnernetze}. Additionally to the exponential back-off, the modified tool, called arxiv\_paper\_tool\_exponential\_backoff, adds a small random wait, which is common to prevent two clients requesting the same service from waiting for the same amount of time, thereby blocking each others requests repeatedly \autocite{rechnernetze}. The tool finds a specified number of papers and downloads them to a designated directory.
 	
 	\subsubsection{pdf\_reader} \label{subsub:pdfReader}
-	In order to access the papers downloaded from arXiv, a PDF reader tool was developed. It reads all PDF files from the specified directory, allowing the invoking \gls{Agent}'s \gls{LLM} to see the contents of the documents. In theory this allows to read any number and length of sources from the directory. In reality every \gls{LLM} has a \gls{context-window}, limiting the amount of \glspl{token} it can handle. When the sum of the \glspl{token} of the read documents exceeds the \gls{context-window}, the \gls{Agent} fails its Task. Among the SAIA models \autocite{saiaModels}, deepSeek V4 Flash offers the largest \gls{context-window}, supporting up to 1 million \glspl{token}, while qwen3.6 35B A3B provides the second‑largest \gls{context-window} at 262k \glspl{token}.
+	In order to access the papers downloaded from arXiv, a PDF reader tool is developed. It reads all PDF files from the specified directory, allowing the invoking \gls{Agent}'s \gls{LLM} to see the contents of the documents. In theory this allows to read any number and length of sources from the directory. In reality every \gls{LLM} has a \gls{context-window}, limiting the amount of \glspl{token} it can handle. When the sum of the \glspl{token} of the read documents exceeds the \gls{context-window}, the \gls{Agent} fails its Task.
 	
-	Since the tool only allows reading files from a hard-coded subdirectory, it is deemed secure to be used outside of a sandbox environment (see \autoref{subsub:tool}).
+	Since the tool only allows reading files from a hard-coded subdirectory, it is deemed secure to be used outside of a Sandbox environment (see \autoref{subsub:tool}).
 	
 	\subsubsection{dimensional\_analysis} \label{subsub:dimAna}
-	During the testing of the system, formulas from source papers where stated correctly, but assigning correct units to the individual quantities proved to be difficult for the responsible \gls{Agent}. Mistakes in the unit assumptions lead to unphysical results or impossible units for the outcomes of the numerical implementation. To verify the consistency for all formulas used, the dimensional\_analysis tool was created. It is based on the symPy library and allows an \gls{Agent} to check the units it proposes. The tool takes an equation written as a string, a dictionary containing the used quantities and their proposed units, as well as a list of all units that are used. The units are substituted in for their respective quantities and both sides of the formula are simplified separately. Numerical values are not considered, since the aim is simply to achieve unit consistency. Lastly, the left side of the formula is divide by the right side, giving the unit correction needed on the right side for the formula to be consistent. Ideally, this value is 1, indicating no correction is needed. If it is not 1, the \gls{Agent} is supposed to interpret the unit mismatch correctly, by adjusting the assumed units for the used quantities. Another option for the \gls{Agent} is to modify the formula, which can be done by inserting physical constants. This allows to keep real world units while implementing a formula, which uses a different unit system.
+	During the testing of the system, formulas from source papers where stated correctly, but assigning correct units to the individual quantities proved to be difficult for the responsible \gls{Agent}. Mistakes in the unit assumptions lead to unphysical results or impossible units for the outcomes of the numerical implementation. To verify the unit consistency for all formulas used, the dimensional\_analysis tool is created. It is based on the SymPy library \autocite{symPy} and allows an \gls{Agent} to check whether the units is proposes are consistent for the relevant formulas. The tool takes an equation written as a string, a dictionary containing the used quantities and their proposed units, and a list of all units that are used. The units are substituted in for their respective quantities, before both sides of the formula are simplified separately. Numerical values are not considered, since the aim is only to achieve unit consistency. Lastly, the left side of the formula is divide by the right side, giving the unit correction needed on the right side for the formula to be consistent. Ideally, this value is 1, indicating no correction is needed. If it is different from 1, the \gls{Agent} is supposed to interpret the unit mismatch correctly, by adjusting the assumed units for the used quantities. Another option for the \gls{Agent} is to modify the formula, which can be done by inserting physical constants which are otherwise absorbed by different definitions of the used quantities. This allows to keep real world units while implementing a formula, which uses a different unit system.
 	
 	\subsubsection{Code Execution}
-	As discussed by \citeauthor{sandboxEscape} \autocite{sandboxEscape}, a secure Sandbox is complex to design, but necessary, if \gls{LLM} generated code should be executed directly. As stated in \autoref{subsub:tool}, the weak points of Sandboxes can be exploited by capable \gls{LLM}s, which is why the Physics Modelling Assistant does not allow code execution.
+	As discussed by \citeauthor{sandboxEscape} \autocite{sandboxEscape}, a secure Sandbox is complex to design, but necessary, if \gls{LLM} generated code is executed directly. As stated in \autoref{subsub:tool}, the weak points of Sandboxes can be exploited by capable \gls{LLM}s, which is why the Physics Modelling Assistant omits code execution.
 	
 	\subsection{Experimental Setup for the Pipeline} \label{sub:expSetup}
-	The final system is designed to mirror a simplified research workflow consisting of finding relevant information, developing a model based on the knowledge acquired, and implementing the model to get an idea of what it predicts. In order to properly answers the questions from benchmarks (see \autoref{sub:eval}), the final Task is responsible for providing the output in the benchmark's required format.
+	The final system is designed to mirror a simplified human research workflow consisting of finding relevant information, developing a model based on the knowledge acquired, and implementing the model to get an idea of what it predicts. In order to properly answers the questions from benchmarks (see \autoref{sub:eval}), the final Task is responsible for providing the output in the benchmark's required format.
 	
 	A simplified view of the Physics Modelling Assistant's steps is shown in \autoref{fig:tasks}, each step is performed by one Task and its corresponding \gls{Agent}.
 	
 	\subsubsection{Input} \label{subsub:input}
-	The Physics Modelling Assistant receives the problem description, a string called \textbf{aim}, and instructions for the required format, also as a string. Additional parameters can be chosen via an interface, but defaults are set. The output directory specifies where the Tasks dump their output files; the directory's name consists of the question number and a unique identifier, ensuring previous outputs are not overwritten. The Temperature (see \autoref{subsub:softmax}) and the top\_p (see \autoref{subsub:topp}) parameters can be specified to shape the \gls{LLM}'s output. The \textbf{max\_tokens} parameter limits the number of \glspl{token} a \gls{LLM} produces. It is set to prevent the \gls{context-window} from being exceeded, which would cause the \gls{Agent} to fail its Task.
+	The Physics Modelling Assistant receives the problem description, a string called \textbf{aim}, and instructions for the required format, also as a string. Additional parameters can be specified via an interface, but defaults are set. The output directory specifies where the Tasks dump their output files; its name consists of the question number and a unique identifier, ensuring previous outputs are not overwritten. The Temperature (see \autoref{subsub:softmax}) and the top\_p (see \autoref{subsub:topp}) parameters can be specified to shape the \gls{LLM}'s output, along \textbf{max\_tokens} parameter limiting the number of \glspl{token} a \gls{LLM} produces.
 	
-	Each \gls{Agent} can perform \textbf{reasoning} before it works on its Task. Reasoning implies that an \gls{Agent} creates a plan for how to approach the Task before working on it \autocite{crewaiAgentDoc} (see \autoref{subsub:reasoning}). The maximum number of reasoning tries can be specified; otherwise the \gls{Agent} retries to create a plan until an attempt is deemed sufficient \autocite{crewaiAgentDoc}. An \gls{Agent} can also rerun itself to improve its output if it deems this necessary. The maximum number of iterations is set through the \textbf{max\_iter} parameter \autocite{crewaiAgentDoc}, the default is 20. 
-	
-	The directory for the Tasks output files and the PDF downloads can be specified in the input as well.
+	Each \gls{Agent} can perform \textbf{reasoning} before it works on its Task. Reasoning implies that an \gls{Agent} creates a plan for how to approach the Task before working on it \autocite{crewaiAgentDoc} (see \autoref{subsub:reasoning}). The maximum number of reasoning attempts can be specified; otherwise the \gls{Agent} retries to create a plan until an attempt is deemed sufficient \autocite{crewaiAgentDoc}. An \gls{Agent} can also rerun itself to improve its output if it deems this necessary. The maximum number of iterations is set through the \textbf{max\_iter} parameter \autocite{crewaiAgentDoc}, the default is 20.
 	
 	\subsubsection{General Parameter Choices} \label{subsub:paramCh}
-	The Temperature and the top\_p parameter are the same for all \gls{Agent}, based on the recommendations from the GWDG webpage \autocite{saiaModels}. This aligns with the statements from \autoref{subsub:contextWindow}, describing the decoding of a \gls{LLM}'s output as an optimization problem. For glm-4.7 and qwen3.6 27B the recommended parameters are: \textbf{Temperature} = 1.0 and \textbf{top\_p} = 0.95. For qwen3.5 397B the recommendation is: \textbf{Temperature} = 0.6 and \textbf{top\_p} = 0.95. For the reasons discussed in \autoref{subsub:buildModel}, the qwen3.5 397B model is not used, which allows to set the Temperature and top\_p globally.
+	Since the GWDG webpage suggests Temperature and top\_p value for all three \gls{LLM}s considered, these defaults are adapted. The recommended settings are kept, since they are the solutions to the optimization problem discussed in \autoref{subsub:contextWindow}, and changes would disturb the ideal configuration. For GLM 4.7 and Qwen3.6 27B the recommended parameters are Temperature = 1.0 and top\_p = 0.95; the suggested Temperature for Qwen3.5 397B is lower at 0.6. For the reasons discussed in \autoref{subsub:buildModel}, the Qwen3.5 397B model is not used for the system, which allows to set the Temperature and top\_p globally, as seen in \autoref{tab:defPar}.
 	
-	The maximum number of output \glspl{token} is set to \si{50 \kilo} \autocite{crewaiAgentDoc} to ensure the \gls{context-window} is not exceeded. This is especially relevant for the \gls{Agent} extracting information from the sources.
+	The maximum number of output \glspl{token} is set to \si{50 \kilo} (see \autoref{tab:defPar}) to ensure the \gls{context-window} not being exceeded. Qwen3.6 27B's \gls{context-window} allows it to handle a maximum of \si{262\kilo} \glspl{token}, while Qwen3.5 397B A17B and FLM 4.7 have a \gls{context-window} of \si{256\kilo} and \si{200\kilo} \glspl{token} respectively \autocite{saiaModDetail}. Of all the available models, DeepSeek V4 Flash 0731 offers the largest \gls{context-window} at 1 million \glspl{token}. The advantages of accommodating a large number of input \glspl{token} need to be balanced with the number of output \glspl{token} being sufficient for the \gls{LLM} to state its results.
 	
-	Each \gls{Agent} is allowed up to three iterations (\textbf{max\_iter} = 3) to refine its result if it deems this necessary \autocite{crewaiAgentDoc}. Reiterations allows a single \gls{Agent}'s result to be improved, if its output is of bad quality. This can happen due to the complexity of the Task, the inherent randomness of \gls{LLM}s, or temporary problems with accessing servers. Furthermore, retries can mitigate the influence of infrequent failures like the \gls{context-window} being exceeded.
-	
-	In order to balance the performance gains from reasoning (\autoref{subsub:reasoning}) with the need to limit excessive retries (\autoref{subsub:input}), the \textbf{max\_reasoning\_attempts} parameter is set to 3 globally.
+	An \gls{Agent} performing reasoning is generally desirable, as discussed in \autoref{subsub:reasoning}. The superiority of feedback loops mentioned in \autoref{par:RefLoop} suggests a positive effect of an \gls{Agent} rerunning itself. However, more reasoning attempts and reiterations increase the computation effort needed, with all retries counting towards the rate limit mentioned in \autoref{sub:LlmUsed}. Therefore, both parameters are set to 3 (see \autoref{tab:defPar}), allowing for some dynamical improvements while minimizing the strain on the rate limit.
 	
 	The Physics Modelling Agent does not use specific memory (\autoref{subsub:memory}) but relies on CrewAI passing the outputs of previous \glspl{Agent} to later ones via a shared output object (see \autocite[line 1610]{crewPy}).
 	
+	\begin{table}
+		\centering
+		\caption{Default parameter settings for the Physics Modelling Assistant.}
+		\label{tab:defPar}
+		\tabentry{Default parameter setting}
+		\begin{tabularx}{\textwidth}{l c X}
+			\toprule[2pt]
+			parameter & value & justification\\
+			\midrule[1pt]
+			temperature & 1.0 & recommendation from GWDG webpage \autocite{saiaModels}\\
+			top\_p & 0.95 & recommendation from GWDG webpage \autocite{saiaModels}\\
+			max\_tokens & 50k & ensure not exceeding the \gls{context-window}\\
+			max\_iter & 3 & balance improvements of reiterations with additional computation effort\\
+			reasoning & True & improves quality on complex problems\\
+			max\_reasoning\_attempts & 3 & balance the gains of reasoning with additional computation effort\\
+			\bottomrule[1pt]
+		\end{tabularx}
+	\end{table}
+	
 	\subsubsection{Obtaining Information}
 	\paragraph{Source Gathering}
-	In order to get sufficient information for building a model, the arXiv-API \autocite{arxiv} is accessed via the modified arxiv\_paper\_tool (see \autoref{subsub:arxivPaperTool}) and the found papers are downloaded. The corresponding \textbf{source gatherer} \gls{Agent} is based on the qwen3.6 27B \gls{LLM} and is tasked to use its tool for finding papers related to the aim. The \textbf{gathering task} specifies that three to six papers should be found, more papers bare the risk of exceeding the \gls{context-window} of the used \gls{LLM}s. The Task further specifies which information should be listed for each source: arXiv ID, author, data, URL and a short summary. This content is written into a markdown report, allowing a human to inspect the sources found.
+	In order to get sufficient information for building a model, the arXiv-API \autocite{arxiv} is accessed via the modified arxiv\_paper\_tool (see \autoref{subsub:arxivPaperTool}) and the found papers are downloaded. The corresponding \textbf{source gatherer} \gls{Agent} is based on the Qwen3.6 27B \gls{LLM} and is tasked to use its tool for finding papers related to the aim. The \textbf{gathering task} specifies that three to six papers should be found, more papers bare the risk of exceeding the \gls{context-window} of the used \gls{LLM}s. The Task further specifies which information should be listed for each source: arXiv ID, author, data, URL and a short summary. This content is written into a markdown report, allowing a human to inspect the sources found.
 	
 	This \gls{Agent} does not use reasoning because its Task is deemed to not need a multi step approach. All other parameters are kept at the global settings discussed in \autoref{subsub:paramCh}.
 	
 	Because of the issues with the arXiv-API rate limits \autocite{arxiv}, this step is packaged into its own Crew, allowing it to be executed independently from all later steps. This way changes or reruns intended to result in different behaviour of later steps can be made without rerunning the arXiv request again. For the measurements of the Physics Modelling Assistants performance in this Thesis, the source gathering is run again on every retry.
 	
 	\paragraph{Information Extraction} \label{par:infoExtr}
-	The source finding Task saves its papers to the specified output directory. By knowing the directory's location, the \textbf{information extractor} \gls{Agent} can use its pdf\_reader (see \autoref{subsub:pdfReader}) to read the content of the files in that directory. The qwen3.6 27B \gls{LLM} is used for its superior long context reasoning score (see \autoref{saiaModelsBench}). Its \gls{context-window} of \si{262 \kilo} \glspl{token} is the second largest only to deepSeek V4 Flash's \si{1 \mega} \autocite{saiaDoc} \autocite{saiaModels}. Since deepSeek V4 Flash achieves less than half of qwen3.6 27B's score in long context reasoning \autoref{saiaModelsBench}, the latter is used.
+	The source finding Task saves its papers to the specified output directory. By knowing the directory's location, the \textbf{information extractor} \gls{Agent} can use its pdf\_reader (see \autoref{subsub:pdfReader}) to read the content of the files in that directory. The Qwen3.6 27B \gls{LLM} is used for its superior long context reasoning score (see \autoref{saiaModelsBench}). Its \gls{context-window} of \si{262 \kilo} \glspl{token} is the second largest only to DeepSeek V4 Flash 0731's \si{1 \mega} \autocite{saiaDoc} \autocite{saiaModels}. Since DeepSeek V4 Flash 0731 achieves less than half of Qwen3.6 27B's score in long context reasoning \autoref{saiaModelsBench}, the latter is used.
 	
 	The \textbf{information extractor} is instructed to find the information needed to build a model that accomplishes what the aim asks for. It should present its findings with scientific citation and its backstory emphasises that the \gls{Agent} should stay true to the source material it has available. The corresponding \textbf{extraction task} specifies that the output should be in markdown format, enforcing an unambiguous and human readable output for later \glspl{Agent} and inspecting the Tasks markdown output file.
 	
@@ -754,27 +793,27 @@ listname=Table Index
 	
 	\subsubsection{Building the Model} \label{subsub:buildModel}
 	\paragraph{Modelling} \label{par:Modelling}
-	For building the model which is at the heart of the Physics Modelling Assistant, the \gls{LLM} strongest in scientific and specifically physics reasoning should be used. Therefore, the first choice was qwen3.5 397B A17B performing the best at scientific reasoning (GPQA Diamond \autocite{gpqaDiamondPaper}) and joined best at CritPt \autocite{critPtArx}, as shown in \autoref{saiaModelsBench}. During the testing phase, requests to this model kept failing with an answer not being provided by the server before a timeout was reached. For that reason the glm-4.7 \gls{LLM} is chosen instead, for it being the joined second best model at scientific reasoning (GPQA Diamond \autocite{gpqaDiamondPaper}) and joined best model at CritPt \autocite{critPtArx} (see \autoref{saiaModelsBench}). The \textbf{modeller} \gls{Agent} is prompted to provide a mathematical description for a model which accomplishes the aim. It is further instructed to rely on the information provided by the previous Task (extraction Task), provide a proper explanation for the steps taken, and not to write any code. The last instruction targets the \gls{Agent}'s previous behaviour of occasionally writing code which already implements the model. This is not wanted due to potential modifications needed for the model to be sufficient.
+	For building the model which is at the heart of the Physics Modelling Assistant, the \gls{LLM} strongest in scientific and specifically physics reasoning should be used. Therefore, the first choice was Qwen3.5 397B A17B performing the best at scientific reasoning (GPQA Diamond \autocite{gpqaDiamondPaper}) and joined best at CritPt \autocite{critPtArx}, as shown in \autoref{saiaModelsBench}. During the testing phase, requests to this model kept failing with an answer not being provided by the server before a timeout was reached. For that reason the GLM 4.7 \gls{LLM} is chosen instead, for it being the joined second best model at scientific reasoning (GPQA Diamond \autocite{gpqaDiamondPaper}) and joined best model at CritPt \autocite{critPtArx} (see \autoref{saiaModelsBench}). The \textbf{modeller} \gls{Agent} is prompted to provide a mathematical description for a model which accomplishes the aim. It is further instructed to rely on the information provided by the previous Task (extraction Task), provide a proper explanation for the steps taken, and not to write any code. The last instruction targets the \gls{Agent}'s previous behaviour of occasionally writing code which already implements the model. This is not wanted due to potential modifications needed for the model to be sufficient.
 	
 	The \textbf{modelling task} defines the expected output to be a complete mathematical description with a textual explanation. The requested format is once again markdown ensuring human readability of the generated output file. The default parameters setting described in \autoref{subsub:paramCh} are adopted.
 	
 	\paragraph{Unit Check}
-	The \textbf{unit checker} \gls{Agent} accounts for custom parameter definitions and other conventions preventing a straight forward adoption of the model and its formulas. It uses the glm-4.7 \gls{LLM} and its goal specifies which steps to take. In the beginning the units of all the quantities should be determined and based on these assumptions, the dimensional\_analysis tool (see \autoref{subsub:dimAna}) is used to identify potential inconsistencies in the units assumed. Based on the tool's results, the \gls{Agent} is expected to correct its unit assumptions or formulas if deemed necessary.
+	The \textbf{unit checker} \gls{Agent} accounts for custom parameter definitions and other conventions preventing a straight forward adoption of the model and its formulas. It uses the GLM 4.7 \gls{LLM} and its goal specifies which steps to take. In the beginning the units of all the quantities should be determined and based on these assumptions, the dimensional\_analysis tool (see \autoref{subsub:dimAna}) is used to identify potential inconsistencies in the units assumed. Based on the tool's results, the \gls{Agent} is expected to correct its unit assumptions or formulas if deemed necessary.
 	
 	The \textbf{unit checking task} specifies that the quantities of the units and the output of the dimensional analysis tool should be displayed in the markdown output file. The parameter configuration follows the default (see \autoref{subsub:paramCh}).
 	
 	\paragraph{Parameters Suggestion}
-	In order to obtain a meaningful simulation, physically realistic starting conditions are required. They are provided by the \textbf{parameter suggester}, which has the goal of finding typical starting parameters for the model simulation, and stating how these suggestions where derived. The \textbf{parameter suggestion task} highlights that explanations for the choice of parameters should be included in the markdown output file. The input parameters are unchanged compared to the default and the glm-4.7 model is used for the reasons discussed in \autoref{par:Modelling}.
+	In order to obtain a meaningful simulation, physically realistic starting conditions are required. They are provided by the \textbf{parameter suggester}, which has the goal of finding typical starting parameters for the model simulation, and stating how these suggestions where derived. The \textbf{parameter suggestion task} highlights that explanations for the choice of parameters should be included in the markdown output file. The input parameters are unchanged compared to the default and the GLM 4.7 model is used for the reasons discussed in \autoref{par:Modelling}.
 	
 	\subsubsection{Implementing the Model}
 	\paragraph{Physics Simulation} \label{par:physicSim}
-	In order to capture the suggested model accurately, the \textbf{simulation physician} \gls{Agent} is run with the goal of implementing the formulas of the model precisely, without making changes to them. The \gls{Agent} is based on the glm-4.7 \gls{LLM}, since it performs the best in coding and science among the available models (see \autoref{saiaModelsBench}). As specified by the \textbf{physician simulation task}, the implementation is supposed to use the units determined by the unit checking task. To get human readable and interpretable results, the task is requested to create graphics if it deems this appropriate. The output is a Python file which should only contain executable Python code, all explanations should be in comments. The parameters are kept the same as before.
+	In order to capture the suggested model accurately, the \textbf{simulation physician} \gls{Agent} is run with the goal of implementing the formulas of the model precisely, without making changes to them. The \gls{Agent} is based on the GLM 4.7 \gls{LLM}, since it performs the best in coding and science among the available models (see \autoref{saiaModelsBench}). As specified by the \textbf{physician simulation task}, the implementation is supposed to use the units determined by the unit checking task. To get human readable and interpretable results, the task is requested to create graphics if it deems this appropriate. The output is a Python file which should only contain executable Python code, all explanations should be in comments. The parameters are kept the same as before.
 	
 	\paragraph{Simulation Correction}
 	According to its specifications the physics simulation task is meant to capture the models logic into working code, it is not asked to prioritize producing error free code. The correction of bugs is done by the \textbf{simulation correcter}, which is told not change the implemented formulas, but to correct coding mistakes and improve the codes efficiency and style. The corresponding \textbf{simulation correction task} defines the expected output to be working python code. The parameter configurations and \gls{LLM} are unchanged compared to the simulation physician in \autoref{par:physicSim}.
 	
 	\subsubsection{Giving a Final Answer}
-	Benchmarks like CritPt expect a comprehensive answer (see \autoref{sub:eval}) to their questions, for that reason the \textbf{final outpter} \gls{Agent} is added to the pipeline. Its goal is to give a final answer and obey the format requested by the input question. Adapting the required format is crucial for CritPt's grading process \autocite{critPtArx}. The \textbf{final output task} specifies the output is supposed to be a string and produces a markdown output file. The glm-4.7 model is used for its performance on the CritPt benchmark seen \autoref{saiaModelsBench}, and the issues with qwen3.5 397B A17B discussed in \autoref{par:Modelling}.
+	Benchmarks like CritPt expect a comprehensive answer (see \autoref{sub:eval}) to their questions, for that reason the \textbf{final outpter} \gls{Agent} is added to the pipeline. Its goal is to give a final answer and obey the format requested by the input question. Adapting the required format is crucial for CritPt's grading process \autocite{critPtArx}. The \textbf{final output task} specifies the output is supposed to be a string and produces a markdown output file. The GLM 4.7 model is used for its performance on the CritPt benchmark seen \autoref{saiaModelsBench}, and the issues with Qwen3.5 397B A17B discussed in \autoref{par:Modelling}.
 	
 	\subsubsection{Output} \label{subsub:outputBackticks}
 	The output of the Physics Modelling Assistant is an object containing a string with the last Task's result as the answer to the benchmark'ss questions. Output files generated by each Task can be inspected by a human; the Python scripts are not directly executable since they contain triple backticks at the beginning and end. Presumably, this is done to mark the section in between as code, which is not accurate Python syntax. Removing or commenting the backticks results in the scripts becoming executable, apart from possible package installations.
@@ -841,7 +880,7 @@ listname=Table Index
 	\end{figure}
 	
 	\subsubsection{Connecting to CritPt's Benchmark}
-	CritPt is based on the inspec\_ai package, which allows to register a model by implementing the ModelAPI interface. This is achieved by the PMAModelAPI class, implementing the required generate method. This method receives the description of a CritPt challenge, but not its number or the required output format. This does not align with the statement form \autoref{subsub:critPt}, suggesting the system described by \citeauthor{critPtArx} \autocite{critPtArx} was modified compared to the one publicly available on GitHub \autocite{critptGit}. The same is true for CritPt guiding the system towards the correct result via checkpoints. The 70 publicly available challenges do not include any checkpoints and the GitHub repository does not mention a way to obtain them  autocite{critptGit}.
+	CritPt is based on the inspec\_ai package, which allows to register a model by implementing the ModelAPI interface. This is achieved by the PMAModelAPI class, implementing the required generate method. This method receives the description of a CritPt challenge, but not its number or the required output format. This does not align with the statement form \autoref{subsub:critPt}, suggesting the system described by \citeauthor{critPtArx} \autocite{critPtArx} was modified compared to the one publicly available on GitHub \autocite{critptGit}. The same is true for CritPt guiding the system towards the correct result via checkpoints. The 70 publicly available challenges do not include any checkpoints and the GitHub repository does not mention a way to obtain them \autocite{critptGit}.
 	
 	The PMAModelAPI instance is programmed to identify the challenge based on the problem description it receives, obtaining the challenge number and the required output format. 
 	
@@ -868,7 +907,7 @@ listname=Table Index
 	\subsubsection{The Relevance of the Available Sources}
 	The influence of the sources available to the pipeline is measured.
 	
-	The pipeline runs with the deepSeek V4 Flash \gls{LLM} used for the information extraction (see \autoref{par:infoExtr}). Its performance is compared to the reference which uses qwen3.6 27B.
+	The pipeline runs with the DeepSeek V4 Flash 0731 \gls{LLM} used for the information extraction (see \autoref{par:infoExtr}). Its performance is compared to the reference which uses Qwen3.6 27B.
 	
 %	Instead of papers from arXiv as used in the reference, a physics textbook is provided to the extraction task and the performance of this setup is compared to the reference.
 	
@@ -1137,7 +1176,7 @@ listname=Table Index
 	\subsubsection{Discussion of the Results from the Example Run}
 	In its current configuration the Physics Modelling Assistant properly finds related sources from arXiv for the given input. It extracts relevant information and is able to apply unit corrections to extracted formulas. Failures occur when finding realistic starting parameters and implementing the extracted formulas, with the identified unit corrections not being considered. The final Task providing an answer to the input is only relevant if a concrete question is given, not for a broad modelling request. 
 	
-	Future modifications should address the system not acknowledging the units it proposes. The desired behaviour might be achieved by specifying that the responsible Task accepts the units stated by previous step.  
+	Future modifications should address the system not acknowledging the units it proposes. The desired behaviour might be achieved by specifying that the responsible Task accepts the units stated by previous step.
 
 	\begin{tcolorbox}[enhanced, breakable, title=Analytical Magnetization, colback=blue!5!white, colframe=blue!75!black] \label{pma:suscept}
 		Inhalt...
@@ -1152,8 +1191,8 @@ listname=Table Index
 	
 	Results are better or worse than individual models results? if Better: combining yields positive effect; if same: no positive effect => better to just use individual models
 	
-	\subsubsection{Benchmarking Results when Using DeepSeek V4 Flash}
-	For the Crew using deepSeek V4 Flash instead of qwen3.6 27B for the information extraction Task (see \autoref{par:infoExtr}), the following accuracies are achieved: \si{toBeObtained\percent}, \si{toBeObtained\percent}, \si{toBeObtained\percent}.
+	\subsubsection{Benchmarking Results when Using DeepSeek V4 Flash 0731}
+	For the Crew using DeepSeek V4 Flash 0731 instead of Qwen3.6 27B for the information extraction Task (see \autoref{par:infoExtr}), the following accuracies are achieved: \si{toBeObtained\percent}, \si{toBeObtained\percent}, \si{toBeObtained\percent}.
 	
 	If Better,Worse,Same as default
 	=> longer context window superior, extraction capabilites more important than how much content is available, model choice not particularity important

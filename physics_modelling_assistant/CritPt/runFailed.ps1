@@ -1,6 +1,6 @@
 $CONFIG = ".config/pma.json"
 
-$myList = @(7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,52,55,62,66,68,69,70) # needed for qwen2
+$myList = @(11,13,19,52,62,66,68,69,70) # needed for qwen2
 foreach ($i in $myList) {
 
     Write-Host "Running challenge $i"

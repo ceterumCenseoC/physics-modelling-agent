@@ -32,7 +32,8 @@ class PaperFinderCrew():
         self.max_tokens = max_tokens
         self.frequency_penalty = 0
         self.presence_penalty = 0
-        
+
+        #self.url = "https://saia.gwdg.de/v1" # "https://chat-ai.academiccloud.de/v1"        
         
         self.async_execution = False
 
@@ -53,7 +54,7 @@ class PaperFinderCrew():
             max_reasoning_attempts=self.max_reasoning_attempts,
             llm=LLM(
                 model = "qwen3.6-27b",
-                base_url="https://chat-ai.academiccloud.de/v1",
+                base_url=os.getenv("OPENAI_BASE_URL"),#"https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature,
                 top_p=self.top_p,

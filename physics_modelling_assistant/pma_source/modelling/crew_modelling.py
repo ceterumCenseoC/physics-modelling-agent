@@ -34,6 +34,8 @@ class ModellerCrew():
         self.max_tokens = max_tokens
         self.frequency_penalty = 0 # parameter not used; set to default
         self.presence_penalty = 0 # parameter not used; set to default
+
+        #self.url = "https://saia.gwdg.de/v1" # "https://chat-ai.academiccloud.de/v1"
         
         self.async_execution = False
 
@@ -56,7 +58,7 @@ class ModellerCrew():
 
             llm=LLM(
                 model = "qwen3.6-27b",#"deepseek-v4-flash-0731",#"qwen3.6-27b",
-                base_url="https://chat-ai.academiccloud.de/v1",
+                base_url=os.getenv("OPENAI_BASE_URL"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature,
                 top_p=self.top_p,
@@ -79,7 +81,7 @@ class ModellerCrew():
 
             llm=LLM(
                 model = "glm-4.7", # scored best on logic and critpt; qwen3.5-397b-a17b
-                base_url="https://chat-ai.academiccloud.de/v1",
+                base_url=os.getenv("OPENAI_BASE_URL"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature= self.temperature, # allow for some creativity to perhaps correct inconsistencies in the extracted information,
                 top_p=self.top_p,
@@ -102,7 +104,7 @@ class ModellerCrew():
 
             llm=LLM(
                 model = "glm-4.7", #qwen3.5-397b-a17b
-                base_url="https://chat-ai.academiccloud.de/v1",
+                base_url=os.getenv("OPENAI_BASE_URL"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature= self.temperature, # to make transition between si units and not si units
                 top_p=self.top_p,
@@ -125,7 +127,7 @@ class ModellerCrew():
 
             llm=LLM(
                 model = "glm-4.7", #qwen3.5-397b-a17b
-                base_url="https://chat-ai.academiccloud.de/v1",
+                base_url=os.getenv("OPENAI_BASE_URL"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature,
                 top_p=self.top_p,
@@ -147,7 +149,7 @@ class ModellerCrew():
 
             llm=LLM(
                 model = "glm-4.7", #qwen3.5-397b-a17b
-                base_url="https://chat-ai.academiccloud.de/v1",
+                base_url=os.getenv("OPENAI_BASE_URL"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature, # just coding
                 top_p=self.top_p,
@@ -170,7 +172,7 @@ class ModellerCrew():
 
             llm=LLM(
                 model = "glm-4.7", # scored best on logic and critpt; qwen3.5-397b-a17b
-                base_url="https://chat-ai.academiccloud.de/v1",
+                base_url=os.getenv("OPENAI_BASE_URL"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature,
                 top_p=self.top_p,
@@ -194,7 +196,7 @@ class ModellerCrew():
 
             llm=LLM(
                 model = "glm-4.7", # scored best on logic and critpt; qwen3.5-397b-a17b
-                base_url="https://chat-ai.academiccloud.de/v1",
+                base_url=os.getenv("OPENAI_BASE_URL"), # default to the new URL if BASE_URL is not set
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature,
                 top_p=self.top_p,
