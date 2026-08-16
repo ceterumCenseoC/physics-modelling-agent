@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_31_main",
+  "generated_code": "def answer():\n    r\"\"\"\n    Return the value of critical Rayleigh number and associated critical horizontal wavenumber.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    Ra_c: float, critical Rayleigh number\n    kx: float, associated critical horizontal wavenumber\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    Ra_c = 120.0\n    kx = 2.00\n    # ---------------------------------------------------------------\n\n    return Ra_c, kx",
+  "model": "pma/pma",
+  "timestamp": "2026-08-15T20:37:06.361172",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "def answer():\n    r\"\"\"\n    Return the value of critical Rayleigh number and associated critical horizontal wavenumber.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    Ra_c: float, critical Rayleigh number\n    kx: float, associated critical horizontal wavenumber\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    Ra_c = 120.0\n    kx = 2.00\n    # ---------------------------------------------------------------\n\n    return Ra_c, kx"
+    }
+  ]
+}

@@ -1,4 +1,3 @@
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -221,4 +220,4 @@ axs[1, 2].set_ylabel('Magnetization $M_z$ [A/m]', fontsize=12)
 axs[1, 2].grid(True, alpha=0.3)
 
 print("\nSimulation Complete. Graphics generated.")
-plt.show()S
+plt.show()
