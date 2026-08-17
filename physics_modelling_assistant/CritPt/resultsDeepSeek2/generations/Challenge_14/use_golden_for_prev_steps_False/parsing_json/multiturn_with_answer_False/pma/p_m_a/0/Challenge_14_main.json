@@ -1,6 +1,6 @@
 {
   "problem_id": "Challenge_14_main",
-  "generated_code": "```python\ndef answer():\n    r\"\"\"\n    Return the value of J.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    J: float, value of the coupling constant $J$, when n = 3 and y = 0 in a $100 \\times 100$-site lattice\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    J = 0.548\n    # ---------------------------------------------------------------\n\n    return J\n```",
+  "generated_code": "def answer():\n    r\"\"\"\n    Return the value of J.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    J: float, value of the coupling constant $J$, when n = 3 and y = 0 in a $100 \\times 100$-site lattice\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    J = 0.548\n    # ---------------------------------------------------------------\n\n    return J\n",
   "model": "pma/pma",
   "timestamp": "2026-08-15T16:53:53.259228",
   "generation_config": {
@@ -13,7 +13,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "```python\ndef answer():\n    r\"\"\"\n    Return the value of J.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    J: float, value of the coupling constant $J$, when n = 3 and y = 0 in a $100 \\times 100$-site lattice\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    J = 0.548\n    # ---------------------------------------------------------------\n\n    return J\n```"
+      "content": "def answer():\n    r\"\"\"\n    Return the value of J.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    J: float, value of the coupling constant $J$, when n = 3 and y = 0 in a $100 \\times 100$-site lattice\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    J = 0.548\n    # ---------------------------------------------------------------\n\n    return J\n"
     }
   ]
 }

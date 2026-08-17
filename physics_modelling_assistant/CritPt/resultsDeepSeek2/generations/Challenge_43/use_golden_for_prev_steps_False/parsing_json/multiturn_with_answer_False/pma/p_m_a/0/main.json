@@ -1,0 +1,279 @@
+{
+  "artifact_type": "step",
+  "version": 2,
+  "step": "main",
+  "created_at": "2026-08-17T05:21:06.834961+00:00",
+  "prompt": "\n\n# Problem setup:\nConsider a 4-fold rotationally symmetric 2D insulator on a square lattice with ten occupied Wannierizable bands. Two of them correspond to a pair of Wannier orbitals centered at the 2c position (i.e., edge center) in each unit cell. Four of them correspond to Wannier orbitals centered at the 1b position (i.e., plaquette center). And the others correspond to Wannier orbitals centered at the 1a position (i.e., lattice site).\n\n\n\n# Main problem:\nConsider a disclination with Frank angle $–\\pi/2$ (i.e., a 90° wedge removed).\nIf the translation-equivalence class is nontrivial, what fractional charge (in units of the electron charge e) is trapped to the disclination core?\nWhat if the translation-equivalence class is trivial?\n\nIf we consider one additional occupied band with Wannier orbitals at 1b position with angular momentum $l=+1/2$, what are the quantities above?\n\nExpress each anwser as a value in $[-1/2,1/2)$.",
+  "chat": [
+    {
+      "role": "system",
+      "contents": [
+        {
+          "content_type": "content",
+          "content_text": "You are a physics research assistant specializing in solving complex, research-level problems using precise, step-by-step reasoning.\n\n**Input**\nProblems will be provided in Markdown format.\n\n**Output (Markdown format)**\n\n1. **Step-by-Step Derivation** - Show every non-trivial step in the solution.  Justify steps using relevant physical laws, theorems, or mathematical identities.\n2. **Mathematical Typesetting** - Use LaTeX for all mathematics:  `$...$` for inline expressions, `$$...$$` for display equations.\n3. **Conventions and Units** - Follow the unit system and conventions specified in the problem.\n4. **Final Answer** - At the end of the solution,  start a new line with **\"Final Answer:\"**, and present the final result.\n\n    For final answers involving values, follow the precision requirements specified in the problem.\n    If no precision is specified:\n    - If an exact value is possible, provide it (e.g., \\$\\sqrt(2)\\$, \\$\\pi/4\\$).\n    - If exact form is not feasible, retain at least 12 significant digits in the result. \n\n5. **Parsing Structure** - After obtaining the final answer,  populate it into the code template provided at the end of the problem. This step is purely for formatting/display purposes. No additional reasoning or derivation should be performed. Do not import any modules or packages beyond what is provided in the template. "
+        }
+      ],
+      "raw": {
+        "id": "bewc8LGzqf4VEEWHpzZbMC",
+        "source": null,
+        "metadata": null
+      }
+    },
+    {
+      "role": "user",
+      "contents": [
+        {
+          "content_type": "content",
+          "content_text": "\n\n# Problem setup:\nConsider a 4-fold rotationally symmetric 2D insulator on a square lattice with ten occupied Wannierizable bands. Two of them correspond to a pair of Wannier orbitals centered at the 2c position (i.e., edge center) in each unit cell. Four of them correspond to Wannier orbitals centered at the 1b position (i.e., plaquette center). And the others correspond to Wannier orbitals centered at the 1a position (i.e., lattice site).\n\n\n\n# Main problem:\nConsider a disclination with Frank angle $–\\pi/2$ (i.e., a 90° wedge removed).\nIf the translation-equivalence class is nontrivial, what fractional charge (in units of the electron charge e) is trapped to the disclination core?\nWhat if the translation-equivalence class is trivial?\n\nIf we consider one additional occupied band with Wannier orbitals at 1b position with angular momentum $l=+1/2$, what are the quantities above?\n\nExpress each anwser as a value in $[-1/2,1/2)$."
+        }
+      ],
+      "raw": {
+        "id": "defLM2dECiWKeKZPPDAh7C",
+        "source": null,
+        "metadata": null,
+        "tool_call_id": null
+      }
+    },
+    {
+      "role": "assistant",
+      "contents": [
+        {
+          "content_type": "content",
+          "content_text": "```python\ndef answer():\n    r\"\"\"\n    Return the values of the fractional charges trapped to the disclination core.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    charge_nontrivial_a: float, fractional charge for the nontrivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_trivial_a: float, fractional charge for the trivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_nontrivial_b: float, fractional charge for the nontrivial translation-equivalence class with one additional occupied bands.\n    charge_trivial_b: float, fractional charge for the trivial translation-equivalence class with one additional occupied bands.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    charge_nontrivial_a = 0.0\n    charge_trivial_a = -0.5\n    charge_nontrivial_b = 0.25\n    charge_trivial_b = 0.25\n    # ---------------------------------------------------------------\n\n    return charge_nontrivial_a, charge_trivial_a, charge_nontrivial_b, charge_trivial_b\n```"
+        }
+      ],
+      "raw": {
+        "id": "jN7QDUuKkByH72kXtjDsdj",
+        "source": "generate",
+        "metadata": null,
+        "tool_calls": null,
+        "model": "pma-model"
+      }
+    }
+  ],
+  "summary": {
+    "completion": "```python\ndef answer():\n    r\"\"\"\n    Return the values of the fractional charges trapped to the disclination core.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    charge_nontrivial_a: float, fractional charge for the nontrivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_trivial_a: float, fractional charge for the trivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_nontrivial_b: float, fractional charge for the nontrivial translation-equivalence class with one additional occupied bands.\n    charge_trivial_b: float, fractional charge for the trivial translation-equivalence class with one additional occupied bands.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    charge_nontrivial_a = 0.0\n    charge_trivial_a = -0.5\n    charge_nontrivial_b = 0.25\n    charge_trivial_b = 0.25\n    # ---------------------------------------------------------------\n\n    return charge_nontrivial_a, charge_trivial_a, charge_nontrivial_b, charge_trivial_b\n```"
+  },
+  "inspect": {
+    "processed_state": {
+      "messages": [
+        {
+          "role": "system",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "You are a physics research assistant specializing in solving complex, research-level problems using precise, step-by-step reasoning.\n\n**Input**\nProblems will be provided in Markdown format.\n\n**Output (Markdown format)**\n\n1. **Step-by-Step Derivation** - Show every non-trivial step in the solution.  Justify steps using relevant physical laws, theorems, or mathematical identities.\n2. **Mathematical Typesetting** - Use LaTeX for all mathematics:  `$...$` for inline expressions, `$$...$$` for display equations.\n3. **Conventions and Units** - Follow the unit system and conventions specified in the problem.\n4. **Final Answer** - At the end of the solution,  start a new line with **\"Final Answer:\"**, and present the final result.\n\n    For final answers involving values, follow the precision requirements specified in the problem.\n    If no precision is specified:\n    - If an exact value is possible, provide it (e.g., \\$\\sqrt(2)\\$, \\$\\pi/4\\$).\n    - If exact form is not feasible, retain at least 12 significant digits in the result. \n\n5. **Parsing Structure** - After obtaining the final answer,  populate it into the code template provided at the end of the problem. This step is purely for formatting/display purposes. No additional reasoning or derivation should be performed. Do not import any modules or packages beyond what is provided in the template. "
+            }
+          ],
+          "raw": {
+            "id": "bewc8LGzqf4VEEWHpzZbMC",
+            "source": null,
+            "metadata": null
+          }
+        },
+        {
+          "role": "user",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "\n\n# Problem setup:\nConsider a 4-fold rotationally symmetric 2D insulator on a square lattice with ten occupied Wannierizable bands. Two of them correspond to a pair of Wannier orbitals centered at the 2c position (i.e., edge center) in each unit cell. Four of them correspond to Wannier orbitals centered at the 1b position (i.e., plaquette center). And the others correspond to Wannier orbitals centered at the 1a position (i.e., lattice site).\n\n\n\n# Main problem:\nConsider a disclination with Frank angle $–\\pi/2$ (i.e., a 90° wedge removed).\nIf the translation-equivalence class is nontrivial, what fractional charge (in units of the electron charge e) is trapped to the disclination core?\nWhat if the translation-equivalence class is trivial?\n\nIf we consider one additional occupied band with Wannier orbitals at 1b position with angular momentum $l=+1/2$, what are the quantities above?\n\nExpress each anwser as a value in $[-1/2,1/2)$."
+            }
+          ],
+          "raw": {
+            "id": "defLM2dECiWKeKZPPDAh7C",
+            "source": null,
+            "metadata": null,
+            "tool_call_id": null
+          }
+        },
+        {
+          "role": "assistant",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "```python\ndef answer():\n    r\"\"\"\n    Return the values of the fractional charges trapped to the disclination core.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    charge_nontrivial_a: float, fractional charge for the nontrivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_trivial_a: float, fractional charge for the trivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_nontrivial_b: float, fractional charge for the nontrivial translation-equivalence class with one additional occupied bands.\n    charge_trivial_b: float, fractional charge for the trivial translation-equivalence class with one additional occupied bands.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    charge_nontrivial_a = 0.0\n    charge_trivial_a = -0.5\n    charge_nontrivial_b = 0.25\n    charge_trivial_b = 0.25\n    # ---------------------------------------------------------------\n\n    return charge_nontrivial_a, charge_trivial_a, charge_nontrivial_b, charge_trivial_b\n```"
+            }
+          ],
+          "raw": {
+            "id": "jN7QDUuKkByH72kXtjDsdj",
+            "source": "generate",
+            "metadata": null,
+            "tool_calls": null,
+            "model": "pma-model"
+          }
+        }
+      ],
+      "output": {
+        "model": "pma-model",
+        "choices": [
+          {
+            "message": {
+              "id": "jN7QDUuKkByH72kXtjDsdj",
+              "content": "```python\ndef answer():\n    r\"\"\"\n    Return the values of the fractional charges trapped to the disclination core.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    charge_nontrivial_a: float, fractional charge for the nontrivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_trivial_a: float, fractional charge for the trivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_nontrivial_b: float, fractional charge for the nontrivial translation-equivalence class with one additional occupied bands.\n    charge_trivial_b: float, fractional charge for the trivial translation-equivalence class with one additional occupied bands.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    charge_nontrivial_a = 0.0\n    charge_trivial_a = -0.5\n    charge_nontrivial_b = 0.25\n    charge_trivial_b = 0.25\n    # ---------------------------------------------------------------\n\n    return charge_nontrivial_a, charge_trivial_a, charge_nontrivial_b, charge_trivial_b\n```",
+              "source": "generate",
+              "metadata": null,
+              "role": "assistant",
+              "tool_calls": null,
+              "model": "pma-model"
+            },
+            "stop_reason": "stop",
+            "stop_details": null,
+            "logprobs": null,
+            "prompt_logprobs": null
+          }
+        ],
+        "completion": "```python\ndef answer():\n    r\"\"\"\n    Return the values of the fractional charges trapped to the disclination core.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    charge_nontrivial_a: float, fractional charge for the nontrivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_trivial_a: float, fractional charge for the trivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_nontrivial_b: float, fractional charge for the nontrivial translation-equivalence class with one additional occupied bands.\n    charge_trivial_b: float, fractional charge for the trivial translation-equivalence class with one additional occupied bands.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    charge_nontrivial_a = 0.0\n    charge_trivial_a = -0.5\n    charge_nontrivial_b = 0.25\n    charge_trivial_b = 0.25\n    # ---------------------------------------------------------------\n\n    return charge_nontrivial_a, charge_trivial_a, charge_nontrivial_b, charge_trivial_b\n```",
+        "usage": null,
+        "fallback": null,
+        "time": 809.2339999999967,
+        "metadata": null,
+        "error": null
+      },
+      "metadata": {
+        "reader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x0000025E43024EF0>",
+        "loader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x0000025E43024EF0>",
+        "problem_ids": [
+          "Challenge_43_main"
+        ],
+        "skip_if_exists": false,
+        "skip_if_not_exists": false,
+        "config": {
+          "use_golden_for_prev_steps": false,
+          "parsing": "json",
+          "multiturn_with_answer": false
+        },
+        "output_dir": "C:\\Users\\Janis\\work\\university\\bachelorThesis\\physics-modelling-agent\\physics_modelling_assistant\\CritPt\\results\\generations\\Challenge_43\\use_golden_for_prev_steps_False\\parsing_json\\multiturn_with_answer_False",
+        "model_label": "p_m_a",
+        "tool_label": null,
+        "multiturn_with_answer": false,
+        "use_python": false,
+        "use_web_search": false,
+        "run_main": true,
+        "run_sub": false
+      }
+    },
+    "parsing_state": {
+      "messages": [
+        {
+          "role": "system",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "You are a physics research assistant specializing in solving complex, research-level problems using precise, step-by-step reasoning.\n\n**Input**\nProblems will be provided in Markdown format.\n\n**Output (Markdown format)**\n\n1. **Step-by-Step Derivation** - Show every non-trivial step in the solution.  Justify steps using relevant physical laws, theorems, or mathematical identities.\n2. **Mathematical Typesetting** - Use LaTeX for all mathematics:  `$...$` for inline expressions, `$$...$$` for display equations.\n3. **Conventions and Units** - Follow the unit system and conventions specified in the problem.\n4. **Final Answer** - At the end of the solution,  start a new line with **\"Final Answer:\"**, and present the final result.\n\n    For final answers involving values, follow the precision requirements specified in the problem.\n    If no precision is specified:\n    - If an exact value is possible, provide it (e.g., \\$\\sqrt(2)\\$, \\$\\pi/4\\$).\n    - If exact form is not feasible, retain at least 12 significant digits in the result. \n\n5. **Parsing Structure** - After obtaining the final answer,  populate it into the code template provided at the end of the problem. This step is purely for formatting/display purposes. No additional reasoning or derivation should be performed. Do not import any modules or packages beyond what is provided in the template. "
+            }
+          ],
+          "raw": {
+            "id": "bewc8LGzqf4VEEWHpzZbMC",
+            "source": null,
+            "metadata": null
+          }
+        },
+        {
+          "role": "user",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "\n\n# Problem setup:\nConsider a 4-fold rotationally symmetric 2D insulator on a square lattice with ten occupied Wannierizable bands. Two of them correspond to a pair of Wannier orbitals centered at the 2c position (i.e., edge center) in each unit cell. Four of them correspond to Wannier orbitals centered at the 1b position (i.e., plaquette center). And the others correspond to Wannier orbitals centered at the 1a position (i.e., lattice site).\n\n\n\n# Main problem:\nConsider a disclination with Frank angle $–\\pi/2$ (i.e., a 90° wedge removed).\nIf the translation-equivalence class is nontrivial, what fractional charge (in units of the electron charge e) is trapped to the disclination core?\nWhat if the translation-equivalence class is trivial?\n\nIf we consider one additional occupied band with Wannier orbitals at 1b position with angular momentum $l=+1/2$, what are the quantities above?\n\nExpress each anwser as a value in $[-1/2,1/2)$."
+            }
+          ],
+          "raw": {
+            "id": "defLM2dECiWKeKZPPDAh7C",
+            "source": null,
+            "metadata": null,
+            "tool_call_id": null
+          }
+        },
+        {
+          "role": "assistant",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "```python\ndef answer():\n    r\"\"\"\n    Return the values of the fractional charges trapped to the disclination core.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    charge_nontrivial_a: float, fractional charge for the nontrivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_trivial_a: float, fractional charge for the trivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_nontrivial_b: float, fractional charge for the nontrivial translation-equivalence class with one additional occupied bands.\n    charge_trivial_b: float, fractional charge for the trivial translation-equivalence class with one additional occupied bands.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    charge_nontrivial_a = 0.0\n    charge_trivial_a = -0.5\n    charge_nontrivial_b = 0.25\n    charge_trivial_b = 0.25\n    # ---------------------------------------------------------------\n\n    return charge_nontrivial_a, charge_trivial_a, charge_nontrivial_b, charge_trivial_b\n```"
+            }
+          ],
+          "raw": {
+            "id": "jN7QDUuKkByH72kXtjDsdj",
+            "source": "generate",
+            "metadata": null,
+            "tool_calls": null,
+            "model": "pma-model"
+          }
+        }
+      ],
+      "output": {
+        "model": "pma-model",
+        "choices": [
+          {
+            "message": {
+              "id": "jN7QDUuKkByH72kXtjDsdj",
+              "content": "```python\ndef answer():\n    r\"\"\"\n    Return the values of the fractional charges trapped to the disclination core.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    charge_nontrivial_a: float, fractional charge for the nontrivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_trivial_a: float, fractional charge for the trivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_nontrivial_b: float, fractional charge for the nontrivial translation-equivalence class with one additional occupied bands.\n    charge_trivial_b: float, fractional charge for the trivial translation-equivalence class with one additional occupied bands.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    charge_nontrivial_a = 0.0\n    charge_trivial_a = -0.5\n    charge_nontrivial_b = 0.25\n    charge_trivial_b = 0.25\n    # ---------------------------------------------------------------\n\n    return charge_nontrivial_a, charge_trivial_a, charge_nontrivial_b, charge_trivial_b\n```",
+              "source": "generate",
+              "metadata": null,
+              "role": "assistant",
+              "tool_calls": null,
+              "model": "pma-model"
+            },
+            "stop_reason": "stop",
+            "stop_details": null,
+            "logprobs": null,
+            "prompt_logprobs": null
+          }
+        ],
+        "completion": "```python\ndef answer():\n    r\"\"\"\n    Return the values of the fractional charges trapped to the disclination core.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    charge_nontrivial_a: float, fractional charge for the nontrivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_trivial_a: float, fractional charge for the trivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_nontrivial_b: float, fractional charge for the nontrivial translation-equivalence class with one additional occupied bands.\n    charge_trivial_b: float, fractional charge for the trivial translation-equivalence class with one additional occupied bands.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    charge_nontrivial_a = 0.0\n    charge_trivial_a = -0.5\n    charge_nontrivial_b = 0.25\n    charge_trivial_b = 0.25\n    # ---------------------------------------------------------------\n\n    return charge_nontrivial_a, charge_trivial_a, charge_nontrivial_b, charge_trivial_b\n```",
+        "usage": null,
+        "fallback": null,
+        "time": 809.2339999999967,
+        "metadata": null,
+        "error": null
+      },
+      "metadata": {
+        "reader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x0000025E42E612E0>",
+        "loader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x0000025E42E612E0>",
+        "problem_ids": [
+          "Challenge_43_main"
+        ],
+        "skip_if_exists": false,
+        "skip_if_not_exists": false,
+        "config": {
+          "use_golden_for_prev_steps": false,
+          "parsing": "json",
+          "multiturn_with_answer": false
+        },
+        "output_dir": "C:\\Users\\Janis\\work\\university\\bachelorThesis\\physics-modelling-agent\\physics_modelling_assistant\\CritPt\\results\\generations\\Challenge_43\\use_golden_for_prev_steps_False\\parsing_json\\multiturn_with_answer_False",
+        "model_label": "p_m_a",
+        "tool_label": null,
+        "multiturn_with_answer": false,
+        "use_python": false,
+        "use_web_search": false,
+        "run_main": true,
+        "run_sub": false
+      }
+    },
+    "output": {
+      "model": "pma-model",
+      "choices": [
+        {
+          "message": {
+            "id": "jN7QDUuKkByH72kXtjDsdj",
+            "content": "```python\ndef answer():\n    r\"\"\"\n    Return the values of the fractional charges trapped to the disclination core.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    charge_nontrivial_a: float, fractional charge for the nontrivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_trivial_a: float, fractional charge for the trivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_nontrivial_b: float, fractional charge for the nontrivial translation-equivalence class with one additional occupied bands.\n    charge_trivial_b: float, fractional charge for the trivial translation-equivalence class with one additional occupied bands.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    charge_nontrivial_a = 0.0\n    charge_trivial_a = -0.5\n    charge_nontrivial_b = 0.25\n    charge_trivial_b = 0.25\n    # ---------------------------------------------------------------\n\n    return charge_nontrivial_a, charge_trivial_a, charge_nontrivial_b, charge_trivial_b\n```",
+            "source": "generate",
+            "metadata": null,
+            "role": "assistant",
+            "tool_calls": null,
+            "model": "pma-model"
+          },
+          "stop_reason": "stop",
+          "stop_details": null,
+          "logprobs": null,
+          "prompt_logprobs": null
+        }
+      ],
+      "completion": "```python\ndef answer():\n    r\"\"\"\n    Return the values of the fractional charges trapped to the disclination core.\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    charge_nontrivial_a: float, fractional charge for the nontrivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_trivial_a: float, fractional charge for the trivial translation-equivalence class with Frank angle $–\\pi/2$.\n    charge_nontrivial_b: float, fractional charge for the nontrivial translation-equivalence class with one additional occupied bands.\n    charge_trivial_b: float, fractional charge for the trivial translation-equivalence class with one additional occupied bands.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    charge_nontrivial_a = 0.0\n    charge_trivial_a = -0.5\n    charge_nontrivial_b = 0.25\n    charge_trivial_b = 0.25\n    # ---------------------------------------------------------------\n\n    return charge_nontrivial_a, charge_trivial_a, charge_nontrivial_b, charge_trivial_b\n```",
+      "usage": null,
+      "fallback": null,
+      "time": 809.2339999999967,
+      "metadata": null,
+      "error": null
+    }
+  }
+}

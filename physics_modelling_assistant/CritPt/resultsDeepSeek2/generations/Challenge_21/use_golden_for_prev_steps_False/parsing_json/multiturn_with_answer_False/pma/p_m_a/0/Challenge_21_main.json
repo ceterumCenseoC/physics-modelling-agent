@@ -1,6 +1,6 @@
 {
   "problem_id": "Challenge_21_main",
-  "generated_code": "```python\ndef answer():\n    r\"\"\"\n    Return the values of the PDF at $x \\in \\{0.4, 0.5, 0.6\\}$\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    f_0p4: float, the pion PDF $f(x, \\mu)$ at $\\mu=2$ GeV and $x=0.4$\n    f_0p5: float, the pion PDF $f(x, \\mu)$ at $\\mu=2$ GeV and $x=0.5$\n    f_0p6: float, the pion PDF $f(x, \\mu)$ at $\\mu=2$ GeV and $x=0.6$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    f_0p4 = 0.667197\n    f_0p5 = 0.515044\n    f_0p6 = 0.358158\n    # ---------------------------------------------------------------\n\n    return f_0p4, f_0p5, f_0p6\n```",
+  "generated_code": "def answer():\n    r\"\"\"\n    Return the values of the PDF at $x \\in \\{0.4, 0.5, 0.6\\}$\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    f_0p4: float, the pion PDF $f(x, \\mu)$ at $\\mu=2$ GeV and $x=0.4$\n    f_0p5: float, the pion PDF $f(x, \\mu)$ at $\\mu=2$ GeV and $x=0.5$\n    f_0p6: float, the pion PDF $f(x, \\mu)$ at $\\mu=2$ GeV and $x=0.6$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    f_0p4 = 0.667197\n    f_0p5 = 0.515044\n    f_0p6 = 0.358158\n    # ---------------------------------------------------------------\n\n    return f_0p4, f_0p5, f_0p6\n",
   "model": "pma/pma",
   "timestamp": "2026-08-15T18:40:43.481121",
   "generation_config": {
@@ -13,7 +13,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "```python\ndef answer():\n    r\"\"\"\n    Return the values of the PDF at $x \\in \\{0.4, 0.5, 0.6\\}$\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    f_0p4: float, the pion PDF $f(x, \\mu)$ at $\\mu=2$ GeV and $x=0.4$\n    f_0p5: float, the pion PDF $f(x, \\mu)$ at $\\mu=2$ GeV and $x=0.5$\n    f_0p6: float, the pion PDF $f(x, \\mu)$ at $\\mu=2$ GeV and $x=0.6$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    f_0p4 = 0.667197\n    f_0p5 = 0.515044\n    f_0p6 = 0.358158\n    # ---------------------------------------------------------------\n\n    return f_0p4, f_0p5, f_0p6\n```"
+      "content": "def answer():\n    r\"\"\"\n    Return the values of the PDF at $x \\in \\{0.4, 0.5, 0.6\\}$\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    f_0p4: float, the pion PDF $f(x, \\mu)$ at $\\mu=2$ GeV and $x=0.4$\n    f_0p5: float, the pion PDF $f(x, \\mu)$ at $\\mu=2$ GeV and $x=0.5$\n    f_0p6: float, the pion PDF $f(x, \\mu)$ at $\\mu=2$ GeV and $x=0.6$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    f_0p4 = 0.667197\n    f_0p5 = 0.515044\n    f_0p6 = 0.358158\n    # ---------------------------------------------------------------\n\n    return f_0p4, f_0p5, f_0p6\n"
     }
   ]
 }

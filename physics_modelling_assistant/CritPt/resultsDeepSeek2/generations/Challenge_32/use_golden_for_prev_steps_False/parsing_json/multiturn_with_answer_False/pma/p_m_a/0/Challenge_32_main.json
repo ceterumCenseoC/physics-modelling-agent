@@ -1,6 +1,6 @@
 {
   "problem_id": "Challenge_32_main",
-  "generated_code": "```python\n\ndef answer():\n    r\"\"\"\n    Return the value of the critical Rayleigh number and associated critical horizontal wavenumber\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    Ra_c: float, the critical Rayleigh number.\n    k_c: float, the associated critical horizontal wavenumber.\n    ratio_w2T: float, the value of w(z)/T(z) at z=0.67365.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    Ra_c = 27.10\n    k_c = 2.33\n    ratio_w2T = 0.0\n    # ---------------------------------------------------------------\n\n    return Ra_c, k_c, ratio_w2T\n```",
+  "generated_code": "def answer():\n    r\"\"\"\n    Return the value of the critical Rayleigh number and associated critical horizontal wavenumber\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    Ra_c: float, the critical Rayleigh number.\n    k_c: float, the associated critical horizontal wavenumber.\n    ratio_w2T: float, the value of w(z)/T(z) at z=0.67365.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    Ra_c = 27.10\n    k_c = 2.33\n    ratio_w2T = 0.0\n    # ---------------------------------------------------------------\n\n    return Ra_c, k_c, ratio_w2T\n",
   "model": "pma/pma",
   "timestamp": "2026-08-15T20:52:14.259983",
   "generation_config": {
@@ -13,7 +13,7 @@
   "messages": [
     {
       "role": "assistant",
-      "content": "```python\n\ndef answer():\n    r\"\"\"\n    Return the value of the critical Rayleigh number and associated critical horizontal wavenumber\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    Ra_c: float, the critical Rayleigh number.\n    k_c: float, the associated critical horizontal wavenumber.\n    ratio_w2T: float, the value of w(z)/T(z) at z=0.67365.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    Ra_c = 27.10\n    k_c = 2.33\n    ratio_w2T = 0.0\n    # ---------------------------------------------------------------\n\n    return Ra_c, k_c, ratio_w2T\n```"
+      "content": "def answer():\n    r\"\"\"\n    Return the value of the critical Rayleigh number and associated critical horizontal wavenumber\n\n    Inputs\n    ----------\n    None\n\n    Outputs\n    ----------\n    Ra_c: float, the critical Rayleigh number.\n    k_c: float, the associated critical horizontal wavenumber.\n    ratio_w2T: float, the value of w(z)/T(z) at z=0.67365.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    Ra_c = 27.10\n    k_c = 2.33\n    ratio_w2T = 0.0\n    # ---------------------------------------------------------------\n\n    return Ra_c, k_c, ratio_w2T\n"
     }
   ]
 }

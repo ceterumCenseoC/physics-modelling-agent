@@ -1,6 +1,6 @@
 {
     "reader_paths":  [
-                         "data/public_test_challenges/json/Challenge_70.json"
+                         "data/public_test_challenges/json/Challenge_1.json"
                      ],
     "output_dir_prefix":  null,
     "model_label":  "p_m_a",

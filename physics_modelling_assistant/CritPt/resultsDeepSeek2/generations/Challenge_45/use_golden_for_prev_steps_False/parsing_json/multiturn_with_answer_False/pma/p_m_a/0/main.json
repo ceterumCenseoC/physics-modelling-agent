@@ -1,0 +1,279 @@
+{
+  "artifact_type": "step",
+  "version": 2,
+  "step": "main",
+  "created_at": "2026-08-17T05:47:38.825256+00:00",
+  "prompt": "\n\n# Problem setup:\nIn goniopolar materials, the thermal power can be n-type in one direction and p-type in another direction.\n\n# Main problem:\nConsider a two-band 2D intrinsic semiconductor under temperature $T$. The conduction band has a dispersion $E_c= \\Delta/2+\\sum_{\\alpha=x,y}\\frac{\\hbar^2k_{\\alpha}^2}{2m_{c,\\alpha}}$, and the valence band has a dispersion $E_v= -\\Delta/2-\\sum_{\\alpha=x,y}\\frac{\\hbar^2k_{\\alpha}^2}{2m_{v,\\alpha}}$, where $\\Delta$ is the size of band gap. We further assume that the relaxation time of the electrons and holes are the same. What condition should the effective mass $m_{c/v,\\alpha}$, with $ \\alpha=x,y$, satisfy to exhibit goniopolarity?\n\n",
+  "chat": [
+    {
+      "role": "system",
+      "contents": [
+        {
+          "content_type": "content",
+          "content_text": "You are a physics research assistant specializing in solving complex, research-level problems using precise, step-by-step reasoning.\n\n**Input**\nProblems will be provided in Markdown format.\n\n**Output (Markdown format)**\n\n1. **Step-by-Step Derivation** - Show every non-trivial step in the solution.  Justify steps using relevant physical laws, theorems, or mathematical identities.\n2. **Mathematical Typesetting** - Use LaTeX for all mathematics:  `$...$` for inline expressions, `$$...$$` for display equations.\n3. **Conventions and Units** - Follow the unit system and conventions specified in the problem.\n4. **Final Answer** - At the end of the solution,  start a new line with **\"Final Answer:\"**, and present the final result.\n\n    For final answers involving values, follow the precision requirements specified in the problem.\n    If no precision is specified:\n    - If an exact value is possible, provide it (e.g., \\$\\sqrt(2)\\$, \\$\\pi/4\\$).\n    - If exact form is not feasible, retain at least 12 significant digits in the result. \n\n5. **Parsing Structure** - After obtaining the final answer,  populate it into the code template provided at the end of the problem. This step is purely for formatting/display purposes. No additional reasoning or derivation should be performed. Do not import any modules or packages beyond what is provided in the template. "
+        }
+      ],
+      "raw": {
+        "id": "nmv9ootvFGoULtAgmjL9xf",
+        "source": null,
+        "metadata": null
+      }
+    },
+    {
+      "role": "user",
+      "contents": [
+        {
+          "content_type": "content",
+          "content_text": "\n\n# Problem setup:\nIn goniopolar materials, the thermal power can be n-type in one direction and p-type in another direction.\n\n# Main problem:\nConsider a two-band 2D intrinsic semiconductor under temperature $T$. The conduction band has a dispersion $E_c= \\Delta/2+\\sum_{\\alpha=x,y}\\frac{\\hbar^2k_{\\alpha}^2}{2m_{c,\\alpha}}$, and the valence band has a dispersion $E_v= -\\Delta/2-\\sum_{\\alpha=x,y}\\frac{\\hbar^2k_{\\alpha}^2}{2m_{v,\\alpha}}$, where $\\Delta$ is the size of band gap. We further assume that the relaxation time of the electrons and holes are the same. What condition should the effective mass $m_{c/v,\\alpha}$, with $ \\alpha=x,y$, satisfy to exhibit goniopolarity?\n\n"
+        }
+      ],
+      "raw": {
+        "id": "JJmyEUxANRcbBec6azwYvG",
+        "source": null,
+        "metadata": null,
+        "tool_call_id": null
+      }
+    },
+    {
+      "role": "assistant",
+      "contents": [
+        {
+          "content_type": "content",
+          "content_text": "```python\ndef answer(mc_x, mc_y, mv_x, mv_y):\n    r\"\"\"\n    Return the value of the goniopolarity condition.\n\n    Inputs\n    ----------\n    mc_x, mc_y, mv_x, mv_y: float\n        Effective masses $m_{c/v,\\alpha}$ with $\\alpha = x,y$, in unit of a typical carrier mass $m_0$ that is five times of the electron mass.\n\n    Outputs\n    ----------\n    have_goniopolarity: bool\n        True if the material exhibits goniopolarity, otherwise False.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The condition for goniopolarity is that the Seebeck coefficients along\n    # the x and y directions have opposite signs.\n    # Based on the derivation, sign(S_alpha) = sign(m_{c,\\alpha} - m_{v,\\alpha}).\n    # Therefore, we require (m_{c,x} - m_{v,x}) and (m_{c,y} - m_{v,y}) to have opposite signs.\n    # This translates to the product being less than 0.\n    have_goniopolarity = (mc_x - mv_x) * (mc_y - mv_y) < 0\n    # ---------------------------------------------------------------\n\n    return have_goniopolarity\n```"
+        }
+      ],
+      "raw": {
+        "id": "Cn6rCCTLKGzdv65v6nAe3J",
+        "source": "generate",
+        "metadata": null,
+        "tool_calls": null,
+        "model": "pma-model"
+      }
+    }
+  ],
+  "summary": {
+    "completion": "```python\ndef answer(mc_x, mc_y, mv_x, mv_y):\n    r\"\"\"\n    Return the value of the goniopolarity condition.\n\n    Inputs\n    ----------\n    mc_x, mc_y, mv_x, mv_y: float\n        Effective masses $m_{c/v,\\alpha}$ with $\\alpha = x,y$, in unit of a typical carrier mass $m_0$ that is five times of the electron mass.\n\n    Outputs\n    ----------\n    have_goniopolarity: bool\n        True if the material exhibits goniopolarity, otherwise False.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The condition for goniopolarity is that the Seebeck coefficients along\n    # the x and y directions have opposite signs.\n    # Based on the derivation, sign(S_alpha) = sign(m_{c,\\alpha} - m_{v,\\alpha}).\n    # Therefore, we require (m_{c,x} - m_{v,x}) and (m_{c,y} - m_{v,y}) to have opposite signs.\n    # This translates to the product being less than 0.\n    have_goniopolarity = (mc_x - mv_x) * (mc_y - mv_y) < 0\n    # ---------------------------------------------------------------\n\n    return have_goniopolarity\n```"
+  },
+  "inspect": {
+    "processed_state": {
+      "messages": [
+        {
+          "role": "system",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "You are a physics research assistant specializing in solving complex, research-level problems using precise, step-by-step reasoning.\n\n**Input**\nProblems will be provided in Markdown format.\n\n**Output (Markdown format)**\n\n1. **Step-by-Step Derivation** - Show every non-trivial step in the solution.  Justify steps using relevant physical laws, theorems, or mathematical identities.\n2. **Mathematical Typesetting** - Use LaTeX for all mathematics:  `$...$` for inline expressions, `$$...$$` for display equations.\n3. **Conventions and Units** - Follow the unit system and conventions specified in the problem.\n4. **Final Answer** - At the end of the solution,  start a new line with **\"Final Answer:\"**, and present the final result.\n\n    For final answers involving values, follow the precision requirements specified in the problem.\n    If no precision is specified:\n    - If an exact value is possible, provide it (e.g., \\$\\sqrt(2)\\$, \\$\\pi/4\\$).\n    - If exact form is not feasible, retain at least 12 significant digits in the result. \n\n5. **Parsing Structure** - After obtaining the final answer,  populate it into the code template provided at the end of the problem. This step is purely for formatting/display purposes. No additional reasoning or derivation should be performed. Do not import any modules or packages beyond what is provided in the template. "
+            }
+          ],
+          "raw": {
+            "id": "nmv9ootvFGoULtAgmjL9xf",
+            "source": null,
+            "metadata": null
+          }
+        },
+        {
+          "role": "user",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "\n\n# Problem setup:\nIn goniopolar materials, the thermal power can be n-type in one direction and p-type in another direction.\n\n# Main problem:\nConsider a two-band 2D intrinsic semiconductor under temperature $T$. The conduction band has a dispersion $E_c= \\Delta/2+\\sum_{\\alpha=x,y}\\frac{\\hbar^2k_{\\alpha}^2}{2m_{c,\\alpha}}$, and the valence band has a dispersion $E_v= -\\Delta/2-\\sum_{\\alpha=x,y}\\frac{\\hbar^2k_{\\alpha}^2}{2m_{v,\\alpha}}$, where $\\Delta$ is the size of band gap. We further assume that the relaxation time of the electrons and holes are the same. What condition should the effective mass $m_{c/v,\\alpha}$, with $ \\alpha=x,y$, satisfy to exhibit goniopolarity?\n\n"
+            }
+          ],
+          "raw": {
+            "id": "JJmyEUxANRcbBec6azwYvG",
+            "source": null,
+            "metadata": null,
+            "tool_call_id": null
+          }
+        },
+        {
+          "role": "assistant",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "```python\ndef answer(mc_x, mc_y, mv_x, mv_y):\n    r\"\"\"\n    Return the value of the goniopolarity condition.\n\n    Inputs\n    ----------\n    mc_x, mc_y, mv_x, mv_y: float\n        Effective masses $m_{c/v,\\alpha}$ with $\\alpha = x,y$, in unit of a typical carrier mass $m_0$ that is five times of the electron mass.\n\n    Outputs\n    ----------\n    have_goniopolarity: bool\n        True if the material exhibits goniopolarity, otherwise False.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The condition for goniopolarity is that the Seebeck coefficients along\n    # the x and y directions have opposite signs.\n    # Based on the derivation, sign(S_alpha) = sign(m_{c,\\alpha} - m_{v,\\alpha}).\n    # Therefore, we require (m_{c,x} - m_{v,x}) and (m_{c,y} - m_{v,y}) to have opposite signs.\n    # This translates to the product being less than 0.\n    have_goniopolarity = (mc_x - mv_x) * (mc_y - mv_y) < 0\n    # ---------------------------------------------------------------\n\n    return have_goniopolarity\n```"
+            }
+          ],
+          "raw": {
+            "id": "Cn6rCCTLKGzdv65v6nAe3J",
+            "source": "generate",
+            "metadata": null,
+            "tool_calls": null,
+            "model": "pma-model"
+          }
+        }
+      ],
+      "output": {
+        "model": "pma-model",
+        "choices": [
+          {
+            "message": {
+              "id": "Cn6rCCTLKGzdv65v6nAe3J",
+              "content": "```python\ndef answer(mc_x, mc_y, mv_x, mv_y):\n    r\"\"\"\n    Return the value of the goniopolarity condition.\n\n    Inputs\n    ----------\n    mc_x, mc_y, mv_x, mv_y: float\n        Effective masses $m_{c/v,\\alpha}$ with $\\alpha = x,y$, in unit of a typical carrier mass $m_0$ that is five times of the electron mass.\n\n    Outputs\n    ----------\n    have_goniopolarity: bool\n        True if the material exhibits goniopolarity, otherwise False.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The condition for goniopolarity is that the Seebeck coefficients along\n    # the x and y directions have opposite signs.\n    # Based on the derivation, sign(S_alpha) = sign(m_{c,\\alpha} - m_{v,\\alpha}).\n    # Therefore, we require (m_{c,x} - m_{v,x}) and (m_{c,y} - m_{v,y}) to have opposite signs.\n    # This translates to the product being less than 0.\n    have_goniopolarity = (mc_x - mv_x) * (mc_y - mv_y) < 0\n    # ---------------------------------------------------------------\n\n    return have_goniopolarity\n```",
+              "source": "generate",
+              "metadata": null,
+              "role": "assistant",
+              "tool_calls": null,
+              "model": "pma-model"
+            },
+            "stop_reason": "stop",
+            "stop_details": null,
+            "logprobs": null,
+            "prompt_logprobs": null
+          }
+        ],
+        "completion": "```python\ndef answer(mc_x, mc_y, mv_x, mv_y):\n    r\"\"\"\n    Return the value of the goniopolarity condition.\n\n    Inputs\n    ----------\n    mc_x, mc_y, mv_x, mv_y: float\n        Effective masses $m_{c/v,\\alpha}$ with $\\alpha = x,y$, in unit of a typical carrier mass $m_0$ that is five times of the electron mass.\n\n    Outputs\n    ----------\n    have_goniopolarity: bool\n        True if the material exhibits goniopolarity, otherwise False.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The condition for goniopolarity is that the Seebeck coefficients along\n    # the x and y directions have opposite signs.\n    # Based on the derivation, sign(S_alpha) = sign(m_{c,\\alpha} - m_{v,\\alpha}).\n    # Therefore, we require (m_{c,x} - m_{v,x}) and (m_{c,y} - m_{v,y}) to have opposite signs.\n    # This translates to the product being less than 0.\n    have_goniopolarity = (mc_x - mv_x) * (mc_y - mv_y) < 0\n    # ---------------------------------------------------------------\n\n    return have_goniopolarity\n```",
+        "usage": null,
+        "fallback": null,
+        "time": 713.8120000000054,
+        "metadata": null,
+        "error": null
+      },
+      "metadata": {
+        "reader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x000001AC4F6B3E60>",
+        "loader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x000001AC4F6B3E60>",
+        "problem_ids": [
+          "Challenge_45_main"
+        ],
+        "skip_if_exists": false,
+        "skip_if_not_exists": false,
+        "config": {
+          "use_golden_for_prev_steps": false,
+          "parsing": "json",
+          "multiturn_with_answer": false
+        },
+        "output_dir": "C:\\Users\\Janis\\work\\university\\bachelorThesis\\physics-modelling-agent\\physics_modelling_assistant\\CritPt\\results\\generations\\Challenge_45\\use_golden_for_prev_steps_False\\parsing_json\\multiturn_with_answer_False",
+        "model_label": "p_m_a",
+        "tool_label": null,
+        "multiturn_with_answer": false,
+        "use_python": false,
+        "use_web_search": false,
+        "run_main": true,
+        "run_sub": false
+      }
+    },
+    "parsing_state": {
+      "messages": [
+        {
+          "role": "system",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "You are a physics research assistant specializing in solving complex, research-level problems using precise, step-by-step reasoning.\n\n**Input**\nProblems will be provided in Markdown format.\n\n**Output (Markdown format)**\n\n1. **Step-by-Step Derivation** - Show every non-trivial step in the solution.  Justify steps using relevant physical laws, theorems, or mathematical identities.\n2. **Mathematical Typesetting** - Use LaTeX for all mathematics:  `$...$` for inline expressions, `$$...$$` for display equations.\n3. **Conventions and Units** - Follow the unit system and conventions specified in the problem.\n4. **Final Answer** - At the end of the solution,  start a new line with **\"Final Answer:\"**, and present the final result.\n\n    For final answers involving values, follow the precision requirements specified in the problem.\n    If no precision is specified:\n    - If an exact value is possible, provide it (e.g., \\$\\sqrt(2)\\$, \\$\\pi/4\\$).\n    - If exact form is not feasible, retain at least 12 significant digits in the result. \n\n5. **Parsing Structure** - After obtaining the final answer,  populate it into the code template provided at the end of the problem. This step is purely for formatting/display purposes. No additional reasoning or derivation should be performed. Do not import any modules or packages beyond what is provided in the template. "
+            }
+          ],
+          "raw": {
+            "id": "nmv9ootvFGoULtAgmjL9xf",
+            "source": null,
+            "metadata": null
+          }
+        },
+        {
+          "role": "user",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "\n\n# Problem setup:\nIn goniopolar materials, the thermal power can be n-type in one direction and p-type in another direction.\n\n# Main problem:\nConsider a two-band 2D intrinsic semiconductor under temperature $T$. The conduction band has a dispersion $E_c= \\Delta/2+\\sum_{\\alpha=x,y}\\frac{\\hbar^2k_{\\alpha}^2}{2m_{c,\\alpha}}$, and the valence band has a dispersion $E_v= -\\Delta/2-\\sum_{\\alpha=x,y}\\frac{\\hbar^2k_{\\alpha}^2}{2m_{v,\\alpha}}$, where $\\Delta$ is the size of band gap. We further assume that the relaxation time of the electrons and holes are the same. What condition should the effective mass $m_{c/v,\\alpha}$, with $ \\alpha=x,y$, satisfy to exhibit goniopolarity?\n\n"
+            }
+          ],
+          "raw": {
+            "id": "JJmyEUxANRcbBec6azwYvG",
+            "source": null,
+            "metadata": null,
+            "tool_call_id": null
+          }
+        },
+        {
+          "role": "assistant",
+          "contents": [
+            {
+              "content_type": "content",
+              "content_text": "```python\ndef answer(mc_x, mc_y, mv_x, mv_y):\n    r\"\"\"\n    Return the value of the goniopolarity condition.\n\n    Inputs\n    ----------\n    mc_x, mc_y, mv_x, mv_y: float\n        Effective masses $m_{c/v,\\alpha}$ with $\\alpha = x,y$, in unit of a typical carrier mass $m_0$ that is five times of the electron mass.\n\n    Outputs\n    ----------\n    have_goniopolarity: bool\n        True if the material exhibits goniopolarity, otherwise False.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The condition for goniopolarity is that the Seebeck coefficients along\n    # the x and y directions have opposite signs.\n    # Based on the derivation, sign(S_alpha) = sign(m_{c,\\alpha} - m_{v,\\alpha}).\n    # Therefore, we require (m_{c,x} - m_{v,x}) and (m_{c,y} - m_{v,y}) to have opposite signs.\n    # This translates to the product being less than 0.\n    have_goniopolarity = (mc_x - mv_x) * (mc_y - mv_y) < 0\n    # ---------------------------------------------------------------\n\n    return have_goniopolarity\n```"
+            }
+          ],
+          "raw": {
+            "id": "Cn6rCCTLKGzdv65v6nAe3J",
+            "source": "generate",
+            "metadata": null,
+            "tool_calls": null,
+            "model": "pma-model"
+          }
+        }
+      ],
+      "output": {
+        "model": "pma-model",
+        "choices": [
+          {
+            "message": {
+              "id": "Cn6rCCTLKGzdv65v6nAe3J",
+              "content": "```python\ndef answer(mc_x, mc_y, mv_x, mv_y):\n    r\"\"\"\n    Return the value of the goniopolarity condition.\n\n    Inputs\n    ----------\n    mc_x, mc_y, mv_x, mv_y: float\n        Effective masses $m_{c/v,\\alpha}$ with $\\alpha = x,y$, in unit of a typical carrier mass $m_0$ that is five times of the electron mass.\n\n    Outputs\n    ----------\n    have_goniopolarity: bool\n        True if the material exhibits goniopolarity, otherwise False.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The condition for goniopolarity is that the Seebeck coefficients along\n    # the x and y directions have opposite signs.\n    # Based on the derivation, sign(S_alpha) = sign(m_{c,\\alpha} - m_{v,\\alpha}).\n    # Therefore, we require (m_{c,x} - m_{v,x}) and (m_{c,y} - m_{v,y}) to have opposite signs.\n    # This translates to the product being less than 0.\n    have_goniopolarity = (mc_x - mv_x) * (mc_y - mv_y) < 0\n    # ---------------------------------------------------------------\n\n    return have_goniopolarity\n```",
+              "source": "generate",
+              "metadata": null,
+              "role": "assistant",
+              "tool_calls": null,
+              "model": "pma-model"
+            },
+            "stop_reason": "stop",
+            "stop_details": null,
+            "logprobs": null,
+            "prompt_logprobs": null
+          }
+        ],
+        "completion": "```python\ndef answer(mc_x, mc_y, mv_x, mv_y):\n    r\"\"\"\n    Return the value of the goniopolarity condition.\n\n    Inputs\n    ----------\n    mc_x, mc_y, mv_x, mv_y: float\n        Effective masses $m_{c/v,\\alpha}$ with $\\alpha = x,y$, in unit of a typical carrier mass $m_0$ that is five times of the electron mass.\n\n    Outputs\n    ----------\n    have_goniopolarity: bool\n        True if the material exhibits goniopolarity, otherwise False.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The condition for goniopolarity is that the Seebeck coefficients along\n    # the x and y directions have opposite signs.\n    # Based on the derivation, sign(S_alpha) = sign(m_{c,\\alpha} - m_{v,\\alpha}).\n    # Therefore, we require (m_{c,x} - m_{v,x}) and (m_{c,y} - m_{v,y}) to have opposite signs.\n    # This translates to the product being less than 0.\n    have_goniopolarity = (mc_x - mv_x) * (mc_y - mv_y) < 0\n    # ---------------------------------------------------------------\n\n    return have_goniopolarity\n```",
+        "usage": null,
+        "fallback": null,
+        "time": 713.8120000000054,
+        "metadata": null,
+        "error": null
+      },
+      "metadata": {
+        "reader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x000001AC4F691C70>",
+        "loader": "<critpt.data_loader.json_loader.JsonDataLoader object at 0x000001AC4F691C70>",
+        "problem_ids": [
+          "Challenge_45_main"
+        ],
+        "skip_if_exists": false,
+        "skip_if_not_exists": false,
+        "config": {
+          "use_golden_for_prev_steps": false,
+          "parsing": "json",
+          "multiturn_with_answer": false
+        },
+        "output_dir": "C:\\Users\\Janis\\work\\university\\bachelorThesis\\physics-modelling-agent\\physics_modelling_assistant\\CritPt\\results\\generations\\Challenge_45\\use_golden_for_prev_steps_False\\parsing_json\\multiturn_with_answer_False",
+        "model_label": "p_m_a",
+        "tool_label": null,
+        "multiturn_with_answer": false,
+        "use_python": false,
+        "use_web_search": false,
+        "run_main": true,
+        "run_sub": false
+      }
+    },
+    "output": {
+      "model": "pma-model",
+      "choices": [
+        {
+          "message": {
+            "id": "Cn6rCCTLKGzdv65v6nAe3J",
+            "content": "```python\ndef answer(mc_x, mc_y, mv_x, mv_y):\n    r\"\"\"\n    Return the value of the goniopolarity condition.\n\n    Inputs\n    ----------\n    mc_x, mc_y, mv_x, mv_y: float\n        Effective masses $m_{c/v,\\alpha}$ with $\\alpha = x,y$, in unit of a typical carrier mass $m_0$ that is five times of the electron mass.\n\n    Outputs\n    ----------\n    have_goniopolarity: bool\n        True if the material exhibits goniopolarity, otherwise False.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The condition for goniopolarity is that the Seebeck coefficients along\n    # the x and y directions have opposite signs.\n    # Based on the derivation, sign(S_alpha) = sign(m_{c,\\alpha} - m_{v,\\alpha}).\n    # Therefore, we require (m_{c,x} - m_{v,x}) and (m_{c,y} - m_{v,y}) to have opposite signs.\n    # This translates to the product being less than 0.\n    have_goniopolarity = (mc_x - mv_x) * (mc_y - mv_y) < 0\n    # ---------------------------------------------------------------\n\n    return have_goniopolarity\n```",
+            "source": "generate",
+            "metadata": null,
+            "role": "assistant",
+            "tool_calls": null,
+            "model": "pma-model"
+          },
+          "stop_reason": "stop",
+          "stop_details": null,
+          "logprobs": null,
+          "prompt_logprobs": null
+        }
+      ],
+      "completion": "```python\ndef answer(mc_x, mc_y, mv_x, mv_y):\n    r\"\"\"\n    Return the value of the goniopolarity condition.\n\n    Inputs\n    ----------\n    mc_x, mc_y, mv_x, mv_y: float\n        Effective masses $m_{c/v,\\alpha}$ with $\\alpha = x,y$, in unit of a typical carrier mass $m_0$ that is five times of the electron mass.\n\n    Outputs\n    ----------\n    have_goniopolarity: bool\n        True if the material exhibits goniopolarity, otherwise False.\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # The condition for goniopolarity is that the Seebeck coefficients along\n    # the x and y directions have opposite signs.\n    # Based on the derivation, sign(S_alpha) = sign(m_{c,\\alpha} - m_{v,\\alpha}).\n    # Therefore, we require (m_{c,x} - m_{v,x}) and (m_{c,y} - m_{v,y}) to have opposite signs.\n    # This translates to the product being less than 0.\n    have_goniopolarity = (mc_x - mv_x) * (mc_y - mv_y) < 0\n    # ---------------------------------------------------------------\n\n    return have_goniopolarity\n```",
+      "usage": null,
+      "fallback": null,
+      "time": 713.8120000000054,
+      "metadata": null,
+      "error": null
+    }
+  }
+}
