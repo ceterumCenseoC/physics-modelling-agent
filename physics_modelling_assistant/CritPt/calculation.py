@@ -21,6 +21,6 @@ if __name__ == "__main__":
     values = [0.0286, 0.0000]
     mean_value, std_dev = mean_std(values)
     print(f"For Qwen3.6 setup: Mean = {mean_value}; Standard Deviation = {std_dev}")
-    values = [0.0000, 0.0000]
+    values = [0.0000, 0.0143]
     mean_value, std_dev = mean_std(values)
     print(f"For one DeepSeek setup: Mean = {mean_value}; Standard Deviation = {std_dev}")

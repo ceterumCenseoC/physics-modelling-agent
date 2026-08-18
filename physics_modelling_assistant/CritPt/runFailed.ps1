@@ -1,6 +1,6 @@
 $CONFIG = ".config/pma.json"
 
-$myList = @(44,65) # needed for qwen2
+$myList = @(12,13,15) # all deepSeek
 foreach ($i in $myList) {
 
     Write-Host "Running challenge $i"
@@ -17,9 +17,3 @@ foreach ($i in $myList) {
     # Run command
     python -X utf8 -m critpt generate generate model=pma/pma task_config=$CONFIG
 }
-# failed DeepSeek1: 14,17,20,21,37 format issues
-#failed Qwen1: 35,37,54 format issues
-# failed Qwen2:
-# 
-
-# run DeepSeek2 from 1-6; and from 39-

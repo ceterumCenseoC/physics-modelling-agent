@@ -1,6 +1,6 @@
 $CONFIG = ".config/pma.json"
 
-for ($i = 1; $i -le 70; $i++) {
+for ($i = 23; $i -le 70; $i++) {
     Write-Host "Running challenge $i"
 
     # Read JSON

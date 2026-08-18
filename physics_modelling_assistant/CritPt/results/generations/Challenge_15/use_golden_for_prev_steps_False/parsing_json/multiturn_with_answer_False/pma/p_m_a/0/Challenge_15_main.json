@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_15_main",
+  "generated_code": "```python\nimport sympy as sp\n\nN, l = sp.symbols('N l', positive=True, integer=True)\np = sp.symbols('p', real=True)\n\ndef answer(N, p, l):\n    r\"\"\"\n    Return the expression of $\\mathcal{S}_{0}$ in Sympy format.\n\n    Inputs\n    ----------\n    N: sympy.Symbol, site number, $N$\n    p: sympy.Symbol, noise rate, $p\\in[0,1]$\n    l: sympy.Symbol, string length, $l$\n\n    Outputs\n    ----------\n    S0: sympy.Expr, string order parameter, $\\mathcal{S}_{0}$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    S0 = (sp.Rational(4,9))**l * (1 - sp.Rational(9,4)*p + sp.Rational(9,8)*p**2) + \\\n         p*(1-p)/4 * (sp.Rational(2,3))**l + \\\n         p**2/4 * (-sp.Rational(1,3))**l\n    # ---------------------------------------------------------------\n\n    return S0\n```",
+  "model": "pma/pma",
+  "timestamp": "2026-08-18T15:08:08.107499",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "```python\nimport sympy as sp\n\nN, l = sp.symbols('N l', positive=True, integer=True)\np = sp.symbols('p', real=True)\n\ndef answer(N, p, l):\n    r\"\"\"\n    Return the expression of $\\mathcal{S}_{0}$ in Sympy format.\n\n    Inputs\n    ----------\n    N: sympy.Symbol, site number, $N$\n    p: sympy.Symbol, noise rate, $p\\in[0,1]$\n    l: sympy.Symbol, string length, $l$\n\n    Outputs\n    ----------\n    S0: sympy.Expr, string order parameter, $\\mathcal{S}_{0}$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    S0 = (sp.Rational(4,9))**l * (1 - sp.Rational(9,4)*p + sp.Rational(9,8)*p**2) + \\\n         p*(1-p)/4 * (sp.Rational(2,3))**l + \\\n         p**2/4 * (-sp.Rational(1,3))**l\n    # ---------------------------------------------------------------\n\n    return S0\n```"
+    }
+  ]
+}
