@@ -118,8 +118,10 @@
 
 %MATH AND UNITS
 %general math packages
+\usepackage{unicode-math}
+\setmathfont{Latin Modern Math}
 \usepackage{mathtools} % loads amsmath + fixes + extras
-\usepackage{amssymb}
+%\usepackage{amssymb}
 \usepackage{physics2} % drivatives, bra/ket % should no omit \qty
 \usepackage{nicefrac} % inline fractions
 
@@ -154,7 +156,7 @@
 %\end{multline}
 %\SI{1.134 \pm 0.0345}{\meter}
 %\num{3.14159265}
-%\begin{tabular}{S} %aligns decimal points
+%\begin{tabularx}{S} %aligns decimal points
 
 
 %TABLES
@@ -411,7 +413,7 @@ listname=Table Index
 	\section{Introduction}
 	Artificial Intelligence can be of great assistance in scientific research \autocite{aiHistWang}. As shown by \citeauthor{aiUseStat} \autocite{aiUseStat}, researchers in natural science are among the groups most familiar with \gls{AI} compared to other scientists. There is a wide range of applications, stretching from finding sources in the literature to aiding in the presenting research findings. \gls{AI} can be useful for forming hypothesis and evaluating them by designing and controlling practical experiments and aiding during simulations, especially with the program implementation. \autocite{aiHistWang}
 	
-	In the past two years automated \gls{Agentic AI} research pipelines where developed with the potential to improve the work with \gls{AI} in science. The first fully autonomous approach was published by \citeauthor{aiScientist} in \citedate{aiScientist} \autocite{aiScientist}, introducing a framework called \enquote{The AI Scientist} \autocite{aiScientist}. It identifies interesting research questions, plans and executes according experiments, interprets the results, and writes a paper stating its findings via a multistep process. A similar system is the \enquote{InternAgent} \autocite{internAgent}, which provides an interface for introducing human feedback into the system. This is realised by the \enquote{Orchestration Agent} \autocite{internAgent} managing how and when human input is introduced into the system. The system itself consists of the four distinct tasks of \enquote{Survey}, \enquote{Code Review}, \enquote{Assessment}, and \enquote{Idea Innovation} \autocite{internAgent}. The \enquote{Orchestration Agent} \autocite{internAgent} manages the interactions between the tasks and how the findings are presented to the human. This design shows some resemblance to human research groups with individuals specialized in specific aspects of the work while a supervisor coordinates the process. In tests ran by the \enquote{InternAgent} developers \autocite{internAgent}, their system was able to outperform the \enquote{AI-Scientist-V2} \autocite{aiSci2}, a successor of \enquote{The AI Scientist} \autocite{aiScientist}.
+	In the past two years automated \gls{Agentic AI} research pipelines where developed with the potential to improve the work with \gls{AI} in science. The first fully autonomous approach was published by \citeauthor{aiScientist} in \citedate{aiScientist} \autocite{aiScientist}, introducing a framework called \enquote{The AI Scientist} \autocite{aiScientist}. It identifies interesting research questions, plans and executes according experiments, interprets the results, and writes a paper stating its findings via a multistep process. A similar system is the \enquote{InternAgent} \autocite{internAgent}, which provides an interface for introducing human feedback into the system. This is realised by the \enquote{Orchestration Agent} \autocite{internAgent} managing how and when human input is introduced into the system. The system itself consists of the four distinct tasks of \enquote{Survey}, \enquote{Code Review}, \enquote{Assessment}, and \enquote{Idea Innovation} \autocite{internAgent}. The \enquote{Orchestration Agent} \autocite{internAgent} manages the interactions between the tasks and controls how the findings are communicated to the human researcher. This design shows some resemblance to human research groups with individuals specialized in specific aspects of the work while a supervisor coordinates the process. In tests ran by the \enquote{InternAgent} developers \autocite{internAgent}, their system was able to outperform the \enquote{AI-Scientist-V2} \autocite{aiSci2}, a successor of \enquote{The AI Scientist} \autocite{aiScientist}.
 	
 	The work on the \enquote{InternAgent} \autocite{internAgent} also introduced tracking the cost of the AI usage during a run of the system. In this metric the \enquote{InternAgent} \autocite{internAgent} outperformed the \enquote{AI-Scientist-V2} \autocite{aiSci2} again, indicating that higher costs do not necessarily yield better results.
 
@@ -419,24 +421,25 @@ listname=Table Index
 	
 	As of \DTMDate{2026-06-01}, the latest advancement in the field was made by \citeauthor{pIntern} presenting the \enquote{physics-intern} \autocite{pIntern}, \enquote{a multi-agent scaffolding system that takes a physics problem and works through it autonomously} \autocite[section 3]{pIntern}. Their approach is similar to previous systems, using an orchestrator to manage a research and computation component. The results are reviewed and checked against the literature, before the critique is passed to the \enquote{Strategy Planner} \autocite{pIntern}, which has access to a literature \enquote{Background Survey} \autocite{pIntern} and can adjust the orchestration strategy. This process is repeated until the review deems the result correct or the maximum number of iterations is reached. The \enquote{physics-intern} \autocite{pIntern} was able to exceed the performance of the models used for its \glspl{Agent} by over \si{75 \percent}, highlighting the potential of orchestration frameworks \autocite{pIntern}.
 	
-	This Thesis aims to develop a system with functionality similar to the \enquote{physics-intern} \autocite{pIntern} (at the time the work on this Thesis began, the \enquote{physics-intern} \autocite{pIntern} was not yet published). The Physics Modelling Assistant receives a physics problem or modelling request and crafts an according model along with its implementation in order to answer the request.
-	The performance of the system is measured to provide inside into its usefulness. In contrast to the \enquote{physics-intern} \autocite{pIntern}, the Physics Modelling Assistant uses comparably weaker models, aiming to explore if improvements similar to the \enquote{physics-intern}'s \autocite{pIntern} can be achieved. The influence of some of the system's configurations is explored by measuring their effect on the performance, the focus is on the effect of external information. With this work I want to contribute to a better understanding of \gls{Agentic AI}'s parameters and a more efficient use of \gls{AI} systems in scientific research.	
+	This Thesis aims to provide the foundations for an \gls{Agentic AI} system capable of assisting a human physicist in crafting models for their research work. The Physics Modelling Assistant is tasked with a physics problem or modelling request and crafts an according model along with its implementation in order to answer the request.
+	The performance of the system is measured on a state of the art benchmark to provide insight into its capabilities. In contrast to the \enquote{physics-intern} \autocite{pIntern}, the Physics Modelling Assistant uses comparably weaker models, aiming to explore if improvements similar to the \enquote{physics-intern}'s \autocite{pIntern} can be achieved. The influence of various system configurations on performance is investigated, with focus on the influence of external information. With this work I want to contribute to a better understanding of \gls{Agentic AI}'s parameters and a more efficient use of \gls{AI} systems in scientific research.	
 	\FloatBarrier
+	\pagebreak
 	\section{Theoretical Foundations}
-	Before going in to the details of \gls{AI}-based systems, some key terms are be defined.
+	Before discussing the details of \gls{AI}-based systems, several key terms are introduced.
 	
 	\subsection{Definitions}
 	
 	\subsubsection{Artificial Intelligence} \label{subsub:ai}
 	Artificial Intelligence (\gls{AI}) describes the functionality of a system. 
-	There is no universally accepted definition for \gls{AI}, so for the purpose of this Thesis, the definition from \citeauthor{russell2023} \autocite[p.~22-26]{russell2023} is used. They describe \gls{AI} as being a rational actor (rational agent), which acts in a way that achieves the best result based on the expectation of what the result should be (\autocite[p,~26]{russell2023}, translated). This definition allows for a variety of systems to be considered an \gls{AI} and accounts for the uncertainty regarding the goal the system should work towards. Therefore, classical PID-controllers and software for processing and displaying data, as crafted by \citeauthor{diplom} \autocite{diplom}, could be considered \gls{AI} systems.
+	There is no universally accepted definition for \gls{AI}, so for the purpose of this Thesis, the definition from \citeauthor{russell2023} \autocite[p.~22-26]{russell2023} is used. They describe \gls{AI} as being a \enquote{rational actor (rational agent), which acts in a way that achieves the best result based on the expectation of what the result should be} (\autocite[p,~26]{russell2023}, translated). This definition accounts for the uncertainty regarding the goal an \gls{AI} system should work towards, but also allows for a variety of systems to be considered \gls{AI}. Technically, every PID-controller and data processing software - see the work of \citeauthor{diplom} \autocite{diplom} for example - could be considered an \gls{AI} systems. However, this are not what is referred to as \gls{AI} throughout this Thesis, instead the term describes \gls{AI} systems based on deep learning and natural language processing (see \autocite{aiHist_11202920}) as they are developed since the 2010s.
 	
 	\subsubsection{Large Language Model} \label{subsub:llm}
 	At its core a Language Model is a \enquote{Transformer Language Model} \autocite{zhao2026surveylargelanguagemodels} as described by \citeauthor{zhao2026surveylargelanguagemodels}. It operates on small words or parts of words, which are called \glspl{token}.
 	
-	When a \gls{LLM} receives an input string, it divides it into \glspl{token} and puts into the transformation function. Based on these input \glspl{token} and the previous output \glspl{token}, the model calculates the most likely next output \gls{token}. The number of \glspl{token} a model can see, and therefore consider, is limited, the limit is called the \gls{context-window} of the model \autocite{howLLMwork}. The final result of the \gls{LLM} is its calculation for most likely sequence of output \glspl{token} given the provided input, which means, it provides the best result for the given goal, thereby fulfilling the definition of \gls{AI} (see \autoref{subsub:ai}). The process of developing capable \gls{LLM}s will not be discussed in this Bachelor's Thesis.
+	When a \gls{LLM} receives an input string, it divides it into \glspl{token} and feeds these into the transformation function. Based on these input \glspl{token} and the previous output \glspl{token}, the model calculates the most likely next output \gls{token}. The number of \glspl{token} a model can see, and therefore consider, is limited; the limit is called the \gls{context-window} of the model \autocite{howLLMwork}. The final result of the \gls{LLM} is its calculation for most likely sequence of output \glspl{token} given the provided input, which means, it provides the best result for the given goal, thereby fulfilling the definition of \gls{AI} (see \autoref{subsub:ai}). The process of developing capable \gls{LLM}s is beyond this Bachelor's Thesis.
 	
-	The distinction between Language Models and Large Language Models is in the number of internal parameters a model has. As stated in \citetitle{zhao2026surveylargelanguagemodels} \autocite{zhao2026surveylargelanguagemodels}, there is no hard cut-off for a Language Models to be considered Large. Commonly, models which are considered Large Language Models have $\geq 10 \cdot 10^{9}$ parameters.
+	The distinction between Language Models and Large Language Models is in the number of internal parameters a model has. As stated in \citetitle{zhao2026surveylargelanguagemodels} \autocite{zhao2026surveylargelanguagemodels}, there is no hard cut-off for a Language Models to be considered Large. Commonly, models which are considered Large Language Models have $\geq 10 \cdot 10^{9}$ parameters \autocite{zhao2026surveylargelanguagemodels}.
 	
 	\subsubsection{Agentic \gls{AI}} \label{subsub:Agentic}
 	As described by \citeauthor{agenticAiDefinitions}, Agentic \gls{AI}s are \enquote{autonomous, goal-driven systems that can operate on their own for long periods, requiring minimal human supervision} \autocite[section:3. Results]{agenticAiDefinitions}. In order to achieve this behaviour, these systems combine abilities which are beyond \gls{LLM}s. \citeauthor{agenticAiDefinitions} highlight the \enquote{strategic planning} \autocite[section:3. Results]{agenticAiDefinitions} capabilities, the preservation of the tasks context over time \autocite{agenticAiDefinitions}, the usage of \enquote{external tools to extend [the systems] capabilities} \autocite{agenticAiDefinitions} and the collaboration of individual Agents (this means \gls{AI}-systems) with other Agents. \autocite{agenticAiDefinitions}
@@ -585,8 +588,10 @@ listname=Table Index
 	
 	There are three types of questions, which require either a numerical value, a symbolic expression, or executable python code. Composite answers are only graded as correct if all individual parts are correct. \autocite{critPtArx}
 	
-	CritPt tests a system on 70 problems which are publicly available via their GitHub repository \autocite{critptGit}, the scores are averaged over five runs. The answers to the problem sets are not made public to prevent models from finding them, rendering the benchmark useless. Therefore, the models answers to the questions are submitted to an evaluation server, returning the final result of the benchmark. Users are limited to 10 submissions per 24 hours, in order to prevent leakage of the correct answers. For the same reason, not solutions or attempts of them should be publicised. \autocite[p.~10]{critPtArx}
+	CritPt tests a system on 70 problems which are publicly available via their GitHub repository \autocite{critptGit}, the displayed scores are averages over five runs of the benchmark. The answers to the problem sets are not made public to prevent models from finding them, rendering the benchmark useless. Therefore, the models answers to the questions are submitted to an evaluation server, returning the final result of the benchmark. Users are limited to 10 submissions per 24 hours, in order to prevent leakage of the correct answers. For the same reason, not solutions or attempts of them should be publicised. \autocite[p.~10]{critPtArx}
 	
+	\FloatBarrier
+	\pagebreak
 	\section{Design of the Physics Modelling Assistant}
 	In order to easily enable future work on and with the Physics Modelling Assistant, the choice was made to only use services which are open source and free of charge.
 	
@@ -660,7 +665,7 @@ listname=Table Index
 	\end{figure}
 	
 	\subsection{\gls{LLM}s Used} \label{sub:LlmUsed}
-	In order to use \gls{LLM}s effectively in an automated pipeline, a provider offering a program access to its \gls{LLM}s is needed. For this Thesis, the \enquote{Scalable AI Accellarator (SAIA)} \autocite{saiaDoc} hosted by the \enquote{Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen} (GWDG) \autocite{gwdg} is used, offering limited but free access to a selection of open weight \gls{LLM}s. The models are accessed via an \gls{API key} issued by the GWDG, the applied rate limits are listed in \autoref{fig:rateLimit}. A list of the available \gls{LLM}s is provided on the GWDG's SAIA webpage \autocite{saiaModels}, but can also be obtained via a request to the server hosting the models.
+	In order to use \gls{LLM}s effectively in an automated pipeline, a provider offering a program access to its \gls{LLM}s is needed. For this Thesis, the \enquote{Scalable AI Accellarator (SAIA)} \autocite{saiaDoc} hosted by the \enquote{Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen} (GWDG) \autocite{gwdg} is used, offering limited but free access to a selection of open weight \gls{LLM}s. The models are accessed via an \gls{API key} issued by the GWDG, the applied rate limits are listed in \autoref{tab:rateLimit}. A list of the available \gls{LLM}s is provided on the GWDG's SAIA webpage \autocite{saiaModels}, but can also be obtained via a request to the server hosting the models.
 	
 	\begin{table}[ht]
 		\centering
@@ -669,7 +674,7 @@ listname=Table Index
 		>>   -H "Authorization: Bearer <API\_KEY>" `\\
 		>>   -H "Content-Type: application/json" `\\
 		>>  "https://chat-ai.academiccloud.de/v1/chat/completions"}
-		\label{fig:rateLimit}
+		\label{tab:rateLimit}
 		\tabentry{Rate limits for the SAIA models}
 		\begin{tabular}{c 
 						S[table-format=4, round-mode=places, round-precision=0, output-decimal-marker={.}]}
@@ -684,16 +689,20 @@ listname=Table Index
 		\end{tabular}
 	\end{table}
 	
-	To identify the most capable among the available models, individual benchmarks contributing to the \citetitle{artAnaLeaderboard} from \citeauthor{artAnaLeaderboard} are considered \autocite{artAnaLeaderboard}. The AA-LCR \autocite{aaAA} tests the long context reasoning; the GPQA Diamond \autocite{aaDiamond} tests for scientific reasoning capabilities; SciCode \autocite{aaSciCode} evaluates the models capabilities in science and coding; CritPt \autocite{aaCritPt} (see \autoref{subsub:critPt}) probes the physics based reasoning abilities of the \gls{LLM}s. The performances of all availabe models across the mentioned benchmarks are displayed in \autoref{saiaModelsBench}. They conclude Qwen3.6 27B (27 billion parameters) to be the best model for long context reasoning, while Qwen3.5 397B A17B (397 billion parameters in total, 17 billion active at a time) performs best in scientific reasoning tested by GPQA Diamond. GLM 4.7 (358 billion parameters \autocite{glmParams}) achieves the highest score on the science and coding benchmark SciCode. For the CritPt benchmark both GLM 4.7 and Qwen3.5 397B A17B achieve the best results among the tested models, with both of them scoring at only \SI{1,7}{\percent}, indicating the difficulty of the CritPt benchmarking questions.
+	To identify the most capable among the available models, individual benchmarks contributing to the \citetitle{artAnaLeaderboard} from \citeauthor{artAnaLeaderboard} are considered \autocite{artAnaLeaderboard}. The AA-LCR \autocite{aaAA} tests the long context reasoning; the GPQA Diamond \autocite{aaDiamond} tests for scientific reasoning capabilities; SciCode \autocite{aaSciCode} evaluates the models capabilities in science and coding; CritPt \autocite{aaCritPt} (see \autoref{subsub:critPt}) probes the physics based reasoning abilities of the \gls{LLM}s. The performances of all availabe models across the mentioned benchmarks are displayed in \autoref{saiaModelsBench}. During the work on the Physics Modelling Assistant, the available \gls{LLM}s changed, with the DeepSeek R1 Distill Llama 70B was replaced with the much more capable DeepSeek V4 Flash 0731. Therefore, the first benchmarking of the Physics Modelling Assistant does not use the DeepSeek V4 Flash 0731 model, but later testing explores its usefulness for the system.
+	
+	Excluding the later later added DeepSeek model, the benchmarking results from \autoref{saiaModelsBench} conclude Qwen3.6 27B (27 billion parameters) to be the best model for long context reasoning. Qwen3.5 397B A17B (397 billion parameters in total, 17 billion active at a time) performs best in scientific reasoning tested by GPQA Diamond, while GLM 4.7 (358 billion parameters \autocite{glmParams}) achieves the highest score on the science and coding benchmark SciCode. For the CritPt benchmark both GLM 4.7 and Qwen3.5 397B A17B achieve the best results among the tested models, with both of them scoring at only \SI{1,7}{\percent}, indicating the difficulty of the CritPt benchmarking questions.
 	
 	Therefore, Qwen3.6 27B is the \gls{LLM} of choice for all Tasks dealing with large inputs, while GLM 4.7 is best suited for work requiring coding. When scientific reasoning is necessary, both Qwen3.5 397B A17B and GLM 4.7 are viable options.
+	
+	Since the addition of DeepSeek V4 Flash 0731 to the GWDG service, it is the most capable of the available models across all benchmarks investigated in \autoref{saiaModelsBench}, significantly outperforming all other models at CritPt with a score of \si{17 \percent}. It also offers the largest \gls{context-window} at $1\,$million \glspl{token}.
 	
 	\begin{table}[ht]
 		\centering
 		\caption{Benchmarking results for the \gls{LLM}s provided by SAIA \autocite{saiaDoc}. The benchmarking results are taken from Artificial Analysis \autocite{artifAna}. The chosen benchmarks are: AA-LCR evaluating long context reasoning, GPQA Diamnond evaluating scientific reasoning, SciCode evaluating coding and science capabilities, and CritPt evaluating physics reasoning.}
 		\label{saiaModelsBench}
 		\tabentry{Benchmarking SAIA models}
-		\begin{tabular}{c
+		\begin{tabularx}{\textwidth}{X
 				S[table-format=2, round-mode=places, round-precision=0, output-decimal-marker={.}] 
 				S[table-format=2, round-mode=places, round-precision=0, output-decimal-marker={.}] 
 				S[table-format=2, round-mode=places, round-precision=0, output-decimal-marker={.}] 
@@ -703,7 +712,8 @@ listname=Table Index
 			model & {AA-LCR in \si{\percent}} & {GPQA Diamond in \si{\percent}} & {SciCode in \si{\percent}} & {CritPt in \si{\percent}}\\
 			\midrule[1pt]
 			Apertus 70B Instruct &0&27&6&0\\
-			DeepSeek V4 Flash 0731 &33&72&37&0\\
+			DeepSeek R1 Distill Llama 70B (no longer available) & 9 & 40 & 31 & 0\\
+			DeepSeek V4 Flash 0731 ({\color{olive}later added}) &74 & 91 & 50 & 17\\
 			Devstral 2&30&53&29&0\\
 			Gemma 4 31B&62&86&43&1\\
 			GLM 4.7&64&86&{\color{red}45}&{\color{red}1.7}\\
@@ -718,14 +728,14 @@ listname=Table Index
 			Qwen3.6 27B&{\color{red}69}&84&40&1\\
 			Qwen3.6 35B A3B&64&84&36&0\\
 			\bottomrule[1pt]
-		\end{tabular}
+		\end{tabularx}
 	\end{table}
 	
 	\subsection{Tools Used}
 	To enhance the Physics Modelling Assistant's capabilities, certain \glspl{Agent} are equipped with tools (see \autoref{subsub:tool}). Each tool provides an object specifying the expected input at its constraints to the \gls{Agent} using the tool.
 	
 	\subsubsection{arxiv\_paper\_tool with Exponential Backoff} \label{subsub:arxivPaperTool}
-	CrewAI already provides the \enquote{arxiv\_Paper\_Tool} \autocite{crewaiArxivPaperTool}, allowing \glspl{Agent} to access the arXiv-API \autocite{arxiv} for finding papers relevant to the question at hand. During the development process of the Physics Modelling Assistant, the CrewAI tool's requests repeatedly kept getting denied, resulting in no papers being found and downloaded from arXiv. As listed in the arXiv-API's Terms of Use, rate limits are enforced, blocking clients from sending many requests in a short amount of time. Furthermore, web servers deny repeated request from the same client for the same service \autocite{rechnernetze}. Since the CrewAI arxiv\_paper\_tool \autocite{crewaiArxivPaperTool} does not implement any strategy for waiting, its requests are eventually blocked by the arXiv-API servers. As a consequence the arxiv\_paper\_tool is extended by implementing an exponential back-off strategy, as it is common for modern server requests \autocite{rechnernetze}. Additionally to the exponential back-off, the modified tool, called arxiv\_paper\_tool\_exponential\_backoff, adds a small random wait, which is common to prevent two clients requesting the same service from waiting for the same amount of time, thereby blocking each others requests repeatedly \autocite{rechnernetze}. The tool finds a specified number of papers and downloads them to a designated directory.
+	CrewAI already provides the \enquote{arxiv\_Paper\_Tool} \autocite{crewaiArxivPaperTool}, allowing \glspl{Agent} to access the arXiv-API \autocite{arxiv} for finding papers relevant to the question at hand. During the development process of the Physics Modelling Assistant, the CrewAI tool's requests repeatedly kept getting denied, resulting in no papers being found and downloaded from arXiv. As listed in the arXiv-API's Terms of Use, s are enforced, blocking clients from sending many requests in a short amount of time. Furthermore, web servers deny repeated request from the same client for the same service \autocite{rechnernetze}. Since the CrewAI arxiv\_paper\_tool \autocite{crewaiArxivPaperTool} does not implement any strategy for waiting, its requests are eventually blocked by the arXiv-API servers. As a consequence the arxiv\_paper\_tool is extended by implementing an exponential back-off strategy, as it is common for modern server requests \autocite{rechnernetze}. Additionally to the exponential back-off, the modified tool, called arxiv\_paper\_tool\_exponential\_backoff, adds a small random wait, which is common to prevent two clients requesting the same service from waiting for the same amount of time, thereby blocking each others requests repeatedly \autocite{rechnernetze}. The tool finds a specified number of papers and downloads them to a designated directory.
 	
 	\subsubsection{pdf\_reader} \label{subsub:pdfReader}
 	In order to access the papers downloaded from arXiv, a PDF reader tool is developed. It reads all PDF files from the specified directory, allowing the invoking \gls{Agent}'s \gls{LLM} to see the contents of the documents. In theory this allows to read any number and length of sources from the directory. In reality every \gls{LLM} has a \gls{context-window}, limiting the amount of \glspl{token} it can handle. When the sum of the \glspl{token} of the read documents exceeds the \gls{context-window}, the \gls{Agent} fails its Task.
@@ -739,7 +749,7 @@ listname=Table Index
 	As discussed by \citeauthor{sandboxEscape} \autocite{sandboxEscape}, a secure Sandbox is complex to design, but necessary, if \gls{LLM} generated code is executed directly. As stated in \autoref{subsub:tool}, the weak points of Sandboxes can be exploited by capable \gls{LLM}s, which is why the Physics Modelling Assistant omits code execution.
 	
 	\subsection{Experimental Setup for the Pipeline} \label{sub:expSetup}
-	The final system is designed to mirror a simplified human research workflow consisting of finding relevant information, developing a model based on the knowledge acquired, and implementing the model to get an idea of what it predicts. In order to properly answers the questions from benchmarks (see \autoref{sub:eval}), the final Task is responsible for providing the output in the benchmark's required format.
+	The final system is designed to mirror a simplified human research workflow consisting of finding relevant information, developing a model based on the knowledge acquired, and implementing the model to get an idea of what it predicts. In order to properly answers the questions from benchmarks (see \autoref{sub:eval}), the final Task is responsible for providing the output in the benchmark's required format. The more recently available DeepSeek V4 Flash 0731 \gls{LLM} is not considered for this setup, as discussed in \autoref{sub:LlmUsed}).
 	
 	A simplified view of the Physics Modelling Assistant's steps is shown in \autoref{fig:tasks}, each step is performed by one Task and its corresponding \gls{Agent}.
 	
@@ -751,9 +761,9 @@ listname=Table Index
 	\subsubsection{General Parameter Choices} \label{subsub:paramCh}
 	Since the GWDG webpage suggests Temperature and top\_p value for all three \gls{LLM}s considered, these defaults are adapted. The recommended settings are kept, since they are the solutions to the optimization problem discussed in \autoref{subsub:contextWindow}, and changes would disturb the ideal configuration. For GLM 4.7 and Qwen3.6 27B the recommended parameters are Temperature = 1.0 and top\_p = 0.95; the suggested Temperature for Qwen3.5 397B is lower at 0.6. For the reasons discussed in \autoref{subsub:buildModel}, the Qwen3.5 397B model is not used for the system, which allows to set the Temperature and top\_p globally, as seen in \autoref{tab:defPar}.
 	
-	The maximum number of output \glspl{token} is set to \si{50 \kilo} (see \autoref{tab:defPar}) to ensure the \gls{context-window} not being exceeded. Qwen3.6 27B's \gls{context-window} allows it to handle a maximum of \si{262\kilo} \glspl{token}, while Qwen3.5 397B A17B and FLM 4.7 have a \gls{context-window} of \si{256\kilo} and \si{200\kilo} \glspl{token} respectively \autocite{saiaModDetail}. Of all the available models, DeepSeek V4 Flash 0731 offers the largest \gls{context-window} at 1 million \glspl{token}. The advantages of accommodating a large number of input \glspl{token} need to be balanced with the number of output \glspl{token} being sufficient for the \gls{LLM} to state its results.
+	The maximum number of output \glspl{token} is set to \si{50 \kilo} (see \autoref{tab:defPar}) to ensure the \gls{context-window} not being exceeded. Qwen3.6 27B's \gls{context-window} allows it to handle a maximum of \si{262\kilo} \glspl{token}, while Qwen3.5 397B A17B and GLM 4.7 have a \gls{context-window} of \si{256\kilo} and \si{200\kilo} \glspl{token} respectively \autocite{saiaModDetail}. The advantages of accommodating a large number of input \glspl{token} need to be balanced with the number of output \glspl{token} being sufficient for the \gls{LLM} to state its results.
 	
-	An \gls{Agent} performing reasoning is generally desirable, as discussed in \autoref{subsub:reasoning}. The superiority of feedback loops mentioned in \autoref{par:RefLoop} suggests a positive effect of an \gls{Agent} rerunning itself. However, more reasoning attempts and reiterations increase the computation effort needed, with all retries counting towards the rate limit mentioned in \autoref{sub:LlmUsed}. Therefore, both parameters are set to 3 (see \autoref{tab:defPar}), allowing for some dynamical improvements while minimizing the strain on the rate limit.
+	As discussed in \autoref{subsub:reasoning}, an \gls{Agent} performing reasoning is generally desirable for it leads to better outputs on complex challenges. The superiority of feedback loops mentioned in \autoref{par:RefLoop} suggests a positive effect of an \gls{Agent} rerunning itself. However, more reasoning attempts and reiterations increase the computation effort, with all retries counting towards the rate limit shown in \autoref{tab:rateLimit}. Therefore, both parameters are set to 3 (see \autoref{tab:defPar}), allowing for some dynamic improvements while minimizing the strain on rather tight rate limit. With one run of the Physics Modelling Assistant using eight \glspl{Agent} (see \autoref{fig:tasks}) and each using all possible reasoning attempts and reiterations, a total of 48 requests to \gls{LLM}s are made. 
 	
 	The Physics Modelling Agent does not use specific memory (\autoref{subsub:memory}) but relies on CrewAI passing the outputs of previous \glspl{Agent} to later ones via a shared output object (see \autocite[line 1610]{crewPy}).
 	
@@ -778,45 +788,48 @@ listname=Table Index
 	
 	\subsubsection{Obtaining Information}
 	\paragraph{Source Gathering}
-	In order to get sufficient information for building a model, the arXiv-API \autocite{arxiv} is accessed via the modified arxiv\_paper\_tool (see \autoref{subsub:arxivPaperTool}) and the found papers are downloaded. The corresponding \textbf{source gatherer} \gls{Agent} is based on the Qwen3.6 27B \gls{LLM} and is tasked to use its tool for finding papers related to the aim. The \textbf{gathering task} specifies that three to six papers should be found, more papers bare the risk of exceeding the \gls{context-window} of the used \gls{LLM}s. The Task further specifies which information should be listed for each source: arXiv ID, author, data, URL and a short summary. This content is written into a markdown report, allowing a human to inspect the sources found.
+	In order to get sufficient information for building a model, the arXiv-API \autocite{arxiv} is accessed via the modified arxiv\_paper\_tool (see \autoref{subsub:arxivPaperTool}) and the papers found are downloaded. The corresponding \textbf{source gatherer} \gls{Agent} is based on the Qwen3.6 27B \gls{LLM} and is tasked to use its tool for finding papers related to the aim. It is used due to its superior performance in long context reasoning, which may also include searching for relevant information. The \textbf{gathering task} specifies that three to six papers should be found, with papers being downloaded bearing the risk of exceeding the \gls{context-window} of the \gls{LLM}s used in following steps. The Task further specifies which information should be listed for each source: arXiv ID, author, date, URL, and a short summary. This content is written into a Markdown report, allowing a human to inspect the sources found.
 	
-	This \gls{Agent} does not use reasoning because its Task is deemed to not need a multi step approach. All other parameters are kept at the global settings discussed in \autoref{subsub:paramCh}.
+	This \gls{Agent} does not use reasoning because its Task is deemed to not need a multi step approach. All other parameters are kept at the global settings listed in \autoref{tab:defPar}.
 	
-	Because of the issues with the arXiv-API rate limits \autocite{arxiv}, this step is packaged into its own Crew, allowing it to be executed independently from all later steps. This way changes or reruns intended to result in different behaviour of later steps can be made without rerunning the arXiv request again. For the measurements of the Physics Modelling Assistants performance in this Thesis, the source gathering is run again on every retry.
+	Because of the issues with the arXiv-API limits \autocite{arxiv}, this Task is packaged into its own Crew, allowing it to be executed independently from all later steps. This way, changes or reruns intended to result in a different behaviour of later Tasks can be made without rerunning the arXiv request again. For the evaluation of the Physics Modelling Assistant's performance in this Thesis, source gathering is performed on every retry, to provide a final result reached in one continuous run for every CritPt challenge.
 	
-	\paragraph{Information Extraction} \label{par:infoExtr}
-	The source finding Task saves its papers to the specified output directory. By knowing the directory's location, the \textbf{information extractor} \gls{Agent} can use its pdf\_reader (see \autoref{subsub:pdfReader}) to read the content of the files in that directory. The Qwen3.6 27B \gls{LLM} is used for its superior long context reasoning score (see \autoref{saiaModelsBench}). Its \gls{context-window} of \si{262 \kilo} \glspl{token} is the second largest only to DeepSeek V4 Flash 0731's \si{1 \mega} \autocite{saiaDoc} \autocite{saiaModels}. Since DeepSeek V4 Flash 0731 achieves less than half of Qwen3.6 27B's score in long context reasoning \autoref{saiaModelsBench}, the latter is used.
+	\paragraph{Information Extraction} \label{par:infoExtr} By knowing the directory the downloaded papers are saved to, the \textbf{information extractor} \gls{Agent} can invoke its pdf\_reader (see \autoref{subsub:pdfReader}) to obtain the content of the files in that directory. The Qwen3.6 27B \gls{LLM} is used for its superior long context reasoning performance (see \autoref{saiaModelsBench}), along with its \gls{context-window} of \si{262 \kilo} \glspl{token} being the largest among the considered models.
 	
-	The \textbf{information extractor} is instructed to find the information needed to build a model that accomplishes what the aim asks for. It should present its findings with scientific citation and its backstory emphasises that the \gls{Agent} should stay true to the source material it has available. The corresponding \textbf{extraction task} specifies that the output should be in markdown format, enforcing an unambiguous and human readable output for later \glspl{Agent} and inspecting the Tasks markdown output file.
+	The \textbf{information extractor} is instructed to find the information needed to build a model that accomplishes what the aim asks for. It should present its findings with proper citation and its backstory emphasises to stay true to the provided source material. The focus on stating used sources is choses to allow a human to retrace the steps taken by the \gls{LLM}.The corresponding \textbf{extraction task} specifies that the output to be in Markdown format, enforcing an unambiguous and human readable output.
 	
-	The parameters are kept at the global settings as described in \autoref{subsub:paramCh}
+	The parameters are kept at the default settings stated in \autoref{subsub:paramCh}
 	
 	\subsubsection{Building the Model} \label{subsub:buildModel}
 	\paragraph{Modelling} \label{par:Modelling}
-	For building the model which is at the heart of the Physics Modelling Assistant, the \gls{LLM} strongest in scientific and specifically physics reasoning should be used. Therefore, the first choice was Qwen3.5 397B A17B performing the best at scientific reasoning (GPQA Diamond \autocite{gpqaDiamondPaper}) and joined best at CritPt \autocite{critPtArx}, as shown in \autoref{saiaModelsBench}. During the testing phase, requests to this model kept failing with an answer not being provided by the server before a timeout was reached. For that reason the GLM 4.7 \gls{LLM} is chosen instead, for it being the joined second best model at scientific reasoning (GPQA Diamond \autocite{gpqaDiamondPaper}) and joined best model at CritPt \autocite{critPtArx} (see \autoref{saiaModelsBench}). The \textbf{modeller} \gls{Agent} is prompted to provide a mathematical description for a model which accomplishes the aim. It is further instructed to rely on the information provided by the previous Task (extraction Task), provide a proper explanation for the steps taken, and not to write any code. The last instruction targets the \gls{Agent}'s previous behaviour of occasionally writing code which already implements the model. This is not wanted due to potential modifications needed for the model to be sufficient.
+	For building the model which is at the heart of the Physics Modelling Assistant, the \gls{LLM} strongest in scientific and specifically physics reasoning should be used. Therefore, the first choice was Qwen3.5 397B A17B performing the best at scientific reasoning (GPQA Diamond \autocite{gpqaDiamondPaper}) and joined best at CritPt \autocite{critPtArx}, as shown in \autoref{saiaModelsBench}. During the testing phase, requests to this model repeatedly failed with an answer not being provided by the server before a 30 minute timeout was reached. For that reason the GLM 4.7 \gls{LLM} is used instead, for it being the joined second best model at scientific reasoning (GPQA Diamond \autocite{gpqaDiamondPaper}) and joined best model at CritPt \autocite{critPtArx} (see \autoref{saiaModelsBench}). The \textbf{modeller} \gls{Agent} is prompted to provide a mathematical description for a model which accomplishes the aim. It is further instructed to rely on the information provided by the previous extraction Task), provide a proper explanation for the steps taken, and not to write any code. The last instruction targets the \gls{Agent}'s shown behaviour of occasionally writing code which already implements the model. This is not wanted due to potential modifications needed for the model to be sufficient.
 	
-	The \textbf{modelling task} defines the expected output to be a complete mathematical description with a textual explanation. The requested format is once again markdown ensuring human readability of the generated output file. The default parameters setting described in \autoref{subsub:paramCh} are adopted.
+	The \textbf{modelling task} defines the expected output to be a complete mathematical description of the model along with textual explanations. The requested format is once again Markdown, ensuring human readability of the generated output file. The default parameters setting described in \autoref{tab:defPar} are adopted.
 	
-	\paragraph{Unit Check}
-	The \textbf{unit checker} \gls{Agent} accounts for custom parameter definitions and other conventions preventing a straight forward adoption of the model and its formulas. It uses the GLM 4.7 \gls{LLM} and its goal specifies which steps to take. In the beginning the units of all the quantities should be determined and based on these assumptions, the dimensional\_analysis tool (see \autoref{subsub:dimAna}) is used to identify potential inconsistencies in the units assumed. Based on the tool's results, the \gls{Agent} is expected to correct its unit assumptions or formulas if deemed necessary.
-	
-	The \textbf{unit checking task} specifies that the quantities of the units and the output of the dimensional analysis tool should be displayed in the markdown output file. The parameter configuration follows the default (see \autoref{subsub:paramCh}).
+	\paragraph{Unit Check} \label{par:unitCheck}
+	The \textbf{unit checker} \gls{Agent} accounts for domain specific parameter definitions and other conventions preventing a straight forward adoption of the model and its formulas. Since this requires genuine reasoning capabilities, the GLM 4.7 \gls{LLM} is chosen. The goal specified the following steps:
+	\begin{enumerate}
+		\item The units of all the quantities should be determined.
+		\item based on the assumed units, the dimensional\_analysis tool (see \autoref{subsub:dimAna}) is invoked to identify potential inconsistencies of the current suggestion
+		\item based on the tool's results, necessary corrections to the proposed units or the current formulas should be made
+	\end{enumerate}
+	The \textbf{unit checking task} specifies that the units of all quantities to be displayed in the Markdown output file along with the results of the tool calls made. The parameter configuration follows the default (see \autoref{tab:defPar}).
 	
 	\paragraph{Parameters Suggestion}
-	In order to obtain a meaningful simulation, physically realistic starting conditions are required. They are provided by the \textbf{parameter suggester}, which has the goal of finding typical starting parameters for the model simulation, and stating how these suggestions where derived. The \textbf{parameter suggestion task} highlights that explanations for the choice of parameters should be included in the markdown output file. The input parameters are unchanged compared to the default and the GLM 4.7 model is used for the reasons discussed in \autoref{par:Modelling}.
+	In order to obtain a meaningful simulation, physically realistic starting conditions are required. The \textbf{parameter suggester} is asked to provide them along with a derivations for the propositions, justifying the use of the GLM 4.7 \gls{LLM} for its reasoning capabilities. The \textbf{parameter suggestion task} emphasizes that explanations for the parameter choices are supposed to be included in the Markdown output file. The input parameters are unchanged compared to the default from \autoref{tab:defPar}.
 	
 	\subsubsection{Implementing the Model}
 	\paragraph{Physics Simulation} \label{par:physicSim}
-	In order to capture the suggested model accurately, the \textbf{simulation physician} \gls{Agent} is run with the goal of implementing the formulas of the model precisely, without making changes to them. The \gls{Agent} is based on the GLM 4.7 \gls{LLM}, since it performs the best in coding and science among the available models (see \autoref{saiaModelsBench}). As specified by the \textbf{physician simulation task}, the implementation is supposed to use the units determined by the unit checking task. To get human readable and interpretable results, the task is requested to create graphics if it deems this appropriate. The output is a Python file which should only contain executable Python code, all explanations should be in comments. The parameters are kept the same as before.
+	In order to capture the suggested model accurately, the \textbf{simulation physician} \gls{Agent} is run with the goal of implementing the formulas of the model precisely, without making changes to them. The \gls{Agent} is based on the GLM 4.7 \gls{LLM}, since it performs the best in coding and science among the available models (see \autoref{saiaModelsBench}). As specified by the \textbf{physician simulation task}, the implementation is supposed to use the corrected units and formulas determined by the unit checking task (see \autoref{par:unitCheck}). To obtain human readable and interpretable results, the Task is requested to create graphics if it deems this appropriate. The output is specified to be a Python file containing executable code, with explanations added as comments. The parameters are kept the same as before (see \autoref{tab:defPar}).
 	
 	\paragraph{Simulation Correction}
-	According to its specifications the physics simulation task is meant to capture the models logic into working code, it is not asked to prioritize producing error free code. The correction of bugs is done by the \textbf{simulation correcter}, which is told not change the implemented formulas, but to correct coding mistakes and improve the codes efficiency and style. The corresponding \textbf{simulation correction task} defines the expected output to be working python code. The parameter configurations and \gls{LLM} are unchanged compared to the simulation physician in \autoref{par:physicSim}.
+	Since the previous physics simulation task is meant to capture the models logic into working code, it is not asked to prioritize code quality. The \textbf{simulation correcter} is tasked to correct coding mistakes and improve the code's efficiency and style, while maintaining the implemented formulas. The corresponding \textbf{simulation correction task} defines the expected output to be working python code. The parameter configurations and \gls{LLM} are unchanged compared to the simulation physician in \autoref{par:physicSim}.
 	
 	\subsubsection{Giving a Final Answer}
-	Benchmarks like CritPt expect a comprehensive answer (see \autoref{sub:eval}) to their questions, for that reason the \textbf{final outpter} \gls{Agent} is added to the pipeline. Its goal is to give a final answer and obey the format requested by the input question. Adapting the required format is crucial for CritPt's grading process \autocite{critPtArx}. The \textbf{final output task} specifies the output is supposed to be a string and produces a markdown output file. The GLM 4.7 model is used for its performance on the CritPt benchmark seen \autoref{saiaModelsBench}, and the issues with Qwen3.5 397B A17B discussed in \autoref{par:Modelling}.
+	Benchmarks like CritPt expect a comprehensive answer (see \autoref{sub:eval}) to their questions, which is why the \textbf{final outputer} \gls{Agent} is appended to the pipeline. Its goal is to provide a complete answer and obey the requested format, with the latter being crucial for CritPt's automated grading process \autocite{critPtArx}. The \textbf{final output task} is asked to generate an output file in Markdown format. The GLM 4.7 model is used for its performance on the CritPt benchmark stated in \autoref{saiaModelsBench} and the issues with Qwen3.5 397B A17B discussed in \autoref{par:Modelling}.
 	
 	\subsubsection{Output} \label{subsub:outputBackticks}
-	The output of the Physics Modelling Assistant is an object containing a string with the last Task's result as the answer to the benchmark'ss questions. Output files generated by each Task can be inspected by a human; the Python scripts are not directly executable since they contain triple backticks at the beginning and end. Presumably, this is done to mark the section in between as code, which is not accurate Python syntax. Removing or commenting the backticks results in the scripts becoming executable, apart from possible package installations.
+	The output of the Physics Modelling Assistant is an object containing a string with the last Task's result as the answer to the benchmark's question. The Output files generated by each Task can be inspected by a human; the Python scripts are not directly executable since they contain triple backticks at the beginning and end. Presumably, this is done to mark the section in between as code, which is not valid Python syntax. Removing or commenting the backticks results in the scripts becoming executable, apart from possible package installations.
 	
 	\begin{figure}[ht]
 	\centering
@@ -874,77 +887,201 @@ listname=Table Index
 			\node (output) at (answer |- answer) [graybox, xshift = 1.7cm, yshift = 0.0cm] {output};
 			\draw [arrow, gray] (answer) -- (output);
 		\end{tikzpicture}
-		\caption{This figure provides an overview of all the Tasks and their order of execution, as performed by the Physics Modelling Assistant. The system receives an input string which asks a question or formulates a modelling request. It finds papers related to the aim and downloads them from arXiv; the papers are read and relevant information is extracted. A model is build based on the extracted information; the model's formulas are checked for unit consistency; realistic starting parameters are suggested for the simulation. Lastly, the model is implemented into Python code; the code is checked and corrected if necessary. The last Task provides the final answer to the given input. Each Task dumps a file stating the work it did.}
+		\caption{This figure provides an overview of all the Tasks and their order of execution, as performed by the Physics Modelling Assistant. The system receives an input string which asks a question or formulates a modelling request. It finds papers related to the aim and downloads them from arXiv, afterwards the papers are read and relevant information is extracted. A model is build based on the obtained information, with the model's formulas being checked for unit consistency, before starting parameters for the simulation are suggested. Lastly, the model is implemented into Python code, which is then corrected if issues are encountered. The last Task provides the final answer to the given input. Each Task dumps a file stating its work during the run.}
 		\label{fig:tasks}
 		\figentry{Overview of the Physics Modelling Assistants Tasks}
 	\end{figure}
 	
 	\subsubsection{Connecting to CritPt's Benchmark}
-	CritPt is based on the inspec\_ai package, which allows to register a model by implementing the ModelAPI interface. This is achieved by the PMAModelAPI class, implementing the required generate method. This method receives the description of a CritPt challenge, but not its number or the required output format. This does not align with the statement form \autoref{subsub:critPt}, suggesting the system described by \citeauthor{critPtArx} \autocite{critPtArx} was modified compared to the one publicly available on GitHub \autocite{critptGit}. The same is true for CritPt guiding the system towards the correct result via checkpoints. The 70 publicly available challenges do not include any checkpoints and the GitHub repository does not mention a way to obtain them \autocite{critptGit}.
+	CritPt is based on the inspect\_ai package, which allows to register a model by implementing the ModelAPI interface. This is achieved by the PMAModelAPI class, exposing the required generate method, which receives the challenge description from CritPt, but not its number or the required output format. This does not align with the statement form \autoref{subsub:critPt}, suggesting the system described by \citeauthor{critPtArx} \autocite{critPtArx} is modified compared to the one publicly available on GitHub \autocite{critptGit}. The same is true for CritPt guiding the system towards the correct result via checkpoints. The 70 publicly available challenges do not include any checkpoints and the GitHub repository does not mention how to obtain them \autocite{critptGit}.
 	
-	The PMAModelAPI instance is programmed to identify the challenge based on the problem description it receives, obtaining the challenge number and the required output format. 
+	The PMAModelAPI instance is programmed to identify the current challenge based on the problem description it receives, allowing it to obtain the challenge number and the required output format. 
 	
-	Because of conflicting dependencies of the inspect\_ai and crewai packages reinquiring incompatible versions of the tiktoken and pydantic packages, the PMAModelAPI instance runs the Physics Modelling Assistant as a subprocess in a different virtual environment. It passes the challenge description and output format to the subprocess, along with the parameters the Physics Modelling Assistant exposes (see \autoref{subsub:paramCh}; Temperature, top\_p, max\_tokens, max\_iter, reasoning (True or False), max\_reasoning\_attempts). The challenge number along with a unique identifier and a file path are passed to the subprocess as well. This allows the processes to communicate via reading and writing to a file specified by the location and the identifier. This was implemented to work around the problem of extracting the Physics Modelling Assistant's output from the standard output of the subprocess.
+	Because of conflicting dependencies of the inspect\_ai and crewai packages regarding incompatible versions of the tiktoken and pydantic packages, the PMAModelAPI instance calls the Physics Modelling Assistant as a subprocess running in a different virtual environment. From the superprocess, the subprocess receives the problem description, the requested output format, and the challenge number along with a unique identifier. The latter allows for the processes to communicate via writing to and reading from a shared file, without it being overwritten by other runs of the system. This was implemented to work around the problem of extracting the Physics Modelling
+	Assistant’s output from the standard output (std\_out) of the subprocess, which also includes all the content of all print statements.
+	Furthermore, the PMAModelAPI provides the subprocess with the values for the parameters as stated in \autoref{tab:defPar}.
 	
-	The subprocess consists of two layers. The top layer handles the communication with the super-process and starts the bottom layer, which is the Physics Modelling Assistant. The top layer handles the communication with the super-process. The Physics Modelling Assistant runs described in \autoref{sub:expSetup} and returns its final output to the top layer. There, the result is written into the file specified by the super-process, which waits for the subprocess to finish its execution, before attempting to read from the file.
+	The subprocess consists of two layers. The top layer handles the communication with the superprocess and triggers the bottom layer. This is the Physics Modelling Assistant which works through the steps described in \autoref{sub:expSetup} and returns its final output string to the top layer. With the superprocess waiting for the subprocess to finish, the output is written to the agreed file before completion is reported.
 	
-	The generated results are stored in JSON-files and can be send to the evaluation server via a script provided by CritPt. Since Artificial Analysis \autocite{artifAna} has integrated CritPt, a valid \gls{API key} from Artificial Analysis \autocite{artifAna} is needed for the evaluation server. It can be obtained via Artificial Analysis and is free of charge. For the evaluation requests to be approved, the account connected to the submitting \gls{API key} needs to be marked as a trusted research account by Artificial Analysis \autocite{artAnaTrusted}.
+	The superprocess obtains the output from the specified file and forwards the result to CritPt, which stores it inside a JSON-files along with some metadata. The complete set of JSON files can be send to the evaluation server via a script provided by CritPt. Since Artificial Analysis \autocite{artifAna} has integrated CritPt into their ecosystem, a valid \gls{API key} from Artificial Analysis \autocite{artifAna} is required for the evaluation server. It can be obtained by creating an account at Artificial Analysis and is free of charge. For the evaluation requests to be approved, the account connected to the submitting \gls{API key} needs to be marked as a trusted research account by Artificial Analysis \autocite{artAnaTrusted}. For the work presented in this Thesis, presenting a valid \gls{API key} enabled the necessary evaluations to be made, without explicit approval being required.
 	
 	\subsection{Investigating the Physics Modelling Assistant's Performance}
+	Due to the limited access to the \gls{LLM}s described in \autoref{sub:LlmUsed}, only two full sets of answers are generated and evaluate, instead of the five normally used for benchmarking systems with CritPt (\autoref{subsub:critPt}). This aims to balance the desire to test multiple configurations, with the need to obtain statistical results, and the constraints imposed be the limited access to the used \gls{LLM} models. \autoref{tab:rateLimit}.
+	
 	\subsubsection{An Example Run} \label{subsub:exRun}
-	To provide inside into the Physics Modelling Assistant's work, the system is given an example modelling request. It is not taken from the CritPt benchmark, since no solutions are attempts of them should be published (see \autoref{sub:eval}). The following aim is chosen:
+	To provide insight into the Physics Modelling Assistant's work, the system is given an example modelling request. It is not taken from the CritPt benchmark, since no solutions or attempts of the same may be published (see \autoref{subsub:critPt}). The following aim is chosen:
 	
-	{ \centering
-	\enquote{Calculate the Edelstein effect for a Rashba fermion (at the Gamma point of the Brillouin zone). Compute the magnetization magnitude and direction of different directions and magnitudes of the applied electric field. Consider how the result depends on relevant parameters of the model (e.g. chirality, Fermi velocity, spin-orbit coupling strength) and make explicit graphics.}
-	The Physics Modelling Assistant's work is presented for a selected challenge from the benchmark. It is meant to provide insight into the system and the outputs it produces, which are meant to assist in physics modelling.}
+	\begin{center}
+		\enquote{Calculate the Edelstein effect for a Rashba fermion (at the Gamma point of the Brillouin zone). \newline
+		Compute the magnetization magnitude and direction of different directions and magnitudes of the applied electric field. \newline
+		Consider how the result depends on relevant parameters of the model (e.g. chirality, Fermi velocity, spin-orbit coupling strength) and make explicit graphics.}
+	\end{center}
 	
-	The final output is specified to be \enquote{simple markdown format}.
+	The final output is specified to be \enquote{simple Markdown format}.
 	The parameters are the defaults described in \autoref{subsub:paramCh}.
 	
-	\subsubsection{Pipeline's Performance Compared to Individual Models}
-	The Physics Modelling Assistant's performance is measured and compared to the results of the individual \gls{LLM}'s performances stated in \autoref{saiaModelsBench}. The Pipelines performance in the described setup (see \autoref{sub:expSetup}) is used as a reference for other changes.
+	This setup aims to showcase how the Physics Modelling Assistant could be used in an actual work environment, where more open end questions are explored. In contrast to that, benchmark questions (see \autoref{sub:eval}) commonly have single, often short, correct answers.
+	
+	\subsubsection{The Pipeline's Performance Compared to Individual Models} \label{subsub:Reference}
+	The Physics Modelling Assistant's performance is measured against the CritPt benchmark (see \autoref{subsub:critPt}). Its results are compared to the performances of the individual \gls{LLM}s used fo the system.
 		
-	\subsubsection{The Relevance of the Available Sources}
-	The influence of the sources available to the pipeline is measured.
+	\subsubsection{The Effect of the Context Window Length} \label{subsub:1Deep}
+	The DeepSeek V4 Flash 0731 model is used for the \gls{Agent} working on the extraction Task (see \autoref{par:infoExtr}). Both models achieve similar scores on long context reasoning (see \autoref{saiaModelsBench}), but at $1\,$million \glspl{token}, DeepSeek V4 Flash 0731's \gls{context-window} is almost four times larger than Qwen3.6 27B's. The achieved performance is compared to the reference setup, using Qwen3.6 27B for extracting information.
 	
-	The pipeline runs with the DeepSeek V4 Flash 0731 \gls{LLM} used for the information extraction (see \autoref{par:infoExtr}). Its performance is compared to the reference which uses Qwen3.6 27B.
+	\subsubsection{The Performance when Using DeepSeek V4 Flash 0731} \label{subsub:allDeep}
+	The newly added DeepSeek V4 Flash 0731 model used for every \gls{Agent} of the Physics Modelling Assistant, for the model's superior performance across all considered benchmarks (see \autoref{saiaModelsBench}). This configuration's performance is compared to the other setups described in \autoref{subsub:Reference} and \autoref{subsub:1Deep}.
 	
-%	Instead of papers from arXiv as used in the reference, a physics textbook is provided to the extraction task and the performance of this setup is compared to the reference.
-	
-	The Physic Modelling Assistant's performance is measured when it has no external sources available. The performance is compared to the the reference setup.
-	
-	\subsubsection{The Effect of Iterations of the \glspl{Agent}}
-	All \glspl{Agent} of the Physics Modelling Assistant receive max\_iter = 1, which means they can not reiterate. The result are compared with the default setup, which allows for 3 iterations.
-	
-%	\subsubsection{The Effect of Reasoning}
-%	The Pipeline is run without reasoning, therefore not allowing the \glspl{Agent} to create a plan before execution a Task. This setup's performance is compared with the reference, which enables a maximum of 3 reasoning attempts per \gls{Agent}.
-%	
 	\FloatBarrier
 	\pagebreak
 	\section{Results and Discussion}	
 	\subsection{Results of the Example Run from the Reference Setup} %3,5 are missing
-	\paragraph{Found Sources} A total of six papers are downloaded from arXiv. These are:
+	\subsubsection{Found Sources} \label{par:src} 
+	A total of six papers are downloaded from arXiv (see \autoref{appendix:src}). The Markdown report includes their titles, along with bibliographic information, and short summary. For the full report is available on GitHub \autocite{gitSources}.
+	
+	The Task works as expected, providing all the requested information and staying within the imposed limit of downloading a maximum of six papers. All sources directly relate to the Edelstein effect and discuss aspects of it, which are relevant to the modelling request (see \autoref{subsub:exRun}).
+	
+	\subsubsection{Extracted Information} \label{pma:extrInfo}
+	The report on this Task includes a few additional sources. A variety of formulas are stated and explained, starting with the Rashba Hamiltonian
+	\begin{equation}
+		\hat{H} = \frac{p^2}{2m} + \alpha\,\hat{z}\cdot(\mathbf{p}\times\boldsymbol{\sigma}) \text{,}
+	\end{equation}
+	where $\alpha$ is the Rashba coupling strength and $\sigma$ are the Pauli-matrices. A more detailed description can be found in \autoref{appendix:exInfo}. Other information regarding energy and spin properties are stated, before analytical results for the magnetization are presented:
+	\begin{align}
+		\text{HDR} \ \ \ \ \ M_y &= \frac{\mu_B |e|\tau}{2\pi}\,m\alpha\,[\hat{z}\times\mathbf{E}]_y\\
+		\text{LDR} \ \ \ \ \ M_y &= \frac{\mu_B |e|\tau}{2\pi}\,\sqrt{m^2\alpha^2 + 2mE_F}\,[\hat{z}\times\mathbf{E}]_y
+	\end{align}
+	Additionally, the Edelstein susceptibility and an anisotropic case are discussed. Instructions and code for the implementation are provided as well. more details can be found in the appendix (\autoref{appendix:exInfo}) or on GitHub \autocite{gitInfo}.
+	
+	The additional sources stated are all real scientific publications. The provided information are properly referenced to the correct papers as intended. Apart from the implementation guidelines, the provided formulas and descriptions match the intended Task output Some of the provided information is not essential to the question at hand and its inclusion appears to be influenced by the downloaded papers discussing them. To improve the results, providing code should be discouraged, since the implemented formulas are not yet validated and therefore may be inconsistent.
+
+	\subsubsection{The Model}
+	Since the modelling Task reiterates the extracted information as stated in \autoref{pma:extrInfo}, its output is not discussed in more detail, but it can be accessed via GitHub \autocite{gitModel}. If the file appears not to be displayed correctly on GitHub, it might be due to the used Markdown viewer. During the work on this Thesis, \citetitle{mdView} \autocite{mdView} was used, providing a clean human readable look except for incorrect Markdown code.
+	
+	The modelling step is generally expected to use the information as a foundation and derive new formulas needed to provide an answer to the input request. Contrary to the expectation, source code for the implementation was stated, matching the one from the information extraction \autoref{pma:extrInfo}. The provided information being restated point to the Task and its \gls{Agent} either relying too much on the information found, or deeming it sufficient for answering the modelling request. Considering the Tasks output on benchmarking questions described in \autoref{pma:benchRes}, the latter appears to be the case. Contributing to that is the request (see \autoref{subsub:input}) being comparably broad, by not asking for a specific properties but general parameter dependencies.
+	
+	\subsubsection{Unit Check} \label{pma:unitCheck}
+	The key formulas are checked for dimensional consistency regarding their units. From the Rashba Hamiltonian, the Rashba coupling strength $\alpha$ is derived to have units of velocity (see \autoref{appendix:unit}). A factor of $\frac{1}{\hbar^2}$ is added to formula for the magnetization, resulting in
+	\begin{align}
+		\text{HDR} \ \ \ \ \ M_y &= \frac{\mu_B |e|\tau}{2\pi\, \hbar^2}\,m\alpha\,[\hat{z}\times\mathbf{E}]_y\\
+		\text{LDR} \ \ \ \ \ M_y &= \frac{\mu_B |e|\tau}{2\pi \hbar^2}\,\sqrt{m^2\alpha^2 + 2mE_F}\,[\hat{z}\times\mathbf{E}]_y
+	\end{align}
+	For the formulas, including the Edelstein susceptibility, no tool invocations are mentioned and no unit system is determined.
+	
+	The corrections for the magnetization formula is correct (validation in \autoref{appendix:unitVer}), although the tool is not used as intended. Instead of simplifying the properties units/dimensions to bas units/dimensions, the \gls{Agent} invokes the tool with complexer dimensions, like \textit{magnetization} or \textit{electric field}. Since the dimensional analysis tool (see \autoref{subsub:dimAna}) does not break the provided units down, but only performs algebra on them, the tool's output does not offer the expected correction. Therefore, improvement is needed to allow the \gls{Agent} to use the tool correctly, providing a full usage example or explicitly stating that base unit are required are promising attempts.
+	
+	\subsubsection{Parameter Suggestions}
+	This Task generally does what is asked of it, providing numeric values for each parameter relevant to the model and justifying its suggestions. However, the units determine by the previous Task are not adopted for the effective mass and Rashba coupling strength. The final set of suggested parameters is displayed in \autoref{appendix:paramSug}. The full report is provided at \autocite{gitParams}.
+	
+	This suggests an over-reliance on using starting parameters from other sources, more emphasize on adapting the findings of the unit check is required. The Task also provides a few sources for backing its claims, however one of them is not a real source. An approach to prevent these hallucinations is to enabling the corresponding \gls{Agent} to use the arxiv\_paper\_tool (see \autoref{subsub:arxivPaperTool}) for finding real papers.
+
+	\subsubsection{Simulation}
+	The simulation implements the unit of the parameters used by the parameter suggestion Task, resulting in some manual changes being required. A more detailed analysis is provided in \autoref{appendix:impl}. The full code can be inspected at \autocite{gitImp} and \autocite{gitCor}. As shown in \autoref{fig:simFig}, the code creates graphics visualizing the parameter dependencies of the implemented formulas.
+	\begin{figure}
+		\centering
+		\includegraphics[width = \textwidth]{data/example/figSim.png}
+		\caption{Obtained graphics from the Physics Modelling Assistant's simulations, after manual corrections are applied.}
+		\label{fig:simFig}
+		\figentry{Simulation Output}
+	\end{figure}
+	
+	The units from the parameter suggestions are carried over to the simulation, suggesting that fixing the problem at this stage leads to a correct implementation. There is still space for improvement regarding the code's adaptability for different parameters settings.
+	
+	\subsubsection{Final Answer}
+	The final output mostly reiterates the extracted information (see \autoref{pma:extrInfo}). The full Markdown report is available at \autocite{gitFin}.
+	
+	Since no specific output format nor a definitive answer to an explicit question is requested, the Task is not essential to this run of the Physics Modelling Assistant. It is valuable though for adopting the format required by the benchmarking.
+	
+	\subsubsection{Discussion of the Results from the Example Run}
+	In its current configuration the Physics Modelling Assistant properly finds related sources from arXiv for the given input. It extracts relevant information and is able to apply unit corrections to extracted formulas, although struggling with using the tool for the unit check properly. Failures occur when finding realistic starting parameters and implementing the extracted formulas, with the identified unit corrections not being considered. The final Task providing an answer to the input is only relevant if a concrete question and answer format are given, not for a broad modelling request. 
+	
+	Future work should address the system not using the tool correctly, thereby not yielding meaningful results from it. The configurations for the parameters suggestion Task and \gls{Agent} should emphasize the necessity of providing realistic starting parameters in the determined units.
+	
+	The general design, yet simple, is applicable for providing relevant information and implementing simple visualizations for a given request. To assess its ability of contributing to actual research, the results from the CritPt benchmarking need to be taken into account.
+	
+	\subsection{Evaluation of the Physics Modelling Assistant}
+	\subsubsection{Issues Encountered during the Generation}
+	The most common reason for failures is the API rate limit of SAIA \autocite{saiaModels} being exceeded, resulting in a 429 error code. Rarely the \gls{context-window} of a \gls{LLM} is exceeded, resulting in the run to fail. Lastly, the adoption of the output format is inconsistent. As stated in \autoref{subsub:outputBackticks}, the backticks and the word \enquote{python} need to be removed, which is accomplished via an automated script. However, some results include additional descriptions not marked as comments before the output format is adapted, requiring further post generation correction to establish the proper format. On a few occasions, the output format is not adapted at all with only a Markdown-like description being returned. If the post processing is unable to obtain output of the correct format, the challenge is retried.
+
+	The SAIA rate limit itself can not be adjusted, as it is fixed by the GWDG. The available rate left may be checked before a run of the system is stated, to prevent runs which cannot run to completion from starting in the first place. Since the number of \gls{LLM} calls is not fixed but depends on possible reruns of an \gls{Agent} being invoked, the number of \gls{LLM} usages needed can only be an estimate. The possible downsides of additional \gls{LLM} calls are comparably small. Considering the current maximum amount of 48 requests being made per run (see \autoref{subsub:paramCh}) and the rate limit of 30 calls per minute (see \autoref{tab:rateLimit}), a single incomplete run causes a maximum additional waiting time of two minutes. Therefore, gain of tracking the current rate usage is negligible unless the Physics Modelling Assistant is tested at a far larger scale as done in this Thesis.
+
+	Failures because of the \gls{context-window} being exceeded on the extraction Task (see \autoref{par:infoExtr}) are preventable by controlling the number of input \glspl{token}. By dividing PDF files with too many \glspl{token} into multiple chunks, single files can not exceed the \gls{context-window} any more. Then the extraction \gls{Agent} needs to be run multiple times, only reading an amount of \glspl{token} the underlying \gls{LLM}'s \gls{context-window} can accommodate. To achieve this behaviour, the Physics Modelling Assistant needs to dynamically adjust how many times the information extraction Task is run.
+	
+	The times for a complete run where inconsistent, with some runs successful in generating output in the correct format taking less than five minutes, while other challenges taking over an hour to complete. There are many factors influencing the execution time, ranging from the capabilities and usage of system running the Physics Modelling Assistant to the time it takes the server providing the \gls{LLM}s to process the request. For that reason, the times taken throughout different runs do no provide meaningful insight into the system but rather into the environment around the system.
+
+	\subsubsection{Benchmarking Results for the Default Setup}
+	Three independent generation runs are conducted and evaluated. The CritPt evaluation returns the following accuracies: \si{2,86 \percent}, \si{0,00\percent}. The resulting average score of \SI{1.43(1.43)}{\percent} suggests that the Physics Modelling Assistant does not offer an improved performance compared to the underlying models used, which are Qwen3.6 27B and GLM 4.7. Since only two sets of answers were evaluated, the results are highly uncertain and more independent evaluation runs are required before a definitive result can be obtained.
+	
+	\subsubsection{Benchmarking Results when Using DeepSeek V4 Flash 0731 for Extracting Information}
+	For the Crew using DeepSeek V4 Flash 0731 instead of Qwen3.6 27B for the information extraction Task (see \autoref{par:infoExtr}), the following accuracies are achieved: \si{0,00\percent}, \si{1,43\percent}.
+	
+	No significant change in performance through changing context window => larger context window does not provide an advantage or disadvantage\\
+	Supports the claims of CritPt team, that internet search does not provide any solutions to CritPt challenges or is advantageous for solving them.\\
+	Inconclusive, if this means, the models already have the knowledge to solve the critpt challenges, but not the advanced reasoning capabilities; or if the system could benefit from proper sources but they are not available on arXiv; maybe standard physics textbook.\\
+	Investigating larger sources like textbooks is problematic with the current setup, since context window	is exceeded. Mechanism for partitioning large sources into smaller chunks and working on them independently is required.
+	
+	\subsubsection{Benchmarking Results when Using DeepSeek V4 Flash 0731 for Every \gls{Agent}}
+	Only one run possible due to rate limits. Results are highly uncertain and are merely used as a general indication, not as trustworthy findings.\\
+	If performance increase: meaningful cooperation might only occur once models reach a certain strength; glm and qwen are comparably weak on critPt compared to DeepSeek.\\
+	If performance does not increase: importance of orchestration architecture is supported.\\
+	
+	
+	\subsection{General Remarks about Benchmarking Results} \label{pma:benchRes}
+	For the benchmarking asking for specific results, the parameter suggestion and the implementation do not contribute to the output in a meaningful way. Instead, the modelling Task executes the necessary derivations and calculations required by the challenge. This points to the Physics Modelling Assistant's design not being optimized for this benchmark. Instead, its setup is more suitable to work on a broader modelling request as stated in \autoref{subsub:exRun}.
+	
+	which PMA setup performs best; does PMA outperform individual models
+	
+	More runs needed for proper evaluation, CritPt uses average over 5 runs to evaluate models
+	Therefore, most results are inconclusive and require more runs
+	
+	Runs take very long time, between 15 min and hour. This is due to stronger models being used. Early test runs weaker models took less time. SAIA rate limits did not allow for generation to run continuously
+	
+	\FloatBarrier
+	\pagebreak
+	\section{Conclusion and Future Work}
+	Example run suggests, PMA may be used to find relevant information for building a model, as well as propose and discuss the units of suggested formulas.\\ \\
+	Refinement needed regarding the implementation of the corrected formulas into a working simulation.\\
+	
+	
+	Benchmarking results point to the Pipeline architecture not allowing the PMA to enable positive effects of \gls{Agentic AI} systems. Orchestrator and feedback loops similar to physics intern needed.\\ \\
+	To compare PMA and physics-intern, same LLMs should be used on both.\\ \\
+	PMA uses different LLMs in one pipeline, compared to physics-intern, which only uses one LLM model for all Agents. Testing whether using differet models for differnt Agents compares to using the same model for all interesting, but system that is proven to increase performance should be used, therefore PMA is not yet suited for that. 
+	
+	Future research may include a variety of tests regarding the Physics Modelling Assistant's configurations. Instead of providing an arXiv search, a physics textbook is provided, giving access to a more foundational knowledge base instead of published research, which most often does not cover standard knowledge. Since a textbook most certainly exceeds the \gls{context-window} of the \gls{LLM}s considered so far, a different provider would be required for this research. Altering the maximum number of iterations and reasoning attempts can provide insight into the effect of these influenced processes. The general assumption is, that reasoning and reiterations improve performance, a structured research can provide statistical results for how the performance scales for both settings.
+	
+	To use the Physics Modelling Assistant effectively in scientific work, improvements are necessary. The instructions regarding the model's implementation need to be refined, requesting a generalised result, which can be adapted to investigate different setups of the crafted model. For further improvements architectural changes enabling feed back loops, and dynamically assigning Tasks to specialized \glspl{Agent} might be required. These changes would adapt common architectures from other \gls{Agentic AI} systems like the \enquote{physics-intern} \autocite{pIntern} or \enquote{SciSciGPT} \autocite{sciSci}, which use feedback loops as integral part of their systems. Within the CrewAI framework, feedback loops can be implemented via Flows \autocite{crewaiFlow}, utilizing required a significant expansion to the state of the Physics Modelling Assistant, with Flows expanding the Crew \autocite{crewPy} based design. Changes to the discussed setup should generally be considered, regarding the redundancy of the second simulation implementation step. Dynamically deciding which \glspl{Agent} to call should also improve the adaptability of the system regarding different types of input, with a dynamical setup able to omit specific \glspl{Agent} not needed to answer a concrete challenge or implement a broad model based on existing information.
+	
+	In its current state, the Physics Modelling Assistant is useful more as prototype than a helpful assistant for a human scientist. The design process and its result provide some insight into the design of \gls{Agentic AI} systems, pointing to the importance of a feedback architecture as the results from \citeauthor{orchStyles} \autocite{orchStyles} suggest. I believe the simple design is a good starting point for systematically investigating the influence of parameters on systems combining multiple \glspl{LLM}. By implementing a pipeline architecture it provides an interesting addition to the current landscape of \gls{Agentic AI} frameworks for science, allowing future work to compare the different architectures in more detail.
+	
+	Beyond the results presented so far, working on this project provided me with valuable insight into the field of \gls{AI} and especially \gls{Agentic AI}. This Bachelor's Thesis work has strengthened my interest to further explore the field of \gls{AI} systems. 
+
+	\FloatBarrier
+	\pagebreak
+	%\nocite{*}
+	\printbibliography
+	\pagebreak
+	\appendix
+	\section{Appendix}
+	\subsection{Outputs from the Example Run}
+	\subsubsection{Papers Downloaded} \label{appendix:src}
 	\begin{enumerate} \label{enum:papers}
-		\item \citetitle{paper1_Gaiardoni_2025} \autocite{paper1_Gaiardoni_2025}
-		\item \citetitle{paper2_Ezawa_2025} \autocite{paper2_Ezawa_2025}
+		\item \citetitle{paper1_Gaiardoni_2025} \label{enum:1} \autocite{paper1_Gaiardoni_2025}
+		\item \citetitle{paper2_Ezawa_2025} \label{enum:2} \autocite{paper2_Ezawa_2025}
 		\item \citetitle{paper3_Funato_2021} \autocite{paper3_Funato_2021}
 		\item \citetitle{paper4_Auvray_2018} \autocite{paper4_Auvray_2018}
 		\item \citetitle{paper5_rashba2018electricdipolespinresonances} \autocite{paper5_rashba2018electricdipolespinresonances}
 		\item \citetitle{paper6_Engel_2007} \autocite{paper6_Engel_2007}
 	\end{enumerate}
-	The markdown report includes the following information for each paper: arXiv ID, authors, date, URL to the paper on arXiv, and a short summary. For the full report visit \autocite{gitSources}.
+	The original output is available at \autocite{gitSources}.
 	
-	The Task works as expected, providing all the requested information and staying within the limit of downloading a maximum of six papers. All sources directly relate to the Edelstein effect and discuss aspects of it, which are relevant to the modelling request (see \autoref{subsub:exRun})
+	\subsubsection{Extracted Information} \label{appendix:exInfo}
+	These additional sources are listed in the extracted information:
+	\begin{enumerate}[resume]
+		\item \citetitle{paper7_PismaZhETF.39.66} \autocite{paper7_PismaZhETF.39.66}
+		\item \citetitle{paper8_Edelstein1990SpinPO} \autocite{paper8_Edelstein1990SpinPO}
+		\item \citetitle{paper9} \autocite{paper9}
+	\end{enumerate}
 	
-	\paragraph{Extracted Information} \label{pma:extrInfo}
-	The report on this Task lists all of the downloaded papers along the following additions, which were not downloaded:
-	\begin{itemize}
-		\item[7.] \citetitle{paper7_PismaZhETF.39.66} \autocite{paper7_PismaZhETF.39.66}
-		\item[8.] \citetitle{paper8_Edelstein1990SpinPO} \autocite{paper8_Edelstein1990SpinPO}
-		\item[9.] \citetitle{paper9} \autocite{paper9}
-	\end{itemize}
-	The full report (see \autocite{gitInfo}) lists and explains a variety of formulas, starting with the Rashba Hamiltonian:
-	\begin{tcolorbox}[enhanced, breakable, title=Hamiltonian found,colback=blue!5!white, colframe=blue!75!black] \label{pma:hamilton}
+	\begin{tcolorbox}[enhanced, breakable, title=The Extracted Rashba Hamiltonian,colback=blue!5!white, colframe=blue!75!black] \label{pma:hamilton}
 		The \textbf{Rashba Hamiltonian} for a 2DEG at the $\Gamma$ point is [Bychkov \& Rashba, \textit{JETP Lett.} 39, 78 (1984)]:
 		
 		$$
@@ -952,15 +1089,14 @@ listname=Table Index
 		$$
 		
 		where:\begin{itemize}
-		\item[-] $m$ is the effective carrier mass,
-		\item[-] $\alpha$ is the Rashba spin–orbit coupling (SOC) strength,
-		\item[-] $\mathbf{p} = \hbar\mathbf{k}$ is the momentum,
-		\item[-] $\boldsymbol{\sigma}=(\sigma_x,\sigma_y,\sigma_z)$ are the Pauli matrices,
-		\item[-] $\hat{z}$ is the direction perpendicular to the 2D plane.
+			\item[-] $m$ is the effective carrier mass,
+			\item[-] $\alpha$ is the Rashba spin–orbit coupling (SOC) strength,
+			\item[-] $\mathbf{p} = \hbar\mathbf{k}$ is the momentum,
+			\item[-] $\boldsymbol{\sigma}=(\sigma_x,\sigma_y,\sigma_z)$ are the Pauli matrices,
+			\item[-] $\hat{z}$ is the direction perpendicular to the 2D plane.
 		\end{itemize}
 	\end{tcolorbox}
-	Most contents are used from and attributed to the work of \citeauthor{paper1_Gaiardoni_2025} \autocite{paper1_Gaiardoni_2025}, these include the \textit{energy dispersion}, the \textit{spin eigenstates}, and the \textit{Fermi wavenumbers} split into high density regime (HDR) and low density regime (LDR). The formula for the magnetization (\textbf{total spin density}) is stated from \autocite{paper1_Gaiardoni_2025} and \autocite{paper2_Ezawa_2025}.
-	For the Magnetization, the following analytical results for the isotropic model are provided:
+	Most of the core findings are attributed to the work of \citeauthor{paper1_Gaiardoni_2025} \autocite{paper1_Gaiardoni_2025}, including the \textit{energy dispersion}, the \textit{spin eigenstates}, and the \textit{Fermi wavenumbers} split into high density regime (HDR) and low density regime (LDR). The general formula for the magnetization, which is stated to be the total spin density instead of the \textbf{magnetization density}, is referenced to both \autocite{paper1_Gaiardoni_2025} and \autocite{paper2_Ezawa_2025}. The following analytical results fo the isotropic case are provided:
 	\begin{tcolorbox}[enhanced, breakable, title=Analytical magnetization, colback=blue!5!white, colframe=blue!75!black] \label{pma:magn}
 		\textbf{\Large4.1 Magnetization in the High-Density Regime (HDR)}
 		
@@ -970,7 +1106,7 @@ listname=Table Index
 		\boxed{M_y = \frac{\mu_B |e|\tau}{2\pi}\,m\alpha\,[\hat{z}\times\mathbf{E}]_y}
 		$$
 		
-		\textbf{Key result:} In the HDR, the magnetization is \textbf{constant, independent of the Fermi energy} $E_F$, and proportional to the Rashba SOC parameter $\alpha$ and the effective mass $m$.
+		\textbf{Key result:} In the HDR, the magnetization is \textbf{constant, independent of the Fermi energy} $E_F$, and proportional to the Rashba SOC parameter $\alpha$ and the effective mass $m$.\newline
 		
 		\textbf{\Large4.2 Magnetization in the Low-Density Regime (LDR)}
 		
@@ -988,41 +1124,28 @@ listname=Table Index
 		
 		The spin density \textbf{increases linearly with the Fermi energy}. In the limit $\alpha \to 0$, the second term vanishes because $E_F$ has a quadratic dependence on $\alpha$.
 	\end{tcolorbox}
-	Further information include the \textbf{Anisotropic Rashba Model}, the \textbf{Out-of-Plane Edelstein Effect}, the \textbf{Acoustic Edelstein Effect}, and the \textbf{Effect of a Magnetic Field}. The dependencies on the model's parameters is discussed with the following takeaways:
-	\begin{align*}
-		\text{Edelstein susceptibility } \chi_{xy} &\propto \alpha \text{ in HDR}\\
-		\chi_{xy}(E_F)& = const. \text{ in HDR}\\
-		\chi_{xy}(E_F)& \propto E_F \text{ linear increase with $E_F$ in LDR}\\
-		\text{sign of } \alpha & \text{ determines spin orientation on the Fermi surface}
-	\end{align*}
-	Lastly, the Task provides guidelines for a numerical implementation along with code snippets and the expected graphics.
+	Further information include the \textit{Anisotropic Rashba Model}, the \textit{Out-of-Plane Edelstein Effect}, the \textit{Acoustic Edelstein Effect}, and the \textit{Effect of a Magnetic Field}. The parameter dependencies are discussed for both the magnetization $M$ and the Edelstein susceptibility $\chi_{xy}$. Lastly, the Task provides guidelines for a numerical implementation along with code snippets and the expected graphics. The full report is available on GitHub at \autocite{gitInfo}
 	
-	The output draws its information from the papers downloaded from arXiv (see \autoref{enum:papers}) and also provides proper citation for its statements. As shown in \autoref{pma:hamilton} and \autoref{pma:magn}, the provided information are relevant to the problem at hand, even providing formulas that can be implemented. The sections about the Out-of-Plane Edelstein Effect and the Acoustic Edelstein Effect discuss more specialized cases not integral to the Edelstein Effect the input asks for. It appears that the inclusion of these information is heavily influenced by the downloaded papers \autocite{paper2_Ezawa_2025}, \autocite{paper3_Funato_2021}, and \autocite{paper6_Engel_2007}, which discuss these particular systems. The inclusion of implementation instructions is not expected. It could be problematic since the formulas not checked for dimensional consistency at this stage. Therefore, possibly incorrect implementation ideas are listed and can influence later Tasks to adopt them.
-	
-	\paragraph{The Model}
-	Since the modelling Task reiterates the extracted information as stated in \autoref{pma:extrInfo}, the output is omitted here, but can be accessed via GitHub \autocite{gitModel}. If the file appears not to be displayed correctly on GitHub, it might be due to the Markdown viewer. During the work on this Thesis, \citetitle{mdView} \autocite{mdView} was used, providing a clean human readable look except for incorrect Markdown code.
-	
-	The modelling step is generally expected to use the information as a foundations and derive new formulas needed to provide an answer to the input. Contrary to the expectation, source code for the implementation was stated, matching the one from the information extraction \autoref{pma:extrInfo}. The provided information being restated point to the Task and its \gls{Agent} either relying too much on the papers found, or deeming the information as sufficient for the modelling request. Furthermore, the request is comparably broad, not asking for a specific properties but general parameter dependencies. For the CritPt challenges the modelling step shows the intended behaviour, deriving new formulas not stated in the extracted information and integrating the explicit problem from the challenge description.
-	
-	\paragraph{Unit Check} \label{pma:unitCheck}
-	Key formulas are checked for dimensional consistency regarding their units. The first step analysis the Rashba Hamiltonian as it is stated in \autoref{pma:hamilton}:
-	\begin{tcolorbox}[enhanced, breakable, title=Unit analysis of the Rashba Hamiltonian, colback=blue!5!white, colframe=blue!75!black] \label{pma:unitHam}
+	\subsubsection{Unit Check} \label{appendix:unit}
+	\begin{tcolorbox}[enhanced, breakable, title=Unit Check of the Rashba Hamiltonian, colback=blue!5!white, colframe=blue!75!black] \label{pma:unitHam}
 		\textbf{\Large Formula}
 		$$
 		\hat{H} = \frac{p^2}{2m} + \alpha\,\hat{z}\cdot(\mathbf{p}\times\boldsymbol{\sigma})
 		$$
 		
 		\textbf{\large Quantities and Units}
-		- $H$ (Hamiltonian): Energy $\rightarrow [E]$ (Joules)
-		- $p$ (Momentum): $[p] = [M][L][T]^{-1}$
-		- $m$ (Mass): $[m] = [M]$
-		- $\alpha$ (Rashba parameter): $[\alpha] = ?$
-		- $\boldsymbol{\sigma}$ (Pauli matrices): Dimensionless
+		\begin{itemize}
+			\item[-] $H$ (Hamiltonian): Energy $\rightarrow [E]$ (Joules)
+			\item[-] $p$ (Momentum): $[p] = [M][L][T]^{-1}$
+			\item[-] $m$ (Mass): $[m] = [M]$
+			\item[-] $\alpha$ (Rashba parameter): $[\alpha] = ?$
+			\item[-] $\boldsymbol{\sigma}$ (Pauli matrices): Dimensionless
+		\end{itemize}
 		
 		\textbf{\large Tool Input}
 		\begin{tcolorbox}[colback=gray!10!white]
-			equation: H = p**2 / (2*m) + alpha * (p)
-			dimensions: {"H": "energy", "p": "momentum", "m": "mass", "alpha": "alpha\_dimension"}
+			equation: H = p**2 / (2*m) + alpha * (p)\\
+			dimensions: {"H": "energy", "p": "momentum", "m": "mass", "alpha": "alpha\_dimension"}\\
 			unitList: energy, momentum, mass, alpha\_dimension
 		\end{tcolorbox}
 		
@@ -1041,8 +1164,8 @@ listname=Table Index
 		$$
 		\textbf{Conclusion:} The Rashba parameter $\alpha$ has units of \textbf{velocity} ($m/s$)
 	\end{tcolorbox}
-	The energy dispersion is deemed dimensionally consistent by the tool output and no correction is applied.
-	\begin{tcolorbox}[enhanced, breakable, title=Unit correction for the HDR magnetization, colback=blue!5!white, colframe=blue!75!black] \label{pma:unitHDR}
+	The energy dispersion is deemed dimensionally consistent by the tool output and no correction is applied. For the analytical magnetization formula, the \gls{Agent} takes describes its process as follows:
+	\begin{tcolorbox}[enhanced, breakable, title=Unit Correction for the HDR magnetization, colback=blue!5!white, colframe=blue!75!black] \label{pma:unitHDR}
 		\textbf{\large Formula}
 		$$
 		M_y = \frac{\mu_B |e|\tau}{2\pi}\,m\alpha\,[\hat{z}\times\mathbf{E}]_y
@@ -1065,17 +1188,17 @@ listname=Table Index
 		
 		\textbf{\large Tool Input}
 		\begin{tcolorbox}[colback=gray!10!white]
-		equation: M\_y = mu\_B * e * tau * m * alpha * E
-		dimensions: {"M\_y": "magnetization", "mu\_B": "magnetic\_moment", "e": "charge", "tau": "time", "m": "mass", "alpha": "velocity", "E": "electric\_field"}
-		unitList: magnetization, magnetic\_moment, charge, time, mass, velocity, electric\_field
+			equation: M\_y = mu\_B * e * tau * m * alpha * E\newline
+			dimensions: {"M\_y": "magnetization", "mu\_B": "magnetic\_moment", "e": "charge", "tau": "time", "m": "mass", "alpha": "velocity", "E": "electric\_field"}\newline
+			unitList: magnetization, magnetic\_moment, charge, time, mass, velocity, electric\_field
 		\end{tcolorbox}
 		
 		\textbf{\large Tool Output}
 		\begin{tcolorbox}[colback=gray!10!white]
-		magnetization*exp(-1)/(charge*magnetic\_moment*mass*time*velocity*electric\_field)
+			magnetization*exp(-1)/(charge*magnetic\_moment*mass*time*velocity*electric\_field)
 		\end{tcolorbox}
 		...omitting a long analysis which is part of the original output...\\
-
+		
 		\textbf{Conclusion on Formula Consistency:}
 		The formula is dimensionally consistent \textbf{if and only if} the system of units uses $\hbar=1$ (natural units) or the parameters $m$ and $\alpha$ are defined in units that include $\hbar$ (common in computational materials science, e.g., $\alpha$ in $eV\cdot\mathring{A}$ and $m$ in $eV^{-1}\mathring{A}^{-2}\cdot \hbar^2$).
 		However, in standard SI units, the formula is missing a factor of $\hbar^{-2}$.
@@ -1085,32 +1208,35 @@ listname=Table Index
 		M_y = \frac{\mu_B |e|\tau}{2\pi\hbar^2}\,m\alpha\,[\hat{z}\times\mathbf{E}]_y
 		$$
 	\end{tcolorbox}
-	For the LDR magnetization the same correction is applied
-	Additionally, formulas for the anisotropic susceptibility and the Out-of-Plane susceptibility are analysed. The output does not include any tool calls and is unable to identify a unit system for both formulas. Lastly, the findings are summarised, restating the $\frac{1}{\hbar}$ correction for both HDR and LDR magnetization. The full report can be inspected at \autocite{gitUnit}
+	The same $\frac{1}{\hbar^2}$ correction is applied to the expression for the LDR magnetization. The analysis for the susceptibility formulas fails to find a coherent unit system but provides 
+	Additionally, formulas for the anisotropic susceptibility and the Out-of-Plane susceptibility are analysed, with the output not stating that tool calls where made for these formulas also failing to provide a unit system for them. Lastly, the findings are summarised, restating the $\frac{1}{\hbar^2}$ correction for both HDR and LDR magnetization.
+	The full report can be inspected at \autocite{gitUnit}.
 	
-	This task correctly identifies the units of the Rashba coupling strength $\alpha$ to be a velocity for the given Hamiltonian (see \autoref{pma:unitHam}). The corrections for the magnetization achieve unit consistency, as stated by the output. This is checked by hand to verify the result:
-	The used properties and their units are:
+	\subsubsection{Verification of the Unit Check for the Magnetization Magnitude} \label{appendix:unitVer}
+	This task correctly identifies the Rashba coupling strength $\alpha$ to be a velocity for the given Hamiltonian (see \autoref{pma:unitHam}). The unit correction applied to the magnetization formulas achieves unit consistency, although some steps along the way are worth being discussed. The assumed units for the magnetization are not corrects: The extracted information (see \autoref{appendix:exInfo}) state that $M_y$ is the total spin density, which is also incorrect, with the magnetization being the magnetic moment (\si{\ampere m^2}) per unit volume. The formulas is referenced to \citeauthor{paper1_Gaiardoni_2025} \autocite{paper1_Gaiardoni_2025}, who discuss a 2D system, which has unit volume is in Length$^2$. Therefore, the unit for the magnetization is $\frac{\si{\ampere \meter^2} }{\si{\meter^2}} = \si{\ampere}$.
+	
+	In the following, the correction applied to the magnetization by the Physics Modelling Assistant is checked by hand. The used properties are the following:
 	\begin{itemize}
-		\item $M_y$ is the magnetization. As stated in the extracted information in \autoref{pma:extrInfo}, it is the total spin density (\si{\ampere \meter^2}) per unit volume. Since \citeauthor{paper1_Gaiardoni_2025} \autocite{paper1_Gaiardoni_2025} discuss a 2D system, the unit volume is in units of \si{\meter^{-2}}
-		\item $\mu_B$ is the Bohr magneton. I can be expressed in \si{\joule \tesla^{-1}}
-		\item $e$ is the charge with the unit of \si{\ampere \second}
-		\item $\tau$ is the transport time expressed in \si{\second}
-		\item $m$ is the effective mass in \si{\kilogram}
-		\item $\alpha$ is the Rashba coupling strength. As stated in \autoref{pma:unitHam}, it is unit of velocity, \si{\meter\second^{-1}}
-		\item $\hat{z}$ is a dimensionless direction
-		\item $\mathbf{E}$ is the applied electric field. It can be expressed in \si{\volt\meter^{-1}}
-		\item $\hbar$ is the Planck constant with SI units of \si{\joule \second}
+		\item $M_y$ is the magnetization. It is the magnetization (\si{\ampere \meter^2}) per 2D unit volume, resulting in its unit being \si{\ampere}.
+		\item $\mu_B$ is the Bohr magneton. It is expressed in \si{\joule \tesla^{-1}}.
+		\item $e$ is the charge with the unit of \si{\ampere \second}.
+		\item $\tau$ is the transport time expressed in \si{\second}.
+		\item $m$ is the effective mass in \si{\kilogram}.
+		\item $\alpha$ is the Rashba coupling strength. As stated in \autoref{pma:unitHam}, it has units of velocity being \si{\meter\second^{-1}}.
+		\item $\hat{z}$ is a dimensionless direction.
+		\item $\mathbf{E}$ is the applied electric field. It can be expressed in \si{\volt\meter^{-1}}.
+		\item $\hbar$ is the Planck constant with SI units of \si{\joule \second}.
 	\end{itemize}
-	The relevant unit conversions are:
+	The relevant unit conversions are
 	\begin{align}
-		1 \si{\tesla} &= 1 \frac{\si{\volt \second}}{\si{\meter^2}} \label{con:tesla} \\
-		1 \si{\joule} &= 1 \si{\kilogram} \frac{\si{\meter^2}}{\si{\second^2}} \label{con:joule}
+		1 \si{\tesla} &= 1 \frac{\si{\volt \second}}{\si{\meter^2}} \label{con:tesla} \text{  and} \\
+		1 \si{\joule} &= 1 \si{\kilogram} \frac{\si{\meter^2}}{\si{\second^2}} \label{con:joule} \textbf{.}
 	\end{align}
-	Using these units leads to the following:
+	This allows for the following derivation steps: 
 	\begin{align} \label{pma:unitHand}
-		\left[M_y\right] &\overset{!}{\hat{=}} \left[\mu_B \left\|e\right\| \tau m \alpha \left(\hat{z} \times \mathbf{E}\right)_y\frac{1}{2 \pi \hbar^2}\right] \notag\\
+		\left[M_y\right] &\overset{!}{\hat{=}} \left[\mu_B |e| \tau m \alpha \left(\hat{z} \times \mathbf{E}\right)_y\frac{1}{2 \pi \hbar^2}\right] \notag\\
 		\si{\ampere} &\overset{!}{\hat{=}} \si{\frac{\joule}{\tesla} \cdot \ampere \second \cdot \second \cdot \kilogram \cdot \frac{\meter}{\second} \cdot \frac{\volt}{\meter} \cdot \frac{1}{\joule^2 \second^2}} \notag\\
-		& \text{now use \autoref{con:tesla}:}\\
+		& \text{now use \autoref{con:tesla}:} \notag\\
 		\si{\ampere} &\overset{!}{\hat{=}} \si{\frac{\joule \meter^2}{\volt \second} \cdot \ampere \second \cdot \second \cdot \kilogram \cdot \frac{\meter}{\second} \cdot \frac{\volt}{\meter} \cdot \frac{1}{\joule^2 \second^2}} \notag\\
 		\si{\ampere} &\overset{!}{\hat{=}} \si{\frac{\joule \meter^2}{\volt \second} \cdot \ampere \second \cdot \second \cdot \kilogram \cdot \frac{\meter}{\second} \cdot \frac{\volt}{\meter} \cdot \frac{1}{\joule^2 \second^2}} \notag\\
 		\si{\ampere} &\overset{!}{\hat{=}} \si{\ampere \frac{\kilogram \meter^3 \second^2}{\joule \second^4 \meter}} \notag\\
@@ -1119,12 +1245,10 @@ listname=Table Index
 		\si{\ampere} &\overset{!}{\hat{=}} \si{\ampere} \ \ \text{ verifies unit consistency}
 	\end{align}
 	If $\left[\alpha\right] = \mathrm{eV}\si{\angstrom} \overset{!}{\hat{=}} \si{\joule \meter}$ as stated in \citetitle{paper1_Gaiardoni_2025} \autocite{paper1_Gaiardoni_2025}, and additional $\frac{1}{\hbar}$ correction is needed, resulting in $\left[\frac{\alpha}{\hbar}\right] \overset{!}{\hat{=}} \si{\frac{\joule \meter}{\joule \second}} \overset{!}{\hat{=}} \si{\frac{\meter}{\second}}$.
-	
-	The tool not being called for the LDR magnetization formula is likely due to the formula requiring the same correction factor as the HDR magnetization. For the anisotropic and Out-of-Plane susceptibility, the absence of the dimensional analysis tool being invoked might be due to the \gls{Agent}'s inability to come up with a proper unit system in the first place.
-	
-	\paragraph{Parameter Suggestions}
-	For each parameter the Task lists its range, a specific suggestion, and a justification for the range and suggestion are provided. The justification for the effective mass $m$ and the Rashba coupling strength $\alpha$ include a source backing the suggestion. There are two different unit suggestions for the effective mass, the first is to use $0.13 \frac{1}{\mathrm{eV} \si{\angstrom^2}}$, the second one to use \si{9,11 \cdot 10^{-31} \kilogram}. The final parameter suggestions is:
-	\begin{tcolorbox} [enhanced, breakable, title=Parameter suggestions for the implementation, colback=blue!5!white, colframe=blue!75!black] \label{pma:suggParams}
+
+	\subsubsection{Suggested Parameters} \label{appendix:paramSug}
+	For each parameter the Task lists its range, a specific suggestion, and a justification for its choice. Some of the justifications include sources backing them, this is the case for the effective mass $m$ and the Rashba coupling strength $\alpha$. There are two different unit suggestions for the effective mass, with the first one being $0.13 \frac{1}{\mathrm{eV} \si{\angstrom^2}}$, while the second is \si{9,11 \cdot 10^{-31} \kilogram}. The final parameter suggestions is the following:
+	\begin{tcolorbox} [enhanced, breakable, title=Parameter suggestions for the implementation, colback=blue!5!white, colframe=blue!75!black] 
 		\begin{tabular}{l c c c p{6cm}}
 			\textbf{Parameter} & \textbf{Symbol} & \textbf{Value} & \textbf{Units} & \textbf{Physical Source} \\
 			\midrule
@@ -1142,100 +1266,21 @@ listname=Table Index
 			\item \textbf{Ast, C. R. et al.} \textit{Phys. Rev. Lett.} \textbf{98}, 186807 (2007). (Giant Rashba splitting on Bi/Ag surface, $\alpha \sim 3$ eV$\cdot\mathring{A}$).\\
 			\item \textbf{Ben Shalom, M. et al.} \textit{Phys. Rev. Lett.} \textbf{105}, 206801 (2010). (Tunable $\alpha$ and $E_F$ in LAO/STO).
 		\end{enumerate}
-	\end{tcolorbox} The full report is accessible via GitHub \autocite{gitParams}
-	
-	With the exception of the Rashba coupling strength and the effective mass, the suggested parameters are in line with the previous findings. The suggestion for the effective mass $m$ to be in $\frac{1}{\mathrm{eV} \si{\angstrom^2}}$ is justified by working in atomic units. Contradicting the behaviour of the Task definition, the suggested unit for the Rashba coupling strength $\alpha$ of $\frac{\si{\meter}}{\si{\second}}$ is not adopted, instead the suggested parameter is in $\mathrm{eV}$\si{\meter}. As discussed in \autoref{pma:unitHand}, this choice requires an additional correction of $\frac{1}{\hbar}$ to the formula for the magnetization. It appears to be that the Task relies on the parameters found other sources but is unable to adapt them to the corrected units.
-	
-	Regarding the stated sources, the first one could not be found, suggesting it does not exists and therefore is a hallucination. The second and third sources are valid and can be found under \autocite{param2_PhysRevLett.98.186807} and \autocite{param3_PhysRevLett.105.206401}.
-
-	\paragraph{Simulation}
-	The two simulation Tasks create two functionally identical files with only minor differences regarding comments. On execution the code calculates the Rashba effect induced change of the minimum energy $E_R$. It is compared to the Fermi energy to determine if the system is in the high density regime (HDR) or low density regime (LDR), with the Fermi energy being higher than $E_R$ indication the HDR. The code's output is a graphic showing various dependencies for the Rashba effect. The unmodified code is available at \autocite{gitImp}, the corrected version at \autocite{gitCor}.
-	
-	The code uses the Rashba coupling strength in \si{\joule \meter}, but does not apply the necessary correction of $\frac{1}{\hbar}$ (see \autoref{pma:unitHand}). Therefore, the initial results are off by this factor, giving a magnetization $M_y$ in the range of $10^{-44}$ $\frac{\si{\ampere}}{\si{\meter}}$. The unit for the magnetization is also incorrect; as stated in \autoref{pma:unitHDR}, it should be \si{\ampere}. To obtain more meaningful results, the following modifications are applied by hand:
-	\begin{itemize}
-		\item the magnetization formulas for both HDR and LDR got an additional $\frac{1}{\hbar}$
-		\item the axis labels for the unit of the magnetization $M_Y$ where changed to Am\^/m\^2
-		\item the axis labels for the unit of the Rashba coupling strength $\alpha$ where changed fixed from eV$\cdot$$\backslash$AA to eV$\cdot$$\backslash$A
-	\end{itemize}
-	Applying these changes yields the following output graphic:
-	\begin{figure}
-		\centering
-		\includegraphics[width = \textwidth]{data/example/figSim.png}
-		\caption{Output of the Physics Modelling Assistant's simulations after the correction where applied.}
-		\label{fig:simFig}
-		\figentry{Simulation Output}
-	\end{figure}
-	
-	The simulation implements the model according to the units used for the suggested starting parameters (see \autoref{pma:suggParams}) instead of the units stated by the \autoref{pma:unitCheck}. Therefore, manual corrections are required to obtain a more realistic result. Since the implementation Task produces error free code, the following correction Task does not need to make any fixes. However, the general coding style is not suited well for investigating the LDR, due to all plots being implemented statically, meaning they do not adapt to a single global change of the Rashba coupling strength or the Fermi energy.
-	
-	\paragraph{Final Answer}
-	The final output mostly reiterates the extracted information (see \autoref{pma:extrInfo}). The full Markdown report is available at \autocite{gitFin}.
-	
-	Since no specific output format is given and no concrete calculations are requested, the Task is not necessary to this run of the Physics Modelling Assistant.
-	
-	\subsubsection{Discussion of the Results from the Example Run}
-	In its current configuration the Physics Modelling Assistant properly finds related sources from arXiv for the given input. It extracts relevant information and is able to apply unit corrections to extracted formulas. Failures occur when finding realistic starting parameters and implementing the extracted formulas, with the identified unit corrections not being considered. The final Task providing an answer to the input is only relevant if a concrete question is given, not for a broad modelling request. 
-	
-	Future modifications should address the system not acknowledging the units it proposes. The desired behaviour might be achieved by specifying that the responsible Task accepts the units stated by previous step.
-
-	\begin{tcolorbox}[enhanced, breakable, title=Analytical Magnetization, colback=blue!5!white, colframe=blue!75!black] \label{pma:suscept}
-		Inhalt...
 	\end{tcolorbox}
+	The full report is accessible via GitHub \autocite{gitParams}.
 	
-	\subsection{Evaluation of the Physics Modelling Assistant}
-	\subsubsection{Issues Encountered during the Generation}
-	The most common reason for failures is the API rate limit of SAIA \autocite{saiaModels} being exceeded, resulting in a 429 error code. Rarely the \gls{context-window} of a \gls{LLM} is exceeded, resulting in the run to fail. Lastly, the adoption of the output format is inconsistent. As stated in \autoref{subsub:outputBackticks}, the backticks and the work \enquote{python} needed to be removed, which is accomplished via an automated script. However, some results include additional descriptions not marked as comments before the output format is adapted, requiring further post generation correction to establish the proper format. On a few occasions, the output format is not adapted at all with only markdown like description being returned. If the post processing is unable to obtain the correct output format, the challenge is retried.
-		
-	\subsubsection{Benchmarking Results for the Default Setup}
-	Three independent generation runs are conducted and evaluated. The CritPt evaluation returns the following accuracies: \si{2,86 \percent}, \si{toBeObtained\percent}, \si{toBeObtained\percent}.
+	The first of the stated resources could not be found, it is likely a mix-up of multiple others. The second and third sources are valid and can be found under \autocite{param2_PhysRevLett.98.186807} and \autocite{param3_PhysRevLett.105.206401}.
 	
-	Results are better or worse than individual models results? if Better: combining yields positive effect; if same: no positive effect => better to just use individual models
+	\subsubsection{Implementation and Simulation} \label{appendix:impl}
+	The two simulation Tasks create two functionally identical files with only minor differences regarding comments. On execution the code calculates the Rashba effect induced change $E_R$ of the minimum energy. It is compared to the Fermi energy to determine if the system is in the high density regime (HDR) or low density regime (LDR), with the Fermi energy being higher than $E_R$ indication the HDR. The code's output is a graphic showing various dependencies for the Rashba effect. The unmodified code is available at \autocite{gitImp}. It is executable but requires some corrections.	
+	The code uses the Rashba coupling strength in \si{\joule \meter}, but does not apply the necessary correction of $\frac{1}{\hbar}$ (see \autoref{appendix:unitVer}). Therefore, the initial results are off by this factor, with a magnetization $M_y$ in the range of $10^{-44}$ $\frac{\si{\ampere}}{\si{\meter}}$. The unit for the magnetization is also incorrect; as stated in \autoref{appendix:unit}, it should be \si{\ampere}. To obtain more meaningful results, the following modifications are applied by hand:
+	\begin{itemize}
+		\item the magnetization formulas for both HDR and LDR get an additional $\frac{1}{\hbar}$ factor,
+		\item the axis labels for the unit of the magnetization $M_y$ is changed to Am\^/m\^2,
+		\item the axis labels for the unit of the Rashba coupling strength $\alpha$ is fixed from eV$\cdot$$\backslash$AA to eV$\cdot$$\backslash$A.
+	\end{itemize}
+	The resulting graphic is shown in \autoref{fig:simFig}. At \autocite{gitCor} the corrected code is provided.
 	
-	\subsubsection{Benchmarking Results when Using DeepSeek V4 Flash 0731}
-	For the Crew using DeepSeek V4 Flash 0731 instead of Qwen3.6 27B for the information extraction Task (see \autoref{par:infoExtr}), the following accuracies are achieved: \si{toBeObtained\percent}, \si{toBeObtained\percent}, \si{toBeObtained\percent}.
-	
-	If Better,Worse,Same as default
-	=> longer context window superior, extraction capabilites more important than how much content is available, model choice not particularity important
-	
-	\subsubsection{Benchmarking Results without Accessing External Sources}
-	For the Physics Modelling Assistant not using external information, the following accuracies are measured: \si{toBeObtained\percent}, \si{toBeObtained\percent}, \si{toBeObtained\percent}.
-	
-	Worse: models benefit from information: either data leackage from CritPt or less powerful models do not have enough information available
-	Same: answers to CritPt challenges not publicly available, as stated by developers.
-	
-	\subsection{General Discussion of Benchmarking Results}
-	For the benchmarking asking for specific results, the parameter suggestion and the implementation do not contribute to the output in a meaningful way. Instead, the modelling Task executes the necessary derivations and calculations required by the challenge. This points to the Physics Modelling Assistant's design not being optimized for this benchmark. Instead, its setup is more suitable to work on a broader modelling request as stated in \autoref{subsub:exRun}.
-	
-	which PMA setup performs best; does PMA outperform individual models
-	
-	More runs needed for proper evaluation, CritPt uses average over 5 runs to evaluate models
-	Therefore, most results are inconclusive and require more runs
-	
-	Runs take very long time, between 15 min and hour. This is due to stronger models being used. Early test runs weaker models took less time. SAIA rate limits did not allow for generation to run continuously
-	
-	\FloatBarrier
-	\pagebreak
-	\section{Conclusion and Future Work}
-	- does the PMA perform better than its individual models: ?\\
-	If yes: align with effect shown for physics-intern, improving performance for various models by up to 80 percent\\
-	If no: similar effects to physics- intern could not be shown.
-	
-	Regardless: testing models used for Physics Intern on Physics Modelling Assistant and wise versa: This should give insight into the usefulness of the Physics Modelling Assistant's architecture.
-	
-	Future research may include a variety of tests regarding the Physics Modelling Assistant's configurations. Instead of providing an arXiv search, a physics textbook is provided, giving access to a more foundational knowledge base instead of published research, which most often does not cover standard knowledge. Since a textbook most certainly exceeds the \gls{context-window} of the \gls{LLM}s considered so far, a different provider would be required for this research. Altering the maximum number of iterations and reasoning attempts can provide insight into the effect of these influenced processes. The general assumption is, that reasoning and reiterations improve performance, a structured research can provide statistical results for how the performance scales for both settings.
-	
-	To use the Physics Modelling Assistant effectively in scientific work, improvements are necessary. The instructions regarding the model's implementation need to be refined, requesting a generalised result, which can be adapted to investigate different setups of the crafted model. For further improvements architectural changes enabling feed back loops, and dynamically assigning Tasks to specialized \glspl{Agent} might be required. These changes would adapt common architectures from other \gls{Agentic AI} systems like the \enquote{physics-intern} \autocite{pIntern} or \enquote{SciSciGPT} \autocite{sciSci}, which use feedback loops as integral part of their systems. Within the CrewAI framework, feedback loops can be implemented via Flows \autocite{crewaiFlow}, utilizing required a significant expansion to the state of the Physics Modelling Assistant, with Flows expanding the Crew \autocite{crewPy} based design. Changes to the discussed setup should generally be considered, regarding the redundancy of the second simulation implementation step. Dynamically deciding which \glspl{Agent} to call should also improve the adaptability of the system regarding different types of input, with a dynamical setup able to omit specific \glspl{Agent} not needed to answer a concrete challenge or implement a broad model based on existing information.
-	
-	In its current state, the Physics Modelling Assistant is useful more as prototype than a helpful assistant for a human scientist. The design process and its result provide some insight into the design of \gls{Agentic AI} systems, pointing to the importance of a feedback architecture as the results from \citeauthor{orchStyles} \autocite{orchStyles} suggest. I believe the simple design is a good starting point for systematically investigating the influence of parameters on systems combining multiple \glspl{LLM}. By implementing a pipeline architecture it provides an interesting addition to the current landscape of \gls{Agentic AI} frameworks for science, allowing future work to compare the different architectures in more detail.
-	
-	Beyond the results presented so far, working on this project provided me with valuable insight into the field of \gls{AI} and especially \gls{Agentic AI}. This Bachelor's Thesis work has strengthened my interest to further explore the field of \gls{AI} systems. 
-
-	\FloatBarrier
-	\pagebreak
-	%\nocite{*}
-	\printbibliography
-	\pagebreak
-	\section{Appendix}
 	\pagebreak
 	\raggedbottom
 	\section{Declaration of authorship}
@@ -1254,9 +1299,13 @@ listname=Table Index
 	\section{Acknowledgement}
 	The authors gratefully acknowledge the computing time granted by the KISSKI project. The calculations for this research were conducted with computing resources under the project 9e28b773-a710-4a17-a242-523e92c812de.
 	
-	I want to express my gratitude to Professor Schröter for the opportunity to write my Bachelors Thesis under his supervision and his valuable suggestions regarding the direction of my work. My sincere thanks goes to my second supervisor, Professor Lounis, for his valuable feedback for my Thesis, especially regarding his suggestions on designing the unit check. I greatly appreciate the feedback of Moritz Winterott regarding the design process as well the proofreading of this Thesis.
+	I want to express my gratitude to my supervisor, Professor Schröter, for the opportunity to write my Bachelors Thesis under his supervision and his valuable suggestions regarding the direction of my work.
 	
-	I want to thank my parents for supporting me throughout my studies and I want to express my appreciation to my girlfriend being with me through all frustrations, confusions, and delights experienced in the process.
+	My sincere thanks goes to my second supervisor, Professor Lounis, for his valuable feedback regarding my Bachelor's Thesis, especially for his suggestions on how to design the unit check.
+	
+	I greatly appreciate the feedback received from Moritz Winterott regarding the design of the Physis Modelling Agent as well as his proofreading of my Thesis.
+	
+	Lastly, want to thank my parents for supporting me throughout my studies, and my girlfriend for proofreading my Thesis as well as taking the time to listen to my confusions and successes encountered.
 		
 		
 \end{document}
