@@ -41,11 +41,12 @@ def remove_non_python(path : str) -> None:
         if "generated_code" in data and len(data["generated_code"]) > 0:
             data["generated_code"] = replacing(data["generated_code"])
 
-        if "messages" in data and len(data["messages"]) > 0:
+        # this is not necessary for the benchmarking
+        """ if "messages" in data and len(data["messages"]) > 0:
             messages = data["messages"]
             # Check if the first message is from the user
             if "content" in messages[0]:
-                messages[0]["content"] = replacing(messages[0]["content"])  # If the content does not contain "python", remove the file
+                messages[0]["content"] = replacing(messages[0]["content"])  # If the content does not contain "python", remove the file """
 
         json.dump(data, file.open("w"), indent=2)  # Write the modified JSON back to the file
 
