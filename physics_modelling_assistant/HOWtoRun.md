@@ -67,12 +67,12 @@ chmod +x runAllSequence.sh
 ./runAllSequence.sh
 
 # establish the required format for the CritPt generations; works on results/generation
-# run from the CritPt directory
-python .\modifyOutputToMatchFormat.py
+# run from the CritPt directory; use utf-8 due to the special characters in the output
+python -X utf-8 -m modifyOutputToMatchFormat
 
 # run evaluation of the generated code
 # inside CritPt directory on an active venv
-python -m evaluate_all_results --api-key YOURAPIKEY --results-dir resultsNAME/generations
+python -m evaluate_all_results --api-key YOURAPIKEY --results-dir resultsNAME/generations --output-dir resultsNAME/evaluations
 
 # for windows powershell, use the following command to check rate limits (linux command on GWDG webpage for SAIA):
 - chat-ai.academiccloud.de

@@ -1,6 +1,6 @@
 $CONFIG = ".config/pma.json"
 
-$myList = @(20,25) # all deepSeek
+$myList = @(20,25,51,52,65,66,67,68,69,70) # all deepSeek
 foreach ($i in $myList) {
 
     Write-Host "Running challenge $i"

@@ -340,13 +340,13 @@ Use server startup parameters to control batch size and concurrency.
         print(f"\nError: {e}")
         import traceback
         traceback.print_exc()
-        import requests
-        requests.post(os.getenv("DISCORD_WEBHOOK_URL"), json={"content": "Your Python script has finished!"})
+        """ import requests
+        requests.post(os.getenv("DISCORD_WEBHOOK_URL"), json={"content": "Your Python script has finished!"}) """
         sys.exit(1)
 
 
 if __name__ == "__main__":
     main()
     # a nice touch to get notified to discord
-    import requests
-    requests.post(os.getenv("DISCORD_WEBHOOK_URL"), json={"content": "Your Python script has finished!"})
+    """ import requests
+    requests.post(os.getenv("DISCORD_WEBHOOK_URL"), json={"content": "Your Python script has finished!"}) """

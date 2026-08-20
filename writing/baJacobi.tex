@@ -118,9 +118,10 @@
 
 %MATH AND UNITS
 %general math packages
+\usepackage{mathtools} % loads amsmath + fixes + extras % needs to be loaded before
 \usepackage{unicode-math}
 \setmathfont{Latin Modern Math}
-\usepackage{mathtools} % loads amsmath + fixes + extras
+
 %\usepackage{amssymb}
 \usepackage{physics2} % drivatives, bra/ket % should no omit \qty
 \usepackage{nicefrac} % inline fractions
@@ -384,7 +385,7 @@ listname=Table Index
 \newglossaryentry{LLM}{name=LLM, description={Large Language Model}}
 \newglossaryentry{token}{name=token, description={the input for a \gls{LLM}'s transformation function}, plural=tokens}
 \newglossaryentry{Agentic AI}{name={Agentic \gls{AI}}, description={an \gls{AI} system with enhanced capabilities (\autoref{subsub:Agentic})}}
-\newglossaryentry{context-window}{name={context-window}, description={a size describing how many previous output \glspl{token} a \gls{LLM}} can take into consideration}
+\newglossaryentry{context-window}{name={context-window}, description={a size describing how many \glspl{token} a \gls{LLM}} can handle at once}
 \newglossaryentry{logit}{name=logit, description={a \gls{LLM}'s output for every \gls{token} indicating how well it is suited to be the next \gls{token}. Larger values indicate a better fit. \autocite[p.~4]{llmDetail}}, plural=logits}
 \newglossaryentry{Agent}{name=Agent, description={a singular \gls{AI} system which is commonly part of an \gls{Agentic AI} system}, plural=Agents}
 \newglossaryentry{API key}{name={API key}, description={application programming interface key; a unique and secret identifier granting access to a service}, plural={API keys}}
@@ -411,18 +412,18 @@ listname=Table Index
 	\endgroup
 	\pagebreak
 	\section{Introduction}
-	Artificial Intelligence can be of great assistance in scientific research \autocite{aiHistWang}. As shown by \citeauthor{aiUseStat} \autocite{aiUseStat}, researchers in natural science are among the groups most familiar with \gls{AI} compared to other scientists. There is a wide range of applications, stretching from finding sources in the literature to aiding in the presenting research findings. \gls{AI} can be useful for forming hypothesis and evaluating them by designing and controlling practical experiments and aiding during simulations, especially with the program implementation. \autocite{aiHistWang}
+	Artificial Intelligence can be of great assistance in scientific research \autocite{aiHistWang}. As shown by \citeauthor{aiUseStat} \autocite{aiUseStat}, researchers in natural science are among the groups most familiar with \gls{AI} compared to other scientists. There is a wide range of applications, stretching from finding sources in the literature to aiding with the presentation of research findings. \gls{AI} can be useful for forming hypothesis and evaluating them by designing and controlling practical experiments and aiding during simulations, especially with the program implementation. \autocite{aiHistWang}
 	
-	In the past two years automated \gls{Agentic AI} research pipelines where developed with the potential to improve the work with \gls{AI} in science. The first fully autonomous approach was published by \citeauthor{aiScientist} in \citedate{aiScientist} \autocite{aiScientist}, introducing a framework called \enquote{The AI Scientist} \autocite{aiScientist}. It identifies interesting research questions, plans and executes according experiments, interprets the results, and writes a paper stating its findings via a multistep process. A similar system is the \enquote{InternAgent} \autocite{internAgent}, which provides an interface for introducing human feedback into the system. This is realised by the \enquote{Orchestration Agent} \autocite{internAgent} managing how and when human input is introduced into the system. The system itself consists of the four distinct tasks of \enquote{Survey}, \enquote{Code Review}, \enquote{Assessment}, and \enquote{Idea Innovation} \autocite{internAgent}. The \enquote{Orchestration Agent} \autocite{internAgent} manages the interactions between the tasks and controls how the findings are communicated to the human researcher. This design shows some resemblance to human research groups with individuals specialized in specific aspects of the work while a supervisor coordinates the process. In tests ran by the \enquote{InternAgent} developers \autocite{internAgent}, their system was able to outperform the \enquote{AI-Scientist-V2} \autocite{aiSci2}, a successor of \enquote{The AI Scientist} \autocite{aiScientist}.
+	In the past two years automated \gls{Agentic AI} research pipelines where developed with the potential to improve the work with \gls{AI} in science. The first fully autonomous approach was published by \citeauthor{aiScientist} in \citedate{aiScientist} \autocite{aiScientist}, introducing a framework called \enquote{The AI Scientist} \autocite{aiScientist}. It identifies interesting research questions, plans and executes according experiments, interprets the results, and writes a paper stating its findings via a multistep process. A framework is the \enquote{InternAgent} \autocite{internAgent}, which consists the four distinct Tasks of \enquote{Survey}, \enquote{Code Review}, \enquote{Assessment}, and \enquote{Idea Innovation} \autocite{internAgent}. The interactions of these tasks are managed by the \enquote{Orchestration Agent} \autocite{internAgent}, which also allows for human feedback to be introduced into the system and handles how the findings of a workflow are communicated to the human scientist. This design shows some resemblance to human research groups with individuals specialized in specific aspects of the work while a supervisor coordinates the process. In tests conducted by the \enquote{InternAgent} developers \autocite{internAgent}, their system was able to outperform the \enquote{AI-Scientist-V2} \autocite{aiSci2}, a successor of \enquote{The AI Scientist} \autocite{aiScientist}.
 	
 	The work on the \enquote{InternAgent} \autocite{internAgent} also introduced tracking the cost of the AI usage during a run of the system. In this metric the \enquote{InternAgent} \autocite{internAgent} outperformed the \enquote{AI-Scientist-V2} \autocite{aiSci2} again, indicating that higher costs do not necessarily yield better results.
 
-	A less automated approach was made by \citeauthor{sciSci} with the introduction of \enquote{SciSciGPT} \autocite{sciSci}. This system is developed for Science of Science research, which is why \enquote{SciSciGPT} is equipped with data management component amongst a literature review and an analytics component. Similar to the \enquote{InterAgent}, some form of orchestrator is used. It receives the outputs of the subtasks along with an evaluation from a task designated to critique the outputs of other tasks. In contrast to the \enquote{AIScientist} \autocite{aiScientist} and \enquote{InternAgent} \autocite{internAgent}, \enquote{SciSciGPT} \autocite{sciSci} does not generate its own research ideas. Instead it responds to an input prompt, allowing for seamless integration into the work of human scientists.
+	A less automated approach was made by \citeauthor{sciSci} with the introduction of \enquote{SciSciGPT} \autocite{sciSci}. This system was developed for Science of Science research, which is why \enquote{SciSciGPT} is equipped with data management component, a literature review component, and an analytics component. Similar to the \enquote{InterAgent}, an orchestrator, which receives the outputs of the subtasks along with an evaluation provided by a task designated to critique the outputs of other tasks. In contrast to the \enquote{AIScientist} \autocite{aiScientist} and \enquote{InternAgent} \autocite{internAgent}, \enquote{SciSciGPT} \autocite{sciSci} does not generate its own research ideas. Instead it responds to an input prompt, allowing for seamless integration into the work of human scientists. \autocite{sciSci}
 	
-	As of \DTMDate{2026-06-01}, the latest advancement in the field was made by \citeauthor{pIntern} presenting the \enquote{physics-intern} \autocite{pIntern}, \enquote{a multi-agent scaffolding system that takes a physics problem and works through it autonomously} \autocite[section 3]{pIntern}. Their approach is similar to previous systems, using an orchestrator to manage a research and computation component. The results are reviewed and checked against the literature, before the critique is passed to the \enquote{Strategy Planner} \autocite{pIntern}, which has access to a literature \enquote{Background Survey} \autocite{pIntern} and can adjust the orchestration strategy. This process is repeated until the review deems the result correct or the maximum number of iterations is reached. The \enquote{physics-intern} \autocite{pIntern} was able to exceed the performance of the models used for its \glspl{Agent} by over \si{75 \percent}, highlighting the potential of orchestration frameworks \autocite{pIntern}.
+	As of \DTMDate{2026-06-01}, the latest advancement in the field of automated \gls{AI} system was made by \citeauthor{pIntern} presenting the \enquote{physics-intern} \autocite{pIntern}, \enquote{a multi-agent scaffolding system that takes a physics problem and works through it autonomously} \autocite[section 3]{pIntern}. Their approach is similar to previous systems, using an orchestrator to manage a research and computation component. The results are reviewed and checked against the literature, before the critique is passed to the \enquote{Strategy Planner} \autocite{pIntern}, which has access to a literature \enquote{Background Survey} \autocite{pIntern} and can adjust the orchestration strategy. This process is repeated until the review step deems the result correct or the maximum number of iterations is reached. The \enquote{physics-intern} \autocite{pIntern} was able to exceed the performance of the underlying \gls{LLM}s used for its \glspl{Agent} by over \si{75 \percent}, highlighting the potential of orchestration frameworks \autocite{pIntern}.
 	
-	This Thesis aims to provide the foundations for an \gls{Agentic AI} system capable of assisting a human physicist in crafting models for their research work. The Physics Modelling Assistant is tasked with a physics problem or modelling request and crafts an according model along with its implementation in order to answer the request.
-	The performance of the system is measured on a state of the art benchmark to provide insight into its capabilities. In contrast to the \enquote{physics-intern} \autocite{pIntern}, the Physics Modelling Assistant uses comparably weaker models, aiming to explore if improvements similar to the \enquote{physics-intern}'s \autocite{pIntern} can be achieved. The influence of various system configurations on performance is investigated, with focus on the influence of external information. With this work I want to contribute to a better understanding of \gls{Agentic AI}'s parameters and a more efficient use of \gls{AI} systems in scientific research.	
+	This Thesis aims to provide the foundations for an \gls{Agentic AI} system capable of assisting a human physicist in crafting models for their research work. The developed system, called \enquote{Physics Modelling Assistant}, can be tasked with a physics problem or modelling request and crafts an according model along with its implementation in order to answer the request.
+	The performance of the system is measured on a state of the art benchmark to provide insight into its capabilities. In contrast to the \enquote{physics-intern} \autocite{pIntern}, the Physics Modelling Assistant mostly uses weaker \gls{LLM}s, aiming to explore if improvements similar to the \enquote{physics-intern}'s \autocite{pIntern} can be achieved. The influence of various system configurations on the performance is investigated, with focus on the provided external information. With this work I aim to contribute to a better understanding of the design principles underlying \gls{Agentic AI} and how such systems can be used more efficient in scientific research.	
 	\FloatBarrier
 	\pagebreak
 	\section{Theoretical Foundations}
@@ -432,23 +433,23 @@ listname=Table Index
 	
 	\subsubsection{Artificial Intelligence} \label{subsub:ai}
 	Artificial Intelligence (\gls{AI}) describes the functionality of a system. 
-	There is no universally accepted definition for \gls{AI}, so for the purpose of this Thesis, the definition from \citeauthor{russell2023} \autocite[p.~22-26]{russell2023} is used. They describe \gls{AI} as being a \enquote{rational actor (rational agent), which acts in a way that achieves the best result based on the expectation of what the result should be} (\autocite[p,~26]{russell2023}, translated). This definition accounts for the uncertainty regarding the goal an \gls{AI} system should work towards, but also allows for a variety of systems to be considered \gls{AI}. Technically, every PID-controller and data processing software - see the work of \citeauthor{diplom} \autocite{diplom} for example - could be considered an \gls{AI} systems. However, this are not what is referred to as \gls{AI} throughout this Thesis, instead the term describes \gls{AI} systems based on deep learning and natural language processing (see \autocite{aiHist_11202920}) as they are developed since the 2010s.
+	There is no universally accepted definition for \gls{AI}, so for the purpose of this Thesis, the definition from \citeauthor{russell2023} \autocite[p.~22-26]{russell2023} is used. They describe \gls{AI} as being a \enquote{rational actor (rational agent), which acts in a way that achieves the best result based on the expectation of what the result should be} (\autocite[p.~26]{russell2023}, translated). This definition accounts for the uncertainty regarding the goal an \gls{AI} system should work towards, but also allows for a variety of systems to be considered \gls{AI}. Technically, every PID-controller and data processing software - see the work of \citeauthor{diplom} \autocite{diplom} for example - could be considered an \gls{AI} systems. However, these systems are not what is referred to as \gls{AI} throughout this Thesis, instead the term describes \gls{AI} systems based on deep learning and natural language processing (see \autocite{aiHist_11202920}) as they are developed since the 2010s.
 	
 	\subsubsection{Large Language Model} \label{subsub:llm}
 	At its core a Language Model is a \enquote{Transformer Language Model} \autocite{zhao2026surveylargelanguagemodels} as described by \citeauthor{zhao2026surveylargelanguagemodels}. It operates on small words or parts of words, which are called \glspl{token}.
 	
-	When a \gls{LLM} receives an input string, it divides it into \glspl{token} and feeds these into the transformation function. Based on these input \glspl{token} and the previous output \glspl{token}, the model calculates the most likely next output \gls{token}. The number of \glspl{token} a model can see, and therefore consider, is limited; the limit is called the \gls{context-window} of the model \autocite{howLLMwork}. The final result of the \gls{LLM} is its calculation for most likely sequence of output \glspl{token} given the provided input, which means, it provides the best result for the given goal, thereby fulfilling the definition of \gls{AI} (see \autoref{subsub:ai}). The process of developing capable \gls{LLM}s is beyond this Bachelor's Thesis.
+	When a \gls{LLM} receives an input string, it divides it into \glspl{token} and feeds them to the transformation function. Based on these input \glspl{token} and the previous output \glspl{token}, the model calculates the most likely next output \gls{token}. The number of \glspl{token} a model can see, and therefore consider, is limited; the limit is called the \gls{context-window} of the model \autocite{howLLMwork}. The final result of the \gls{LLM} is its calculation for the most likely sequence of output \glspl{token} based on the given input, which means, it provides the best result for the given goal, thereby fulfilling the definition of \gls{AI} (see \autoref{subsub:ai}). The process of developing capable \gls{LLM}s is beyond this Bachelor's Thesis.
 	
 	The distinction between Language Models and Large Language Models is in the number of internal parameters a model has. As stated in \citetitle{zhao2026surveylargelanguagemodels} \autocite{zhao2026surveylargelanguagemodels}, there is no hard cut-off for a Language Models to be considered Large. Commonly, models which are considered Large Language Models have $\geq 10 \cdot 10^{9}$ parameters \autocite{zhao2026surveylargelanguagemodels}.
 	
 	\subsubsection{Agentic \gls{AI}} \label{subsub:Agentic}
-	As described by \citeauthor{agenticAiDefinitions}, Agentic \gls{AI}s are \enquote{autonomous, goal-driven systems that can operate on their own for long periods, requiring minimal human supervision} \autocite[section:3. Results]{agenticAiDefinitions}. In order to achieve this behaviour, these systems combine abilities which are beyond \gls{LLM}s. \citeauthor{agenticAiDefinitions} highlight the \enquote{strategic planning} \autocite[section:3. Results]{agenticAiDefinitions} capabilities, the preservation of the tasks context over time \autocite{agenticAiDefinitions}, the usage of \enquote{external tools to extend [the systems] capabilities} \autocite{agenticAiDefinitions} and the collaboration of individual Agents (this means \gls{AI}-systems) with other Agents. \autocite{agenticAiDefinitions}
+	As described by \citeauthor{agenticAiDefinitions}, Agentic \gls{AI}s are \enquote{autonomous, goal-driven systems that can operate on their own for long periods, requiring minimal human supervision} \autocite[3. Results]{agenticAiDefinitions}. In order to achieve this behaviour, these systems combine abilities which are beyond \gls{LLM}s. \citeauthor{agenticAiDefinitions} highlight the \enquote{strategic planning} \autocite[3. Results]{agenticAiDefinitions} capabilities, the preservation of the task's context over time \autocite{agenticAiDefinitions}, the usage of \enquote{external tools to extend [the systems] capabilities} \autocite[3. Results]{agenticAiDefinitions} and the collaboration of individual Agents (this means \gls{AI}-systems) with other Agents. \autocite{agenticAiDefinitions}
 	
 	\subsection{Decoding the Output of \gls{LLM}s}
 	In \autoref{subsub:llm}, \gls{LLM} is defined based on the functionality it provides. In order to understand how the behaviour of \gls{LLM}s can be modified, a more formal definition is given, based on the work of \citeauthor{llmDetail} in \citetitle{llmDetail} \autocite{llmDetail}.
 	
 	\subsubsection{\gls{LLM} as a Function which Assigns Probabilities} \label{subsub:contextWindow}
-	A \gls{LLM} can be described as a function $f$ with internal parameters $\theta$. Additionally, $f$ takes a set of input \gls{token} $v_{in} = (i_1, ..., i_N)$, where $N \in \mathbb{N}$ is the number of input \glspl{token}, and a set of previous output \glspl{token} $v_{out,prev} = (o_{-1}, ..., o_{-M})$, where $M \in \mathbb{N}$ is the number of previous output \glspl{token} considered. The function $f(\theta, v_{in}, v_{outp,prev})$ assigns a probability $s(v)$ to every \gls{token} $v \in \mathcal{V}$, where $\mathcal{V}$ is the vocabulary of \glspl{token} known to the \gls{LLM}:
+	A \gls{LLM} can be described as a function $f$ with internal parameters $\theta$. Additionally, $f$ takes a set of input \glspl{token} $v_{in} = (i_1, ..., i_N)$, where $N \in \mathbb{N}$ is the number of input \glspl{token}, and a set of previous output \glspl{token} $v_{out,prev} = (o_{-1}, ..., o_{-M})$, where $M \in \mathbb{N}$ is the number of previous output \glspl{token}. The function $f(\theta, v_{in}, v_{outp,prev})$ assigns a probability $s(v)$ to every \gls{token} $v \in \mathcal{V}$, where $\mathcal{V}$ is the vocabulary of \glspl{token} known to the \gls{LLM}:
 	\begin{equation}
 		f(\theta, v_{in}, v_{outp,prev}) = \begin{pmatrix}
 			s(v'_1) \\
@@ -456,37 +457,37 @@ listname=Table Index
 			s(v'_Z)
 		\end{pmatrix} = s(v) \ \ \ \ \text{where $Z$ is the size of the vocabulary $\mathcal{V}$} \label{LLM as function}
 	\end{equation}
-	$v'_i$ with $i \in [1,Z] \subset \mathbb{N}$ is an element from the ordered set of $\mathcal{V}'$, which allows to map the rows of the probability matrix $s(v)$ to the \glspl{token} of the vocabulary.
-	The probability indicates how well a \gls{token} is suited to be the next output \gls{token} \autocite[p.~4]{llmDetail}. The probabilities $s(v_i')$ are called \enquote{\glspl{logit}} \autocite[p.~4]{llmDetail}, they are not normalized by default and larger values of a \gls{logit} signal a better fit for the corresponding \gls{token} to be the next output \gls{token}.
+	$v'_i$ with $i \in [1,Z] \subset \mathbb{N}$ is an element from the ordered set $\mathcal{V}'$, which allows to map the rows of the probability matrix $s(v)$ to the \glspl{token} of the vocabulary.
+	The probability indicates how well a \gls{token} is suited to be the next output \gls{token} \autocite[p.~4]{llmDetail}. The probabilities $s(v_i')$ are called \enquote{\glspl{logit}} \autocite[p.~4]{llmDetail}, they are not normalized by default and larger values of a \gls{logit} signal a better fit for the corresponding \gls{token} to be the next output \gls{token}. \autocite{llmDetail}
 	
 	The \gls{LLM} by itself outputs a probability distribution including every \gls{token} from its vocabulary. To choose a \gls{token} based on this probability distribution, \citeauthor{llmDetail} state that the following optimization problem needs to be solved, they label it the \enquote{MASTER PROBLEM} \autocite[p.~5]{llmDetail}:
 	\begin{equation}
-		q^*= \mathrm{arg}\max_{q \in \Delta(\mathcal{V})} \left[\underbrace{\langle q, s \rangle}_{\sum_{v \in \mathcal{V}} q(v) \cdot s(v)} - \lambda \Omega(q)\right] \label{masterProblem}
+		q^*= \mathrm{arg}\max_{q \in \Delta(\mathcal{V})} \left[ \underbrace{{\langle q, s \rangle}}_{\sum_{v \in \mathcal{V}} q(v) \cdot s(v)} - \lambda \Omega(q)\right] \label{masterProblem}
 	\end{equation}
 	The used quantities are:
 	\begin{itemize}
-		\item $q^*$ is the probability distribution maximizing \autoref{masterProblem}
-		\item $\Delta (\mathcal{V})$ is the set of all possible probability distributions
-		\item $q$ is a single probability distribution for a given vocabulary $\mathcal{V}$
-		\item $s$ is the initial vector of \glspl{logit} the \gls{LLM} produces
-		\item $\Omega(q)$ is a regularisation function, which can push $q^*$ towards a certain distribution
-		\item $\lambda$ is the strength of the regularisation function, with $\lambda \geq 0$
+		\item $q^*$ is the probability distribution maximizing \autoref{masterProblem},
+		\item $\Delta (\mathcal{V})$ is the set of all possible probability distributions,
+		\item $q$ is a single probability distribution for a given vocabulary $\mathcal{V}$,
+		\item $s$ is the initial vector of \glspl{logit} the \gls{LLM} produces,
+		\item $\Omega(q)$ is a regularisation function, which can push $q^*$ towards a certain distribution,
+		\item $\lambda$ is the strength of the regularisation function, with $\lambda \geq 0$.
 	\end{itemize}
-	There are different approaches for finding $q^*$ and eventually getting a single \gls{token} from it, the once relevant to this Thesis are discussed in the following.
+	There are different approaches for finding $q^*$ and eventually getting a single \gls{token} from it, the once relevant to this Thesis are introduced in the following.
 	
 	\subsubsection{Greedy Decoding} \label{subsub:greedy}
 	This method uses no special regularisation function $\Omega(q)$, and therefore sets $\lambda=0$. This simplifies \autoref{masterProblem} to:
 	\begin{equation}
 		q^* = \mathrm{arg}\max_{q \in \Delta (\mathcal{V})}\langle q,s\rangle \label{eq:greedyDec}
 	\end{equation}
-	The resulting $q^*$ vector has all the probability mass placed on the \gls{token}, which was calculated to be most likely, while all other \glspl{token} get assigned a probability of 0. Therefore, the vector $q^*$ has value 0 in every row except the one corresponding to the most likely \gls{token}, which has probability 1. This means the next \gls{token} is always the most likely \gls{token} according to the \gls{LLM}'s calculations. If multiple \glspl{token} have the highest probability $s(v)$, a single \gls{token} is selected amongst them. \autocite[p.~10]{llmDetail}.
+	The resulting $q^*$ vector places all the probability mass placed on the \gls{token}, which was calculated to be most likely, while all other \glspl{token} get assigned a probability of 0. Therefore, the vector $q^*$ has the value 0 in every row except the one corresponding to the most likely \gls{token}, which has probability 1. This implies the next output \gls{token} is always the most likely \gls{token} according to the \gls{LLM}'s calculations. If multiple \glspl{token} have the highest probability $s(v)$, a single \gls{token} is selected amongst them. \autocite[p.~10]{llmDetail}
 	
 	\subsubsection{Softmax Decoding} \label{subsub:softmax}
-	For Softmax Decoding, the regularisation function is chosen as $\Omega(q) = - \sum_{v \in \mathcal{V}} q(v) \log(q(v))$, which is the negative entropy of $q$. Using this $\Omega(q)$ in solving \autoref{masterProblem} leads to the following optimal distribution $q^*$, where $q_t^*(v)$ is the probability per \gls{token}: \autocite[p.~10-12]{llmDetail}
+	For Softmax Decoding, the chosen regularization function is $\Omega(q) = - \sum_{v \in \mathcal{V}} q(v) \log(q(v))$, which is the negative entropy of $q$. Using this $\Omega(q)$ in solving \autoref{masterProblem} leads to the optimal distribution $q^*$, where $q_t^*(v)$ is the probability for each \gls{token}: \autocite[p.~10-12]{llmDetail}
 	\begin{equation}
 		q_t^*(v) = \frac{\exp(\frac{s(v)}{\lambda})}{\sum_{u \in \mathcal{V}}\exp(\frac{s(u)}{\lambda})}
 	\end{equation}
-	This distribution is normalised and has the parameter $\lambda$, which controls the spread of the probability distribution $q^*$. For larger values of $\lambda$, the probability is spread more evenly across all \glspl{token}, which results in previously unlikely \glspl{token} being more probable than before. When $\lambda$ becomes very small, the probability distribution is sharper, with the probability mass being concentrated more around a few \glspl{token} which already where likely before. The next output \gls{token} is selected according to the final probability distribution.
+	This distribution is normalised and uses the parameter $\lambda$, which controls the spread of the probability distribution $q^*$. For $\lambda > 1$, the probability is spread more evenly across all \glspl{token}, which results in previously unlikely \glspl{token} being more probable than before. When $\lambda < 1$, the probability distribution is sharper, with the probability mass being more concentrated around fewer \glspl{token} which already were likely before. The next output \gls{token} is selected according to the final probability distribution.
 	For the edge case $\lambda = 0$, the regularisation function is disabled (see \autoref{masterProblem}), which causes the Softmax Decoding to become Greedy Decoding (see \autoref{subsub:greedy}). \autocite[p.~10-12]{llmDetail}
 	
 	The parameter $\lambda$ is one way of controlling the general randomness of the output. In the context of \gls{LLM}s, this parameter is often associated with the creativity of a model and called \textbf{Temperature} $T$. \autocite[p.~10-12]{llmDetail}
@@ -505,20 +506,20 @@ listname=Table Index
 	From Top-k Decoding the parameter \textbf{top\_k} is derived, which can be used to shape the output of \gls{LLM}s \autocite[p.~12]{llmDetail}.
 	
 	\subsubsection{Top-p Decoding} \label{subsub:topp}
-	Top-p Decoding is another extension to Softmax Decoding (\autoref{subsub:softmax}), also selecting a subset of all \glspl{token} called $\mathcal{V}_p$ from the vocabulary $\mathcal{V}$. In contrast to Top-k Decoding (\autoref{subsub:topk}), Top-p Decoding defines a certain amount of probability $p \in \left(\right.0,1\left.\right]$, on which Softmax Decoding is performed. This is achieved by selecting the \gls{token} with the highest probability $s(v)$ from the set $\mathcal{V} \setminus \mathcal{V}_p$ and adding it to the set $\mathcal{V}_p$, thereby removing it from $\mathcal{V} \setminus \mathcal{V}_p$. This is repeated until the sum of the probabilities of all \glspl{token} $v \in \mathcal{V}_p$ exceeds the value of $p$. The probability of the \glspl{token} in $\mathcal{V}\setminus \mathcal{V}_p$ is set to $0$, while Softmax Decoding (\autoref{subsub:softmax}) is performed on the \glspl{token} in $\mathcal{V}_p$. The resulting probability distribution is (\autocite{llmDetail}):
+	Top-p Decoding is another extension to Softmax Decoding (\autoref{subsub:softmax}), also selecting a subset of all \glspl{token} called $\mathcal{V}_p$ from the vocabulary $\mathcal{V}$. In contrast to Top-k Decoding (\autoref{subsub:topk}), Top-p Decoding defines a certain amount of probability $p \in \left(\right.0,1\left.\right]$, on which Softmax Decoding is performed. This is achieved by selecting the \gls{token} with the highest probability $s(v)$ from the set $\mathcal{V} \setminus \mathcal{V}_p$ and adding it to the set $\mathcal{V}_p$, thereby removing it from $\mathcal{V} \setminus \mathcal{V}_p$. This is repeated until the sum of the probabilities of all \glspl{token} $v \in \mathcal{V}_p$ exceeds the value of $p$. The probability of the \glspl{token} in $\mathcal{V}\setminus \mathcal{V}_p$ is set to $0$, while Softmax Decoding (\autoref{subsub:softmax}) is performed on the \glspl{token} in $\mathcal{V}_p$. The resulting probability distribution is (\autocite{llmDetail})
 	\begin{equation}
 		q_t^*(v) = \begin{cases}
 			\frac{e^{\frac{s(v)}{\lambda}}}{\sum_{u \in \mathcal{V}_p}e^{\frac{s(u)}{\lambda}}} & \text{ for } v \in \mathcal{V}_p\\
 			0 & \text{ else}\\
-		\end{cases}
+		\end{cases}.
 	\end{equation}
 	For $p=1$, Top-p Decoding is equivalent to Softmax Decoding, since all \glspl{token} are included in $\mathcal{V}_p$. For $p\rightarrow 0$, only the \gls{token} with the highest probability gets a non $0$ probability, which makes this case equivalent to Greedy Decoding (see \autoref{subsub:greedy}). \autocite{llmDetail}
 	
-	Top-p Decoding allows for dynamic adaptation based on how sharp or spread out the probability distribution returned by the \gls{LLM} is. For a sharp probability distribution, only the few very likely \glspl{token} keep their calculated probabilities and Softmax Decoding (\autoref{subsub:softmax}) is performed on them. Whereas, for a flatter distribution, a higher number of \glspl{token} are included into the Softmax Decoding (\autoref{subsub:softmax}) and therefore are possible output \glspl{token}. \autocite{llmDetail}
+	Top-p Decoding allows for dynamic adaptation based on how sharp or spread out the probability distribution initially returned by the \gls{LLM} is. For a sharp probability distribution, only the few very likely \glspl{token} are selected to the set $\mathcal{V}_p$ and Softmax Decoding (\autoref{subsub:softmax}) is performed on them. Whereas, for a flatter distribution, a higher number of \glspl{token} are included into the Softmax Decoding (\autoref{subsub:softmax}) and therefore are possible output \glspl{token}. \autocite{llmDetail}
 	
-	The derived parameter is called \textbf{top\_p} and is commonly used in the field of \gls{LLM}s to modify a system's output \autocite[p.~13]{llmDetail}.
+	The derived parameter, called \textbf{top\_p}, is commonly used in the field of \gls{LLM}s to modify a system's output \autocite[p.~13]{llmDetail}.
 	
-	\subsection{Other Parameters which Can Influence an \gls{AI} System's Performance}
+	\subsection{Other Influences on an \gls{AI} System's Performance}
 	As shown by numerous benchmarks (\autocite{huggArena}, \autocite{faceLeaderBoard}), different \gls{LLM}s achieve different performances. Some of the important factors for these differences are discussed in the following.
 	\subsubsection{Selection of the \gls{LLM}}
 	One of the most noticeable differences in \gls{LLM}s is the number of internal parameters they use. The general assumption is that more parameters lead to better performance. Another important feature is the amount of data used to train a \gls{LLM}. As shown by \citeauthor{powerLaw} \autocite[p.~5]{powerLaw}, combining the number of internal parameters $N$ a model uses, and the number of \glspl{token} $D$ used in training a model can predict the \enquote{cross-entropy loss} \autocite[p.~6]{powerLaw} $L$ of a \gls{LLM}:
@@ -661,7 +662,7 @@ listname=Table Index
 		\end{tikzpicture}
 		\caption{The main steps executed during a run of a CrewAI Crew. The Crew receives an input containing various parameters specifying the Crew's behaviour. This includes a message stating what the Crew should work on, as well as parameters shaping the \gls{LLM}'s behaviour (Temperature \autoref{subsub:softmax}, top\_p \autoref{subsub:topp}), and the \gls{Agent}'s behaviour (planning before execution, how many times to rerun itself \autocite{agentCore}). The Crew is assembled by initializing all of its \glspl{Agent} and Tasks, before mapping the \glspl{Agent} to their corresponding Tasks. If there is a Task without an \gls{Agent}, the Crew produces an error and does not proceed with the execution. After the Crew is assembled correctly, it can run in a hierarchical or a sequential style. For the hierarchical execution one main \gls{Agent} calls other (Sub-)\glspl{Agent}, which can call further (Sub-)\glspl{Agent} themselves, to aid them in accomplishing their given Task (see \autoref{sub:crewAi}). During the sequential execution, the \glspl{Agent}, respectively the Tasks with their \glspl{Agent}, are executed in the order they are defined in the source code (see \autoref{sub:crewAi}).}
 		\label{fig:crewExe}
-		\figentry{CrewAI execution modes}
+		\figentry{CrewAI Execution Paths}
 	\end{figure}
 	
 	\subsection{\gls{LLM}s Used} \label{sub:LlmUsed}
@@ -675,7 +676,7 @@ listname=Table Index
 		>>   -H "Content-Type: application/json" `\\
 		>>  "https://chat-ai.academiccloud.de/v1/chat/completions"}
 		\label{tab:rateLimit}
-		\tabentry{Rate limits for the SAIA models}
+		\tabentry{Rate Limits for the SAIA Models}
 		\begin{tabular}{c 
 						S[table-format=4, round-mode=places, round-precision=0, output-decimal-marker={.}]}
 			\toprule[2pt]
@@ -701,7 +702,7 @@ listname=Table Index
 		\centering
 		\caption{Benchmarking results for the \gls{LLM}s provided by SAIA \autocite{saiaDoc}. The benchmarking results are taken from Artificial Analysis \autocite{artifAna}. The chosen benchmarks are: AA-LCR evaluating long context reasoning, GPQA Diamnond evaluating scientific reasoning, SciCode evaluating coding and science capabilities, and CritPt evaluating physics reasoning.}
 		\label{saiaModelsBench}
-		\tabentry{Benchmarking SAIA models}
+		\tabentry{Benchmarking Results of the SAIA Models}
 		\begin{tabularx}{\textwidth}{X
 				S[table-format=2, round-mode=places, round-precision=0, output-decimal-marker={.}] 
 				S[table-format=2, round-mode=places, round-precision=0, output-decimal-marker={.}] 
@@ -771,7 +772,7 @@ listname=Table Index
 		\centering
 		\caption{Default parameter settings for the Physics Modelling Assistant.}
 		\label{tab:defPar}
-		\tabentry{Default parameter setting}
+		\tabentry{Default Parameter Setting of the Physics Modelling Assistant}
 		\begin{tabularx}{\textwidth}{l c X}
 			\toprule[2pt]
 			parameter & value & justification\\
@@ -1027,7 +1028,7 @@ listname=Table Index
 		\centering
 		\caption{The accuracies (acc.) different configurations of the Physics Modelling Assistant achieved on the CritPt benchmark \autocite{critPtArx}.}
 		\label{tab:pmaBench}
-		\tabentry{Benchmarking results of the Physics Modelling Assistant}
+		\tabentry{Benchmarking Results of the Physics Modelling Assistant}
 		\begin{tabularx}{\textwidth}{X
 					S[table-format=1.2, round-mode=places, round-precision=2, output-decimal-marker={.}]
 					S[table-format=1.2, round-mode=places, round-precision=2, output-decimal-marker={.}]
@@ -1066,6 +1067,7 @@ listname=Table Index
 	\FloatBarrier
 	\pagebreak
 	%\nocite{*}
+	\addcontentsline{toc}{section}{References}
 	\printbibliography
 	\pagebreak
 	\appendix
@@ -1292,7 +1294,8 @@ listname=Table Index
 	
 	\pagebreak
 	\raggedbottom
-	\section{Declaration of authorship}
+	\section*{Declaration of authorship}
+	\addcontentsline{toc}{section}{Declaration of Authorship}
 	
 	I hereby declare that I have written this thesis independently and without unauthorized assistance.
 	
@@ -1305,7 +1308,8 @@ listname=Table Index
 	\rule{7cm}{0.4pt} \\
 	\aauthor
 	\pagebreak
-	\section{Acknowledgement}
+	\section*{Acknowledgements}
+	\addcontentsline{toc}{section}{Acknowledgements}
 	The authors gratefully acknowledge the computing time granted by the KISSKI project. The calculations for this research were conducted with computing resources under the project 9e28b773-a710-4a17-a242-523e92c812de.
 	
 	I want to express my gratitude to my supervisor, Professor Schröter, for the opportunity to write my Bachelors Thesis under his supervision and his valuable suggestions regarding the direction of my work.
