@@ -12,8 +12,8 @@ from pydantic import BaseModel, Field
 from crewai.tools import BaseTool
 
 class DimensionalAnalysisInput(BaseModel):
-    equation: str = Field(..., description="The equation to analyze, represented as a string. Do not use sympy special symbols like, 'E', 'e', 'I', 'pi', 'I'. Allowed operators: '+', '-', '*', '/', '**'. Example: 'F = m * a'.")
-    dimensions: dict[str, str] = Field(..., description="A dictionary containing variable names as keys and their corresponding dimensions as values, providing all properties in the 7 SI base units is preferred. Example: {'x': 'length', 'v': 'length/time'}.")
+    equation: str = Field(..., description="The equation to analyze, represented as a string. Do not use sympy special symbols like, 'E', 'e', 'I', 'pi', 'I'. Allowed operators: '+', '-', '*', '/', '**'. Example 1: 'F = m * a'.\n Example 2: 'U = I * R'.")
+    dimensions: dict[str, str] = Field(..., description="A dictionary mapping the used properties to their units. The units should only be base units to allow for performing algebra on them. Example 1: {'x': 'length', 'v': 'length/time'}\n .Example 2: {'U' : 'kg * m**2 / s**3 / A', 'I': 'A', 'R': 'kg * m**2 / s**3 / A**2'}")
     unitList: str = Field(..., description="A string containing all the units to be used in the analysis, separated by a specified separator. Example: 'length, time, mass'.")
     separator: str = Field(default=",", description="The separator used in the unitList string. Default is ','.")
 
@@ -31,6 +31,7 @@ class DimensionalAnalysis(BaseTool):
         dimensions (dict[str, str]): A dictionary containing variable names as keys and their corresponding dimensions as values.
 
         Returns: unit_missmatch (str): A string with the units needed to be addded to the right hand side of the equation to achieve unit consistency
+            if the units on both sides of the equation are consistent, returns '1' indicating no correction is needed.
         """
 
         #build the unit registry
@@ -46,6 +47,9 @@ class DimensionalAnalysis(BaseTool):
         # now plug the units into the equation and check if the units on both sides are the same
         equationHanderInstace : EquationHandler = EquationHandler(equation=equation, variables=allVariables)
         leftUnit, rightUnit, proposedCorrection = equationHanderInstace.check_units()
+
+        print("Tool was invoked and suggest the following correction to the equation: ", proposedCorrection)
+        input("Press Enter to continue...") # this is just for debugging, remove it later
         return proposedCorrection
 
 

@@ -102,7 +102,7 @@ class Physics_Modelling_Assistant:
             f.write(f"Execution took {finalTime - startTime} time.\n")
         print(f"Execution took {finalTime - startTime} time.")
         print(type(resultModel))
-        print(resultModel.raw) # only a string
+        print(resultModel.raw.encode("utf-8")) # only a string
         import requests
         requests.post(os.getenv("DISCORD_WEBHOOK_URL"), json={"content": "Your Python script has finished!"})
 
@@ -141,8 +141,8 @@ class Physics_Modelling_Assistant:
             previous_output = None
             print("Building model")
             resultModel = self.buildModel(aim = aim, answer_code = answer_code, outputDir = outputDir, pdfSaveDir = pdfSaveDir, previous_output = previous_output, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = reasoning, max_reasoning_attempts = max_reasoning_attempts)
-            print(resultModel.raw) # only a string
-            return resultModel.raw # only a string 
+            print(resultModel.raw.encode("utf-8")) # only a string
+            return resultModel.raw.encode("utf-8") # only a string 
 
         except Exception as e:
             logger.error("Exception repr: %r", e)
@@ -167,14 +167,14 @@ class Physics_Modelling_Assistant:
         print("Building model")
         resultModel = self.buildModel(aim = aim, answer_code = answer_code, outputDir = outputDir, pdfSaveDir = pdfSaveDir, previous_output = previous_output, temperature = temperature, top_p = top_p, max_tokens = max_tokens, max_iter = max_iter, reasoning = reasoning, max_reasoning_attempts = max_reasoning_attempts)
         """
-        return aim + " (shortcut) Result" # only a string 
+        return aim + " (shortcut) Result".encode("utf-8") # only a string 
 
 ########################################################
 # FOR CRITPT EVALUATION
 ########################################################
 
 if __name__ == "__main__":
-    print("Available models: ", listModels())
+    #print("Available models: ", listModels())
     pma = Physics_Modelling_Assistant()
     pma.execute()
     #inStr = '{\n"choices": [\n {\n "message": {\n "content": "50.7 atm"\n }\n }\n ]\n }\n'

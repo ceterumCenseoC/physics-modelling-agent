@@ -48,6 +48,13 @@ class ArxivPaperTool(BaseTool):
     save_dir: str = "./arxiv_pdfs"
     use_title_as_filename: bool = True # yes
     def _run(self, search_query: str, max_results: int = 5, max_retries: int = 10, base_delay: float = 4.0) -> str:
+        num_files = sum( # check number of files already downloaded
+            1 for entry in os.scandir(save_dir)
+            if entry.is_file()
+        )
+        if num_files >= args.max_results: # if max_results is reached, stop downloading; due to the arxivAPI return, more than max_results papers can be returned
+                                    results = f"already downloaded {num_files} papers, use descriptions from the process before."
+                                    return results
         try:
             args = ArxivToolInput(search_query=search_query, max_results=max_results, max_retries=max_retries, base_delay=base_delay)
             logger.info(
@@ -73,23 +80,27 @@ class ArxivPaperTool(BaseTool):
                         filename = f"{filename_base[:100]}.pdf" # Truncate to 100 chars to avoid filesystem issues (max path length)
                         save_path = Path(save_dir) / filename
 
+                        if num_files >= args.max_results: # if max_results is reached, stop downloading; due to the arxivAPI return, more than max_results papers can be returned
+                            results = [self._format_paper_result(p) for p in successfully_downloaded_pdfs]
+                            return results
+
                         success = self.download_pdf(paper["pdf_url"], save_path)  # type: ignore[arg-type]
+
                         if success:
                             successfully_downloaded_pdfs.append(paper)
-                        num_files = sum(
+                        num_files = sum( # check number of files already downloaded
                             1 for entry in os.scandir(save_dir)
                             if entry.is_file()
                         )
-
                         if len(successfully_downloaded_pdfs) >= args.max_results or num_files >= args.max_results: # if max_results is reached, stop downloading; due to the arxivAPI return, more than max_results papers can be returned
                             # this will probably cause context window exceeding issues, so we stop downloading after max_results
                             results = [self._format_paper_result(p) for p in successfully_downloaded_pdfs]
-                            return "\n\n" + "-" * 80 + "\n\n".join(results)
+                            return results
                             
                         time.sleep(self.SLEEP_DURATION)
 
             results = [self._format_paper_result(p) for p in successfully_downloaded_pdfs]
-            return "\n\n" + "-" * 80 + "\n\n".join(results)
+            return results
 
         except Exception as e:
             logger.error(f"ArxivTool Error: {e!s}")
@@ -100,7 +111,6 @@ class ArxivPaperTool(BaseTool):
     ) -> list[dict[str, Any]]:
         api_url = f"{self.BASE_API_URL}?search_query={urllib.parse.quote(search_query)}&start=0&max_results={max_results}"
         logger.info(f"Fetching data from Arxiv API: {api_url}")
-
         success = False
         data = ""
 

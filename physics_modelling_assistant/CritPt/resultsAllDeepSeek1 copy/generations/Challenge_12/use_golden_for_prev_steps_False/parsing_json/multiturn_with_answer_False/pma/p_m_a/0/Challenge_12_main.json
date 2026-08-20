@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_12_main",
+  "generated_code": "import sympy as sp\n\nt, k_12, k_13, k_23, k_34, N, q = sp.symbols('t k_{12} k_{13} k_{23} k_{34} N q')\n\ndef answer(t, k_12, k_13, k_23, k_34, N, q):\n    r\"\"\"\n    Return the expression of the phase between $|\\psi^i(q)\\rangle$ and $|\\psi^f(q)\\rangle$ in Sympy format.\n\n    Inputs\n    ----------\n    t: sympy.Symbol, tunneling amplitude $t$\n    k_12, k_13, k_23, k_34: sympy.Symbol, ground-state fusion channels\n          $k_{ij}\\in Z_N$ with $k_{ij}<-\\frac{\\phi_{ij}}{2\\pi}<k_{ij}+1$\n    N: sympy.Symbol, integer N defining $Z_N$\n    q: sympy.Symbol, fusion channel between the unpaired zero modes\n\n    Outputs\n    ----------\n    phase: sympy.Expr, the expression of the phase between the initial ground state $|\\psi^i(q)\\rangle$\n          and final ground state $|\\psi^f(q)\\rangle$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    phase = sp.exp(sp.I * (2*sp.pi/N * (k_12 + k_13 - k_23 + q) + sp.pi))\n    # ---------------------------------------------------------------\n\n    return phase\n",
+  "model": "pma/pma",
+  "timestamp": "2026-08-18T14:00:31.524830",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "import sympy as sp\n\nt, k_12, k_13, k_23, k_34, N, q = sp.symbols('t k_{12} k_{13} k_{23} k_{34} N q')\n\ndef answer(t, k_12, k_13, k_23, k_34, N, q):\n    r\"\"\"\n    Return the expression of the phase between $|\\psi^i(q)\\rangle$ and $|\\psi^f(q)\\rangle$ in Sympy format.\n\n    Inputs\n    ----------\n    t: sympy.Symbol, tunneling amplitude $t$\n    k_12, k_13, k_23, k_34: sympy.Symbol, ground-state fusion channels\n          $k_{ij}\\in Z_N$ with $k_{ij}<-\\frac{\\phi_{ij}}{2\\pi}<k_{ij}+1$\n    N: sympy.Symbol, integer N defining $Z_N$\n    q: sympy.Symbol, fusion channel between the unpaired zero modes\n\n    Outputs\n    ----------\n    phase: sympy.Expr, the expression of the phase between the initial ground state $|\\psi^i(q)\\rangle$\n          and final ground state $|\\psi^f(q)\\rangle$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    phase = sp.exp(sp.I * (2*sp.pi/N * (k_12 + k_13 - k_23 + q) + sp.pi))\n    # ---------------------------------------------------------------\n\n    return phase\n"
+    }
+  ]
+}

@@ -57,7 +57,7 @@ class ModellerCrew():
             max_reasoning_attempts=self.max_reasoning_attempts, # since reasoning is disabled, this parameter is not used
 
             llm=LLM(
-                model = "qwen3.6-27b",#"deepseek-v4-flash-0731",#"qwen3.6-27b",
+                model = "deepseek-v4-flash-0731",#"qwen3.6-27b",
                 base_url=os.getenv("OPENAI_BASE_URL"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature,
@@ -80,7 +80,7 @@ class ModellerCrew():
             max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
-                model = "glm-4.7", # scored best on logic and critpt; qwen3.5-397b-a17b
+                model = "deepseek-v4-flash-0731",#"deepseek-v4-flash-0731",#"glm-4.7", # scored best on logic and critpt; qwen3.5-397b-a17b
                 base_url=os.getenv("OPENAI_BASE_URL"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature= self.temperature, # allow for some creativity to perhaps correct inconsistencies in the extracted information,
@@ -103,7 +103,7 @@ class ModellerCrew():
             max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
-                model = "glm-4.7", #qwen3.5-397b-a17b
+                model = "deepseek-v4-flash-0731",#"deepseek-v4-flash-0731",#"glm-4.7", #qwen3.5-397b-a17b
                 base_url=os.getenv("OPENAI_BASE_URL"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature= self.temperature, # to make transition between si units and not si units
@@ -126,7 +126,7 @@ class ModellerCrew():
             max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
-                model = "glm-4.7", #qwen3.5-397b-a17b
+                model = "deepseek-v4-flash-0731",#"deepseek-v4-flash-0731",#"glm-4.7", #qwen3.5-397b-a17b
                 base_url=os.getenv("OPENAI_BASE_URL"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature,
@@ -148,7 +148,7 @@ class ModellerCrew():
             max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
-                model = "glm-4.7", #qwen3.5-397b-a17b
+                model = "deepseek-v4-flash-0731",#"deepseek-v4-flash-0731",#"glm-4.7", #qwen3.5-397b-a17b
                 base_url=os.getenv("OPENAI_BASE_URL"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature, # just coding
@@ -171,7 +171,7 @@ class ModellerCrew():
             max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
-                model = "glm-4.7", # scored best on logic and critpt; qwen3.5-397b-a17b
+                model = "deepseek-v4-flash-0731",#"deepseek-v4-flash-0731",#"glm-4.7", # scored best on logic and critpt; qwen3.5-397b-a17b
                 base_url=os.getenv("OPENAI_BASE_URL"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature,
@@ -195,7 +195,7 @@ class ModellerCrew():
             max_reasoning_attempts=self.max_reasoning_attempts,
 
             llm=LLM(
-                model = "glm-4.7", # scored best on logic and critpt; qwen3.5-397b-a17b
+                model = "deepseek-v4-flash-0731",#"deepseek-v4-flash-0731",#"glm-4.7", # scored best on logic and critpt; qwen3.5-397b-a17b
                 base_url=os.getenv("OPENAI_BASE_URL"), # default to the new URL if BASE_URL is not set
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature,

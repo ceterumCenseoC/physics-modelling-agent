@@ -53,7 +53,7 @@ class PaperFinderCrew():
             reasoning=self.reasoning,
             max_reasoning_attempts=self.max_reasoning_attempts,
             llm=LLM(
-                model = "qwen3.6-27b",
+                model = "deepseek-v4-flash-0731",#"deepseek-v4-flash-0731",
                 base_url=os.getenv("OPENAI_BASE_URL"),#"https://chat-ai.academiccloud.de/v1",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=self.temperature,

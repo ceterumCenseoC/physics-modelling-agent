@@ -1,0 +1,19 @@
+{
+  "problem_id": "Challenge_49_main",
+  "generated_code": "import sympy as sp\n\nz, K = sp.symbols('z K')\n\ndef answer(z, K):\n    r\"\"\"\n    Return the expression of $\\varphi$ in Sympy format.\n\n    Inputs\n    ----------\n    z: sympy.Symbol, defined as $\\log_2 t$\n    K: sympy.Symbol, constant from the self-consistent equation\n            $$\\frac{1}{\\ell^{\\mu}(t)} \\int_0^t \\ell(\\tau) \\ell(t - \\tau) d\\tau = K$$\n\n    Outputs\n    ----------\n    varphi: sympy.Expr, expansion of $\\varphi$ in terms of $z$ for large $t$\n        and retain terms up to constant order in $z$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # For \u00ce\u00bc=2, the asymptotic expansion is:\n    # \u00cf\u2020(z) = z - (1/2) log\u00e2\u201a\u201a(z) - (1/2) log\u00e2\u201a\u201a(log\u00e2\u201a\u201a(z)) + O(1)\n    # We express the log\u00e2\u201a\u201a terms in terms of natural log (SymPy's log)\n    log2_z = sp.log(z) / sp.log(2)\n    log2_log2_z = sp.log(log2_z) / sp.log(2)\n    \n    varphi = z - sp.Rational(1,2) * log2_z - sp.Rational(1,2) * log2_log2_z\n    # ---------------------------------------------------------------\n\n    return varphi\n",
+  "model": "pma/pma",
+  "timestamp": "2026-08-18T22:36:53.354688",
+  "generation_config": {
+    "use_golden_for_prev_steps": false,
+    "parsing": "json",
+    "multiturn_with_answer": false,
+    "use_python": false,
+    "use_web_search": false
+  },
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "import sympy as sp\n\nz, K = sp.symbols('z K')\n\ndef answer(z, K):\n    r\"\"\"\n    Return the expression of $\\varphi$ in Sympy format.\n\n    Inputs\n    ----------\n    z: sympy.Symbol, defined as $\\log_2 t$\n    K: sympy.Symbol, constant from the self-consistent equation\n            $$\\frac{1}{\\ell^{\\mu}(t)} \\int_0^t \\ell(\\tau) \\ell(t - \\tau) d\\tau = K$$\n\n    Outputs\n    ----------\n    varphi: sympy.Expr, expansion of $\\varphi$ in terms of $z$ for large $t$\n        and retain terms up to constant order in $z$\n    \"\"\"\n\n    # ------------------ FILL IN YOUR RESULTS BELOW ------------------\n    # For \u00ce\u00bc=2, the asymptotic expansion is:\n    # \u00cf\u2020(z) = z - (1/2) log\u00e2\u201a\u201a(z) - (1/2) log\u00e2\u201a\u201a(log\u00e2\u201a\u201a(z)) + O(1)\n    # We express the log\u00e2\u201a\u201a terms in terms of natural log (SymPy's log)\n    log2_z = sp.log(z) / sp.log(2)\n    log2_log2_z = sp.log(log2_z) / sp.log(2)\n    \n    varphi = z - sp.Rational(1,2) * log2_z - sp.Rational(1,2) * log2_log2_z\n    # ---------------------------------------------------------------\n\n    return varphi\n"
+    }
+  ]
+}

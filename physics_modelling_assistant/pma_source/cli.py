@@ -34,7 +34,7 @@ def main(): # this works correctly
             max_iter=max_iter,
             reasoning=reasoning,
             max_reasoning_attempts=max_reasoning_attempts
-        )
+        ).decode("utf-8")
                
         import os
         print(outputDir)
